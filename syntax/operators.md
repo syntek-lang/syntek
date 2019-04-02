@@ -9,7 +9,7 @@ Airthmetic operators are kept to the bare minimum. The operators are listed in t
 | +        | addition    | 5 + 2   | 7      |
 | -        | subtraction | 5 - 2   | 3      |
 | /        | division    | 5 / 2   | 2.5    |
-| %        | modulus     | 5 % 2   | 1      |
+| %        | modulo      | 5 % 2   | 1      |
 
 Operatos such as `++` and `--` are not implemented, as they can be confusing to beginners. The functionality of these operators are also minor, as they can just be written as
 ```
