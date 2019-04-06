@@ -26,3 +26,76 @@ function abs(num)
 
   return num * x
 ```
+
+## Datatypes
+The available datatypes are listed below.
+
+### Number
+Number represents any numeric value. Because Syntek is built on JavaScript it uses the same number format, IEEE 754. This allows numbers to be floating point numbers.
+```
+x = 5
+y = 2.5
+```
+
+### String
+Strings hold a sequence of characters. Strings are surrounded in single quotes.
+```
+language = 'Syntek'
+```
+
+### Boolean
+Booleans can have 2 values, true and false. Any comparison evaluates to a boolean of either true or false. Conditional statements and loops use booleans to determine whether to execute a piece of code.
+```
+active = true
+
+if active
+  active = false
+```
+
+### Array
+Arrays are able to store multiple values, such as numbers. Array indexes start at 0 (might be changed to 1, since it makes more sense to humans).
+```
+numbers = [1, 2, 3]
+numbers[0] # 1
+numbers[1] # 2
+numbers[2] # 3
+```
+An array can also contain a mix of variable types.
+```
+values = [true, 1, 'hello']
+values[0] # true
+values[1] # 1
+values[2] # 'hello'
+```
+
+### Object
+An object groups variables and functions together. For example, defining a car would look like this:
+```
+car = {
+  type = 'Fiat'
+  model = 500
+  color = 'white'
+  function honk()
+    print('Honk!')
+}
+
+car.type # 'Fiat'
+car.model # 500
+car.color # 'white'
+car.honk()
+```
+Trying to access a property of an object that does not exist will throw an error.
+
+Objects can also have nested objects.
+```
+user = {
+  id = 1
+  info = {
+    name = 'Jack'
+    email = 'jack@gmail.com'
+  }
+}
+
+user.info.name # 'Jack'
+user.info.email # 'jack@gmail.com'
+```
