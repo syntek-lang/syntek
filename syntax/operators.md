@@ -2,7 +2,7 @@
 Operators in the language are kept to the bare minimum. Some operators found in other programming languages are not implemented to keep the language as easy as possible for beginners.
 
 ## Arithmetic
-Airthmetic operators are kept to the bare minimum. The operators are listed in the table below.
+Arithmetic operators are kept to the bare minimum. The operators are listed in the table below.
 
 | Operator | Description | Example | Result |
 |----------|-------------|---------|--------|
@@ -10,6 +10,7 @@ Airthmetic operators are kept to the bare minimum. The operators are listed in t
 | -        | subtraction | 5 - 2   | 3      |
 | /        | division    | 5 / 2   | 2.5    |
 | %        | modulo      | 5 % 2   | 1      |
+| ^        | pow         | 5 ^ 2   | 25     |
 
 Operatos such as `++` and `--` are not implemented, as they can be confusing to beginners. The functionality of these operators are also minor, as they can just be written as
 ```
@@ -42,7 +43,7 @@ Logical operators are also written in plain English. All logical operators are l
 | Operator | Example       | JavaScript |
 |----------|---------------|------------|
 | and      | true and true | &&         |
-| or       | true or false | \|\|         |
+| or       | true or false | \|\|       |
 | not      | not false     | !          |
 
 ## Example
