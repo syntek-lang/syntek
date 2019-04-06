@@ -1,8 +1,8 @@
 # Operators
-Operators in the language are kept to the bare minimum. Some operators found in other programming languages are not implemented to keep the language as easy as possible for beginners.
+Operators in Syntek are kept to the bare minimum. Some operators found in other programming languages are not implemented to keep the language as easy as possible for beginners.
 
 ## Arithmetic
-Arithmetic operators are kept to the bare minimum. The operators are listed in the table below.
+Syntek only contains the essentials arithmetic operators. The operators are listed in the table below.
 
 | Operator | Description | Example | Result |
 |----------|-------------|---------|--------|

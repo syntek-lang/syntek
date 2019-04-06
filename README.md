@@ -1,7 +1,7 @@
-This language does not have a name yet and is only a concept. It does not have any actual implementation.
+**This language is only a concept. It does not have any actual implementation (yet).**
 
 ## Concept
-This language provides a beginner friendly programming environement. The language is designed to teach beginners programming concepts.
+Syntek is a programming language that provides a beginner friendly programming environement. Syntek is designed to teach beginners the concepts of programming.
 
 ## Syntax
-For syntax of the language check the `syntax` folder.
+The syntax of Syntek is described in the `syntax` folder.
