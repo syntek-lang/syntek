@@ -32,4 +32,4 @@ function add(a, b)
 
 add(2, 3)
 ```
-This would call `add` with `2` and `3`, which returns `6`.
+This would call `add` with `2` and `3`, which returns `5`.

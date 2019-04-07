@@ -12,14 +12,14 @@ Syntek only contains the essentials arithmetic operators. The operators are list
 | %        | modulo      | 5 % 2   | 1      |
 | ^        | pow         | 5 ^ 2   | 25     |
 
-Operatos such as `++` and `--` are not implemented, as they can be confusing to beginners. The functionality of these operators are also minor, as they can just be written as
+Operators such as `++` and `--` are not implemented, as they can be confusing to beginners. The functionality of these operators are also minor, as they can just be written as
 ```
 x = x + 1
 x = x - 1
 ```
 
 ## Assignment
-The only assignment operator is `=`. This is to remove possible confusion with operators such as `+=` or `-=`.
+The only assignment operator is `=`, because operators such as `+=`, `/=` and others can be confusing for beginners.
 ```
 x = 5
 x = x + 5
