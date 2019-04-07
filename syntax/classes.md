@@ -41,6 +41,15 @@ class MyClass
     print(x)
 ```
 
+### Static
+To declare a property or method as static you prefix it with the `static` keyword.
+```
+class MyClass
+  static x = 5
+
+MyClass.x # 5
+```
+
 ## Instantiating a class
 To instantiate a class you use the `new` keyword.
 ```
