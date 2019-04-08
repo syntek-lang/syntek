@@ -1,0 +1,34 @@
+{
+  "name": "syntek",
+  "version": "0.0.1",
+  "description": "A programming language for beginners",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "build:watch": "webpack --watch",
+    "lint": "eslint src --ext .js,.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SebastiaanYN/Syntek.git"
+  },
+  "author": "SebastiaanYN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SebastiaanYN/Syntek/issues"
+  },
+  "homepage": "https://github.com/SebastiaanYN/Syntek#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^1.6.0",
+    "@typescript-eslint/parser": "^1.6.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.4.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}
