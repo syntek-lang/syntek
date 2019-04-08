@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - 10
+
+install: npm i
+cache: npm
+
+jobs:
+  include:
+    - stage: Test
+      script: npm run build
+      name: "Build"
+    - script: npm run lint
+      name: "Lint"
