@@ -3,6 +3,8 @@
     "module": "commonjs",
     "target": "es3",
     "sourceMap": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   }
 }

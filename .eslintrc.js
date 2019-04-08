@@ -26,5 +26,9 @@ module.exports = {
     'no-console': 'off',
     'class-methods-use-this': 'off',
     'require-await': 'error',
+    'no-restricted-syntax': 'off',
+    'no-loop-func': 'off',
+    'no-undef': 'off', // handled by tsc
+    'no-unused-vars': 'off', // handled by tsc
   },
 };
