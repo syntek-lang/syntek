@@ -1,0 +1,11 @@
+export { default as Function } from './Function';
+export { default as Return } from './Return';
+export { default as If } from './If';
+export { default as ElseIf } from './ElseIf';
+export { default as Else } from './Else';
+export { default as For } from './For';
+export { default as While } from './While';
+export { default as Repeat } from './Repeat';
+export { default as Times } from './Times';
+export { default as Import } from './Import';
+export { default as As } from './As';

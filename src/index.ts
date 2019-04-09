@@ -2,6 +2,8 @@ import Utils from './utils';
 import tokens from './tokens';
 import lexer from './compiler/lexer';
 
+// Remove the __esModule property, we don't need it
+delete (tokens as any).__esModule; // eslint-disable-line no-underscore-dangle
 console.log(tokens);
 
 const input = `function multiply(a, b)
@@ -18,6 +20,7 @@ function pow(base, exponent)
 (document.getElementById('input') as HTMLElement).innerText = input;
 
 const lexed = lexer(input, tokens);
+console.log(lexed);
 (document.getElementById('tokens') as HTMLElement).innerText = lexed
   .map(token => `${Utils.padRight(token.index, 4)} - ${Utils.padRight(token.name, 10)} - ${token.raw.replace(/\n/, '')}`)
   .join('\n');

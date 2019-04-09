@@ -1,13 +1,20 @@
+import { Token, TokenMatcher } from '../structures';
 import Utils from '../utils';
 
-interface TokenMatch {
-  name: string;
-  index: number;
-  raw: string;
+class Indent extends Token {
+  build(): string {
+    return '';
+  }
 }
 
-export default function lexer(input: string, matchers): TokenMatch[] {
-  const tokens: TokenMatch[] = [];
+class Outdent extends Token {
+  build(): string {
+    return '';
+  }
+}
+
+export default function lexer(input: string, matchers): Token[] {
+  const tokens: Token[] = [];
   let index = 0;
 
   let previousIndent = Utils.getIndent(input, 1);
@@ -17,27 +24,26 @@ export default function lexer(input: string, matchers): TokenMatch[] {
     let matched = false;
 
     for (const name of Object.keys(matchers)) {
-      const regex = matchers[name] as RegExp;
-      const match = input.slice(index).match(regex);
+      const tokenMatcher = matchers[name] as TokenMatcher;
+      const match = input.slice(index).match(tokenMatcher.regex);
 
       if (match) {
         const currentIndent = Utils.getIndent(input, line);
 
         if (currentIndent > previousIndent) {
           tokens.push(
-            ...Utils.createArray(currentIndent - previousIndent).map(() => ({ name: 'indent', index, raw: '\t' })),
+            ...Utils.createArray(currentIndent - previousIndent).map(() => new Indent(index, '\t')),
           );
         } else if (currentIndent < previousIndent) {
           tokens.push(
-            ...Utils.createArray(previousIndent - currentIndent).map(() => ({ name: 'outdent', index, raw: '' })),
+            ...Utils.createArray(previousIndent - currentIndent).map(() => new Outdent(index, '')),
           );
         }
 
         previousIndent = currentIndent;
 
-        // TODO: Make this not hardcoded
-        if (name !== 'tab' && name !== 'space') {
-          tokens.push({ name, index, raw: match[0] });
+        if (tokenMatcher.Class) {
+          tokens.push(new tokenMatcher.Class(index, match[0]));
         }
 
         index += match[0].length;
@@ -52,7 +58,7 @@ export default function lexer(input: string, matchers): TokenMatch[] {
   }
 
   tokens.push(
-    ...Utils.createArray(previousIndent).map(() => ({ name: 'outdent', index, raw: '' })),
+    ...Utils.createArray(previousIndent).map(() => new Outdent(index, '')),
   );
 
   return tokens;
