@@ -1,26 +1,23 @@
+import Utils from './utils';
 import tokens from './tokens';
 import lexer from './compiler/lexer';
 
 console.log(tokens);
 
-const lexed = lexer(`function factorial(x)
-\tif x is 0
-\t\t\t\treturn 1
-\telse
-\t\treturn x * factorial(x - 1)`, tokens);
+const input = `function multiply(a, b)
+\tsum = 0
+\trepeat b times
+\t\tsum = sum + a
+\treturn sum
 
-function pad(input: any, length: number): string {
-  input = input.toString(); // eslint-disable-line no-param-reassign
+function pow(base, exponent)
+\tsum = base
+\trepeat exponent - 1 times
+\t\tsum = multiply(sum, base)
+\treturn sum`;
+(document.getElementById('input') as HTMLElement).innerText = input;
 
-  while (input.length < length) {
-    input += ' '; // eslint-disable-line no-param-reassign
-  }
-
-  return input;
-}
-
-const pre = document.createElement('pre');
-pre.innerText = lexed
-  .map(token => `${pad(token.index, 2)} - ${pad(token.name.toUpperCase(), 10)} - ${token.raw.replace(/\n/, '')}`)
+const lexed = lexer(input, tokens);
+(document.getElementById('tokens') as HTMLElement).innerText = lexed
+  .map(token => `${Utils.padRight(token.index, 4)} - ${Utils.padRight(token.name, 10)} - ${token.raw.replace(/\n/, '')}`)
   .join('\n');
-document.body.appendChild(pre);

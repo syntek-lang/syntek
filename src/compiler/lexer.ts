@@ -35,7 +35,8 @@ export default function lexer(input: string, matchers): TokenMatch[] {
 
         previousIndent = currentIndent;
 
-        if (name !== 'tab') {
+        // TODO: Make this not hardcoded
+        if (name !== 'tab' && name !== 'space') {
           tokens.push({ name, index, raw: match[0] });
         }
 

@@ -1,9 +1,17 @@
 export default {
   // Keywords
-  function: /^function/,
-  if: /^if/,
-  elseIf: /^else if/,
-  else: /^else/,
+  function: /^function(?![a-zA-Z_-])/,
+  returns: /^returns(?![a-zA-Z_-])/,
+  return: /^return(?![a-zA-Z_-])/,
+  if: /^if(?![a-zA-Z_-])/,
+  elseIf: /^else if(?![a-zA-Z_-])/,
+  else: /^else(?![a-zA-Z_-])/,
+  for: /^for(?![a-zA-Z_-])/,
+  while: /^while(?![a-zA-Z_-])/,
+  repeat: /^repeat(?![a-zA-Z_-])/,
+  times: /^times(?![a-zA-Z_-])/,
+  import: /^import(?![a-zA-Z_-])/,
+  as: /^as(?![a-zA-Z_-])/,
 
   // Arithmetic Operators
   pow: /^\^/,
@@ -17,29 +25,33 @@ export default {
   equal: /^=/,
 
   // Comparison Operators
-  isNot: /^is not/,
-  isGreaterThan: /^is greater than/,
-  isLessThan: /^is less than/,
-  is: /^is/,
+  isNot: /^is not(?![a-zA-Z_-])/,
+  isGreaterThan: /^is greater than(?![a-zA-Z_-])/,
+  isLessThan: /^is less than(?![a-zA-Z_-])/,
+  is: /^is(?![a-zA-Z_-])/,
 
   // Logical Operators
-  and: /^and/,
-  or: /^or/,
-  not: /^not/,
+  and: /^and(?![a-zA-Z_-])/,
+  or: /^or(?![a-zA-Z_-])/,
+  not: /^not(?![a-zA-Z_-])/,
 
   // Datatypes
-  boolean: /^true|false/,
+  boolean: /^(true|false)(?![a-zA-Z_-])/,
   number: /^(0|-?[1-9][0-9]*)([.,][0-9]+)?/,
-  string: /'(?:[^'\\]|\\.)*'/,
+  string: /^'(?:[^'\\]|\\.)*'/,
   symbol: /^[a-z$_][a-z$_0-9]*/i,
 
-  // Parentheses
+  // Extras
   lpar: /^\(/,
   rpar: /^\)/,
+  rbra: /^\[/,
+  lbra: /^\]/,
+  comma: /^,/,
 
   // Whitespace
   tab: /^\t/,
   newline: /^\r?\n/,
   emptyline: /^(\r?\n[ \t\f]*\r?\n)+/,
   space: /^ +/,
+  comment: /^ *#[^\r\n]+/,
 };

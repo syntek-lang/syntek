@@ -29,4 +29,14 @@ export default class Utils {
 
     return array;
   }
+
+  static padRight(input: any, length: number): string {
+    input = input.toString(); // eslint-disable-line no-param-reassign
+
+    while (input.length < length) {
+      input += ' '; // eslint-disable-line no-param-reassign
+    }
+
+    return input;
+  }
 }
