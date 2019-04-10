@@ -1,3 +1,9 @@
-import { TokenMatcher } from '../../structures';
+import { Token, TokenMatcher } from '../../structures';
 
-export default new TokenMatcher(/^ +/);
+class Space extends Token {
+  build(): string {
+    return '';
+  }
+}
+
+export default new TokenMatcher(Space, /^ +/);

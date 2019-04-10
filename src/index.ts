@@ -22,5 +22,6 @@ function pow(base, exponent)
 const lexed = lexer(input, tokens);
 console.log(lexed);
 (document.getElementById('tokens') as HTMLElement).innerText = lexed
+  .filter(token => token.name !== 'Tab' && token.name !== 'Space')
   .map(token => `${Utils.padRight(token.index, 4)} - ${Utils.padRight(token.name, 10)} - ${token.raw.replace(/\n/, '')}`)
   .join('\n');

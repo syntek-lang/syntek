@@ -1,3 +1,9 @@
-import { TokenMatcher } from '../../structures';
+import { Token, TokenMatcher } from '../../structures';
 
-export default new TokenMatcher(/^\t/);
+class Tab extends Token {
+  build(): string {
+    return '';
+  }
+}
+
+export default new TokenMatcher(Tab, /^\t/);

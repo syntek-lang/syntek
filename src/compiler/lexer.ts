@@ -42,9 +42,7 @@ export default function lexer(input: string, matchers): Token[] {
 
         previousIndent = currentIndent;
 
-        if (tokenMatcher.Class) {
-          tokens.push(new tokenMatcher.Class(index, match[0]));
-        }
+        tokens.push(new tokenMatcher.Class(index, match[0]));
 
         index += match[0].length;
         matched = true;
