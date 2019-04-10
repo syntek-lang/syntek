@@ -4,10 +4,11 @@
   "description": "A programming language for beginners",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run build && npm run lint",
     "build": "webpack",
     "build:watch": "webpack --watch",
-    "lint": "eslint src --ext .js,.ts"
+    "lint": "eslint src --ext .js,.ts",
+    "lint:fix": "eslint src --fix --ext .js,.ts"
   },
   "repository": {
     "type": "git",

@@ -7,8 +7,6 @@ export default class TokenMatcher {
 
   readonly regex: RegExp;
 
-  constructor(Class: TokenClass, regex: RegExp);
-
   constructor(Class: TokenClass, regex: RegExp) {
     this.Class = Class;
     this.regex = regex;
