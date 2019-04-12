@@ -5,9 +5,20 @@ abstract class Token {
 
   readonly raw: string;
 
-  constructor(index: number, raw: string) {
+  readonly tokens: Token | Token[];
+
+  constructor(index: number, raw: string);
+
+  constructor(index: number, tokens: Token | Token[]);
+
+  constructor(index: number, content: string | Token | Token[]) {
     this.index = index;
-    this.raw = raw;
+
+    if (typeof content === 'string') {
+      this.raw = content;
+    } else {
+      this.tokens = content;
+    }
   }
 
   abstract build(): string;

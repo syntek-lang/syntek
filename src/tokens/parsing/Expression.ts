@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../structures';
 
-class Comment extends Token {
+class Expression extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Comment, /^ *#[^\r\n]*/);
+export default new TokenMatcher(Expression);

@@ -1,14 +1,32 @@
 import Token from './Token';
+import Rule from './rule/Rule';
 
-type TokenClass = new (index: number, raw: string) => Token;
+export type TokenClass = new (index: number, content: string | Token | Token[]) => Token;
 
 export default class TokenMatcher {
   readonly Class: TokenClass;
 
   readonly regex: RegExp;
 
-  constructor(Class: TokenClass, regex: RegExp) {
+  rule: Rule;
+
+  constructor(Class: TokenClass);
+
+  constructor(Class: TokenClass, rule: Rule);
+
+  constructor(Class: TokenClass, regex: RegExp);
+
+  constructor(Class: TokenClass, match?: RegExp | Rule) {
     this.Class = Class;
-    this.regex = regex;
+
+    if (match instanceof RegExp) {
+      this.regex = match;
+    } else if (match instanceof Rule) {
+      this.rule = match;
+    }
+  }
+
+  setRule(rule: Rule) {
+    this.rule = rule;
   }
 }

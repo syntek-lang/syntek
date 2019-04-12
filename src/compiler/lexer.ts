@@ -1,19 +1,15 @@
 import { Token, TokenMatcher } from '../structures';
 import Utils from '../utils';
 
-class Indent extends Token {
-  build(): string {
-    return '';
-  }
-}
+import tokenMatchers from '../tokens';
 
-class Outdent extends Token {
-  build(): string {
-    return '';
-  }
-}
+import Indent from '../tokens/Indent';
+import Outdent from '../tokens/Outdent';
 
-export default function lexer(input: string, matchers): Token[] {
+// Remove the __esModule property, we don't need it
+delete (tokenMatchers as any).__esModule; // eslint-disable-line no-underscore-dangle
+
+export default function lexer(input: string): Token[] {
   const tokens: Token[] = [];
   let index = 0;
 
@@ -23,8 +19,8 @@ export default function lexer(input: string, matchers): Token[] {
     const { line, row } = Utils.lineRow(input, index);
     let matched = false;
 
-    for (const name of Object.keys(matchers)) {
-      const tokenMatcher = matchers[name] as TokenMatcher;
+    for (const name of Object.keys(tokenMatchers)) {
+      const tokenMatcher = tokenMatchers[name] as TokenMatcher;
       const match = input.slice(index).match(tokenMatcher.regex);
 
       if (match) {

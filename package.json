@@ -20,7 +20,9 @@
     "url": "https://github.com/SebastiaanYN/Syntek/issues"
   },
   "homepage": "https://github.com/SebastiaanYN/Syntek#readme",
-  "dependencies": {},
+  "dependencies": {
+    "treeify": "^1.1.0"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.6.0",
     "@typescript-eslint/parser": "^1.6.0",

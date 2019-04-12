@@ -30,6 +30,7 @@ module.exports = {
     'no-loop-func': 'off',
     'no-undef': 'off', // handled by tsc
     'no-unused-vars': 'off', // handled by tsc
+    'import/named': 'off',
     'no-useless-constructor': 'off',
     'no-dupe-class-members': 'off',
   },
