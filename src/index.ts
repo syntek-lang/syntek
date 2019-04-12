@@ -25,10 +25,10 @@ const input = '5 * 2^3';
 const lexed = lexer(input);
 console.log(lexed);
 (document.getElementById('tokens') as HTMLElement).innerText = lexed
-  .filter(token => token.name !== 'Tab' && token.name !== 'Space')
   .map(token => `${Utils.padRight(token.index, 4)} - ${Utils.padRight(token.name, 10)} - ${token.raw.replace(/\n/, '')}`)
   .join('\n');
 
 const parsed = parser(lexed);
 console.log(parsed);
+Utils.removeProp(parsed, 'index');
 (document.getElementById('tree') as HTMLElement).innerText = treeify.asTree(parsed, true, true);

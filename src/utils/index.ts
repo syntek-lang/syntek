@@ -39,4 +39,20 @@ export default class Utils {
 
     return input;
   }
+
+  static removeProp(obj, keys) {
+    if (obj instanceof Array) {
+      obj.forEach((item) => {
+        Utils.removeProp(item, keys);
+      });
+    } else if (typeof obj === 'object') {
+      Object.getOwnPropertyNames(obj).forEach((key) => {
+        if (keys.indexOf(key) !== -1) {
+          delete obj[key]; // eslint-disable-line no-param-reassign
+        } else {
+          Utils.removeProp(obj[key], keys);
+        }
+      });
+    }
+  }
 }
