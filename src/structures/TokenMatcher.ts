@@ -8,25 +8,19 @@ export default class TokenMatcher {
 
   readonly regex: RegExp;
 
-  rule: Rule;
-
-  constructor(Class: TokenClass);
+  readonly rule: Rule;
 
   constructor(Class: TokenClass, rule: Rule);
 
   constructor(Class: TokenClass, regex: RegExp);
 
-  constructor(Class: TokenClass, match?: RegExp | Rule) {
+  constructor(Class: TokenClass, match: RegExp | Rule) {
     this.Class = Class;
 
     if (match instanceof RegExp) {
       this.regex = match;
-    } else if (match instanceof Rule) {
+    } else {
       this.rule = match;
     }
-  }
-
-  setRule(rule: Rule) {
-    this.rule = rule;
   }
 }

@@ -15,9 +15,10 @@ export default class SeqRule extends Rule {
       const match = rule.match(tokens);
 
       if (match.matches) {
-        const matchTokens = Array.isArray(match.tokens) ? match.tokens : [match.tokens];
+        // const matchTokens = Array.isArray(match.tokens) ? match.tokens : [match.tokens];
 
-        return { matches: true, count: match.count, tokens: matchTokens };
+        // return { matches: true, count: match.count, tokens: matchTokens };
+        return { matches: true, count: match.count, tokens: match.tokens };
       }
     }
 

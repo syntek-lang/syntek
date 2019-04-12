@@ -1,9 +1,3 @@
-import { Token, TokenMatcher } from '../../structures';
+import { LookaheadRule } from '../../structures';
 
-class Expression extends Token {
-  build(): string {
-    return '';
-  }
-}
-
-export default new TokenMatcher(Expression);
+export default new LookaheadRule();

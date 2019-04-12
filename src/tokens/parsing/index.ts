@@ -15,8 +15,6 @@ Expression.setRule($.OR(
 ));
 
 export default {
-  Expression,
-
   PowEquation,
   MdEquation,
   Equation,
