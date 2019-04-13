@@ -1,7 +1,7 @@
 import * as treeify from 'treeify';
 
 import Utils from './utils';
-import tokens from './tokens';
+import tokens from './tokens/lexing';
 
 import lexer from './compiler/lexer';
 import parser from './compiler/parser';

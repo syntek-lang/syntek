@@ -1,7 +1,7 @@
 import { Token, TokenMatcher } from '../structures';
 import Utils from '../utils';
 
-import tokenMatchers from '../tokens';
+import tokenMatchers from '../tokens/lexing';
 
 import Indent from '../tokens/Indent';
 import Outdent from '../tokens/Outdent';
