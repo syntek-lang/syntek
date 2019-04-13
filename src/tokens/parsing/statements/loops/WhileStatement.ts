@@ -2,19 +2,17 @@ import { $ } from '../../../../structures/rule';
 import { Token, TokenMatcher } from '../../../../structures/token';
 
 import tokens from '../../../lexing';
-import Expression from '../Expression';
+import Expression from '../../expressions/Expression';
+import Body from '../../Body';
 
-class Equation extends Token {
+class WhileStatement extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Equation, $.SEQ(
+export default new TokenMatcher(WhileStatement, $.SEQ(
+  tokens.While,
   Expression,
-  $.OR(
-    tokens.Plus,
-    tokens.Minus,
-  ),
-  Expression,
+  Body,
 ));

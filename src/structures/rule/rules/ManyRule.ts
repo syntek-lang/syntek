@@ -12,17 +12,20 @@ export default class ManyRule extends Rule {
 
   match(tokens: Token[]) {
     let tokenCounter = 0;
+    const matchedTokens: any[] = [];
 
     while (tokenCounter < tokens.length) {
       const match = this.rule.match(tokens.slice(tokenCounter));
 
       if (match.matches) {
         tokenCounter += match.count;
+
+        matchedTokens.push(match.tokens);
       } else {
         return { matches: true, count: tokenCounter, tokens: tokens.slice(0, tokenCounter) };
       }
     }
 
-    return { matches: true, count: tokenCounter, tokens };
+    return { matches: true, count: tokenCounter, tokens: matchedTokens };
   }
 }

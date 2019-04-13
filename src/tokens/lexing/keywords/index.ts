@@ -9,3 +9,4 @@ export { default as Repeat } from './Repeat';
 export { default as Times } from './Times';
 export { default as Import } from './Import';
 export { default as As } from './As';
+export { default as In } from './In';

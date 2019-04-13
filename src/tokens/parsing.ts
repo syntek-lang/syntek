@@ -1,24 +1,35 @@
 import { $ } from '../structures/rule';
-import tokens from './lexing';
 
+import Body from './parsing/Body';
 import Expression from './parsing/expressions/Expression';
-import WrappedExpression from './parsing/expressions/WrappedExpression';
+import Declaration from './parsing/declarations/Declaration';
+import Statement from './parsing/statements/Statement';
 
-import PowEquation from './parsing/expressions/math/PowEquation';
-import MdEquation from './parsing/expressions/math/MdEquation';
-import Equation from './parsing/expressions/math/Equation';
+import Indent from './Indent';
+import Outdent from './Outdent';
 
-Expression.setRule($.OR(
-  tokens.Number,
-  WrappedExpression,
-  PowEquation,
-  MdEquation,
-  Equation,
+import expressions from './parsing/expressions';
+import declarations from './parsing/declarations';
+import statements from './parsing/statements';
+
+Body.setRule($.WRAPPED(
+  Indent,
+  $.MANY(
+    $.OR(
+      Expression,
+      Declaration,
+      Statement,
+    ),
+  ),
+  Outdent,
 ));
 
 export default {
-  WrappedExpression,
-  PowEquation,
-  MdEquation,
-  Equation,
+  // Priority
+  FunctionDeclaration: declarations.FunctionDeclaration,
+
+  // Others
+  ...expressions,
+  ...declarations,
+  ...statements,
 };

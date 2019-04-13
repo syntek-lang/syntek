@@ -28,6 +28,7 @@ module.exports = {
     'require-await': 'error',
     'no-restricted-syntax': 'off',
     'no-loop-func': 'off',
+    'prefer-destructuring': 'off',
     'no-undef': 'off', // handled by tsc
     'no-unused-vars': 'off', // handled by tsc
     'import/named': 'off',

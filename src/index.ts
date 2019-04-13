@@ -11,18 +11,18 @@ import parsingTokens from './tokens/parsing';
 console.log(lexingTokens);
 console.log(parsingTokens);
 
-// const input = `function multiply(a, b)
-// \tsum = 0
-// \trepeat b times
-// \t\tsum = sum + a
-// \treturn sum
-//
-// function pow(base, exponent)
-// \tsum = base
-// \trepeat exponent - 1 times
-// \t\tsum = multiply(sum, base)
-// \treturn sum`;
-const input = '2 * (5 + 10)';
+const input = `function multiply(a, b)
+\tsum = 0
+\trepeat b times
+\t\tsum = sum + a
+\treturn sum
+
+function pow(base, exponent)
+\tsum = base
+\trepeat exponent - 1 times
+\t\tsum = multiply(sum, base)
+\treturn sum`;
+
 (document.getElementById('input') as HTMLElement).innerText = input;
 
 const lexed = lexer(input);
@@ -31,7 +31,10 @@ console.log(lexed);
   .map(token => `${Utils.padRight(token.index, 4)} - ${Utils.padRight(token.name, 10)} - ${token.raw.replace(/\n/, '')}`)
   .join('\n');
 
-const parsed = parser(lexed);
+const parsed = parser(lexed
+  .filter(token => !(token instanceof lexingTokens.Space.Class))
+  .filter(token => !(token instanceof lexingTokens.Tab.Class))
+  .filter(token => !(token instanceof lexingTokens.Newline.Class)));
 console.log(parsed);
 Utils.removeProp(parsed, 'index');
 (document.getElementById('tree') as HTMLElement).innerText = treeify.asTree(parsed, true, true);

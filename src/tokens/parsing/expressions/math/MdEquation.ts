@@ -12,12 +12,10 @@ class MdEquation extends Token {
 
 export default new TokenMatcher(MdEquation, $.SEQ(
   Expression,
-  $.OPT(tokens.Space),
   $.OR(
     tokens.Star,
     tokens.Slash,
     tokens.Modulo,
   ),
-  $.OPT(tokens.Space),
   Expression,
 ));
