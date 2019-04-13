@@ -1,7 +1,5 @@
-import Token from './Token';
-import Rule from './rule/Rule';
-
-export type TokenClass = new (index: number, content: string | Token | Token[]) => Token;
+import Rule from '../rule/Rule';
+import TokenClass from './TokenClass';
 
 export default class TokenMatcher {
   readonly Class: TokenClass;

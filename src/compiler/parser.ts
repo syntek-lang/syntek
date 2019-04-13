@@ -1,6 +1,6 @@
 /* eslint-disable no-constant-condition, no-param-reassign */
 
-import { Token, TokenMatcher } from '../structures';
+import { Token, TokenMatcher } from '../structures/token';
 
 import matchers from '../tokens/parsing';
 

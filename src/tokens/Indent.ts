@@ -1,4 +1,4 @@
-import { Token } from '../structures';
+import { Token } from '../structures/token';
 
 export default class Indent extends Token {
   build(): string {

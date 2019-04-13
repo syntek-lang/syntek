@@ -1,6 +1,6 @@
-import Rule from './Rule';
-import Token from '../Token';
-import RuleResponse from './RuleResponse';
+import Rule from '../Rule';
+import { Token } from '../../token';
+import RuleResponse from '../RuleResponse';
 
 export default class ManySepRule extends Rule {
   private readonly rule: Rule;

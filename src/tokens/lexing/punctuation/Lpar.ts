@@ -1,4 +1,4 @@
-import { Token, TokenMatcher } from '../../../structures';
+import { Token, TokenMatcher } from '../../../structures/token';
 
 class Lpar extends Token {
   build(): string {

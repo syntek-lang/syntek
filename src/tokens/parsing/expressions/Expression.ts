@@ -1,3 +1,3 @@
-import { LookaheadRule } from '../../../structures';
+import { LookaheadRule } from '../../../structures/rule';
 
 export default new LookaheadRule();

@@ -1,4 +1,4 @@
-import { $ } from '../structures';
+import { $ } from '../structures/rule';
 import tokens from './lexing';
 
 import Expression from './parsing/expressions/Expression';

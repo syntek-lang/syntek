@@ -1,6 +1,5 @@
-import Rule from './Rule';
-import Token from '../Token';
-import { TokenClass } from '../TokenMatcher';
+import Rule from '../Rule';
+import { Token, TokenClass } from '../../token';
 
 export default class TokenMatcherRule extends Rule {
   private readonly tokenClass: TokenClass;

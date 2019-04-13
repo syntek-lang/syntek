@@ -1,13 +1,13 @@
 import Rule from './Rule';
-import TokenMatcher, { TokenClass } from '../TokenMatcher';
+import { TokenMatcher, TokenClass } from '../token';
 
-import TokenMatcherRule from './TokenMatcherRules';
-import ManyRule from './ManyRule';
-import ManySepRule from './ManySepRule';
+import TokenMatcherRule from './rules/TokenMatcherRules';
+import ManyRule from './rules/ManyRule';
+import ManySepRule from './rules/ManySepRule';
 // import WrappedRule from './WrappedRule';
-import SeqRule from './SeqRule';
-import OptRule from './OptRule';
-import OrRule from './OrRule';
+import SeqRule from './rules/SeqRule';
+import OptRule from './rules/OptRule';
+import OrRule from './rules/OrRule';
 
 type Tokenable = Rule | TokenMatcher | TokenClass;
 

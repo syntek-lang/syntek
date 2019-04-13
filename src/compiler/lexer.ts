@@ -1,4 +1,4 @@
-import { Token, TokenMatcher } from '../structures';
+import { Token, TokenMatcher } from '../structures/token';
 import Utils from '../utils';
 
 import tokenMatchers from '../tokens/lexing';

@@ -1,4 +1,4 @@
-import Token from '../Token';
+import Token from '../token/Token';
 import RuleResponse from './RuleResponse';
 
 abstract class Rule {

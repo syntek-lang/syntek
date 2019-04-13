@@ -1,5 +1,5 @@
-import Rule from './Rule';
-import Token from '../Token';
+import Rule from '../Rule';
+import { Token } from '../../token';
 
 export default class SeqRule extends Rule {
   private readonly rules: Rule[];
