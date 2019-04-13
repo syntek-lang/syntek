@@ -1,12 +1,15 @@
 import * as treeify from 'treeify';
 
 import Utils from './utils';
-import tokens from './tokens/lexing';
 
 import lexer from './compiler/lexer';
 import parser from './compiler/parser';
 
-console.log(tokens);
+import lexingTokens from './tokens/lexing';
+import parsingTokens from './tokens/parsing';
+
+console.log(lexingTokens);
+console.log(parsingTokens);
 
 // const input = `function multiply(a, b)
 // \tsum = 0
@@ -19,7 +22,7 @@ console.log(tokens);
 // \trepeat exponent - 1 times
 // \t\tsum = multiply(sum, base)
 // \treturn sum`;
-const input = '5 * 2^3';
+const input = '2 * (5 + 10)';
 (document.getElementById('input') as HTMLElement).innerText = input;
 
 const lexed = lexer(input);

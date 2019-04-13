@@ -4,7 +4,7 @@ import { TokenMatcher, TokenClass } from '../token';
 import TokenMatcherRule from './rules/TokenMatcherRules';
 import ManyRule from './rules/ManyRule';
 import ManySepRule from './rules/ManySepRule';
-// import WrappedRule from './WrappedRule';
+import WrappedRule from './rules/WrappedRule';
 import SeqRule from './rules/SeqRule';
 import OptRule from './rules/OptRule';
 import OrRule from './rules/OrRule';
@@ -30,13 +30,13 @@ export default class $ {
     return new ManySepRule(tokenableToRule(tokenabe), tokenableToRule(separator));
   }
 
-  // static WRAPPED(start: Tokenable, expected: Tokenable, end: Tokenable): Rule {
-  //   return new WrappedRule(
-  //     tokenableToRule(start),
-  //     tokenableToRule(expected),
-  //     tokenableToRule(end),
-  //   );
-  // }
+  static WRAPPED(start: Tokenable, expected: Tokenable, end: Tokenable): Rule {
+    return new WrappedRule(
+      tokenableToRule(start),
+      tokenableToRule(expected),
+      tokenableToRule(end),
+    );
+  }
 
   static SEQ(...tokenables: Tokenable[]): Rule {
     return new SeqRule(tokenables.map(tokenableToRule));

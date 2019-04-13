@@ -55,4 +55,8 @@ export default class Utils {
       });
     }
   }
+
+  static arrayify(obj: any): any[] {
+    return Array.isArray(obj) ? obj : [obj];
+  }
 }
