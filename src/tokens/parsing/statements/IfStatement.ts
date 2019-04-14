@@ -19,7 +19,19 @@ class IfStatement extends Token {
     this.condition = matchedTokens[1];
     this.body = matchedTokens[2].slice(1, matchedTokens[2].length - 1);
 
-    // TODO: Add else if and else to this.alternate
+    // else if
+    const elseIfs = matchedTokens[3];
+    for (let i = 0; i < elseIfs.length; i += 1) {
+      this.alternate.push({
+        condition: elseIfs[i][1],
+        body: elseIfs[i][2].slice(1, elseIfs[i][2].length - 1),
+      });
+    }
+
+    // else
+    this.alternate.push({
+      body: matchedTokens[4][1].slice(1, matchedTokens[4][1].length - 1),
+    });
   }
 
   build(): string {

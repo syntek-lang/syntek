@@ -22,7 +22,7 @@ export default class ManyRule extends Rule {
 
         matchedTokens.push(match.tokens);
       } else {
-        return { matches: true, count: tokenCounter, tokens: tokens.slice(0, tokenCounter) };
+        break;
       }
     }
 
