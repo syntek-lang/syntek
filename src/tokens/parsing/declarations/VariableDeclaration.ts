@@ -3,6 +3,7 @@ import { Token, TokenMatcher } from '../../../structures/token';
 
 import tokens from '../../lexing';
 import Expression from '../expressions/Expression';
+import MemberExpression from '../expressions/MemberExpression';
 
 class VariableDeclaration extends Token {
   build(): string {
@@ -11,7 +12,10 @@ class VariableDeclaration extends Token {
 }
 
 export default new TokenMatcher(VariableDeclaration, $.SEQ(
-  tokens.Symbol,
+  $.OR(
+    tokens.Symbol,
+    MemberExpression,
+  ),
   tokens.Equal,
   Expression,
 ));

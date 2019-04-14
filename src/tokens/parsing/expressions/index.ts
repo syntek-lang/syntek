@@ -2,6 +2,7 @@ import { $ } from '../../../structures/rule';
 import tokens from '../../lexing';
 
 import Expression from './Expression';
+import NewExpression from './NewExpression';
 import MemberExpression from './MemberExpression';
 import ExpressionStatement from './ExpressionStatement';
 import WrappedExpression from './WrappedExpression';
@@ -21,6 +22,8 @@ Expression.setRule($.OR(
   tokens.Boolean,
   tokens.String,
   tokens.Symbol,
+
+  NewExpression,
   MemberExpression,
   ExpressionStatement,
   WrappedExpression,
@@ -37,6 +40,7 @@ Expression.setRule($.OR(
 ));
 
 export default {
+  NewExpression,
   MemberExpression,
   ExpressionStatement,
   WrappedExpression,

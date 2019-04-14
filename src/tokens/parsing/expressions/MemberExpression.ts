@@ -12,6 +12,7 @@ class MemberExpression extends Token {
 export default new TokenMatcher(MemberExpression, $.SEQ(
   $.OR(
     tokens.Symbol,
+    tokens.This,
     MemberExpression,
   ),
   tokens.Dot,
