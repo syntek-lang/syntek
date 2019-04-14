@@ -1,4 +1,5 @@
 import { $ } from '../../../structures/rule';
+import tokens from '../../lexing';
 
 import Statement from './Statement';
 
@@ -10,6 +11,9 @@ import WhileStatement from './loops/WhileStatement';
 import ForStatement from './loops/ForStatement';
 
 Statement.setRule($.OR(
+  tokens.Break,
+  tokens.Continue,
+
   IfStatement,
   ReturnStatement,
 

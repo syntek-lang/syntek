@@ -12,10 +12,23 @@ class ExpressionStatement extends Token {
 
 export default new TokenMatcher(ExpressionStatement, $.SEQ(
   tokens.Symbol,
-  tokens.Lpar,
-  $.MANY_SEP(
-    Expression,
-    tokens.Comma,
+
+  $.OR(
+    // Function calls can contain logic, so it needs to be recursively parsed
+    $.WRAPPED(
+      tokens.Lpar,
+      $.MANY_SEP(
+        Expression,
+        tokens.Comma,
+      ),
+      tokens.Rpar,
+    ),
+
+    // Array entry
+    $.WRAPPED(
+      tokens.Lbra,
+      Expression,
+      tokens.Rbra,
+    ),
   ),
-  tokens.Rpar,
 ));
