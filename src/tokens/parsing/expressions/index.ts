@@ -2,6 +2,7 @@ import { $ } from '../../../structures/rule';
 import tokens from '../../lexing';
 
 import Expression from './Expression';
+import MemberExpression from './MemberExpression';
 import ExpressionStatement from './ExpressionStatement';
 import WrappedExpression from './WrappedExpression';
 import ComparisonExpression from './ComparisonExpression';
@@ -9,6 +10,7 @@ import NotExpression from './NotExpression';
 import LogicalExpression from './LogicalExpression';
 
 import ArrayExpression from './ArrayExpression';
+import ObjectExpression from './ObjectExpression';
 
 import PowEquation from './math/PowEquation';
 import MdEquation from './math/MdEquation';
@@ -19,6 +21,7 @@ Expression.setRule($.OR(
   tokens.Boolean,
   tokens.String,
   tokens.Symbol,
+  MemberExpression,
   ExpressionStatement,
   WrappedExpression,
   ComparisonExpression,
@@ -26,6 +29,7 @@ Expression.setRule($.OR(
   LogicalExpression,
 
   ArrayExpression,
+  ObjectExpression,
 
   PowEquation,
   MdEquation,
@@ -33,6 +37,7 @@ Expression.setRule($.OR(
 ));
 
 export default {
+  MemberExpression,
   ExpressionStatement,
   WrappedExpression,
   ComparisonExpression,
@@ -40,6 +45,7 @@ export default {
   LogicalExpression,
 
   ArrayExpression,
+  ObjectExpression,
 
   PowEquation,
   MdEquation,

@@ -34,7 +34,8 @@ console.log(lexed);
 const parsed = parser(lexed
   .filter(token => !(token instanceof lexingTokens.Space.Class))
   .filter(token => !(token instanceof lexingTokens.Tab.Class))
-  .filter(token => !(token instanceof lexingTokens.Newline.Class)));
+  .filter(token => !(token instanceof lexingTokens.Newline.Class))
+  .filter(token => !(token instanceof lexingTokens.Emptyline.Class)));
 console.log(parsed);
 Utils.removeProp(parsed, 'index');
 (document.getElementById('tree') as HTMLElement).innerText = treeify.asTree(parsed, true, true);

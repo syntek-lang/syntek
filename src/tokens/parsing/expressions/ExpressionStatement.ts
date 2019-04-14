@@ -3,6 +3,7 @@ import { Token, TokenMatcher } from '../../../structures/token';
 
 import tokens from '../../lexing';
 import Expression from './Expression';
+import MemberExpression from './MemberExpression';
 
 class ExpressionStatement extends Token {
   build(): string {
@@ -11,7 +12,10 @@ class ExpressionStatement extends Token {
 }
 
 export default new TokenMatcher(ExpressionStatement, $.SEQ(
-  tokens.Symbol,
+  $.OR(
+    tokens.Symbol,
+    MemberExpression,
+  ),
 
   $.OR(
     // Function calls can contain logic, so it needs to be recursively parsed
