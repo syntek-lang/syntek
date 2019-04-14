@@ -1,4 +1,4 @@
-import { Token, TokenMatcher } from '../../../structures/token';
+import { Token, TokenMatcher } from '../../../../structures/token';
 
 class Import extends Token {
   build(): string {
