@@ -5,6 +5,14 @@ import tokens from '../../lexing';
 import Expression from './Expression';
 
 class ArrayExpression extends Token {
+  readonly elements;
+
+  constructor(matchedTokens) {
+    super(matchedTokens);
+
+    this.elements = matchedTokens[1].filter((_, index) => index % 2 === 0);
+  }
+
   build(): string {
     return '';
   }

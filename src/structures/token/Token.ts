@@ -9,16 +9,16 @@ abstract class Token {
 
   constructor(index: number, raw: string);
 
-  constructor(index: number, tokens: Token | Token[]);
+  constructor(tokens: Token | Token[]);
 
-  constructor(index: number, content: string | Token | Token[]) {
-    this.index = index;
-
-    if (typeof content === 'string') {
-      this.raw = content;
+  constructor(indexOrTokens: number | Token | Token[], raw?: string) {
+    if (typeof indexOrTokens === 'number') {
+      this.index = indexOrTokens;
     } else {
-      this.tokens = content;
+      this.tokens = indexOrTokens;
     }
+
+    this.raw = raw || '';
   }
 
   abstract build(): string;

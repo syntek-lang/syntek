@@ -6,6 +6,22 @@ import Expression from '../expressions/Expression';
 import Body from '../Body';
 
 class IfStatement extends Token {
+  readonly condition;
+
+  readonly body;
+
+  readonly alternate: { condition?: Token, body: Token[] }[] = [];
+
+  constructor(matchedTokens) {
+    super(matchedTokens);
+
+    // if
+    this.condition = matchedTokens[1];
+    this.body = matchedTokens[2].slice(1, matchedTokens[2].length - 1);
+
+    // TODO: Add else if and else to this.alternate
+  }
+
   build(): string {
     return '';
   }

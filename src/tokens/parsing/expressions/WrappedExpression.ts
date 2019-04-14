@@ -5,6 +5,14 @@ import tokens from '../../lexing';
 import Expression from './Expression';
 
 class WrappedExpression extends Token {
+  readonly body;
+
+  constructor(matchedTokens) {
+    super(matchedTokens);
+
+    this.body = matchedTokens[1];
+  }
+
   build(): string {
     return '';
   }

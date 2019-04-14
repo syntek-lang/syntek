@@ -15,7 +15,7 @@ export default function parser(tokens: Token[]): Token[] {
         const match = matcher.rule.match(tokens.slice(i));
 
         if (match.matches) {
-          const token = new matcher.Class(i, match.tokens);
+          const token = new matcher.Class(match.tokens);
 
           tokens = [
             ...tokens.slice(0, i),

@@ -1,5 +1,5 @@
 import Token from './Token';
 
-type TokenClass = new (index: number, content: string | Token | Token[]) => Token;
+type TokenClass = new (indexOrTokens: number | Token | Token[], raw?: string) => Token;
 
 export default TokenClass;

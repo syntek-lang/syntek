@@ -6,6 +6,17 @@ import Expression from '../../expressions/Expression';
 import Body from '../../Body';
 
 class RepeatStatement extends Token {
+  readonly amount;
+
+  readonly body;
+
+  constructor(matchedTokens) {
+    super(matchedTokens);
+
+    this.amount = matchedTokens[1];
+    this.body = matchedTokens[3].slice(1, matchedTokens[3].length - 1);
+  }
+
   build(): string {
     return '';
   }

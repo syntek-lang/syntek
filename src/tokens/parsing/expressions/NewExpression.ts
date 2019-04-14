@@ -5,6 +5,14 @@ import tokens from '../../lexing';
 import ExpressionStatement from './ExpressionStatement';
 
 class NewExpression extends Token {
+  readonly callee;
+
+  constructor(matchedTokens) {
+    super(matchedTokens);
+
+    this.callee = matchedTokens[1];
+  }
+
   build(): string {
     return '';
   }

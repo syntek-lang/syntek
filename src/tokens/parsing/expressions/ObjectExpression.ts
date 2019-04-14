@@ -9,6 +9,14 @@ import Indent from '../../Indent';
 import Outdent from '../../Outdent';
 
 class ObjectExpression extends Token {
+  readonly properties;
+
+  constructor(matchedTokens) {
+    super(matchedTokens);
+
+    this.properties = matchedTokens.slice(2, matchedTokens.length - 2);
+  }
+
   build(): string {
     return '';
   }

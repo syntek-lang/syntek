@@ -10,6 +10,30 @@ import Indent from '../../Indent';
 import Outdent from '../../Outdent';
 
 class ClassDeclaration extends Token {
+  readonly id;
+
+  readonly body: { isStatic: boolean, token: Token }[] = [];
+
+  constructor(matchedTokens) {
+    super(matchedTokens);
+
+    this.id = matchedTokens[1];
+
+    // Add body
+    let i = 1;
+    while (i < matchedTokens[2].length - 1) {
+      let isStatic = false;
+
+      if (matchedTokens[2][i] instanceof tokens.Static.Class) {
+        isStatic = true;
+        i += 1;
+      }
+
+      this.body.push({ isStatic, token: matchedTokens[2][i] });
+      i += 1;
+    }
+  }
+
   build(): string {
     return '';
   }
