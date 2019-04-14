@@ -1,23 +1,23 @@
 import { $ } from '../structures/rule';
 
 import Body from './parsing/Body';
-import Declaration from './parsing/declarations/Declaration';
 import Expression from './parsing/expressions/Expression';
+import Declaration from './parsing/declarations/Declaration';
 import Statement from './parsing/statements/Statement';
 
 import Indent from './Indent';
 import Outdent from './Outdent';
 
-import declarations from './parsing/declarations';
 import expressions from './parsing/expressions';
+import declarations from './parsing/declarations';
 import statements from './parsing/statements';
 
 Body.setRule($.WRAPPED(
   Indent,
   $.MANY(
     $.OR(
-      Declaration,
       Expression,
+      Declaration,
       Statement,
     ),
   ),
@@ -29,7 +29,7 @@ export default {
   FunctionDeclaration: declarations.FunctionDeclaration,
 
   // Others
-  ...declarations,
   ...expressions,
+  ...declarations,
   ...statements,
 };

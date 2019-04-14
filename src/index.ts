@@ -11,19 +11,17 @@ import parsingTokens from './tokens/parsing';
 console.log(lexingTokens);
 console.log(parsingTokens);
 
-// const input = `function multiply(a, b)
-// \tsum = 0
-// \trepeat b times
-// \t\tsum = sum + a
-// \treturn sum
-//
-// function pow(base, exponent)
-// \tsum = base
-// \trepeat exponent - 1 times
-// \t\tsum = multiply(sum, base)
-// \treturn sum`;
+const input = `function multiply(a, b)
+\tsum = 0
+\trepeat b times
+\t\tsum = sum + a
+\treturn sum
 
-const input = 'number[] x = 5 number x = 5 x = 5';
+function pow(base, exponent)
+\tsum = base
+\trepeat exponent - 1 times
+\t\tsum = multiply(sum, base)
+\treturn sum`;
 
 (document.getElementById('input') as HTMLElement).innerText = input;
 

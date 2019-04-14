@@ -4,6 +4,7 @@ import { Token, TokenMatcher } from '../../../structures/token';
 import tokens from '../../lexing';
 import Expression from '../expressions/Expression';
 import MemberExpression from '../expressions/MemberExpression';
+import ArrayExpression from '../expressions/ArrayExpression';
 
 class VariableDeclaration extends Token {
   readonly type;
@@ -20,7 +21,7 @@ class VariableDeclaration extends Token {
     if (matchedTokens[0].length) {
       this.type = matchedTokens[0][0];
 
-      if (matchedTokens[0][1].length) {
+      if (matchedTokens[0][1] instanceof ArrayExpression.Class) {
         this.array = true;
       }
     }
@@ -44,12 +45,7 @@ export default new TokenMatcher(VariableDeclaration, $.SEQ(
         tokens.ObjectKeyword,
         tokens.AnyKeyword,
       ),
-      $.OPT(
-        $.SEQ(
-          tokens.Lbra,
-          tokens.Rbra,
-        ),
-      ),
+      $.OPT(ArrayExpression),
     ),
   ),
 
