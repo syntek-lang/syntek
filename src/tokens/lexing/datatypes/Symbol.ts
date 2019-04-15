@@ -6,4 +6,4 @@ class Symbol extends Token {
   }
 }
 
-export default new TokenMatcher(Symbol, /^[a-z$_][a-z$_0-9]*/i);
+export default new TokenMatcher(Symbol, /^[a-zA-Z_]\w*/);
