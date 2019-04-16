@@ -38,6 +38,7 @@ const parsed = parser(lexed
   .filter(token => !(token instanceof lexingTokens.Emptyline.Class)));
 console.log(parsed);
 
-Utils.removeProps(parsed, ['index', 'tokens']);
-
-(document.getElementById('tree') as HTMLElement).innerText = treeify.asTree(parsed, true, true);
+// Copy the AST so we can still use index and tokens
+const parsedCopy = JSON.parse(JSON.stringify(parsed));
+Utils.removeProps(parsedCopy, ['index', 'tokens']);
+(document.getElementById('tree') as HTMLElement).innerText = treeify.asTree(parsedCopy, true, true);
