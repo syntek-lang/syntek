@@ -28,7 +28,7 @@ function pow(base, exponent)
 const lexed = lexer(input);
 console.log(lexed);
 (document.getElementById('tokens') as HTMLElement).innerText = lexed
-  .map(token => `${Utils.padRight(token.index, 4)} - ${Utils.padRight(token.name, 10)} - ${token.raw.replace(/\n/, '')}`)
+  .map(token => `${Utils.padRight(token.index, 4)} - ${Utils.padRight(token.name, 15)} - ${token.raw.replace(/\n/g, '')}`)
   .join('\n');
 
 const parsed = parser(lexed
