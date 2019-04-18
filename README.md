@@ -1,7 +1,11 @@
-**This language is only a concept. It does not have any actual implementation (yet).**
+<div align="center">
+  <img src="https://img.shields.io/travis/com/SebastiaanYN/Syntek.svg?style=for-the-badge" alt="Build" />
+  <img src="https://img.shields.io/github/languages/top/SebastiaanYN/Syntek.svg?colorB=blue&style=for-the-badge" alt="Language" />
+  <img src="https://img.shields.io/github/package-json/v/SebastiaanYN/Syntek.svg?colorB=Orange&style=for-the-badge" alt="Version" />
+</div>
 
-## Concept
-Syntek is a programming language that provides a beginner friendly programming environement. Syntek is designed to teach beginners the concepts of programming.
+# Syntek
+Syntek is a programming language that provides a beginner friendly programming environment. Syntek is designed to teach beginners the concepts of programming through visual and interactive assignments, such as creating snake.
 
 ## Syntax
-The syntax of Syntek is described in the `syntax` folder.
+Syntek is is similar to Python and JavaScript. It is indentation based to force cleaner code. Syntek also aims to be close to English, to improve readability. You can read more about the syntax [here](https://github.com/SebastiaanYN/Syntek/tree/master/syntax).
