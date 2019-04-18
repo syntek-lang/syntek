@@ -5,7 +5,10 @@ import tokens from '../../lexing';
 import Expression from './Expression';
 
 class ArrayExpression extends Token {
-  readonly elements;
+  /**
+   * The elements of the array
+   */
+  readonly elements: Token[];
 
   constructor(matchedTokens) {
     super(matchedTokens);

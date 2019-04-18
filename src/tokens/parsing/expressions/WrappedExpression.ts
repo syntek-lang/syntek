@@ -5,7 +5,10 @@ import tokens from '../../lexing';
 import Expression from './Expression';
 
 class WrappedExpression extends Token {
-  readonly body;
+  /**
+   * The body of the wrapped expression
+   */
+  readonly body: Token;
 
   constructor(matchedTokens) {
     super(matchedTokens);

@@ -6,10 +6,19 @@ import Expression from '../expressions/Expression';
 import Body from '../Body';
 
 class IfStatement extends Token {
-  readonly condition;
+  /**
+   * The condition of the initial if statement
+   */
+  readonly condition: Token;
 
-  readonly body;
+  /**
+   * The body of the initial if statement
+   */
+  readonly body: Token[];
 
+  /**
+   * The alternate conditions, `else`/`else if` statements
+   */
   readonly alternate: { condition?: Token, body: Token[] }[] = [];
 
   constructor(matchedTokens) {

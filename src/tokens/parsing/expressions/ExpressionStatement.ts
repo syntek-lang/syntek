@@ -6,11 +6,22 @@ import Expression from './Expression';
 import MemberExpression from './MemberExpression';
 
 class ExpressionStatement extends Token {
+  /**
+   * The type of the expression. Either `function` for function calls, or `array`
+   * for accessing array elements.
+   */
   readonly type: 'function' | 'array';
 
-  readonly callee;
+  /**
+   * The variable that is being called
+   */
+  readonly callee: Token;
 
-  readonly arguments;
+  /**
+   * The arguments of the expression. A single token if type is `array`, an array
+   * of tokens if type is `function`.
+   */
+  readonly arguments: Token | Token[];
 
   constructor(matchedTokens) {
     super(matchedTokens);

@@ -9,7 +9,10 @@ import Indent from '../../Indent';
 import Outdent from '../../Outdent';
 
 class ObjectExpression extends Token {
-  readonly properties;
+  /**
+   * The properties of the object
+   */
+  readonly properties: Token[];
 
   constructor(matchedTokens) {
     super(matchedTokens);

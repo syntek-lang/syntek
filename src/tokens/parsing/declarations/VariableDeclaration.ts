@@ -9,13 +9,25 @@ import ArrayExpression from '../expressions/ArrayExpression';
 import TypeKeyword from '../TypeKeyword';
 
 class VariableDeclaration extends Token {
-  readonly type;
+  /**
+   * The type of the variable
+   */
+  readonly type: Token;
 
-  readonly array;
+  /**
+   * Whether the variable is an array
+   */
+  readonly array: boolean;
 
-  readonly id;
+  /**
+   * The identifier of the variable
+   */
+  readonly id: Token;
 
-  readonly init;
+  /**
+   * The initial value of the variable
+   */
+  readonly init: Token;
 
   constructor(matchedTokens) {
     super(matchedTokens);

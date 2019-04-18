@@ -5,11 +5,20 @@ import tokens from '../../lexing';
 import Expression from './Expression';
 
 class ComparisonExpression extends Token {
-  readonly left;
+  /**
+   * The left hand side of the comparison
+   */
+  readonly left: Token;
 
-  readonly operator;
+  /**
+   * The operator of the comparison
+   */
+  readonly operator: Token;
 
-  readonly right;
+  /**
+   * The right hand side of the comparison
+   */
+  readonly right: Token;
 
   constructor(matchedTokens) {
     super(matchedTokens);

@@ -6,9 +6,15 @@ import Expression from '../../expressions/Expression';
 import Body from '../../Body';
 
 class RepeatStatement extends Token {
-  readonly amount;
+  /**
+   * The amount of iterations
+   */
+  readonly amount: Token;
 
-  readonly body;
+  /**
+   * The body of the repeat statement
+   */
+  readonly body: Token[];
 
   constructor(matchedTokens) {
     super(matchedTokens);

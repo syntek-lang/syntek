@@ -5,11 +5,20 @@ import tokens from '../../../lexing';
 import Expression from '../Expression';
 
 class PowEquation extends Token {
-  readonly left;
+  /**
+   * The left hand side of the equation
+   */
+  readonly left: Token;
 
-  readonly operator;
+  /**
+   * The operator of the equation
+   */
+  readonly operator: Token;
 
-  readonly right;
+  /**
+   * The right hand side of the equation
+   */
+  readonly right: Token;
 
   constructor(matchedTokens) {
     super(matchedTokens);

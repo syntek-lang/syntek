@@ -5,7 +5,10 @@ import tokens from '../../lexing';
 import ExpressionStatement from './ExpressionStatement';
 
 class NewExpression extends Token {
-  readonly callee;
+  /**
+   * The token `new` is being called on
+   */
+  readonly callee: Token;
 
   constructor(matchedTokens) {
     super(matchedTokens);

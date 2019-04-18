@@ -6,13 +6,25 @@ import Body from '../Body';
 import TypeKeyword from '../TypeKeyword';
 
 class FunctionDeclaration extends Token {
-  readonly id;
+  /**
+   * The identifier of the function
+   */
+  readonly id: Token;
 
+  /**
+   * The parameters of the function
+   */
   readonly params: { type: Token, id: Token}[];
 
-  readonly returns;
+  /**
+   * The return value of the function
+   */
+  readonly returns?: Token;
 
-  readonly body;
+  /**
+   * The body of the function
+   */
+  readonly body: Token[];
 
   constructor(matchedTokens) {
     super(matchedTokens);

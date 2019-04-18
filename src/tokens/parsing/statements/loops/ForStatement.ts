@@ -6,11 +6,20 @@ import Expression from '../../expressions/Expression';
 import Body from '../../Body';
 
 class ForStatement extends Token {
-  readonly id;
+  /**
+   * The identifier declared in the for loop
+   */
+  readonly id: Token;
 
-  readonly collection;
+  /**
+   * The collection to iterate over
+   */
+  readonly collection: Token;
 
-  readonly body;
+  /**
+   * The body of the for loop
+   */
+  readonly body: Token[];
 
   constructor(matchedTokens) {
     super(matchedTokens);

@@ -10,8 +10,14 @@ import Indent from '../../Indent';
 import Outdent from '../../Outdent';
 
 class ClassDeclaration extends Token {
-  readonly id;
+  /**
+   * The identifier of the class declaration
+   */
+  readonly id: Token;
 
+  /**
+   * The body of the class
+   */
   readonly body: { isStatic: boolean, token: Token }[] = [];
 
   constructor(matchedTokens) {

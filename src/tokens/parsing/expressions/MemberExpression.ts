@@ -4,9 +4,15 @@ import { Token, TokenMatcher } from '../../../structures/token';
 import tokens from '../../lexing';
 
 class MemberExpression extends Token {
-  readonly object;
+  /**
+   * The object that holds the property
+   */
+  readonly object: Token;
 
-  readonly property;
+  /**
+   * The property retrieved from the object
+   */
+  readonly property: Token;
 
   constructor(matchedTokens) {
     super(matchedTokens);

@@ -5,7 +5,10 @@ import tokens from '../../lexing';
 import Expression from './Expression';
 
 class NotExpression extends Token {
-  readonly argument;
+  /**
+   * The token `not` is being called on
+   */
+  readonly argument: Token;
 
   constructor(matchedTokens) {
     super(matchedTokens);

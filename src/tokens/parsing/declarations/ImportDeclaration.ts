@@ -4,11 +4,20 @@ import { Token, TokenMatcher } from '../../../structures/token';
 import tokens from '../../lexing';
 
 class ImportDeclaration extends Token {
+  /**
+   * The type of the import. `module` for predeclared modules, `file` for project files.
+   */
   readonly type: 'module' | 'file';
 
-  readonly source;
+  /**
+   * The source of the module
+   */
+  readonly source: Token;
 
-  readonly id;
+  /**
+   * The identifier that the module is loaded under
+   */
+  readonly id: Token;
 
   constructor(matchedTokens) {
     super(matchedTokens);

@@ -5,12 +5,17 @@ import tokens from '../../lexing';
 import Expression from '../expressions/Expression';
 
 class ReturnStatement extends Token {
-  readonly argument;
+  /**
+   * The argument that is returned by the return statement
+   */
+  readonly argument?: Token;
 
   constructor(matchedTokens) {
     super(matchedTokens);
 
-    this.argument = matchedTokens[1];
+    if (matchedTokens[1] instanceof Token) {
+      this.argument = matchedTokens[1];
+    }
   }
 
   build(): string {

@@ -6,9 +6,15 @@ import Expression from '../../expressions/Expression';
 import Body from '../../Body';
 
 class WhileStatement extends Token {
-  readonly condition;
+  /**
+   * The condition of the while loop
+   */
+  readonly condition: Token;
 
-  readonly body;
+  /**
+   * The body of the while loop
+   */
+  readonly body: Token[];
 
   constructor(matchedTokens) {
     super(matchedTokens);
