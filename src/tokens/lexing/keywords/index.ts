@@ -1,4 +1,5 @@
 export { default as Function } from './functions/Function';
+export { default as Returns } from './functions/Returns';
 export { default as Return } from './functions/Return';
 
 export { default as If } from './conditionals/If';

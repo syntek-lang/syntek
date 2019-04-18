@@ -3,11 +3,14 @@ import { Token, TokenMatcher } from '../../../structures/token';
 
 import tokens from '../../lexing';
 import Body from '../Body';
+import TypeKeyword from '../TypeKeyword';
 
 class FunctionDeclaration extends Token {
   readonly id;
 
-  readonly params;
+  readonly params: { type: Token, id: Token}[];
+
+  readonly returns;
 
   readonly body;
 
@@ -15,8 +18,15 @@ class FunctionDeclaration extends Token {
     super(matchedTokens);
 
     this.id = matchedTokens[1];
-    this.params = matchedTokens[3].filter((_, index) => index % 2 === 0);
-    this.body = matchedTokens[5].slice(1, matchedTokens[5].length - 1);
+
+    this.params = matchedTokens[3]
+      .filter((_, index) => index % 2 === 0)
+      .map(param => ({ type: param[0], id: param[1] }));
+
+    this.returns = matchedTokens[5][1];
+
+    this.body = matchedTokens[6]
+      .slice(1, matchedTokens[6].length - 1);
   }
 
   build(): string {
@@ -30,10 +40,20 @@ export default new TokenMatcher(FunctionDeclaration, $.SEQ(
 
   tokens.Lpar,
   $.MANY_SEP(
-    tokens.Symbol,
+    $.SEQ(
+      $.OPT(TypeKeyword),
+      tokens.Symbol,
+    ),
     tokens.Comma,
   ),
   tokens.Rpar,
+
+  $.OPT(
+    $.SEQ(
+      tokens.Returns,
+      TypeKeyword,
+    ),
+  ),
 
   Body,
 ));

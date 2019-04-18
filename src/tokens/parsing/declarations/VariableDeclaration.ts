@@ -6,6 +6,8 @@ import Expression from '../expressions/Expression';
 import MemberExpression from '../expressions/MemberExpression';
 import ArrayExpression from '../expressions/ArrayExpression';
 
+import TypeKeyword from '../TypeKeyword';
+
 class VariableDeclaration extends Token {
   readonly type;
 
@@ -38,13 +40,7 @@ class VariableDeclaration extends Token {
 export default new TokenMatcher(VariableDeclaration, $.SEQ(
   $.OPT(
     $.SEQ(
-      $.OR(
-        tokens.NumberKeyword,
-        tokens.StringKeyword,
-        tokens.BooleanKeyword,
-        tokens.ObjectKeyword,
-        tokens.AnyKeyword,
-      ),
+      TypeKeyword,
       $.OPT(ArrayExpression),
     ),
   ),
