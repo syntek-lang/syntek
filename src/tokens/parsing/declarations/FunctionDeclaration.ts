@@ -26,8 +26,8 @@ class FunctionDeclaration extends Token {
    */
   readonly body: Token[];
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.id = matchedTokens[1];
 

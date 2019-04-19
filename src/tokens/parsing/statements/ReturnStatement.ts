@@ -10,8 +10,8 @@ class ReturnStatement extends Token {
    */
   readonly argument?: Token;
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     if (matchedTokens[1] instanceof Token) {
       this.argument = matchedTokens[1];

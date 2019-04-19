@@ -59,4 +59,44 @@ export default class Utils {
   static arrayify(obj: any): any[] {
     return Array.isArray(obj) ? obj : [obj];
   }
+
+  static findFirstElement(arrayOrElement) {
+    if (Array.isArray(arrayOrElement)) {
+      let index = 0;
+
+      while (index < arrayOrElement.length) {
+        if (Array.isArray(arrayOrElement[index]) && !arrayOrElement[index].length) {
+          index += 1;
+        } else if (!arrayOrElement[index]) {
+          index += 1;
+        } else {
+          break;
+        }
+      }
+
+      return Utils.findFirstElement(arrayOrElement[index]);
+    }
+
+    return arrayOrElement;
+  }
+
+  static findLastElement(arrayOrElement) {
+    if (Array.isArray(arrayOrElement)) {
+      let index = arrayOrElement.length;
+
+      while (index >= 0) {
+        if (Array.isArray(arrayOrElement[index]) && !arrayOrElement[index].length) {
+          index -= 1;
+        } else if (!arrayOrElement[index]) {
+          index -= 1;
+        } else {
+          break;
+        }
+      }
+
+      return Utils.findLastElement(arrayOrElement[arrayOrElement.length - 1]);
+    }
+
+    return arrayOrElement;
+  }
 }

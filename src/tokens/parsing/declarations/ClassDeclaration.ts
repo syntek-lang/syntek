@@ -20,8 +20,8 @@ class ClassDeclaration extends Token {
    */
   readonly body: { isStatic: boolean, token: Token }[] = [];
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.id = matchedTokens[1];
 

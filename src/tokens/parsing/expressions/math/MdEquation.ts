@@ -20,8 +20,8 @@ class MdEquation extends Token {
    */
   readonly right: Token;
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.left = matchedTokens[0];
     this.operator = matchedTokens[1];

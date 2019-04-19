@@ -29,8 +29,8 @@ class VariableDeclaration extends Token {
    */
   readonly init: Token;
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     if (matchedTokens[0].length) {
       this.type = matchedTokens[0][0];

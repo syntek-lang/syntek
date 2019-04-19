@@ -10,8 +10,8 @@ class NotExpression extends Token {
    */
   readonly argument: Token;
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.argument = matchedTokens[1];
   }

@@ -11,9 +11,8 @@ class IfStatement extends Token {
    */
   readonly options: { condition?: Token, body: Token[] }[] = [];
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
-    console.log(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     // if
     this.options.push({

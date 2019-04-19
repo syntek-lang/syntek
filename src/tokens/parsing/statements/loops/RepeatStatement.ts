@@ -16,8 +16,8 @@ class RepeatStatement extends Token {
    */
   readonly body: Token[];
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.amount = matchedTokens[1];
     this.body = matchedTokens[3].slice(1, matchedTokens[3].length - 1);

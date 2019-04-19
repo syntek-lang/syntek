@@ -16,8 +16,8 @@ class WhileStatement extends Token {
    */
   readonly body: Token[];
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.condition = matchedTokens[1];
     this.body = matchedTokens[2].slice(1, matchedTokens[2].length - 1);

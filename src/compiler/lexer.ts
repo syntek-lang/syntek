@@ -28,17 +28,24 @@ export default function lexer(input: string): Token[] {
 
         if (currentIndent > previousIndent) {
           tokens.push(
-            ...Utils.createArray(currentIndent - previousIndent).map(() => new Indent(index, '\t')),
+            ...Utils.createArray(currentIndent - previousIndent).map(() => new Indent({
+              start: index,
+              end: index,
+            }, '\t')),
           );
         } else if (currentIndent < previousIndent) {
           tokens.push(
-            ...Utils.createArray(previousIndent - currentIndent).map(() => new Outdent(index, '')),
+            ...Utils.createArray(previousIndent - currentIndent).map(() => new Outdent({
+              start: index,
+              end: index,
+            }, '')),
           );
         }
 
         previousIndent = currentIndent;
 
-        tokens.push(new tokenMatcher.Class(index, match[0]));
+        const location = { start: index, end: index + match[0].length };
+        tokens.push(new tokenMatcher.Class(location, match[0]));
 
         index += match[0].length;
         matched = true;
@@ -52,7 +59,10 @@ export default function lexer(input: string): Token[] {
   }
 
   tokens.push(
-    ...Utils.createArray(previousIndent).map(() => new Outdent(index, '')),
+    ...Utils.createArray(previousIndent).map(() => new Outdent({
+      start: index,
+      end: index,
+    }, '')),
   );
 
   return tokens;

@@ -1,6 +1,7 @@
 /* eslint-disable no-constant-condition, no-param-reassign */
 
 import { Token, TokenMatcher } from '../structures/token';
+import Utils from '../utils';
 
 import matchers from '../tokens/parsing';
 
@@ -16,7 +17,12 @@ export default function parser(tokens: Token[]): Token[] {
 
         if (match.matches) {
           const matchTokens = Array.isArray(match.tokens) ? match.tokens : [match.tokens];
-          const token = new matcher.Class(matchTokens);
+
+          const location = {
+            start: Utils.findFirstElement(matchTokens).location.start,
+            end: Utils.findLastElement(matchTokens).location.end,
+          };
+          const token = new matcher.Class(location, matchTokens);
 
           tokens = [
             ...tokens.slice(0, i),

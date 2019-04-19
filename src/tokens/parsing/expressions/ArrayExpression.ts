@@ -10,8 +10,8 @@ class ArrayExpression extends Token {
    */
   readonly elements: Token[];
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.elements = matchedTokens[1].filter((_, index) => index % 2 === 0);
   }

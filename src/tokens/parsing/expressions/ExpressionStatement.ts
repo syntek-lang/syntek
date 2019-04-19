@@ -23,8 +23,8 @@ class ExpressionStatement extends Token {
    */
   readonly arguments: Token | Token[];
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.type = matchedTokens[1][0] instanceof tokens.Lpar.Class ? 'function' : 'array';
 

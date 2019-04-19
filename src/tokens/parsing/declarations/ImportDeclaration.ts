@@ -19,8 +19,8 @@ class ImportDeclaration extends Token {
    */
   readonly id: Token;
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.type = matchedTokens[1] instanceof tokens.Symbol.Class ? 'module' : 'file';
     this.source = matchedTokens[1];

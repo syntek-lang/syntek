@@ -14,8 +14,8 @@ class MemberExpression extends Token {
    */
   readonly property: Token;
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.object = matchedTokens[0];
     this.property = matchedTokens[2];

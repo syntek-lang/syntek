@@ -14,8 +14,8 @@ class ObjectExpression extends Token {
    */
   readonly properties: Token[];
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.properties = matchedTokens.slice(2, matchedTokens.length - 2);
   }

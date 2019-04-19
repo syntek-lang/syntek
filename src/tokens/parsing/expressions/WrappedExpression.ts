@@ -10,8 +10,8 @@ class WrappedExpression extends Token {
    */
   readonly body: Token;
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.body = matchedTokens[1];
   }

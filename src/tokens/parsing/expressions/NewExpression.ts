@@ -10,8 +10,8 @@ class NewExpression extends Token {
    */
   readonly callee: Token;
 
-  constructor(matchedTokens) {
-    super(matchedTokens);
+  constructor(location, matchedTokens) {
+    super(location, matchedTokens);
 
     this.callee = matchedTokens[1];
   }
