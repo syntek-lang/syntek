@@ -1,4 +1,10 @@
 export default class Utils {
+  /**
+   * Get the line and row number at the index of a string
+   *
+   * @param input - The input string
+   * @param index - The index to get the line and row of
+   */
   static lineRow(input: string, index: number) {
     const lines = input.slice(0, index).split('\n');
 
@@ -8,10 +14,16 @@ export default class Utils {
     return { line, row };
   }
 
-  static getIndent(input: string, line:number): number {
+  /**
+   * Get the amount of tabs at the start of a line
+   *
+   * @param input - The input string
+   * @param line - The line to get the indentation level of
+   */
+  static getIndent(input: string, line: number): number {
     const match = input
       .split('\n')[line - 1]
-      .match(/\t+/);
+      .match(/^\t+/);
 
     if (match) {
       return match[0].length;
@@ -20,6 +32,11 @@ export default class Utils {
     return 0;
   }
 
+  /**
+   * Create an array with a specific length
+   *
+   * @param length - The length of the array
+   */
   static createArray(length: number): any[] {
     const array: any[] = [];
 
@@ -30,6 +47,12 @@ export default class Utils {
     return array;
   }
 
+  /**
+   * Pad the right side of a string with spaces
+   *
+   * @param input - The string to pad
+   * @param length - The length that the string needs to be
+   */
   static padRight(input: any, length: number): string {
     input = input.toString(); // eslint-disable-line no-param-reassign
 
@@ -40,6 +63,12 @@ export default class Utils {
     return input;
   }
 
+  /**
+   * Recusively remove props from an object or array
+   *
+   * @param obj - The object to remove the props from
+   * @param keys - The keys of the props that need to be removed
+   */
   static removeProps(obj, keys) {
     if (obj instanceof Array) {
       obj.forEach((item) => {
@@ -56,10 +85,20 @@ export default class Utils {
     }
   }
 
+  /**
+   * Wrap any non-array item in an array
+   *
+   * @param obj - The item to arrify
+   */
   static arrayify(obj: any): any[] {
     return Array.isArray(obj) ? obj : [obj];
   }
 
+  /**
+   * Find the very first element of an array, such that `[[1, 2], 3]` would return 1
+   *
+   * @param arrayOrElement - The array to find the first element of
+   */
   static findFirstElement(arrayOrElement) {
     if (Array.isArray(arrayOrElement)) {
       let index = 0;
@@ -80,6 +119,11 @@ export default class Utils {
     return arrayOrElement;
   }
 
+  /**
+   * Find the very last element of an array, such that `[1, [2, 3]]` would return 3
+   *
+   * @param arrayOrElement - The array to find the last element of
+   */
   static findLastElement(arrayOrElement) {
     if (Array.isArray(arrayOrElement)) {
       let index = arrayOrElement.length;

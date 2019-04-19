@@ -32,5 +32,5 @@ console.log(parsed);
 
 // Copy the AST so we can still use index and tokens
 const parsedCopy = JSON.parse(JSON.stringify(parsed));
-Utils.removeProps(parsedCopy, ['index', 'tokens']);
+Utils.removeProps(parsedCopy, ['location', 'tokens']);
 (document.getElementById('tree') as HTMLElement).innerText = treeify.asTree(parsedCopy, true, true);
