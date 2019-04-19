@@ -8,20 +8,12 @@ import parser from './compiler/parser';
 import lexingTokens from './tokens/lexing';
 import parsingTokens from './tokens/parsing';
 
+import * as tests from './tests';
+
 console.log(lexingTokens);
 console.log(parsingTokens);
 
-const input = `function multiply(a, b)
-\tsum = 0
-\trepeat b times
-\t\tsum = sum + a
-\treturn sum
-
-function pow(base, exponent)
-\tsum = base
-\trepeat exponent - 1 times
-\t\tsum = multiply(sum, base)
-\treturn sum`;
+const input = tests.correct.calculator;
 
 (document.getElementById('input') as HTMLElement).innerText = input;
 
