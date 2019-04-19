@@ -7,40 +7,34 @@ import Body from '../Body';
 
 class IfStatement extends Token {
   /**
-   * The condition of the initial if statement
+   * The `if`, `else if` and `else` statement conditions and bodies
    */
-  readonly condition: Token;
-
-  /**
-   * The body of the initial if statement
-   */
-  readonly body: Token[];
-
-  /**
-   * The alternate conditions, `else`/`else if` statements
-   */
-  readonly alternate: { condition?: Token, body: Token[] }[] = [];
+  readonly options: { condition?: Token, body: Token[] }[] = [];
 
   constructor(matchedTokens) {
     super(matchedTokens);
+    console.log(matchedTokens);
 
     // if
-    this.condition = matchedTokens[1];
-    this.body = matchedTokens[2].slice(1, matchedTokens[2].length - 1);
+    this.options.push({
+      condition: matchedTokens[1],
+      body: matchedTokens[2].slice(1, matchedTokens[2].length - 1),
+    });
 
     // else if
-    const elseIfs = matchedTokens[3];
-    for (let i = 0; i < elseIfs.length; i += 1) {
-      this.alternate.push({
-        condition: elseIfs[i][1],
-        body: elseIfs[i][2].slice(1, elseIfs[i][2].length - 1),
+    for (const elseIf of matchedTokens[3]) {
+      this.options.push({
+        condition: elseIf[1],
+        body: elseIf[2].slice(1, elseIf[2].length - 1),
       });
     }
 
     // else
-    this.alternate.push({
-      body: matchedTokens[4][1].slice(1, matchedTokens[4][1].length - 1),
-    });
+    if (matchedTokens[4].length) {
+      this.options.push({
+        body: matchedTokens[4][1].slice(1, matchedTokens[4][1].length - 1),
+      });
+    }
   }
 
   build(): string {

@@ -35,3 +35,26 @@ function loop()
 		moveDown()
 	else if direction is 3
 		moveLeft()`;
+
+export const ifStatements = `if true
+	print(true)
+
+x = 5
+if x is 4
+	print('x is 4')
+else
+	print('x is not 4')
+
+if x is 4
+	print('x is 4')
+else if x is 5
+	print('x is 5')
+
+if x is 5
+	print('x is 5')
+else if x is 6
+	print('x is 6')
+else if x is 7
+	print('x is 7')
+else
+	print(x)`;
