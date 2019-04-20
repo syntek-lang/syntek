@@ -143,4 +143,53 @@ export default class Utils {
 
     return arrayOrElement;
   }
+
+  /**
+   * Flatten an array and it's sub arrays to a single array
+   *
+   * @param items - The array to flatten
+   */
+  static flatten(items: any): any[] {
+    const flat: any[] = [];
+
+    items.forEach((item) => {
+      if (Array.isArray(item)) {
+        flat.push(...Utils.flatten(item));
+      } else {
+        flat.push(item);
+      }
+    });
+
+    return flat;
+  }
+
+  /**
+   * Polyfill for `Object.values()`
+   *
+   * @param obj - The object to get the values from
+   */
+  static objectValues(obj: any): any[] {
+    const values: any[] = [];
+
+    for (const key of Object.keys(obj)) {
+      values.push(obj[key]);
+    }
+
+    return values;
+  }
+
+  /**
+   * Polyfill for `Object.entries()`
+   *
+   * @param obj - The object to get the entries from
+   */
+  static objectEntries(obj: any): [any, any][] {
+    const entries: [any, any][] = [];
+
+    for (const key of Object.keys(obj)) {
+      entries.push([key, obj[key]]);
+    }
+
+    return entries;
+  }
 }

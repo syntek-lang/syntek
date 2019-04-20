@@ -1,9 +1,11 @@
 import * as treeify from 'treeify';
 
 import Utils from './utils';
+import Program from './tokens/parsing/Program';
 
 import lexer from './compiler/lexer';
 import parser from './compiler/parser';
+import analyzer from './compiler/analyzer';
 
 import lexingTokens from './tokens/lexing';
 import parsingTokens from './tokens/parsing';
@@ -35,3 +37,5 @@ console.log(parsed);
 const parsedCopy = JSON.parse(JSON.stringify(parsed));
 Utils.removeProps(parsedCopy, ['location', 'tokens']);
 (document.getElementById('tree') as HTMLElement).innerText = treeify.asTree(parsedCopy, true, true);
+
+analyzer(parsed as Program);
