@@ -4,8 +4,9 @@ import { Token, TokenMatcher } from '../structures/token';
 import Utils from '../utils';
 
 import matchers from '../tokens/parsing';
+import Program from '../tokens/parsing/Program';
 
-export default function parser(tokens: Token[]): Token[] {
+export default function parser(tokens: Token[], fileName?: string): Token[] | Program {
   while (true) {
     let change = false;
 
@@ -43,6 +44,13 @@ export default function parser(tokens: Token[]): Token[] {
     if (!change) {
       break;
     }
+  }
+
+  if (fileName) {
+    return new Program({
+      start: 0,
+      end: tokens[tokens.length - 1].location.end,
+    }, tokens);
   }
 
   return tokens;

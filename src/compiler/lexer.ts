@@ -9,7 +9,7 @@ import Outdent from '../tokens/Outdent';
 // Remove the __esModule property, we don't need it
 delete (tokenMatchers as any).__esModule; // eslint-disable-line no-underscore-dangle
 
-export default function lexer(input: string): Token[] {
+export default function lexer(input: string, fileName: string): Token[] {
   const tokens: Token[] = [];
   let index = 0;
 
@@ -54,7 +54,7 @@ export default function lexer(input: string): Token[] {
     }
 
     if (!matched) {
-      throw new Error(`Unknown token ${input.slice(index, index + 1)} at ${line}:${row}`);
+      throw new Error(`Unexpected token ${input.slice(index, index + 1)} at ${fileName}(${line}:${row})`);
     }
   }
 

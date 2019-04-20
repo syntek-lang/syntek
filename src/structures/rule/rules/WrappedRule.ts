@@ -70,17 +70,20 @@ export default class WrappedRule extends Rule {
       i - endTokenCount,
     ));
 
-    const expectedMatch = this.expected.match(parsedTokens);
-    if (expectedMatch.matches && expectedMatch.count >= parsedTokens.length) {
-      return {
-        matches: true,
-        count: i,
-        tokens: [
-          ...Utils.arrayify(startMatches[0].tokens),
-          ...parsedTokens,
-          ...Utils.arrayify(endMatches[endMatches.length - 1].tokens),
-        ],
-      };
+    if (Array.isArray(parsedTokens)) {
+      const expectedMatch = this.expected.match(parsedTokens);
+
+      if (expectedMatch.matches && expectedMatch.count >= parsedTokens.length) {
+        return {
+          matches: true,
+          count: i,
+          tokens: [
+            ...Utils.arrayify(startMatches[0].tokens),
+            ...parsedTokens,
+            ...Utils.arrayify(endMatches[endMatches.length - 1].tokens),
+          ],
+        };
+      }
     }
 
     return { matches: false, count: 0, tokens: [] };
