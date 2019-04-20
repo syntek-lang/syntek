@@ -4,7 +4,7 @@ import { Token, TokenMatcher } from '../../../structures/token';
 import tokens from '../../lexing';
 import Expression from '../expressions/Expression';
 
-class ReturnStatement extends Token {
+export class ReturnStatement extends Token {
   /**
    * The argument that is returned by the return statement
    */
@@ -23,7 +23,7 @@ class ReturnStatement extends Token {
   }
 }
 
-export default new TokenMatcher(ReturnStatement, $.SEQ(
+export const ReturnStatementMatcher = new TokenMatcher(ReturnStatement, $.SEQ(
   tokens.Return,
   $.OPT(Expression),
 ));

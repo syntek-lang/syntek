@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../../structures/token';
 
-class Times extends Token {
+export class Times extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Times, /^times(?!\w)/);
+export const TimesMatcher = new TokenMatcher(Times, /^times(?!\w)/);

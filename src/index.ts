@@ -15,7 +15,7 @@ import * as tests from './tests';
 console.log(lexingTokens);
 console.log(parsingTokens);
 
-const input = tests.correct.calculator;
+const input = tests.incorrect.functionInsideFunction;
 const fileName = 'test';
 
 (document.getElementById('input') as HTMLElement).innerText = input;
@@ -27,10 +27,10 @@ console.log(lexed);
   .join('\n');
 
 const parsed = parser(lexed
-  .filter(token => !(token instanceof lexingTokens.Space.Class))
-  .filter(token => !(token instanceof lexingTokens.Tab.Class))
-  .filter(token => !(token instanceof lexingTokens.Newline.Class))
-  .filter(token => !(token instanceof lexingTokens.Emptyline.Class)), fileName);
+  .filter(token => !(token instanceof lexingTokens.Space))
+  .filter(token => !(token instanceof lexingTokens.Tab))
+  .filter(token => !(token instanceof lexingTokens.Newline))
+  .filter(token => !(token instanceof lexingTokens.Emptyline)), fileName);
 console.log(parsed);
 
 // Copy the AST so we can still use index and tokens

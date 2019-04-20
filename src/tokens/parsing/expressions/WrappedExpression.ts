@@ -4,7 +4,7 @@ import { Token, TokenMatcher } from '../../../structures/token';
 import tokens from '../../lexing';
 import Expression from './Expression';
 
-class WrappedExpression extends Token {
+export class WrappedExpression extends Token {
   /**
    * The body of the wrapped expression
    */
@@ -21,7 +21,7 @@ class WrappedExpression extends Token {
   }
 }
 
-export default new TokenMatcher(WrappedExpression, $.WRAPPED(
+export const WrappedExpressionMatcher = new TokenMatcher(WrappedExpression, $.WRAPPED(
   tokens.Lpar,
   Expression,
   tokens.Rpar,

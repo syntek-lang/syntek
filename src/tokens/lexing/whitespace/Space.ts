@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../structures/token';
 
-class Space extends Token {
+export class Space extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Space, /^ +/);
+export const SpaceMatcher = new TokenMatcher(Space, /^ +/);

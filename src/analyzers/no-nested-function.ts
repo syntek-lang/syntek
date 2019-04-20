@@ -1,15 +1,18 @@
 import Analyzer from '../structures/analyzer/Analyzer';
 
-import tokens from '../tokens/all';
+import { FunctionDeclaration } from '../tokens/parsing/declarations/FunctionDeclaration';
 
 export default new Analyzer([
   {
-    token: tokens.FunctionDeclaration,
-    enter(token) {
-      console.log('Enter', token);
-    },
-    exit(token) {
-      console.log('Exit', token);
+    token: FunctionDeclaration,
+    enter(token: FunctionDeclaration, context) {
+      const nestedFunction = context
+        .ancestors
+        .some(ancestor => ancestor instanceof FunctionDeclaration);
+
+      if (nestedFunction) {
+        console.log(`You declared function '${token.id.raw}' inside another function, which is not allowed`);
+      }
     },
   },
 ]);

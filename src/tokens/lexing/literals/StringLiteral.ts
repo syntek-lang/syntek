@@ -1,6 +1,6 @@
 import { TokenMatcher } from '../../../structures/token';
 import Literal from './Literal';
 
-class StringLiteral extends Literal {}
+export class StringLiteral extends Literal {}
 
-export default new TokenMatcher(StringLiteral, /^'(?:[^'\\]|\\.)*'/);
+export const StringLiteralMatcher = new TokenMatcher(StringLiteral, /^'(?:[^'\\]|\\.)*'/);

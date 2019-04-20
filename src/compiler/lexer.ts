@@ -1,13 +1,12 @@
 import { Token, TokenMatcher } from '../structures/token';
 import Utils from '../utils';
 
-import tokenMatchers from '../tokens/lexing';
+import lexingTokens from '../tokens/lexing';
 
 import Indent from '../tokens/Indent';
 import Outdent from '../tokens/Outdent';
 
-// Remove the __esModule property, we don't need it
-delete (tokenMatchers as any).__esModule; // eslint-disable-line no-underscore-dangle
+const tokenMatchers: TokenMatcher[] = Utils.objectValues(lexingTokens).filter(token => token.Class);
 
 export default function lexer(input: string, fileName: string): Token[] {
   const tokens: Token[] = [];
@@ -19,8 +18,7 @@ export default function lexer(input: string, fileName: string): Token[] {
     const { line, row } = Utils.lineRow(input, index);
     let matched = false;
 
-    for (const name of Object.keys(tokenMatchers)) {
-      const tokenMatcher = tokenMatchers[name] as TokenMatcher;
+    for (const tokenMatcher of tokenMatchers) {
       const match = input.slice(index).match(tokenMatcher.regex);
 
       if (match) {

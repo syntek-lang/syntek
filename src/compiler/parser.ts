@@ -3,7 +3,7 @@
 import { Token, TokenMatcher } from '../structures/token';
 import Utils from '../utils';
 
-import matchers from '../tokens/parsing';
+import { matchers } from '../tokens/parsing';
 import Program from '../tokens/parsing/Program';
 
 export default function parser(tokens: Token[], fileName?: string): Token[] | Program {

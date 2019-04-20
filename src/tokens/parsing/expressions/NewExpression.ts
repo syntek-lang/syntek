@@ -2,9 +2,9 @@ import { $ } from '../../../structures/rule';
 import { Token, TokenMatcher } from '../../../structures/token';
 
 import tokens from '../../lexing';
-import ExpressionStatement from './ExpressionStatement';
+import { ExpressionStatement } from './ExpressionStatement';
 
-class NewExpression extends Token {
+export class NewExpression extends Token {
   /**
    * The token `new` is being called on
    */
@@ -21,7 +21,7 @@ class NewExpression extends Token {
   }
 }
 
-export default new TokenMatcher(NewExpression, $.SEQ(
+export const NewExpressionMatcher = new TokenMatcher(NewExpression, $.SEQ(
   tokens.New,
   ExpressionStatement,
 ));

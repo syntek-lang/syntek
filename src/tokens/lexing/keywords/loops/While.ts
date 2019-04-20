@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../../structures/token';
 
-class While extends Token {
+export class While extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(While, /^while(?!\w)/);
+export const WhileMatcher = new TokenMatcher(While, /^while(?!\w)/);

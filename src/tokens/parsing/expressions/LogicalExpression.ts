@@ -4,7 +4,7 @@ import { Token, TokenMatcher } from '../../../structures/token';
 import tokens from '../../lexing';
 import Expression from './Expression';
 
-class LogicalExpression extends Token {
+export class LogicalExpression extends Token {
   /**
    * The left hand side of the logical expression
    */
@@ -33,7 +33,7 @@ class LogicalExpression extends Token {
   }
 }
 
-export default new TokenMatcher(LogicalExpression, $.SEQ(
+export const LogicalExpressionMatcher = new TokenMatcher(LogicalExpression, $.SEQ(
   Expression,
   $.OR(
     tokens.And,

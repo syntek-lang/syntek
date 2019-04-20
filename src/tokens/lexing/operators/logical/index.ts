@@ -1,3 +1,3 @@
-export { default as And } from './And';
-export { default as Or } from './Or';
-export { default as Not } from './Not';
+export * from './And';
+export * from './Or';
+export * from './Not';

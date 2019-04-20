@@ -5,8 +5,8 @@ import tokens from '../tokens/all';
 export default new Analyzer([
   {
     token: tokens.Symbol,
-    enter(token) {
-      console.log(token);
+    enter(_token) {
+      // console.log(token);
     },
   },
 ]);

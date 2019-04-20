@@ -3,7 +3,7 @@ import { Token, TokenMatcher } from '../../../structures/token';
 
 import tokens from '../../lexing';
 
-class MemberExpression extends Token {
+export class MemberExpression extends Token {
   /**
    * The object that holds the property
    */
@@ -26,7 +26,7 @@ class MemberExpression extends Token {
   }
 }
 
-export default new TokenMatcher(MemberExpression, $.SEQ(
+export const MemberExpressionMatcher = new TokenMatcher(MemberExpression, $.SEQ(
   $.OR(
     tokens.Symbol,
     tokens.This,

@@ -4,7 +4,7 @@ import { Token, TokenMatcher } from '../../../structures/token';
 import tokens from '../../lexing';
 import Expression from './Expression';
 
-class ComparisonExpression extends Token {
+export class ComparisonExpression extends Token {
   /**
    * The left hand side of the comparison
    */
@@ -33,7 +33,7 @@ class ComparisonExpression extends Token {
   }
 }
 
-export default new TokenMatcher(ComparisonExpression, $.SEQ(
+export const ComparisonExpressionMatcher = new TokenMatcher(ComparisonExpression, $.SEQ(
   Expression,
   $.OR(
     tokens.Is,

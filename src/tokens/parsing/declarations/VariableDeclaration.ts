@@ -3,12 +3,12 @@ import { Token, TokenMatcher } from '../../../structures/token';
 
 import tokens from '../../lexing';
 import Expression from '../expressions/Expression';
-import MemberExpression from '../expressions/MemberExpression';
-import ArrayExpression from '../expressions/ArrayExpression';
+import { MemberExpression } from '../expressions/MemberExpression';
+import { ArrayExpression } from '../expressions/ArrayExpression';
 
 import TypeKeyword from '../TypeKeyword';
 
-class VariableDeclaration extends Token {
+export class VariableDeclaration extends Token {
   /**
    * The type of the variable
    */
@@ -35,7 +35,7 @@ class VariableDeclaration extends Token {
     if (matchedTokens[0].length) {
       this.type = matchedTokens[0][0];
 
-      if (matchedTokens[0][1] instanceof ArrayExpression.Class) {
+      if (matchedTokens[0][1] instanceof ArrayExpression) {
         this.array = true;
       }
     }
@@ -49,7 +49,7 @@ class VariableDeclaration extends Token {
   }
 }
 
-export default new TokenMatcher(VariableDeclaration, $.SEQ(
+export const VariableDeclarationMatcher = new TokenMatcher(VariableDeclaration, $.SEQ(
   $.OPT(
     $.SEQ(
       TypeKeyword,

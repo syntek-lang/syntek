@@ -1,11 +1,11 @@
-export { default as Lpar } from './Lpar';
-export { default as Rpar } from './Rpar';
+export * from './Lpar';
+export * from './Rpar';
 
-export { default as Lbra } from './Lbra';
-export { default as Rbra } from './Rbra';
+export * from './Lbra';
+export * from './Rbra';
 
-export { default as Lbrace } from './Lbrace';
-export { default as Rbrace } from './Rbrace';
+export * from './Lbrace';
+export * from './Rbrace';
 
-export { default as Comma } from './Comma';
-export { default as Dot } from './Dot';
+export * from './Comma';
+export * from './Dot';

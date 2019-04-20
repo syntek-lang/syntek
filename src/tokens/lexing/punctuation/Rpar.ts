@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../structures/token';
 
-class Rpar extends Token {
+export class Rpar extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Rpar, /^\)/);
+export const RparMatcher = new TokenMatcher(Rpar, /^\)/);

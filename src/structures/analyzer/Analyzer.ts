@@ -1,4 +1,6 @@
 import AnalyzerListener from './AnalyzerListener';
+import AnalyzingContext from './AnalyzingContext';
+
 import { Token, TokenMatcher } from '../token';
 
 export default class Analyzer {
@@ -8,7 +10,7 @@ export default class Analyzer {
     this.listeners = listeners;
   }
 
-  run(type: 'enter' | 'exit', token: Token, context) {
+  run(type: 'enter' | 'exit', token: Token, context: AnalyzingContext) {
     for (const listener of this.listeners) {
       let matches;
 

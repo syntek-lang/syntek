@@ -4,7 +4,7 @@ import { Token, TokenMatcher } from '../../../structures/token';
 import tokens from '../../lexing';
 import Expression from './Expression';
 
-class NotExpression extends Token {
+export class NotExpression extends Token {
   /**
    * The token `not` is being called on
    */
@@ -21,7 +21,7 @@ class NotExpression extends Token {
   }
 }
 
-export default new TokenMatcher(NotExpression, $.SEQ(
+export const NotExpressionMatcher = new TokenMatcher(NotExpression, $.SEQ(
   tokens.Not,
   Expression,
 ));

@@ -5,7 +5,7 @@ import tokens from '../../../lexing';
 import Expression from '../../expressions/Expression';
 import Body from '../../Body';
 
-class ForStatement extends Token {
+export class ForStatement extends Token {
   /**
    * The identifier declared in the for loop
    */
@@ -34,7 +34,7 @@ class ForStatement extends Token {
   }
 }
 
-export default new TokenMatcher(ForStatement, $.SEQ(
+export const ForStatementMatcher = new TokenMatcher(ForStatement, $.SEQ(
   tokens.For,
   tokens.Symbol,
   tokens.In,

@@ -3,12 +3,12 @@ import tokens from '../../lexing';
 
 import Statement from './Statement';
 
-import IfStatement from './IfStatement';
-import ReturnStatement from './ReturnStatement';
+import { IfStatement, IfStatementMatcher } from './IfStatement';
+import { ReturnStatement, ReturnStatementMatcher } from './ReturnStatement';
 
-import RepeatStatement from './loops/RepeatStatement';
-import WhileStatement from './loops/WhileStatement';
-import ForStatement from './loops/ForStatement';
+import { RepeatStatement, RepeatStatementMatcher } from './loops/RepeatStatement';
+import { WhileStatement, WhileStatementMatcher } from './loops/WhileStatement';
+import { ForStatement, ForStatementMatcher } from './loops/ForStatement';
 
 Statement.setRule($.OR(
   tokens.Break,
@@ -29,4 +29,13 @@ export default {
   RepeatStatement,
   WhileStatement,
   ForStatement,
+};
+
+export const matchers = {
+  IfStatementMatcher,
+  ReturnStatementMatcher,
+
+  RepeatStatementMatcher,
+  WhileStatementMatcher,
+  ForStatementMatcher,
 };

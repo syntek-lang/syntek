@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../../structures/token';
 
-class If extends Token {
+export class If extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(If, /^if(?!\w)/);
+export const IfMatcher = new TokenMatcher(If, /^if(?!\w)/);

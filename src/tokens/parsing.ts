@@ -8,9 +8,9 @@ import Statement from './parsing/statements/Statement';
 import Indent from './Indent';
 import Outdent from './Outdent';
 
-import expressions from './parsing/expressions';
-import declarations from './parsing/declarations';
-import statements from './parsing/statements';
+import expressions, { matchers as expressionMatchers } from './parsing/expressions';
+import declarations, { matchers as declarationMatchers } from './parsing/declarations';
+import statements, { matchers as statementMatchers } from './parsing/statements';
 
 Body.setRule($.WRAPPED(
   Indent,
@@ -25,11 +25,17 @@ Body.setRule($.WRAPPED(
 ));
 
 export default {
-  // Priority
-  FunctionDeclaration: declarations.FunctionDeclaration,
-
-  // Others
   ...expressions,
   ...declarations,
   ...statements,
+};
+
+export const matchers = {
+  // Priority
+  FunctionDeclarationMatcher: declarationMatchers.FunctionDeclarationMatcher,
+
+  // Others
+  ...expressionMatchers,
+  ...declarationMatchers,
+  ...statementMatchers,
 };

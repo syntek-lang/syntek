@@ -3,13 +3,13 @@ import { Token, TokenMatcher } from '../../../structures/token';
 
 import tokens from '../../lexing';
 
-import VariableDeclaration from './VariableDeclaration';
-import FunctionDeclaration from './FunctionDeclaration';
+import { VariableDeclaration } from './VariableDeclaration';
+import { FunctionDeclaration } from './FunctionDeclaration';
 
 import Indent from '../../Indent';
 import Outdent from '../../Outdent';
 
-class ClassDeclaration extends Token {
+export class ClassDeclaration extends Token {
   /**
    * The identifier of the class declaration
    */
@@ -30,7 +30,7 @@ class ClassDeclaration extends Token {
     while (i < matchedTokens[2].length - 1) {
       let isStatic = false;
 
-      if (matchedTokens[2][i] instanceof tokens.Static.Class) {
+      if (matchedTokens[2][i] instanceof tokens.Static) {
         isStatic = true;
         i += 1;
       }
@@ -45,7 +45,7 @@ class ClassDeclaration extends Token {
   }
 }
 
-export default new TokenMatcher(ClassDeclaration, $.SEQ(
+export const ClassDeclarationMatcher = new TokenMatcher(ClassDeclaration, $.SEQ(
   tokens.Class,
   tokens.Symbol,
 

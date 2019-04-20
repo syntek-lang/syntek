@@ -2,25 +2,25 @@ import { $ } from '../../../structures/rule';
 import tokens from '../../lexing';
 
 import Expression from './Expression';
-import NewExpression from './NewExpression';
-import MemberExpression from './MemberExpression';
-import ExpressionStatement from './ExpressionStatement';
-import WrappedExpression from './WrappedExpression';
-import ComparisonExpression from './ComparisonExpression';
-import NotExpression from './NotExpression';
-import LogicalExpression from './LogicalExpression';
+import { NewExpression, NewExpressionMatcher } from './NewExpression';
+import { MemberExpression, MemberExpressionMatcher } from './MemberExpression';
+import { ExpressionStatement, ExpressionStatementMatcher } from './ExpressionStatement';
+import { WrappedExpression, WrappedExpressionMatcher } from './WrappedExpression';
+import { ComparisonExpression, ComparisonExpressionMatcher } from './ComparisonExpression';
+import { NotExpression, NotExpressionMatcher } from './NotExpression';
+import { LogicalExpression, LogicalExpressionMatcher } from './LogicalExpression';
 
-import ArrayExpression from './ArrayExpression';
-import ObjectExpression from './ObjectExpression';
+import { ArrayExpression, ArrayExpressionMatcher } from './ArrayExpression';
+import { ObjectExpression, ObjectExpressionMatcher } from './ObjectExpression';
 
-import PowEquation from './math/PowEquation';
-import MdEquation from './math/MdEquation';
-import Equation from './math/Equation';
+import { PowEquation, PowEquationMatcher } from './math/PowEquation';
+import { MdEquation, MdEquationMatcher } from './math/MdEquation';
+import { Equation, EquationMatcher } from './math/Equation';
 
 Expression.setRule($.OR(
-  tokens.Number,
-  tokens.Boolean,
-  tokens.String,
+  tokens.NumberLiteral,
+  tokens.BooleanLiteral,
+  tokens.StringLiteral,
   tokens.Symbol,
 
   NewExpression,
@@ -54,4 +54,20 @@ export default {
   PowEquation,
   MdEquation,
   Equation,
+};
+
+export const matchers = {
+  NewExpressionMatcher,
+  MemberExpressionMatcher,
+  ExpressionStatementMatcher,
+  WrappedExpressionMatcher,
+  ComparisonExpressionMatcher,
+  NotExpressionMatcher,
+  LogicalExpressionMatcher,
+  ArrayExpressionMatcher,
+  ObjectExpressionMatcher,
+
+  PowEquationMatcher,
+  MdEquationMatcher,
+  EquationMatcher,
 };

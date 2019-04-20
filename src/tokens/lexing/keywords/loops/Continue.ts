@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../../structures/token';
 
-class Continue extends Token {
+export class Continue extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Continue, /^continue(?!\w)/);
+export const ContinueMatcher = new TokenMatcher(Continue, /^continue(?!\w)/);

@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../../structures/token';
 
-class Or extends Token {
+export class Or extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Or, /^or(?!\w)/);
+export const OrMatcher = new TokenMatcher(Or, /^or(?!\w)/);

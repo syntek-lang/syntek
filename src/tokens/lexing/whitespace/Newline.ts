@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../structures/token';
 
-class Newline extends Token {
+export class Newline extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Newline, /^\r?\n/);
+export const NewlineMatcher = new TokenMatcher(Newline, /^\r?\n/);

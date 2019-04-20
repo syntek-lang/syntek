@@ -2,13 +2,13 @@ import { $ } from '../../../structures/rule';
 import { Token, TokenMatcher } from '../../../structures/token';
 
 import tokens from '../../lexing';
-import VariableDeclaration from '../declarations/VariableDeclaration';
-import FunctionDeclaration from '../declarations/FunctionDeclaration';
+import { VariableDeclaration } from '../declarations/VariableDeclaration';
+import { FunctionDeclaration } from '../declarations/FunctionDeclaration';
 
 import Indent from '../../Indent';
 import Outdent from '../../Outdent';
 
-class ObjectExpression extends Token {
+export class ObjectExpression extends Token {
   /**
    * The properties of the object
    */
@@ -25,7 +25,7 @@ class ObjectExpression extends Token {
   }
 }
 
-export default new TokenMatcher(ObjectExpression, $.WRAPPED(
+export const ObjectExpressionMatcher = new TokenMatcher(ObjectExpression, $.WRAPPED(
   $.SEQ(
     tokens.Lbrace,
     Indent,

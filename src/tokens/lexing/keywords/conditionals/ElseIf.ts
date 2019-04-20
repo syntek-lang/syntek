@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../../structures/token';
 
-class ElseIf extends Token {
+export class ElseIf extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(ElseIf, /^else if(?!\w)/);
+export const ElseIfMatcher = new TokenMatcher(ElseIf, /^else if(?!\w)/);

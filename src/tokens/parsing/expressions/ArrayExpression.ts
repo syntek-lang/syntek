@@ -4,7 +4,7 @@ import { Token, TokenMatcher } from '../../../structures/token';
 import tokens from '../../lexing';
 import Expression from './Expression';
 
-class ArrayExpression extends Token {
+export class ArrayExpression extends Token {
   /**
    * The elements of the array
    */
@@ -21,7 +21,7 @@ class ArrayExpression extends Token {
   }
 }
 
-export default new TokenMatcher(ArrayExpression, $.SEQ(
+export const ArrayExpressionMatcher = new TokenMatcher(ArrayExpression, $.SEQ(
   tokens.Lbra,
   $.MANY_SEP(
     Expression,

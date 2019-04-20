@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../../structures/token';
 
-class Equal extends Token {
+export class Equal extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Equal, /^=/);
+export const EqualMatcher = new TokenMatcher(Equal, /^=/);

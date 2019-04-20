@@ -5,7 +5,7 @@ import tokens from '../../../lexing';
 import Expression from '../../expressions/Expression';
 import Body from '../../Body';
 
-class WhileStatement extends Token {
+export class WhileStatement extends Token {
   /**
    * The condition of the while loop
    */
@@ -28,7 +28,7 @@ class WhileStatement extends Token {
   }
 }
 
-export default new TokenMatcher(WhileStatement, $.SEQ(
+export const WhileStatementMatcher = new TokenMatcher(WhileStatement, $.SEQ(
   tokens.While,
   Expression,
   Body,

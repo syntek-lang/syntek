@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../../structures/token';
 
-class Minus extends Token {
+export class Minus extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Minus, /^-/);
+export const MinusMatcher = new TokenMatcher(Minus, /^-/);

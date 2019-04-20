@@ -1,6 +1,6 @@
 import { TokenMatcher } from '../../../structures/token';
 import Literal from './Literal';
 
-class BooleanLiteral extends Literal {}
+export class BooleanLiteral extends Literal {}
 
-export default new TokenMatcher(BooleanLiteral, /^(true|false)(?!\w)/);
+export const BooleanLiteralMatcher = new TokenMatcher(BooleanLiteral, /^(true|false)(?!\w)/);

@@ -5,7 +5,7 @@ import tokens from '../../lexing';
 import Body from '../Body';
 import TypeKeyword from '../TypeKeyword';
 
-class FunctionDeclaration extends Token {
+export class FunctionDeclaration extends Token {
   /**
    * The identifier of the function
    */
@@ -46,7 +46,7 @@ class FunctionDeclaration extends Token {
   }
 }
 
-export default new TokenMatcher(FunctionDeclaration, $.SEQ(
+export const FunctionDeclarationMatcher = new TokenMatcher(FunctionDeclaration, $.SEQ(
   tokens.Function,
   tokens.Symbol,
 

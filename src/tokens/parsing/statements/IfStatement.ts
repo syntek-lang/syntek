@@ -5,7 +5,7 @@ import tokens from '../../lexing';
 import Expression from '../expressions/Expression';
 import Body from '../Body';
 
-class IfStatement extends Token {
+export class IfStatement extends Token {
   /**
    * The `if`, `else if` and `else` statement conditions and bodies
    */
@@ -41,7 +41,7 @@ class IfStatement extends Token {
   }
 }
 
-export default new TokenMatcher(IfStatement, $.SEQ(
+export const IfStatementMatcher = new TokenMatcher(IfStatement, $.SEQ(
   // if
   tokens.If,
   Expression,

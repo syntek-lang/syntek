@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../structures/token';
 
-class Lbra extends Token {
+export class Lbra extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Lbra, /^\[/);
+export const LbraMatcher = new TokenMatcher(Lbra, /^\[/);

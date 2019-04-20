@@ -1,4 +1,4 @@
-export { default as IsNot } from './IsNot';
-export { default as IsGreaterThan } from './IsGreaterThan';
-export { default as IsLessThan } from './IsLessThan';
-export { default as Is } from './Is';
+export * from './IsNot';
+export * from './IsGreaterThan';
+export * from './IsLessThan';
+export * from './Is';

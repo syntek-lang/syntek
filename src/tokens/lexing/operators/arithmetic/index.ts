@@ -1,6 +1,6 @@
-export { default as Pow } from './Pow';
-export { default as Star } from './Star';
-export { default as Slash } from './Slash';
-export { default as Modulo } from './Modulo';
-export { default as Plus } from './Plus';
-export { default as Minus } from './Minus';
+export * from './Pow';
+export * from './Star';
+export * from './Slash';
+export * from './Modulo';
+export * from './Plus';
+export * from './Minus';

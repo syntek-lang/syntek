@@ -3,9 +3,9 @@ import { Token, TokenMatcher } from '../../../structures/token';
 
 import tokens from '../../lexing';
 import Expression from './Expression';
-import MemberExpression from './MemberExpression';
+import { MemberExpression } from './MemberExpression';
 
-class ExpressionStatement extends Token {
+export class ExpressionStatement extends Token {
   /**
    * The type of the expression. Either `function` for function calls, or `array`
    * for accessing array elements.
@@ -26,7 +26,7 @@ class ExpressionStatement extends Token {
   constructor(location, matchedTokens) {
     super(location, matchedTokens);
 
-    this.type = matchedTokens[1][0] instanceof tokens.Lpar.Class ? 'function' : 'array';
+    this.type = matchedTokens[1][0] instanceof tokens.Lpar ? 'function' : 'array';
 
     this.callee = matchedTokens[0];
     if (this.type === 'function') {
@@ -45,7 +45,7 @@ class ExpressionStatement extends Token {
   }
 }
 
-export default new TokenMatcher(ExpressionStatement, $.SEQ(
+export const ExpressionStatementMatcher = new TokenMatcher(ExpressionStatement, $.SEQ(
   $.OR(
     tokens.Symbol,
     MemberExpression,

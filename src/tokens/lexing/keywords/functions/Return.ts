@@ -1,9 +1,9 @@
 import { Token, TokenMatcher } from '../../../../structures/token';
 
-class Return extends Token {
+export class Return extends Token {
   build(): string {
     return '';
   }
 }
 
-export default new TokenMatcher(Return, /^return(?!\w)/);
+export const ReturnMatcher = new TokenMatcher(Return, /^return(?!\w)/);

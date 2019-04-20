@@ -3,7 +3,7 @@ import { Token, TokenMatcher } from '../../../structures/token';
 
 import tokens from '../../lexing';
 
-class ImportDeclaration extends Token {
+export class ImportDeclaration extends Token {
   /**
    * The type of the import. `module` for predeclared modules, `file` for project files.
    */
@@ -22,7 +22,7 @@ class ImportDeclaration extends Token {
   constructor(location, matchedTokens) {
     super(location, matchedTokens);
 
-    this.type = matchedTokens[1] instanceof tokens.Symbol.Class ? 'module' : 'file';
+    this.type = matchedTokens[1] instanceof tokens.Symbol ? 'module' : 'file';
     this.source = matchedTokens[1];
 
     if (this.type === 'module') {
@@ -37,12 +37,12 @@ class ImportDeclaration extends Token {
   }
 }
 
-export default new TokenMatcher(ImportDeclaration, $.SEQ(
+export const ImportDeclarationMatcher = new TokenMatcher(ImportDeclaration, $.SEQ(
   tokens.Import,
 
   $.OR(
     tokens.Symbol,
-    tokens.String,
+    tokens.StringLiteral,
   ),
 
   $.OPT(
