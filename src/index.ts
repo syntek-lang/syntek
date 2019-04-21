@@ -38,4 +38,6 @@ const parsedCopy = JSON.parse(JSON.stringify(parsed));
 Utils.removeProps(parsedCopy, ['location', 'tokens']);
 (document.getElementById('tree') as HTMLElement).innerText = treeify.asTree(parsedCopy, true, true);
 
-analyzer(parsed as Program);
+analyzer(parsed as Program).forEach((report) => {
+  console[report.type](report.message);
+});

@@ -11,7 +11,11 @@ export default new Analyzer([
         .some(ancestor => ancestor instanceof FunctionDeclaration);
 
       if (nestedFunction) {
-        console.log(`You declared function '${token.id.raw}' inside another function, which is not allowed`);
+        context.report({
+          type: 'error',
+          message: `You declared function '${token.id.raw}' inside another function, which is not allowed`,
+          token,
+        });
       }
     },
   },

@@ -10,7 +10,7 @@ export default class Analyzer {
     this.listeners = listeners;
   }
 
-  run(type: 'enter' | 'exit', token: Token, context: AnalyzingContext) {
+  run(type: 'enter' | 'exit', token: Token, context: AnalyzingContext): void {
     for (const listener of this.listeners) {
       let matches;
 
