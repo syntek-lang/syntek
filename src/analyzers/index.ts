@@ -1,7 +1,7 @@
-import camalcase from './camalcase';
+import camelcase from './camelcase';
 import noNestedFunction from './no-nested-function';
 
 export default {
-  camalcase,
+  camelcase,
   noNestedFunction,
 };
