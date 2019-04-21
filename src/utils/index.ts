@@ -70,6 +70,10 @@ export default class Utils {
    * @param keys - The keys of the props that need to be removed
    */
   static removeProps(obj, keys) {
+    if (!obj) {
+      return;
+    }
+
     if (obj instanceof Array) {
       obj.forEach((item) => {
         Utils.removeProps(item, keys);
@@ -126,7 +130,7 @@ export default class Utils {
    */
   static findLastElement(arrayOrElement) {
     if (Array.isArray(arrayOrElement)) {
-      let index = arrayOrElement.length;
+      let index = arrayOrElement.length - 1;
 
       while (index >= 0) {
         if (Array.isArray(arrayOrElement[index]) && !arrayOrElement[index].length) {
@@ -138,7 +142,7 @@ export default class Utils {
         }
       }
 
-      return Utils.findLastElement(arrayOrElement[arrayOrElement.length - 1]);
+      return Utils.findLastElement(arrayOrElement[index]);
     }
 
     return arrayOrElement;

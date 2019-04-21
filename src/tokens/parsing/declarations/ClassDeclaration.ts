@@ -1,5 +1,5 @@
 import { $ } from '../../../structures/rule';
-import { Token, TokenMatcher } from '../../../structures/token';
+import { Token, TokenMatcher, DeclarationToken } from '../../../structures/token';
 
 import tokens from '../../lexing';
 
@@ -9,21 +9,14 @@ import { FunctionDeclaration } from './FunctionDeclaration';
 import Indent from '../../Indent';
 import Outdent from '../../Outdent';
 
-export class ClassDeclaration extends Token {
-  /**
-   * The identifier of the class declaration
-   */
-  readonly id: Token;
-
+export class ClassDeclaration extends DeclarationToken {
   /**
    * The body of the class
    */
   readonly body: { isStatic: boolean, token: Token }[] = [];
 
   constructor(location, matchedTokens) {
-    super(location, matchedTokens);
-
-    this.id = matchedTokens[1];
+    super(matchedTokens[1], location, matchedTokens);
 
     // Add body
     let i = 1;

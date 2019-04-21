@@ -1,20 +1,16 @@
 import { $ } from '../../../structures/rule';
-import { Token, TokenMatcher } from '../../../structures/token';
+import { Token, TokenMatcher, DeclarationToken } from '../../../structures/token';
 
 import tokens from '../../lexing';
 import Body from '../Body';
 import TypeKeyword from '../TypeKeyword';
+import { Symbol } from '../../lexing/literals/Symbol';
 
-export class FunctionDeclaration extends Token {
-  /**
-   * The identifier of the function
-   */
-  readonly id: Token;
-
+export class FunctionDeclaration extends DeclarationToken {
   /**
    * The parameters of the function
    */
-  readonly params: { type: Token, id: Token}[];
+  readonly params: { type: Token, id: Symbol }[];
 
   /**
    * The return value of the function
@@ -27,9 +23,7 @@ export class FunctionDeclaration extends Token {
   readonly body: Token[];
 
   constructor(location, matchedTokens) {
-    super(location, matchedTokens);
-
-    this.id = matchedTokens[1];
+    super(matchedTokens[1], location, matchedTokens);
 
     this.params = matchedTokens[3]
       .filter((_, index) => index % 2 === 0)

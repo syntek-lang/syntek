@@ -13,7 +13,7 @@ export default new Analyzer([
       if (nestedFunction) {
         context.report({
           type: 'error',
-          message: `You declared function '${token.id.raw}' inside another function, which is not allowed`,
+          message: `You declared function '${token.id}' inside another function, which is not allowed`,
           token,
         });
       }

@@ -15,7 +15,7 @@ import * as tests from './tests';
 console.log(lexingTokens);
 console.log(parsingTokens);
 
-const input = tests.incorrect.functionInsideFunction;
+const input = tests.incorrect.duplicateSymbols;
 const fileName = 'test';
 
 (document.getElementById('input') as HTMLElement).innerText = input;
@@ -39,5 +39,7 @@ Utils.removeProps(parsedCopy, ['location', 'tokens']);
 (document.getElementById('tree') as HTMLElement).innerText = treeify.asTree(parsedCopy, true, true);
 
 analyzer(parsed as Program).forEach((report) => {
-  console[report.type](report.message);
+  const location = `${report.token.location.start}-${report.token.location.end}`;
+
+  console[report.type](`${Utils.padRight(location, 8)} | ${report.message}`);
 });

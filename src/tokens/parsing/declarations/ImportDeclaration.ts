@@ -1,9 +1,9 @@
 import { $ } from '../../../structures/rule';
-import { Token, TokenMatcher } from '../../../structures/token';
+import { Token, TokenMatcher, DeclarationToken } from '../../../structures/token';
 
 import tokens from '../../lexing';
 
-export class ImportDeclaration extends Token {
+export class ImportDeclaration extends DeclarationToken {
   /**
    * The type of the import. `module` for predeclared modules, `file` for project files.
    */
@@ -14,22 +14,21 @@ export class ImportDeclaration extends Token {
    */
   readonly source: Token;
 
-  /**
-   * The identifier that the module is loaded under
-   */
-  readonly id: Token;
-
   constructor(location, matchedTokens) {
-    super(location, matchedTokens);
+    const type = matchedTokens[1] instanceof tokens.Symbol ? 'module' : 'file';
+    const source = matchedTokens[1];
 
-    this.type = matchedTokens[1] instanceof tokens.Symbol ? 'module' : 'file';
-    this.source = matchedTokens[1];
-
-    if (this.type === 'module') {
-      this.id = matchedTokens[2][1] || this.source;
+    let id;
+    if (type === 'module') {
+      id = matchedTokens[2][1] || source;
     } else {
-      this.id = matchedTokens[2][1];
+      id = matchedTokens[2][1];
     }
+
+    super(id, location, matchedTokens);
+
+    this.type = type;
+    this.source = source;
   }
 
   build(): string {

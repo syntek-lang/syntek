@@ -23,7 +23,7 @@ export default class Analyzer {
       if (matches) {
         if (type === 'enter' && listener.enter) {
           listener.enter(token, context);
-        } else if (listener.exit) {
+        } else if (type === 'exit' && listener.exit) {
           listener.exit(token, context);
         }
       }

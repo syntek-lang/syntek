@@ -1,5 +1,5 @@
 import { $ } from '../../../structures/rule';
-import { Token, TokenMatcher } from '../../../structures/token';
+import { Token, TokenMatcher, DeclarationToken } from '../../../structures/token';
 
 import tokens from '../../lexing';
 import Expression from '../expressions/Expression';
@@ -8,7 +8,7 @@ import { ArrayExpression } from '../expressions/ArrayExpression';
 
 import TypeKeyword from '../TypeKeyword';
 
-export class VariableDeclaration extends Token {
+export class VariableDeclaration extends DeclarationToken {
   /**
    * The type of the variable
    */
@@ -20,17 +20,12 @@ export class VariableDeclaration extends Token {
   readonly array: boolean;
 
   /**
-   * The identifier of the variable
-   */
-  readonly id: Token;
-
-  /**
    * The initial value of the variable
    */
   readonly init: Token;
 
   constructor(location, matchedTokens) {
-    super(location, matchedTokens);
+    super(matchedTokens[1], location, matchedTokens);
 
     if (matchedTokens[0].length) {
       this.type = matchedTokens[0][0];
@@ -40,7 +35,6 @@ export class VariableDeclaration extends Token {
       }
     }
 
-    this.id = matchedTokens[1];
     this.init = matchedTokens[3];
   }
 
