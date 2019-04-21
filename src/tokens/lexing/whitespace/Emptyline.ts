@@ -6,4 +6,4 @@ export class Emptyline extends Token {
   }
 }
 
-export const EmptylineMatcher = new TokenMatcher(Emptyline, /^(\r?\n[ \t\f]*\r?\n)+/);
+export const EmptylineMatcher = new TokenMatcher(Emptyline, /^\s+$/m);
