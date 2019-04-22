@@ -58,3 +58,9 @@ else if x is 7
 	print('x is 7')
 else
 	print(x)`;
+
+export const classDeclaration = `class MyClass
+	x = 10
+
+	function MyClass(x)
+		this.x = x`;

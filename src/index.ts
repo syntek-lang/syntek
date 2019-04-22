@@ -15,7 +15,7 @@ import * as tests from './tests';
 console.log(lexingTokens);
 console.log(parsingTokens);
 
-const input = tests.incorrect.duplicateSymbols;
+const input = tests.correct.classDeclaration;
 const fileName = 'test';
 
 (document.getElementById('input') as HTMLElement).innerText = input;
