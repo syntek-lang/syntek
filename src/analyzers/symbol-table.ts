@@ -1,6 +1,5 @@
 import { Token } from '../structures/token';
 import Analyzer from '../structures/analyzer/Analyzer';
-import SymbolTable from '../structures/analyzer/SymbolTable';
 import AnalyzingContext from '../structures/analyzer/AnalyzingContext';
 
 import Program from '../tokens/parsing/Program';
@@ -66,24 +65,22 @@ function reportAlreadyDeclared(
   }
 }
 
-const symbolTable: SymbolTable = new SymbolTable();
-
 export default new Analyzer([
   {
     token: Program,
-    exit(token) {
-      console.log('Global scope', symbolTable.getSymbols(token));
-      console.log('All declarations', symbolTable.symbols);
+    exit(token, context) {
+      console.log('Global scope', context.symbolTable.getSymbols(token));
+      console.log('All declarations', context.symbolTable.symbols);
     },
   },
   {
     token: FunctionDeclaration,
     enter(token: FunctionDeclaration, context) {
-      const scope = symbolTable.getScope(context.ancestors);
+      const scope = context.symbolTable.getScope(context.ancestors);
 
       // Check function name
       if (scope instanceof ClassDeclaration) {
-        const alreadyDeclared = symbolTable
+        const alreadyDeclared = context.symbolTable
           .getSymbols(scope)
           .some(symbol => symbol.id === token.id);
 
@@ -95,34 +92,34 @@ export default new Analyzer([
           });
         }
       } else {
-        for (const symbol of symbolTable.getSymbols(token, context.ancestors)) {
+        for (const symbol of context.symbolTable.getSymbols(token, context.ancestors)) {
           if (symbol.id === token.id) {
             reportAlreadyDeclared(token, token.id, symbol, context);
           }
         }
       }
 
-      symbolTable.add(token, symbolTable.getScope(context.ancestors));
+      context.symbolTable.add(token, context.symbolTable.getScope(context.ancestors));
 
       // Check function parameters
       token.params.forEach((param) => {
-        for (const symbol of symbolTable.getSymbols(token, context.ancestors)) {
+        for (const symbol of context.symbolTable.getSymbols(token, context.ancestors)) {
           if (symbol.id === param.id.id) {
             reportAlreadyDeclared(param.id, param.id.id, symbol, context);
           }
         }
 
-        symbolTable.add(param.id, token);
+        context.symbolTable.add(param.id, token);
       });
     },
   },
   {
     token: VariableDeclaration,
     enter(token: VariableDeclaration, context) {
-      const scope = symbolTable.getScope(context.ancestors);
+      const scope = context.symbolTable.getScope(context.ancestors);
 
       if (scope instanceof ClassDeclaration || scope instanceof ObjectExpression) {
-        const alreadyDeclared = symbolTable
+        const alreadyDeclared = context.symbolTable
           .getSymbols(scope)
           .some(symbol => symbol.id === token.id);
 
@@ -134,14 +131,14 @@ export default new Analyzer([
           });
         }
 
-        symbolTable.add(token, scope);
+        context.symbolTable.add(token, scope);
       } else {
-        const alreadyDeclared = symbolTable
+        const alreadyDeclared = context.symbolTable
           .getSymbols(token, context.ancestors)
           .some(symbol => symbol instanceof VariableDeclaration && symbol.id === token.id);
 
         if (!alreadyDeclared) {
-          symbolTable.add(token, scope);
+          context.symbolTable.add(token, scope);
         }
       }
     },
@@ -149,25 +146,25 @@ export default new Analyzer([
   {
     token: ClassDeclaration,
     enter(token: ClassDeclaration, context) {
-      for (const symbol of symbolTable.getSymbols(token, context.ancestors)) {
+      for (const symbol of context.symbolTable.getSymbols(token, context.ancestors)) {
         if (symbol.id === token.id) {
           reportAlreadyDeclared(token, token.id, symbol, context);
         }
       }
 
-      symbolTable.add(token, symbolTable.getScope(context.ancestors));
+      context.symbolTable.add(token, context.symbolTable.getScope(context.ancestors));
     },
   },
   {
     token: ImportDeclaration,
     enter(token: ImportDeclaration, context) {
-      for (const symbol of symbolTable.getSymbols(token, context.ancestors)) {
+      for (const symbol of context.symbolTable.getSymbols(token, context.ancestors)) {
         if (symbol.id === token.id) {
           reportAlreadyDeclared(token, token.id, symbol, context);
         }
       }
 
-      symbolTable.add(token, symbolTable.getScope(context.ancestors));
+      context.symbolTable.add(token, context.symbolTable.getScope(context.ancestors));
     },
   },
 ]);
