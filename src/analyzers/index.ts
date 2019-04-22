@@ -1,11 +1,11 @@
 import symbolTable from './symbol-table';
 
-import camelcase from './camelcase';
 import noNestedFunction from './no-nested-function';
+import variableCasing from './variable-casing';
 
 export default {
   symbolTable,
 
-  camelcase,
   noNestedFunction,
+  variableCasing,
 };

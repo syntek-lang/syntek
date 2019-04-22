@@ -62,5 +62,5 @@ else
 export const classDeclaration = `class MyClass
 	x = 10
 
-	function MyClass(x)
-		this.x = x`;
+	function printX()
+		print(this.x)`;
