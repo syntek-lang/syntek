@@ -1,6 +1,8 @@
 import { Token, TokenClass, DeclarationToken } from '../token';
+
 import { FunctionDeclaration } from '../../tokens/parsing/declarations/FunctionDeclaration';
 import { ClassDeclaration } from '../../tokens/parsing/declarations/ClassDeclaration';
+import { ObjectExpression } from '../../tokens/parsing/expressions/ObjectExpression';
 import Program from '../../tokens/parsing/Program';
 
 import { Symbol } from '../../tokens/lexing/literals/Symbol';
@@ -8,6 +10,7 @@ import { Symbol } from '../../tokens/lexing/literals/Symbol';
 const scopes: TokenClass[] = [
   FunctionDeclaration,
   ClassDeclaration,
+  ObjectExpression,
   Program,
 ];
 

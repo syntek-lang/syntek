@@ -1,11 +1,70 @@
+import { Token } from '../structures/token';
 import Analyzer from '../structures/analyzer/Analyzer';
 import SymbolTable from '../structures/analyzer/SymbolTable';
+import AnalyzingContext from '../structures/analyzer/AnalyzingContext';
 
 import Program from '../tokens/parsing/Program';
 import { FunctionDeclaration } from '../tokens/parsing/declarations/FunctionDeclaration';
 import { VariableDeclaration } from '../tokens/parsing/declarations/VariableDeclaration';
 import { ClassDeclaration } from '../tokens/parsing/declarations/ClassDeclaration';
 import { ImportDeclaration } from '../tokens/parsing/declarations/ImportDeclaration';
+import { ObjectExpression } from '../tokens/parsing/expressions/ObjectExpression';
+
+/**
+ * Report a token already being declared
+ *
+ * @param token - The token that is trying to be declared
+ * @param name - The name of the token
+ * @param symbol - The symbol that is already declared
+ * @param context - The context object
+ */
+function reportAlreadyDeclared(
+  token: Token,
+  name: string,
+  symbol: Token,
+  context: AnalyzingContext,
+): void {
+  switch (symbol.constructor) {
+    case FunctionDeclaration:
+      context.report({
+        type: 'error',
+        message: `The name '${name}' is already used by a function`,
+        token,
+      });
+      break;
+
+    case VariableDeclaration:
+      context.report({
+        type: 'error',
+        message: `The name '${name}' is already used by a variable`,
+        token,
+      });
+      break;
+
+    case ClassDeclaration:
+      context.report({
+        type: 'error',
+        message: `The name '${name}' is already used by a class`,
+        token,
+      });
+      break;
+
+    case ImportDeclaration:
+      context.report({
+        type: 'error',
+        message: `The name '${name}' is already used by an import`,
+        token,
+      });
+      break;
+
+    default:
+      context.report({
+        type: 'warn',
+        message: 'Something went wrong',
+        token,
+      });
+  }
+}
 
 const symbolTable: SymbolTable = new SymbolTable();
 
@@ -20,57 +79,38 @@ export default new Analyzer([
   {
     token: FunctionDeclaration,
     enter(token: FunctionDeclaration, context) {
-      const symbols = symbolTable.getSymbols(token, context.ancestors);
+      const scope = symbolTable.getScope(context.ancestors);
 
-      // TODO: Move this logic to a different analyzer
-      for (const symbol of symbols) {
-        if (symbol.id === token.id) {
-          switch (symbol.constructor) {
-            case FunctionDeclaration:
-              context.report({
-                type: 'error',
-                message: `The name '${token.id}' is already used by a function`,
-                token,
-              });
-              break;
+      // Check function name
+      if (scope instanceof ClassDeclaration) {
+        const alreadyDeclared = symbolTable
+          .getSymbols(scope)
+          .some(symbol => symbol.id === token.id);
 
-            case VariableDeclaration:
-              context.report({
-                type: 'error',
-                message: `The name '${token.id}' is already used by a variable`,
-                token,
-              });
-              break;
-
-            case ClassDeclaration:
-              context.report({
-                type: 'error',
-                message: `The name '${token.id}' is already used by a class`,
-                token,
-              });
-              break;
-
-            case ImportDeclaration:
-              context.report({
-                type: 'error',
-                message: `The name '${token.id}' is already used by an import`,
-                token,
-              });
-              break;
-
-            default:
-              context.report({
-                type: 'warn',
-                message: 'Something went wrong',
-                token,
-              });
+        if (alreadyDeclared) {
+          context.report({
+            type: 'error',
+            message: `The name ${token.id} is already used in the class`,
+            token,
+          });
+        }
+      } else {
+        for (const symbol of symbolTable.getSymbols(token, context.ancestors)) {
+          if (symbol.id === token.id) {
+            reportAlreadyDeclared(token, token.id, symbol, context);
           }
         }
       }
 
       symbolTable.add(token, symbolTable.getScope(context.ancestors));
+
+      // Check function parameters
       token.params.forEach((param) => {
-        // TODO: Check whether param.id is already declared in the scope
+        for (const symbol of symbolTable.getSymbols(token, context.ancestors)) {
+          if (symbol.id === param.id.id) {
+            reportAlreadyDeclared(param.id, param.id.id, symbol, context);
+          }
+        }
 
         symbolTable.add(param.id, token);
       });
@@ -79,15 +119,41 @@ export default new Analyzer([
   {
     token: VariableDeclaration,
     enter(token: VariableDeclaration, context) {
-      // TODO: Do name checks
+      const scope = symbolTable.getScope(context.ancestors);
 
-      symbolTable.add(token, symbolTable.getScope(context.ancestors));
+      if (scope instanceof ClassDeclaration || scope instanceof ObjectExpression) {
+        const alreadyDeclared = symbolTable
+          .getSymbols(scope)
+          .some(symbol => symbol.id === token.id);
+
+        if (alreadyDeclared) {
+          context.report({
+            type: 'error',
+            message: `The name '${token.id}' is already declared in the class/object`,
+            token,
+          });
+        }
+
+        symbolTable.add(token, scope);
+      } else {
+        const alreadyDeclared = symbolTable
+          .getSymbols(token, context.ancestors)
+          .some(symbol => symbol instanceof VariableDeclaration && symbol.id === token.id);
+
+        if (!alreadyDeclared) {
+          symbolTable.add(token, scope);
+        }
+      }
     },
   },
   {
     token: ClassDeclaration,
     enter(token: ClassDeclaration, context) {
-      // TODO: Do name checks
+      for (const symbol of symbolTable.getSymbols(token, context.ancestors)) {
+        if (symbol.id === token.id) {
+          reportAlreadyDeclared(token, token.id, symbol, context);
+        }
+      }
 
       symbolTable.add(token, symbolTable.getScope(context.ancestors));
     },
@@ -95,7 +161,11 @@ export default new Analyzer([
   {
     token: ImportDeclaration,
     enter(token: ImportDeclaration, context) {
-      // TODO: Do name checks
+      for (const symbol of symbolTable.getSymbols(token, context.ancestors)) {
+        if (symbol.id === token.id) {
+          reportAlreadyDeclared(token, token.id, symbol, context);
+        }
+      }
 
       symbolTable.add(token, symbolTable.getScope(context.ancestors));
     },
