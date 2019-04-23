@@ -15,7 +15,7 @@ import * as tests from './tests';
 console.log(lexingTokens);
 console.log(parsingTokens);
 
-const input = tests.correct.classDeclaration;
+const input = tests.correct.expressionChain;
 const fileName = 'test';
 
 (document.getElementById('input') as HTMLElement).innerText = input;

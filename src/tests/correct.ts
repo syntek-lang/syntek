@@ -64,3 +64,5 @@ export const classDeclaration = `class MyClass
 
 	function printX()
 		print(this.x)`;
+
+export const expressionChain = 'a.b().c';

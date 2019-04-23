@@ -2,6 +2,7 @@ import { $ } from '../../../structures/rule';
 import { Token, TokenMatcher } from '../../../structures/token';
 
 import tokens from '../../lexing';
+import Expression from './Expression';
 
 export class MemberExpression extends Token {
   /**
@@ -28,9 +29,8 @@ export class MemberExpression extends Token {
 
 export const MemberExpressionMatcher = new TokenMatcher(MemberExpression, $.SEQ(
   $.OR(
-    tokens.Symbol,
     tokens.This,
-    MemberExpression,
+    Expression,
   ),
   tokens.Dot,
   tokens.Symbol,
