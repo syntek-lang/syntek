@@ -12,7 +12,7 @@ export class VariableDeclaration extends DeclarationToken {
   /**
    * The type of the variable
    */
-  readonly type: Token;
+  readonly type?: Token;
 
   /**
    * Whether the variable is an array
@@ -29,10 +29,9 @@ export class VariableDeclaration extends DeclarationToken {
 
     if (matchedTokens[0].length) {
       this.type = matchedTokens[0][0];
-
-      if (matchedTokens[0][1] instanceof ArrayExpression) {
-        this.array = true;
-      }
+      this.array = matchedTokens[0][1] instanceof ArrayExpression;
+    } else {
+      this.array = false;
     }
 
     this.init = matchedTokens[3];
