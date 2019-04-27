@@ -1,6 +1,6 @@
 import Struct from './Struct';
-import DataType from './DataType';
-import { Context } from '../handlers';
+import DataType from '../DataType';
+import { Context } from '../../handlers';
 
 export default class VariableStruct implements Struct {
   readonly type: DataType;

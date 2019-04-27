@@ -1,5 +1,5 @@
-import DataType from './DataType';
-import { Context } from '../handlers';
+import DataType from '../DataType';
+import { Context } from '../../handlers';
 
 interface Struct {
   type: DataType;

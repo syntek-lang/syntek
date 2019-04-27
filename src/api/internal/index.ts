@@ -19,9 +19,9 @@ printValues()
 
 const syntek: Syntek = new Syntek();
 
-syntek.context.declareFunction('print', [DataType.ANY], function (item) {
-  console.log(item.toString());
-});
+syntek.context.declareFunction('print', [{ type: DataType.ANY, name: 'item' }], function () {
+  console.log(this.getVariable('item').toString());
+}, DataType.ANY);
 
 syntek.createProgram(function () {
   this.declareFunction('printValues', [], function () {
@@ -35,7 +35,7 @@ syntek.createProgram(function () {
     ));
 
     this.executeFunction('print', [this.getVariable('sum')]);
-  });
+  }, DataType.ANY);
 
   this.executeFunction('printValues', []);
 });

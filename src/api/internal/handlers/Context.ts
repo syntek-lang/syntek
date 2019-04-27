@@ -1,5 +1,5 @@
 import {
-  Struct, FunctionStruct, VariableStruct, DataType, ContextFunction,
+  Struct, FunctionStruct, VariableStruct, DataType, ContextFunction, ParameterList,
 } from '../structures';
 
 export default class Context {
@@ -14,9 +14,9 @@ export default class Context {
 
   declareFunction(
     name: string,
-    parameters: DataType[],
+    parameters: ParameterList,
     body: ContextFunction,
-    returnType?: DataType,
+    returnType: DataType,
   ): void {
     this.scope[name] = new FunctionStruct(parameters, body, returnType);
   }

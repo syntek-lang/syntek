@@ -1,5 +1,5 @@
 import Struct from './Struct';
-import DataType from './DataType';
+import DataType from '../DataType';
 
 export default class NumberStruct implements Struct {
   readonly type = DataType.NUMBER;

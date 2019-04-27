@@ -1,5 +1,4 @@
-import Struct from './Struct';
 import { Context } from '../handlers';
 
-type ContextFunction = (this: Context, ...params: Struct[]) => any;
+type ContextFunction = (this: Context) => any;
 export default ContextFunction;
