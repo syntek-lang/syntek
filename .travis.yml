@@ -7,8 +7,11 @@ cache: npm
 
 jobs:
   include:
-    - stage: Test
+    - stage: Build
       script: npm run build
       name: "Build"
     - script: npm run lint
       name: "Lint"
+    - stage: Test
+      script: npm run test:api
+      name: "API"

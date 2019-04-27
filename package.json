@@ -4,11 +4,12 @@
   "description": "A programming language for beginners",
   "main": "index.js",
   "scripts": {
-    "test": "npm run build && npm run lint",
+    "test": "npm run build && npm run lint && npm run test:api",
     "build": "webpack",
     "build:watch": "webpack --watch",
     "lint": "eslint src --ext .js,.ts",
-    "lint:fix": "eslint src --fix --ext .js,.ts"
+    "lint:fix": "eslint src --fix --ext .js,.ts",
+    "test:api": "mocha -r ts-node/register tests/**/*.test.ts"
   },
   "repository": {
     "type": "git",
@@ -24,12 +25,17 @@
     "treeify": "^1.1.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
     "@typescript-eslint/eslint-plugin": "^1.6.0",
     "@typescript-eslint/parser": "^1.6.0",
+    "chai": "^4.2.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
+    "mocha": "^6.1.4",
     "ts-loader": "^5.3.3",
+    "ts-node": "^8.1.0",
     "typescript": "^3.4.2",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0"

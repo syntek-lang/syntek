@@ -35,4 +35,12 @@ module.exports = {
     'no-useless-constructor': 'off',
     'no-dupe-class-members': 'off',
   },
+  overrides: [
+    {
+      files: ['*.test.ts'],
+      rules: {
+        'no-unused-expressions': 'off',
+      },
+    },
+  ],
 };
