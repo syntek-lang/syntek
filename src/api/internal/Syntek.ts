@@ -1,11 +1,11 @@
 import { Context, LiteralHandler, MathHandler } from './handlers';
 
 export default class Syntek {
-  readonly context = new Context();
+  readonly context: Context = new Context();
 
-  readonly literalHandler = new LiteralHandler();
+  readonly literalHandler: LiteralHandler = new LiteralHandler();
 
-  readonly mathHandler = new MathHandler();
+  readonly mathHandler: MathHandler = new MathHandler();
 
   createProgram(body: (this: Context) => void) {
     body.call(this.context);

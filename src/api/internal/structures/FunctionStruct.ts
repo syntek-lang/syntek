@@ -33,7 +33,7 @@ export default class FunctionStruct implements Struct {
       }
     }
 
-    return this.body.call(context, ...params);
+    return this.body.call(context.dupe(), ...params);
   }
 
   toString() {
