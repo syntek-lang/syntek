@@ -19,27 +19,25 @@ printValues()
 
 const syntek: Syntek = new Syntek();
 
-syntek.declarationHandler.declareFunction('print', [DataType.ANY], function (item) {
+syntek.context.declareFunction('print', [DataType.ANY], function (item) {
   console.log(item.toString());
 });
 
-syntek.declarationHandler.declareFunction('main', [], function () {
-  syntek.declarationHandler.declareFunction('printValues', [], function () {
-    syntek.declarationHandler.declareVariable('sum', syntek.literalHandler.number(5));
+syntek.createProgram(function () {
+  this.declareFunction('printValues', [], function () {
+    this.declareVariable('sum', syntek.literalHandler.number(5));
 
-    syntek.declarationHandler.executeFunction('print', [syntek.declarationHandler.getVariable('sum')]);
+    this.executeFunction('print', [this.getVariable('sum')]);
 
-    syntek.declarationHandler.declareVariable('sum', syntek.mathHandler.add(
-      syntek.declarationHandler.getVariable('sum'),
+    this.declareVariable('sum', syntek.mathHandler.add(
+      this.getVariable('sum'),
       syntek.literalHandler.number(10),
     ));
 
-    syntek.declarationHandler.executeFunction('print', [syntek.declarationHandler.getVariable('sum')]);
+    this.executeFunction('print', [this.getVariable('sum')]);
   });
 
-  syntek.declarationHandler.executeFunction('printValues', []);
+  this.executeFunction('printValues', []);
 });
-
-syntek.run();
 
 console.warn('Interpreter end');

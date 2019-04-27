@@ -1,8 +1,9 @@
 import DataType from './DataType';
+import { Context } from '../handlers';
 
 interface Struct {
   type: DataType;
-  call(...params: Struct[]): any;
+  exec(context: Context, ...params: Struct[]): any;
   toString(): string;
   toNumber(): number;
 }

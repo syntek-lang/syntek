@@ -10,7 +10,7 @@ export default class NumberStruct implements Struct {
     this.value = value;
   }
 
-  call() {
+  exec() {
     throw new Error('Number is not a function');
   }
 

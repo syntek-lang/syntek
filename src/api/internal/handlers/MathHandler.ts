@@ -1,5 +1,4 @@
-import Struct from '../structures/Struct';
-import NumberStruct from '../structures/NumberStruct';
+import { Struct, NumberStruct } from '../structures';
 
 export default class MathHandler {
   add(a: Struct, b: Struct): NumberStruct {

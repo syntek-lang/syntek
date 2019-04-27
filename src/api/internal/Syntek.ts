@@ -1,15 +1,13 @@
-import { DeclarationHandler, LiteralHandler, MathHandler } from './handlers';
+import { Context, LiteralHandler, MathHandler } from './handlers';
 
 export default class Syntek {
-  readonly declarationHandler = new DeclarationHandler();
+  readonly context = new Context();
 
   readonly literalHandler = new LiteralHandler();
 
   readonly mathHandler = new MathHandler();
 
-  run() {
-    const vars = this.declarationHandler.variables;
-
-    vars.main.call();
+  createProgram(body: (this: Context) => void) {
+    body.call(this.context);
   }
 }

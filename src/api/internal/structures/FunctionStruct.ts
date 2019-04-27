@@ -1,22 +1,28 @@
 import Struct from './Struct';
 import DataType from './DataType';
+import ContextFunction from './ContextFunction';
+import { Context } from '../handlers';
 
 export default class FunctionStruct implements Struct {
   readonly type = DataType.FUNCTION;
 
   readonly parameters: DataType[];
 
-  readonly body: (...params: Struct[]) => any;
+  readonly body: ContextFunction;
 
   readonly returnType?: DataType;
 
-  constructor(parameters: DataType[], body: (...params: Struct[]) => any, returnType?: DataType) {
+  constructor(
+    parameters: DataType[],
+    body: ContextFunction,
+    returnType?: DataType,
+  ) {
     this.parameters = parameters;
     this.body = body;
     this.returnType = returnType;
   }
 
-  call(...params: Struct[]) {
+  exec(context: Context, ...params: Struct[]) {
     if (params.length !== this.parameters.length) {
       throw new Error(`Expected ${this.parameters.length} parameters, received ${params.length}`);
     }
@@ -27,7 +33,7 @@ export default class FunctionStruct implements Struct {
       }
     }
 
-    return this.body(...params);
+    return this.body.call(context, ...params);
   }
 
   toString() {

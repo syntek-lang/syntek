@@ -1,4 +1,4 @@
-import NumberStruct from '../structures/NumberStruct';
+import { NumberStruct } from '../structures';
 
 export default class LiteralHandler {
   number(value: number) {
