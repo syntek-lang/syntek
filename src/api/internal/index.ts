@@ -16,7 +16,7 @@ syntek.createProgram(function () {
     this.declareVariable('model', syntek.literalHandler.number(500));
 
     this.declareFunction('honk', [], function () {
-      this.executeFunction('print', [syntek.literalHandler.number(5)]);
+      this.getVariable('print').exec(this, [syntek.literalHandler.number(5)]);
     }, DataType.ANY);
 
     this.declareVariable('nested', syntek.literalHandler.object(this, function () {
@@ -24,8 +24,8 @@ syntek.createProgram(function () {
     }));
   }));
 
-  this.getVariable('car').getProperty('honk').exec(this);
-  this.executeFunction('print', [this.getVariable('car').getProperty('nested').getProperty('num')]);
+  this.getVariable('car').getProperty('honk').exec(this, []);
+  this.getVariable('print').exec(this, [this.getVariable('car').getProperty('nested').getProperty('num')]);
 });
 
 console.warn('Interpreter end');

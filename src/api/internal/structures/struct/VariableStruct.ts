@@ -20,8 +20,8 @@ export default class VariableStruct implements Struct {
     return this.value.getProperty(name);
   }
 
-  exec(context: Context, ...params: Struct[]) {
-    return this.value.exec(context, ...params);
+  exec(context: Context, params: Struct[]) {
+    return this.value.exec(context, params);
   }
 
   toString() {

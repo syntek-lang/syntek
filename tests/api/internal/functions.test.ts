@@ -15,7 +15,7 @@ describe('Functions', () => {
         expect(this.getVariable('item').toNumber()).to.equal(5);
       }, DataType.ANY);
 
-      this.executeFunction('print', [syntek.literalHandler.number(5)]);
+      this.getVariable('print').exec(this, [syntek.literalHandler.number(5)]);
     });
   });
 
@@ -26,7 +26,7 @@ describe('Functions', () => {
       syntek.createProgram(function () {
         this.declareFunction('printString', [{ type: DataType.STRING, name: 'string' }], function () {}, DataType.ANY);
 
-        this.executeFunction('printString', [syntek.literalHandler.number(5)]);
+        this.getVariable('printString').exec(this, [syntek.literalHandler.number(5)]);
       });
     }).to.throw();
   });
@@ -39,7 +39,7 @@ describe('Functions', () => {
         return syntek.literalHandler.number(5);
       }, DataType.NUMBER);
 
-      const num: NumberStruct = this.executeFunction('get5', []);
+      const num: NumberStruct = this.getVariable('get5').exec(this, []);
       expect(num).to.be.an.instanceof(NumberStruct);
       expect(num.toNumber()).to.equal(5);
     });
@@ -54,7 +54,7 @@ describe('Functions', () => {
           return syntek.literalHandler.number(5);
         }, DataType.STRING);
 
-        this.executeFunction('returnString', []);
+        this.getVariable('returnString').exec(this, []);
       });
     }).to.throw();
   });

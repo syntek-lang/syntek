@@ -21,17 +21,6 @@ export default class Context {
     this.scope[name] = new FunctionStruct(name, parameters, body, returnType);
   }
 
-  executeFunction(name: string, parameters: Struct[]): any {
-    let func;
-    if (this.upperContext && this.upperContext.hasVariable(name)) {
-      func = this.upperContext.getVariable(name);
-    } else {
-      func = this.getVariable(name);
-    }
-
-    return func.exec(this, ...parameters);
-  }
-
   declareVariable(name: string, value: Struct): void {
     if (this.upperContext && this.upperContext.hasVariable(name)) {
       this.upperContext.declareVariable(name, value);

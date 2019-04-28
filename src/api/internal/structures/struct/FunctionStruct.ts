@@ -31,7 +31,7 @@ export default class FunctionStruct implements Struct {
     return this;
   }
 
-  exec(context: Context, ...params: Struct[]) {
+  exec(context: Context, params: Struct[]) {
     if (params.length !== this.parameters.length) {
       throw new Error(`Expected ${this.parameters.length} parameters, received ${params.length}`);
     }
