@@ -28,7 +28,7 @@ syntek.createProgram(function () {
       'changeX',
       [],
       function () {
-        this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(15));
+        this.declareVariable('x', DataType.ANY, syntek.literalHandler.number(15));
       },
       DataType.ANY,
     ));
@@ -41,7 +41,7 @@ syntek.createProgram(function () {
         'changeX',
         [],
         function () {
-          this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(30));
+          this.declareVariable('x', DataType.ANY, syntek.literalHandler.number(30));
         },
         DataType.ANY,
       ));

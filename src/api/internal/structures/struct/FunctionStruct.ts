@@ -60,6 +60,8 @@ export default class FunctionStruct implements Struct {
 
     const returnValue: Struct = this.body.call(functionContext);
 
+    // Check if the function is supposed to return something but it did not, or
+    // if it returned the wrong type
     if (
       this.returnType !== DataType.ANY
         && (!returnValue || returnValue.type !== this.returnType)

@@ -2,6 +2,13 @@ import DataType from '../structures/DataType';
 import Struct from '../structures/struct/Struct';
 
 export default class Utils {
+  /**
+   * Check if a variable reassign is valid
+   *
+   * @param name - The name of the variable
+   * @param type - The type of the new variable
+   * @param declaredVariable - The variable that is being reassigned
+   */
   static checkValidReassign(name: string, type: DataType, declaredVariable: Struct): void {
     if (type === DataType.FUNCTION) {
       throw new Error(`There is already a variable with the name ${name}`);
