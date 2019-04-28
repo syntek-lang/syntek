@@ -1,4 +1,5 @@
-import { Context, LiteralHandler, MathHandler } from './handlers';
+import { Context } from './structures';
+import { LiteralHandler, MathHandler } from './handlers';
 
 export default class Syntek {
   readonly context: Context = new Context();

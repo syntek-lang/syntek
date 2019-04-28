@@ -1,26 +1,29 @@
 import Struct from './Struct';
 import DataType from '../DataType';
-import ParameterList from '../ParameterList';
-import ContextFunction from '../ContextFunction';
-import { Context } from '../../handlers';
+import Context from '../context/Context';
+import { FunctionParameterList, ContextFunction } from '../ParameterTypes';
 
 export default class FunctionStruct implements Struct {
   readonly type = DataType.FUNCTION;
 
+  readonly context: Context;
+
   readonly name: string;
 
-  readonly parameters: ParameterList;
+  readonly parameters: FunctionParameterList;
 
   readonly body: ContextFunction;
 
   readonly returnType: DataType;
 
   constructor(
+    context: Context,
     name: string,
-    parameters: ParameterList,
+    parameters: FunctionParameterList,
     body: ContextFunction,
     returnType: DataType,
   ) {
+    this.context = context;
     this.name = name;
     this.parameters = parameters;
     this.body = body;
@@ -31,7 +34,7 @@ export default class FunctionStruct implements Struct {
     return this;
   }
 
-  exec(context: Context, params: Struct[]) {
+  exec(params: Struct[]) {
     if (params.length !== this.parameters.length) {
       throw new Error(`Expected ${this.parameters.length} parameters, received ${params.length}`);
     }
@@ -44,7 +47,7 @@ export default class FunctionStruct implements Struct {
       }
     }
 
-    const functionContext = context.dupe();
+    const functionContext = this.context.createChild();
     for (let i = 0; i < params.length; i += 1) {
       const name = this.parameters[i].name;
 

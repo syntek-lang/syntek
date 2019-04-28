@@ -1,6 +1,6 @@
-import {
-  Struct, FunctionStruct, VariableStruct, DataType, ContextFunction, ParameterList,
-} from '../structures';
+import DataType from '../DataType';
+import Struct from '../struct/Struct';
+import VariableStruct from '../struct/VariableStruct';
 
 export default class Context {
   readonly upperContext?: Context;
@@ -10,15 +10,6 @@ export default class Context {
   constructor(upperContext?: Context) {
     this.upperContext = upperContext;
     this.scope = {};
-  }
-
-  declareFunction(
-    name: string,
-    parameters: ParameterList,
-    body: ContextFunction,
-    returnType: DataType,
-  ): void {
-    this.scope[name] = new FunctionStruct(name, parameters, body, returnType);
   }
 
   declareVariable(name: string, type: DataType, value: Struct): void {
@@ -45,7 +36,7 @@ export default class Context {
     return !!this.scope[name];
   }
 
-  dupe(): Context {
+  createChild(): Context {
     return new Context(this);
   }
 }

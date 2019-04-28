@@ -1,14 +1,16 @@
 import Struct from './Struct';
 import DataType from '../DataType';
-import { Context } from '../../handlers';
+import Context from '../context/Context';
+import { ObjectBuilder } from '../ParameterTypes';
+import ObjectContext from '../context/ObjectContext';
 
 export default class ObjectStruct implements Struct {
   readonly type = DataType.OBJECT;
 
   readonly context: Context;
 
-  constructor(context: Context, objectBuilder: (this: Context) => void) {
-    this.context = context.dupe();
+  constructor(outerContext: Context, objectBuilder: ObjectBuilder) {
+    this.context = new ObjectContext(outerContext);
     objectBuilder.call(this.context);
   }
 
@@ -21,12 +23,10 @@ export default class ObjectStruct implements Struct {
   }
 
   toString() {
-    // return this.value.toString();
     return '';
   }
 
   toNumber() {
-    // return this.value;
     return 0;
   }
 }

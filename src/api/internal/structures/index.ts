@@ -1,6 +1,8 @@
 export { default as DataType } from './DataType';
-export { default as ParameterList } from './ParameterList';
-export { default as ContextFunction } from './ContextFunction';
+export { FunctionParameterList, ContextFunction, ObjectBuilder } from './ParameterTypes';
+
+export { default as Context } from './context/Context';
+export { default as ObjectContext } from './context/ObjectContext';
 
 export { default as Struct } from './struct/Struct';
 export { default as NumberStruct } from './struct/NumberStruct';

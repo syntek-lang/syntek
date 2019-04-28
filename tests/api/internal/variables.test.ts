@@ -2,8 +2,9 @@ import 'mocha';
 import { expect } from 'chai';
 
 import Syntek from '../../../src/api/internal/Syntek';
-import { Context } from '../../../src/api/internal/handlers';
-import { DataType, NumberStruct, VariableStruct } from '../../../src/api/internal/structures';
+import {
+  DataType, NumberStruct, VariableStruct, Context,
+} from '../../../src/api/internal/structures';
 
 describe('Variables', () => {
   const syntek: Syntek = new Syntek();

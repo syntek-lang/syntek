@@ -1,6 +1,5 @@
 import Struct from './Struct';
 import DataType from '../DataType';
-import { Context } from '../../handlers';
 
 export default class VariableStruct implements Struct {
   readonly type: DataType;
@@ -23,8 +22,8 @@ export default class VariableStruct implements Struct {
     return this.value.getProperty(name);
   }
 
-  exec(context: Context, params: Struct[]) {
-    return this.value.exec(context, params);
+  exec(params: Struct[]) {
+    return this.value.exec(params);
   }
 
   toString() {
