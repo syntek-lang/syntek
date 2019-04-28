@@ -18,7 +18,7 @@ export default class Context {
     body: ContextFunction,
     returnType: DataType,
   ): void {
-    this.scope[name] = new FunctionStruct(parameters, body, returnType);
+    this.scope[name] = new FunctionStruct(name, parameters, body, returnType);
   }
 
   executeFunction(name: string, parameters: Struct[]): any {
@@ -36,7 +36,7 @@ export default class Context {
     if (this.upperContext && this.upperContext.hasVariable(name)) {
       this.upperContext.declareVariable(name, value);
     } else {
-      this.scope[name] = new VariableStruct(value);
+      this.scope[name] = new VariableStruct(name, value);
     }
   }
 

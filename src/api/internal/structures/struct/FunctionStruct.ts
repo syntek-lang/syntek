@@ -7,6 +7,8 @@ import { Context } from '../../handlers';
 export default class FunctionStruct implements Struct {
   readonly type = DataType.FUNCTION;
 
+  readonly name: string;
+
   readonly parameters: ParameterList;
 
   readonly body: ContextFunction;
@@ -14,10 +16,12 @@ export default class FunctionStruct implements Struct {
   readonly returnType: DataType;
 
   constructor(
+    name: string,
     parameters: ParameterList,
     body: ContextFunction,
     returnType: DataType,
   ) {
+    this.name = name;
     this.parameters = parameters;
     this.body = body;
     this.returnType = returnType;

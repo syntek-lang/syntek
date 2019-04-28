@@ -5,10 +5,14 @@ import { Context } from '../../handlers';
 export default class VariableStruct implements Struct {
   readonly type: DataType;
 
+  readonly name: string;
+
   readonly value: Struct;
 
-  constructor(value: Struct) {
+  constructor(name: string, value: Struct) {
     this.type = value.type;
+
+    this.name = name;
     this.value = value;
   }
 
