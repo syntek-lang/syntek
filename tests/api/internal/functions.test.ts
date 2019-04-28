@@ -4,7 +4,7 @@ import 'mocha';
 import { expect } from 'chai';
 
 import Syntek from '../../../src/api/internal/Syntek';
-import { DataType } from '../../../src/api/internal/structures';
+import { DataType, NumberStruct } from '../../../src/api/internal/structures';
 
 describe('Functions', () => {
   it('handles function parameters correctly', () => {
@@ -19,25 +19,6 @@ describe('Functions', () => {
     });
   });
 
-  it('prints the correct value', () => {
-    const syntek: Syntek = new Syntek();
-    const prints: string[] = [];
-
-    syntek.context.declareFunction('print', [{ type: DataType.ANY, name: 'item' }], function () {
-      prints.push(this.getVariable('item').toString());
-    }, DataType.ANY);
-
-    syntek.createProgram(function () {
-      this.declareFunction('printValue', [], function () {
-        this.executeFunction('print', [syntek.literalHandler.number(5)]);
-      }, DataType.ANY);
-
-      this.executeFunction('printValue', []);
-    });
-
-    expect(prints[0]).to.equal('5');
-  });
-
   it('throws an error when parameter type does not match', () => {
     const syntek: Syntek = new Syntek();
 
@@ -46,6 +27,34 @@ describe('Functions', () => {
         this.declareFunction('printString', [{ type: DataType.STRING, name: 'string' }], function () {}, DataType.ANY);
 
         this.executeFunction('printString', [syntek.literalHandler.number(5)]);
+      });
+    }).to.throw();
+  });
+
+  it('handles returns correctly', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareFunction('get5', [], function () {
+        return syntek.literalHandler.number(5);
+      }, DataType.NUMBER);
+
+      const num: NumberStruct = this.executeFunction('get5', []);
+      expect(num).to.be.an.instanceof(NumberStruct);
+      expect(num.toNumber()).to.equal(5);
+    });
+  });
+
+  it('throws an error when return type does not match', () => {
+    const syntek: Syntek = new Syntek();
+
+    expect(() => {
+      syntek.createProgram(function () {
+        this.declareFunction('returnString', [], function () {
+          return syntek.literalHandler.number(5);
+        }, DataType.STRING);
+
+        this.executeFunction('returnString', []);
       });
     }).to.throw();
   });
