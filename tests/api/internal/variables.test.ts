@@ -46,11 +46,59 @@ describe('Variables', () => {
     expect(firstX.type).to.equal(DataType.NUMBER);
     expect(firstX.toNumber()).to.equal(5);
 
-    context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(10));
+    context.declareVariable('x', DataType.ANY, syntek.literalHandler.number(10));
 
     const secondX = context.getVariable('x');
     expect(secondX).to.be.an.instanceof(VariableStruct);
     expect(secondX.type).to.equal(DataType.NUMBER);
     expect(secondX.toNumber()).to.equal(10);
+  });
+
+  it('throws when reassigned with the wrong type', () => {
+    const context = new Context();
+    context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+
+    expect(() => {
+      context.declareVariable('x', DataType.ANY, syntek.literalHandler.object(context, () => {}));
+    }).to.throw();
+  });
+
+  it('throws when reassigned with a type other than ANY', () => {
+    const context = new Context();
+    context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+
+    expect(() => {
+      context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(10));
+    }).to.throw();
+  });
+
+  it('throws when trying to reassign a function', () => {
+    const context = new Context();
+    context.declareVariable('fn', DataType.FUNCTION, syntek.literalHandler.function(
+      context,
+      'fn',
+      [],
+      () => {},
+      DataType.ANY,
+    ));
+
+    expect(() => {
+      context.declareVariable('fn', DataType.NUMBER, syntek.literalHandler.number(5));
+    }).to.throw();
+  });
+
+  it('throws when trying to reassign a variable with a function', () => {
+    const context = new Context();
+    context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+
+    expect(() => {
+      context.declareVariable('x', DataType.FUNCTION, syntek.literalHandler.function(
+        context,
+        'x',
+        [],
+        () => {},
+        DataType.ANY,
+      ));
+    }).to.throw();
   });
 });

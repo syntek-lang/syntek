@@ -119,7 +119,7 @@ describe('Literals', () => {
             'changeX',
             [],
             function () {
-              this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(10));
+              this.declareVariable('x', DataType.ANY, syntek.literalHandler.number(10));
             },
             DataType.ANY,
           ));

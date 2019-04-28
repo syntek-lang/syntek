@@ -1,10 +1,10 @@
 enum DataType {
+  ANY,
   NUMBER,
   STRING,
   BOOLEAN,
   ARRAY,
   OBJECT,
-  ANY,
   FUNCTION,
 }
 
