@@ -4,5 +4,6 @@ export { default as ContextFunction } from './ContextFunction';
 
 export { default as Struct } from './struct/Struct';
 export { default as NumberStruct } from './struct/NumberStruct';
+export { default as ObjectStruct } from './struct/ObjectStruct';
 export { default as VariableStruct } from './struct/VariableStruct';
 export { default as FunctionStruct } from './struct/FunctionStruct';

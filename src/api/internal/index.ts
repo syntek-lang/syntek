@@ -5,18 +5,6 @@ import DataType from './structures/DataType';
 
 console.warn('Interpreter start');
 
-/*
-
-function printValues()
-  sum = 5
-  print(sum)
-  sum = sum + 10
-  print(sum)
-
-printValues()
-
-*/
-
 const syntek: Syntek = new Syntek();
 
 syntek.context.declareFunction('print', [{ type: DataType.ANY, name: 'item' }], function () {
@@ -24,20 +12,20 @@ syntek.context.declareFunction('print', [{ type: DataType.ANY, name: 'item' }], 
 }, DataType.ANY);
 
 syntek.createProgram(function () {
-  this.declareFunction('printValues', [], function () {
-    this.declareVariable('sum', syntek.literalHandler.number(5));
+  this.declareVariable('car', syntek.literalHandler.object(this, function () {
+    this.declareVariable('model', syntek.literalHandler.number(500));
 
-    this.executeFunction('print', [this.getVariable('sum')]);
+    this.declareFunction('honk', [], function () {
+      this.executeFunction('print', [syntek.literalHandler.number(5)]);
+    }, DataType.ANY);
 
-    this.declareVariable('sum', syntek.mathHandler.add(
-      this.getVariable('sum'),
-      syntek.literalHandler.number(10),
-    ));
+    this.declareVariable('nested', syntek.literalHandler.object(this, function () {
+      this.declareVariable('num', syntek.literalHandler.number(10));
+    }));
+  }));
 
-    this.executeFunction('print', [this.getVariable('sum')]);
-  }, DataType.ANY);
-
-  this.executeFunction('printValues', []);
+  this.getVariable('car').getProperty('honk').exec(this);
+  this.executeFunction('print', [this.getVariable('car').getProperty('nested').getProperty('num')]);
 });
 
 console.warn('Interpreter end');
