@@ -52,7 +52,7 @@ export default class FunctionStruct implements Struct {
         throw new Error('Function parameter is already declared in upper scope');
       }
 
-      functionContext.declareVariable(name, params[i]);
+      functionContext.declareVariable(name, params[i].type, params[i]);
     }
 
     const returnValue: Struct = this.body.call(functionContext);

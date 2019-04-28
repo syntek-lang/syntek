@@ -21,11 +21,11 @@ export default class Context {
     this.scope[name] = new FunctionStruct(name, parameters, body, returnType);
   }
 
-  declareVariable(name: string, value: Struct): void {
+  declareVariable(name: string, type: DataType, value: Struct): void {
     if (this.upperContext && this.upperContext.hasVariable(name)) {
-      this.upperContext.declareVariable(name, value);
+      this.upperContext.declareVariable(name, type, value);
     } else {
-      this.scope[name] = new VariableStruct(name, value);
+      this.scope[name] = new VariableStruct(name, type, value);
     }
   }
 

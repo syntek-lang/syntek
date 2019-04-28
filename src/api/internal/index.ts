@@ -12,15 +12,15 @@ syntek.context.declareFunction('print', [{ type: DataType.ANY, name: 'item' }], 
 }, DataType.ANY);
 
 syntek.createProgram(function () {
-  this.declareVariable('car', syntek.literalHandler.object(this, function () {
-    this.declareVariable('model', syntek.literalHandler.number(500));
+  this.declareVariable('car', DataType.ANY, syntek.literalHandler.object(this, function () {
+    this.declareVariable('model', DataType.ANY, syntek.literalHandler.number(500));
 
     this.declareFunction('honk', [], function () {
       this.getVariable('print').exec(this, [syntek.literalHandler.number(5)]);
     }, DataType.ANY);
 
-    this.declareVariable('nested', syntek.literalHandler.object(this, function () {
-      this.declareVariable('num', syntek.literalHandler.number(10));
+    this.declareVariable('nested', DataType.ANY, syntek.literalHandler.object(this, function () {
+      this.declareVariable('num', DataType.ANY, syntek.literalHandler.number(10));
     }));
   }));
 

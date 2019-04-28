@@ -9,10 +9,13 @@ export default class VariableStruct implements Struct {
 
   readonly value: Struct;
 
-  constructor(name: string, value: Struct) {
-    this.type = value.type;
+  constructor(name: string, type: DataType, value: Struct) {
+    if (type !== DataType.ANY && type !== value.type) {
+      throw new Error('Variable is assigned with the wrong type');
+    }
 
     this.name = name;
+    this.type = type;
     this.value = value;
   }
 

@@ -66,7 +66,7 @@ describe('Literals', () => {
 
     it('correctly stores variable declarations', () => {
       const object = syntek.literalHandler.object(new Context(), function () {
-        this.declareVariable('x', syntek.literalHandler.number(5));
+        this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
       });
 
       const x = object.getProperty('x');
@@ -77,8 +77,8 @@ describe('Literals', () => {
 
     it('correctly stores object declarations', () => {
       const object = syntek.literalHandler.object(new Context(), function () {
-        this.declareVariable('nested', syntek.literalHandler.object(this, function () {
-          this.declareVariable('x', syntek.literalHandler.number(5));
+        this.declareVariable('nested', DataType.OBJECT, syntek.literalHandler.object(this, function () {
+          this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
         }));
       });
 
