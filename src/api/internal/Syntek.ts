@@ -22,7 +22,7 @@ export default class Syntek {
    *
    * @param body - The body of the program containing all the code
    */
-  createProgram(body: (this: Context) => void) {
+  createProgram(body: (this: Context) => void): void {
     body.call(this.context.createChild());
   }
 }

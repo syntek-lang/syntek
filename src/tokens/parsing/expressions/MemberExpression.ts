@@ -33,5 +33,5 @@ export const MemberExpressionMatcher = new TokenMatcher(MemberExpression, $.SEQ(
     Expression,
   ),
   tokens.Dot,
-  tokens.Symbol,
+  tokens.Identifier,
 ));

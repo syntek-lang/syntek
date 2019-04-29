@@ -4,13 +4,13 @@ import { Token, TokenMatcher, DeclarationToken } from '../../../structures/token
 import tokens from '../../lexing';
 import Body from '../Body';
 import TypeKeyword from '../TypeKeyword';
-import { Symbol } from '../../lexing/literals/Symbol';
+import { Identifier } from '../../lexing/literals';
 
 export class FunctionDeclaration extends DeclarationToken {
   /**
    * The parameters of the function
    */
-  readonly params: { type: Token, id: Symbol }[];
+  readonly params: { type: Token; id: Identifier }[];
 
   /**
    * The return value of the function
@@ -42,13 +42,13 @@ export class FunctionDeclaration extends DeclarationToken {
 
 export const FunctionDeclarationMatcher = new TokenMatcher(FunctionDeclaration, $.SEQ(
   tokens.Function,
-  tokens.Symbol,
+  tokens.Identifier,
 
   tokens.Lpar,
   $.MANY_SEP(
     $.SEQ(
       $.OPT(TypeKeyword),
-      tokens.Symbol,
+      tokens.Identifier,
     ),
     tokens.Comma,
   ),

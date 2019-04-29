@@ -36,7 +36,7 @@ export class ForStatement extends Token {
 
 export const ForStatementMatcher = new TokenMatcher(ForStatement, $.SEQ(
   tokens.For,
-  tokens.Symbol,
+  tokens.Identifier,
   tokens.In,
   Expression,
   Body,

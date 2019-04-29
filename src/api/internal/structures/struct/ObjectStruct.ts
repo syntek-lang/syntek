@@ -14,19 +14,19 @@ export default class ObjectStruct implements Struct {
     objectBuilder.call(this.context);
   }
 
-  getProperty(name: string) {
+  getProperty(name: string): Struct {
     return this.context.scope[name];
   }
 
-  exec() {
+  exec(): Struct {
     throw new Error('Object is not a function');
   }
 
-  toString() {
+  toString(): string {
     return '';
   }
 
-  toNumber() {
+  toNumber(): number {
     return 0;
   }
 }

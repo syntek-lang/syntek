@@ -5,7 +5,7 @@ import { ClassDeclaration } from '../../tokens/parsing/declarations/ClassDeclara
 import { ObjectExpression } from '../../tokens/parsing/expressions/ObjectExpression';
 import Program from '../../tokens/parsing/Program';
 
-import { Symbol } from '../../tokens/lexing/literals/Symbol';
+import { Identifier } from '../../tokens/lexing/literals';
 
 const scopes: TokenClass[] = [
   FunctionDeclaration,
@@ -15,7 +15,7 @@ const scopes: TokenClass[] = [
 ];
 
 export default class SymbolTable {
-  readonly symbols: { token: DeclarationToken | Symbol, scope: Token }[] = [];
+  readonly symbols: { token: DeclarationToken | Identifier; scope: Token }[] = [];
 
   /**
    * Add a token to the symbol table
@@ -23,7 +23,7 @@ export default class SymbolTable {
    * @param token - The token to add
    * @param scope - The scope the variable is declared in
    */
-  add(token: DeclarationToken | Symbol, scope: Token): void {
+  add(token: DeclarationToken | Identifier, scope: Token): void {
     this.symbols.push({ token, scope });
   }
 
@@ -33,7 +33,7 @@ export default class SymbolTable {
    * @param scope - The scope to get the variables of
    * @param ancestors - The ancestors to get the variables of, returning all accessible variables
    */
-  getSymbols(scope?: Token, ancestors?: Token[]): (DeclarationToken | Symbol)[] {
+  getSymbols(scope?: Token, ancestors?: Token[]): (DeclarationToken | Identifier)[] {
     if (scope && ancestors) {
       return this.symbols
         .filter(symbol => symbol.scope === scope || ancestors.indexOf(symbol.scope) > -1)

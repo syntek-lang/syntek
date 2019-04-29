@@ -14,7 +14,7 @@ export default class ManySepRule extends Rule {
     this.separatorRule = separatorRule;
   }
 
-  match(tokens: Token[]) {
+  match(tokens: Token[]): RuleResponse {
     let separatorRule = true;
 
     let separatorMatch: RuleResponse | undefined;

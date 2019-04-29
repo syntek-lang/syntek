@@ -5,7 +5,7 @@ export default class Utils {
    * @param input - The input string
    * @param index - The index to get the line and row of
    */
-  static lineRow(input: string, index: number) {
+  static lineRow(input: string, index: number): { line: number; row: number } {
     const lines = input.slice(0, index).split('\n');
 
     const line = lines.length;
@@ -69,7 +69,7 @@ export default class Utils {
    * @param obj - The object to remove the props from
    * @param keys - The keys of the props that need to be removed
    */
-  static removeProps(obj, keys) {
+  static removeProps(obj, keys): any {
     if (!obj) {
       return;
     }
@@ -103,7 +103,7 @@ export default class Utils {
    *
    * @param arrayOrElement - The array to find the first element of
    */
-  static findFirstElement(arrayOrElement) {
+  static findFirstElement(arrayOrElement): any {
     if (Array.isArray(arrayOrElement)) {
       let index = 0;
 
@@ -128,7 +128,7 @@ export default class Utils {
    *
    * @param arrayOrElement - The array to find the last element of
    */
-  static findLastElement(arrayOrElement) {
+  static findLastElement(arrayOrElement): any {
     if (Array.isArray(arrayOrElement)) {
       let index = arrayOrElement.length - 1;
 
@@ -187,7 +187,7 @@ export default class Utils {
    *
    * @param obj - The object to get the entries from
    */
-  static objectEntries(obj: any): [any, any][] {
+  static objectEntries(obj: any): [string, any][] {
     const entries: [any, any][] = [];
 
     for (const key of Object.keys(obj)) {

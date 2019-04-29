@@ -10,19 +10,19 @@ export default class NumberStruct implements Struct {
     this.value = value;
   }
 
-  getProperty() {
+  getProperty(): Struct {
     return this;
   }
 
-  exec() {
+  exec(): Struct {
     throw new Error('Number is not a function');
   }
 
-  toString() {
+  toString(): string {
     return this.value.toString();
   }
 
-  toNumber() {
+  toNumber(): number {
     return this.value;
   }
 }

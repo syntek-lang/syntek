@@ -1,5 +1,6 @@
 import Rule from '../Rule';
 import { Token } from '../../token';
+import RuleResponse from '../RuleResponse';
 
 export default class OptRule extends Rule {
   private readonly rule: Rule;
@@ -10,7 +11,7 @@ export default class OptRule extends Rule {
     this.rule = rule;
   }
 
-  match(tokens: Token[]) {
+  match(tokens: Token[]): RuleResponse {
     return {
       ...this.rule.match(tokens),
       skip: true,

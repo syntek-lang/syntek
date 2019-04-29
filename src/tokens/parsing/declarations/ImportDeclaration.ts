@@ -15,7 +15,7 @@ export class ImportDeclaration extends DeclarationToken {
   readonly source: Token;
 
   constructor(location, matchedTokens) {
-    const type = matchedTokens[1] instanceof tokens.Symbol ? 'module' : 'file';
+    const type = matchedTokens[1] instanceof tokens.Identifier ? 'module' : 'file';
     const source = matchedTokens[1];
 
     let id;
@@ -40,14 +40,14 @@ export const ImportDeclarationMatcher = new TokenMatcher(ImportDeclaration, $.SE
   tokens.Import,
 
   $.OR(
-    tokens.Symbol,
+    tokens.Identifier,
     tokens.StringLiteral,
   ),
 
   $.OPT(
     $.SEQ(
       tokens.As,
-      tokens.Symbol,
+      tokens.Identifier,
     ),
   ),
 ));

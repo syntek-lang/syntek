@@ -25,7 +25,7 @@ export default class ObjectContext extends Context {
    *
    * @returns A child of the outer scope
    */
-  createChild() {
+  createChild(): Context {
     return this.outerContext.createChild();
   }
 }

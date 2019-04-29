@@ -13,7 +13,7 @@ export class ClassDeclaration extends DeclarationToken {
   /**
    * The body of the class
    */
-  readonly body: { isStatic: boolean, token: Token }[] = [];
+  readonly body: { isStatic: boolean; token: Token }[] = [];
 
   constructor(location, matchedTokens) {
     super(matchedTokens[1], location, matchedTokens);
@@ -40,7 +40,7 @@ export class ClassDeclaration extends DeclarationToken {
 
 export const ClassDeclarationMatcher = new TokenMatcher(ClassDeclaration, $.SEQ(
   tokens.Class,
-  tokens.Symbol,
+  tokens.Identifier,
 
   $.WRAPPED(
     Indent,

@@ -51,7 +51,7 @@ export const VariableDeclarationMatcher = new TokenMatcher(VariableDeclaration, 
   ),
 
   $.OR(
-    tokens.Symbol,
+    tokens.Identifier,
     MemberExpression,
   ),
   tokens.Equal,

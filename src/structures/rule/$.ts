@@ -21,6 +21,7 @@ function tokenableToRule(tokenable: Tokenable): Rule {
   return new TokenMatcherRule(tokenable);
 }
 
+// eslint-disable-next-line @typescript-eslint/class-name-casing
 export default class $ {
   /**
    * Match zero or more tokens

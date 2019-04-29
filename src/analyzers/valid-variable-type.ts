@@ -25,7 +25,7 @@ function tokenResolvesToBoolean(token: Token): boolean {
     || token instanceof NotExpression;
 }
 
-function isCorrectType(token: Token, type: Token) {
+function isCorrectType(token: Token, type: Token): boolean {
   switch (type.constructor) {
     case BooleanKeyword:
       return tokenResolvesToBoolean(token);

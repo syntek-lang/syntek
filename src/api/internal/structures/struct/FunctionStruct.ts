@@ -30,11 +30,11 @@ export default class FunctionStruct implements Struct {
     this.returnType = returnType;
   }
 
-  getProperty() {
+  getProperty(): Struct {
     return this;
   }
 
-  exec(params: Struct[]) {
+  exec(params: Struct[]): Struct {
     if (params.length !== this.parameters.length) {
       throw new Error(`Expected ${this.parameters.length} parameters, received ${params.length}`);
     }
@@ -72,11 +72,11 @@ export default class FunctionStruct implements Struct {
     return returnValue;
   }
 
-  toString() {
+  toString(): string {
     return '';
   }
 
-  toNumber() {
+  toNumber(): number {
     return 0;
   }
 }

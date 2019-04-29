@@ -1,5 +1,6 @@
 import Rule from '../Rule';
 import { Token } from '../../token';
+import RuleResponse from '../RuleResponse';
 
 export default class ManyRule extends Rule {
   private readonly rule: Rule;
@@ -10,7 +11,7 @@ export default class ManyRule extends Rule {
     this.rule = rule;
   }
 
-  match(tokens: Token[]) {
+  match(tokens: Token[]): RuleResponse {
     let tokenCounter = 0;
     const matchedTokens: any[] = [];
 

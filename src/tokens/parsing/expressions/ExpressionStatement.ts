@@ -47,7 +47,7 @@ export class ExpressionStatement extends Token {
 
 export const ExpressionStatementMatcher = new TokenMatcher(ExpressionStatement, $.SEQ(
   $.OR(
-    tokens.Symbol,
+    tokens.Identifier,
     MemberExpression,
   ),
 

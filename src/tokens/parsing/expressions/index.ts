@@ -21,7 +21,7 @@ Expression.setRule($.OR(
   tokens.NumberLiteral,
   tokens.BooleanLiteral,
   tokens.StringLiteral,
-  tokens.Symbol,
+  tokens.Identifier,
 
   NewExpression,
   MemberExpression,

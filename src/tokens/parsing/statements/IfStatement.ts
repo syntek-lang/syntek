@@ -9,7 +9,7 @@ export class IfStatement extends Token {
   /**
    * The `if`, `else if` and `else` statement conditions and bodies
    */
-  readonly options: { condition?: Token, body: Token[] }[] = [];
+  readonly options: { condition?: Token; body: Token[] }[] = [];
 
   constructor(location, matchedTokens) {
     super(location, matchedTokens);

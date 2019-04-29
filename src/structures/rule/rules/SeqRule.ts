@@ -1,5 +1,6 @@
 import Rule from '../Rule';
 import { Token } from '../../token';
+import RuleResponse from '../RuleResponse';
 
 export default class SeqRule extends Rule {
   private readonly rules: Rule[];
@@ -10,7 +11,7 @@ export default class SeqRule extends Rule {
     this.rules = rules;
   }
 
-  match(tokens: Token[]) {
+  match(tokens: Token[]): RuleResponse {
     let ruleCount = 0;
     let tokenCount = 0;
 

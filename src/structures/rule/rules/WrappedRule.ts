@@ -21,7 +21,7 @@ export default class WrappedRule extends Rule {
     this.end = end;
   }
 
-  match(tokens: Token[]) {
+  match(tokens: Token[]): RuleResponse {
     const startMatches: RuleResponse[] = [];
     const endMatches: RuleResponse[] = [];
 
