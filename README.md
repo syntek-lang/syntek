@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://img.shields.io/travis/com/syntek-lang/syntek.svg?style=for-the-badge" alt="Build" />
-  <img src="https://img.shields.io/github/languages/top/SebastiaanYN/Syntek.svg?colorB=blue&style=for-the-badge" alt="Language" />
-  <img src="https://img.shields.io/github/package-json/v/SebastiaanYN/Syntek.svg?colorB=Orange&style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/github/languages/top/syntek-lang/syntek.svg?colorB=blue&style=for-the-badge" alt="Language" />
+  <img src="https://img.shields.io/github/package-json/v/syntek-lang/syntek.svg?colorB=Orange&style=for-the-badge" alt="Version" />
 </div>
 
 # Syntek

@@ -4,12 +4,13 @@
   "description": "A programming language for beginners",
   "main": "index.js",
   "scripts": {
-    "test": "npm run build && npm run lint && npm run test:api",
+    "test": "npm run build && npm run lint && npm run unit",
     "build": "webpack",
     "build:watch": "webpack --watch",
     "lint": "eslint src --ext .js,.ts",
     "lint:fix": "eslint src --fix --ext .js,.ts",
-    "test:api": "mocha -r ts-node/register tests/**/*.test.ts"
+    "unit": "mocha -r ts-node/register tests/**/*.test.ts",
+    "unit:api": "mocha -r ts-node/register tests/api/**/*.test.ts"
   },
   "repository": {
     "type": "git",
