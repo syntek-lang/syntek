@@ -12,7 +12,7 @@ export default class Context {
   /**
    * The variables in the current scope
    */
-  readonly scope: { [s: string]: Struct };
+  readonly scope: { [s: string]: VariableStruct };
 
   /**
    * Create a new context object
@@ -61,6 +61,10 @@ export default class Context {
   getVariable(name: string): Struct {
     if (this.upperContext && this.upperContext.hasVariable(name)) {
       return this.upperContext.getVariable(name);
+    }
+
+    if (!this.scope[name]) {
+      throw new Error(`Variable ${name} does not exist`);
     }
 
     return this.scope[name];

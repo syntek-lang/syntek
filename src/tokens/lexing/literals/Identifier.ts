@@ -8,4 +8,4 @@ export class Identifier extends Literal {
   readonly id = this.raw;
 }
 
-export const SymbolMatcher = new TokenMatcher(Identifier, /^[a-zA-Z_]\w*/);
+export const IdentifierMatcher = new TokenMatcher(Identifier, /^[a-zA-Z_]\w*/);

@@ -5,6 +5,7 @@ enum DataType {
   BOOLEAN,
   ARRAY,
   OBJECT,
+  CLASS,
   FUNCTION,
 }
 

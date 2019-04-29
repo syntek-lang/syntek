@@ -7,7 +7,7 @@ import ObjectContext from '../context/ObjectContext';
 export default class ObjectStruct implements Struct {
   readonly type = DataType.OBJECT;
 
-  readonly context: Context;
+  readonly context: ObjectContext;
 
   constructor(outerContext: Context, objectBuilder: ObjectBuilder) {
     this.context = new ObjectContext(outerContext);
@@ -19,14 +19,19 @@ export default class ObjectStruct implements Struct {
   }
 
   exec(): Struct {
-    throw new Error('Object is not a function');
+    throw new Error('You can not use an object as a function');
+  }
+
+  createNew(): Struct {
+    throw new Error('You can not use new on an object');
   }
 
   toString(): string {
-    return '';
+    // TODO: Produce JSON from the context
+    return 'JSON';
   }
 
   toNumber(): number {
-    return 0;
+    throw new Error('You can not turn an object into a number');
   }
 }

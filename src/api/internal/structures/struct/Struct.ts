@@ -23,6 +23,15 @@ interface Struct {
   exec(params: Struct[]): any;
 
   /**
+   * Create a new instance of the structure. Called when creating an instance of a class:
+   * `new MyClass()`
+   *
+   * @param params - An array of parameters to pass on to the structure
+   * @returns A new structure representing an instance of the previous
+   */
+  createNew(params: Struct[]): Struct;
+
+  /**
    * Turn the structure into a string
    *
    * @returns The string representation of the structure

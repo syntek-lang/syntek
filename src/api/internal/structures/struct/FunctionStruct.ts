@@ -31,7 +31,7 @@ export default class FunctionStruct implements Struct {
   }
 
   getProperty(): Struct {
-    return this;
+    throw new Error('Functions don\'t have properties');
   }
 
   exec(params: Struct[]): Struct {
@@ -72,11 +72,15 @@ export default class FunctionStruct implements Struct {
     return returnValue;
   }
 
+  createNew(): Struct {
+    throw new Error('You can not create an instance of a function');
+  }
+
   toString(): string {
-    return '';
+    throw new Error('You can not turn a function into a string');
   }
 
   toNumber(): number {
-    return 0;
+    throw new Error('You can not turn a function into a number');
   }
 }

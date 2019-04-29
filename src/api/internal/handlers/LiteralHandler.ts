@@ -1,6 +1,6 @@
 import {
   Struct, NumberStruct, ObjectStruct, ObjectBuilder, Context, FunctionParameterList,
-  ContextFunction, DataType, FunctionStruct,
+  ContextFunction, DataType, FunctionStruct, ClassStruct,
 } from '../structures';
 
 export default class LiteralHandler {
@@ -43,5 +43,21 @@ export default class LiteralHandler {
    */
   object(outerContext: Context, objectBuilder: ObjectBuilder): Struct {
     return new ObjectStruct(outerContext, objectBuilder);
+  }
+
+  /**
+   * Create a new class
+   *
+   * @param outerContext - The context outside of the class
+   * @param staticBuilder - A function that builds the static side of the class
+   * @param instanceBuilder - A function that builds the instance side of the class
+   * @retusn A class structure
+   */
+  class(
+    outerContext: Context,
+    staticBuilder: ObjectBuilder,
+    instanceBuilder: ObjectBuilder,
+  ): Struct {
+    return new ClassStruct(outerContext, staticBuilder, instanceBuilder);
   }
 }

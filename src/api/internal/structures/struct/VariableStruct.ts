@@ -26,6 +26,10 @@ export default class VariableStruct implements Struct {
     return this.value.exec(params);
   }
 
+  createNew(params: Struct[]): Struct {
+    return this.value.createNew(params);
+  }
+
   toString(): string {
     return this.value.toString();
   }

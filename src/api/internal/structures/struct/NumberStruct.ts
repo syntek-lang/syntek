@@ -11,11 +11,15 @@ export default class NumberStruct implements Struct {
   }
 
   getProperty(): Struct {
-    return this;
+    throw new Error('Numbers don\'t have properties');
   }
 
   exec(): Struct {
-    throw new Error('Number is not a function');
+    throw new Error('You can not use a number as a function');
+  }
+
+  createNew(): Struct {
+    throw new Error('You can not create an instance of a number');
   }
 
   toString(): string {
