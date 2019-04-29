@@ -119,4 +119,28 @@ describe('Objects', () => {
       expect(this.getVariable('obj').getProperty('nested').getProperty('x').toNumber()).to.equal(15);
     });
   });
+
+  it('can access own properties in functions', () => {
+    syntek.createProgram(function () {
+      this.declareVariable('obj', DataType.OBJECT, syntek.literalHandler.object(this, function () {
+        this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+
+        this.declareVariable('checkX', DataType.FUNCTION, syntek.literalHandler.function(
+          this,
+          'checkX',
+          [],
+          function () {
+            const x = this.getVariable('obj').getProperty('x');
+
+            expect(x).to.be.an.instanceof(VariableStruct);
+            expect(x.type).to.equal(DataType.NUMBER);
+            expect(x.toNumber()).to.equal(5);
+          },
+          DataType.ANY,
+        ));
+      }));
+
+      this.getVariable('obj').getProperty('checkX').exec([]);
+    });
+  });
 });
