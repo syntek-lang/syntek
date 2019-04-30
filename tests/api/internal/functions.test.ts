@@ -105,6 +105,23 @@ describe('Functions', () => {
     });
   });
 
+  it('returns undefined when turned into json', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('x', DataType.FUNCTION, syntek.literalHandler.function(
+        this,
+        'changeX',
+        [],
+        function () {},
+        DataType.ANY,
+      ));
+
+      const obj: any = this.getVariable('x').toJson();
+      expect(obj).to.be.undefined;
+    });
+  });
+
   it('throws when turned into a number', () => {
     const syntek: Syntek = new Syntek();
 

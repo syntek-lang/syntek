@@ -34,6 +34,10 @@ export default class VariableStruct implements Struct {
     return this.value.createNew(params);
   }
 
+  toJson(): any {
+    return this.value.toJson();
+  }
+
   toString(): string {
     return this.value.toString();
   }

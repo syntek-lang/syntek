@@ -80,6 +80,11 @@ export default class FunctionStruct implements Struct {
     throw new Error('You can not create an instance of a function');
   }
 
+  toJson(): undefined {
+    // Functions can't be represented in JSON
+    return undefined;
+  }
+
   toString(): string {
     throw new Error('You can not turn a function into a string');
   }

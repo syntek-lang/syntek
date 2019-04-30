@@ -70,6 +70,21 @@ export default class ClassStruct implements Struct {
     return instance;
   }
 
+  toJson(): object {
+    const json: object = {};
+
+    const scope = this.staticContext.scope;
+    for (const prop of Object.keys(scope)) {
+      const jsonValue = scope[prop].toJson();
+
+      if (jsonValue !== undefined) {
+        json[prop] = jsonValue;
+      }
+    }
+
+    return json;
+  }
+
   toString(): string {
     throw new Error('You can not turn a class into a string');
   }

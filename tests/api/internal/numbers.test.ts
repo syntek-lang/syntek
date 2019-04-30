@@ -18,6 +18,11 @@ describe('Numbers', () => {
     expect(negativeNumber.type).to.equal(DataType.NUMBER);
   });
 
+  it('correctly turns into json', () => {
+    expect(positiveNumber.toJson()).to.equal(5);
+    expect(negativeNumber.toJson()).to.equal(-10);
+  });
+
   it('correctly turns into a string', () => {
     expect(positiveNumber.toString()).to.equal('5');
     expect(negativeNumber.toString()).to.equal('-10');

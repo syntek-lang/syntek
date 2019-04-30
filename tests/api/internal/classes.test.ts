@@ -198,6 +198,24 @@ describe('Classes', () => {
     });
   });
 
+  it('correctly turns to json', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('MyClass', DataType.CLASS, syntek.literalHandler.class(this, 'MyClass', function () {
+        this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+        this.declareVariable('y', DataType.NUMBER, syntek.literalHandler.number(10));
+        this.declareVariable('z', DataType.NUMBER, syntek.literalHandler.number(15));
+      }, function () {}));
+
+      expect(this.getVariable('MyClass').toJson()).to.eql({
+        x: 5,
+        y: 10,
+        z: 15,
+      });
+    });
+  });
+
   it('throws when turned into a number', () => {
     const syntek: Syntek = new Syntek();
 

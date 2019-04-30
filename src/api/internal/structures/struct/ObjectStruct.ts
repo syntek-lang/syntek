@@ -30,9 +30,23 @@ export default class ObjectStruct implements Struct {
     throw new Error('You can not use new on an object');
   }
 
+  toJson(): object {
+    const json: object = {};
+
+    const scope = this.context.scope;
+    for (const prop of Object.keys(scope)) {
+      const jsonValue = scope[prop].toJson();
+
+      if (jsonValue !== undefined) {
+        json[prop] = jsonValue;
+      }
+    }
+
+    return json;
+  }
+
   toString(): string {
-    // TODO: Produce JSON from the context
-    return 'JSON';
+    return JSON.stringify(this.toJson(), null, 2);
   }
 
   toNumber(): number {

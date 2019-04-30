@@ -26,6 +26,10 @@ export default class NumberStruct implements Struct {
     throw new Error('You can not create an instance of a number');
   }
 
+  toJson(): number {
+    return this.toNumber();
+  }
+
   toString(): string {
     return this.value.toString();
   }

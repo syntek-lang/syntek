@@ -40,6 +40,13 @@ interface Struct {
   createNew(params: Struct[]): Struct;
 
   /**
+   * Turn the structure into a string when serializing an object
+   *
+   * @returns A JavaScript value that represents the structure, or undefined if it should be skipped
+   */
+  toJson(): string | number | object | null | undefined;
+
+  /**
    * Turn the structure into a string
    *
    * @returns The string representation of the structure

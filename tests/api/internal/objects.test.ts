@@ -215,7 +215,48 @@ describe('Objects', () => {
     });
   });
 
-  it('correctly turns into a JSON string');
+  it('correctly returns an object when turned into json', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('obj', DataType.OBJECT, syntek.literalHandler.object(this, function () {
+        this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+
+        this.declareVariable('nested', DataType.OBJECT, syntek.literalHandler.object(this, function () {
+          this.declareVariable('y', DataType.NUMBER, syntek.literalHandler.number(10));
+        }));
+      }));
+
+      expect(this.getVariable('obj').toJson()).to.eql({
+        x: 5,
+        nested: {
+          y: 10,
+        },
+      });
+    });
+  });
+
+  it('correctly turns into a JSON string', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('obj', DataType.OBJECT, syntek.literalHandler.object(this, function () {
+        this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+
+        this.declareVariable('nested', DataType.OBJECT, syntek.literalHandler.object(this, function () {
+          this.declareVariable('y', DataType.NUMBER, syntek.literalHandler.number(10));
+        }));
+      }));
+
+      const json = this.getVariable('obj').toString();
+      expect(JSON.parse(json)).to.eql({
+        x: 5,
+        nested: {
+          y: 10,
+        },
+      });
+    });
+  });
 
   it('throws when turned into a number', () => {
     const syntek: Syntek = new Syntek();
