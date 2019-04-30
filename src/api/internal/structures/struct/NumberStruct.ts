@@ -14,6 +14,10 @@ export default class NumberStruct implements Struct {
     throw new Error('Numbers don\'t have properties');
   }
 
+  setProperty(): void {
+    throw new Error('Numbers don\'t have properties');
+  }
+
   exec(): Struct {
     throw new Error('You can not use a number as a function');
   }

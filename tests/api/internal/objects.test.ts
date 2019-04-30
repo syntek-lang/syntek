@@ -70,6 +70,35 @@ describe('Objects', () => {
     expect(x.toNumber()).to.equal(5);
   });
 
+  it('correctly reassigns a property', () => {
+    const syntek: Syntek = new Syntek();
+    const object = syntek.literalHandler.object(new Context(), function () {
+      this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+    });
+
+    const x = object.getProperty('x');
+    expect(x).to.be.an.instanceof(VariableStruct);
+    expect(x.type).to.equal(DataType.NUMBER);
+    expect(x.toNumber()).to.equal(5);
+
+    object.setProperty('x', syntek.literalHandler.number(10));
+    const newX = object.getProperty('x');
+    expect(newX).to.be.an.instanceof(VariableStruct);
+    expect(newX.type).to.equal(DataType.NUMBER);
+    expect(newX.toNumber()).to.equal(10);
+  });
+
+  it('throws when reassigning the wrong type', () => {
+    const syntek: Syntek = new Syntek();
+    const object = syntek.literalHandler.object(new Context(), function () {
+      this.declareVariable('x', DataType.OBJECT, syntek.literalHandler.object(this, function () {}));
+    });
+
+    expect(() => {
+      object.setProperty('x', syntek.literalHandler.number(5));
+    }).to.throw();
+  });
+
   it('does not override variables outside of the object', () => {
     const syntek: Syntek = new Syntek();
     const context = new Context();

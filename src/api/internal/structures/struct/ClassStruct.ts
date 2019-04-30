@@ -47,6 +47,10 @@ export default class ClassStruct implements Struct {
     return this.staticContext.getVariable(name);
   }
 
+  setProperty(name: string, value: Struct): void {
+    this.staticContext.declareVariable(name, DataType.ANY, value);
+  }
+
   exec(): Struct {
     throw new Error('You can not use a class like a function, did you forget the new keyword?');
   }

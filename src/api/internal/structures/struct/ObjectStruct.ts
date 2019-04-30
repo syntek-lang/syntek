@@ -18,6 +18,10 @@ export default class ObjectStruct implements Struct {
     return this.context.scope[name];
   }
 
+  setProperty(name: string, value: Struct): void {
+    this.context.declareVariable(name, DataType.ANY, value);
+  }
+
   exec(): Struct {
     throw new Error('You can not use an object as a function');
   }

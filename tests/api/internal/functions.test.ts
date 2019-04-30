@@ -176,4 +176,22 @@ describe('Functions', () => {
       }).to.throw();
     });
   });
+
+  it('throws when trying to set a property', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('x', DataType.FUNCTION, syntek.literalHandler.function(
+        this,
+        'x',
+        [],
+        function () {},
+        DataType.ANY,
+      ));
+
+      expect(() => {
+        this.getVariable('x').setProperty('x', syntek.literalHandler.number(5));
+      }).to.throw();
+    });
+  });
 });

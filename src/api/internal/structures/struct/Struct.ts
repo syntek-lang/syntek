@@ -15,6 +15,14 @@ interface Struct {
   getProperty(name: string): Struct;
 
   /**
+   * Set a property of the structure. Called when assigning object properties: `a.b = 5`
+   *
+   * @param name - The name of the property
+   * @param value - The value to assign the property with
+   */
+  setProperty(name: string, value: Struct): void;
+
+  /**
    * Execute the structure. Called when making a function call on a variable: `a()`
    *
    * @param params - An array of parameters to pass on to the structure

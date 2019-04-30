@@ -34,6 +34,10 @@ export default class FunctionStruct implements Struct {
     throw new Error('Functions don\'t have properties');
   }
 
+  setProperty(): void {
+    throw new Error('Functions don\'t have properties');
+  }
+
   exec(params: Struct[]): Struct {
     if (params.length !== this.parameters.length) {
       throw new Error(`Expected ${this.parameters.length} parameters, received ${params.length}`);

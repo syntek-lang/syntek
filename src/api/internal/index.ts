@@ -34,6 +34,8 @@ syntek.createProgram(function () {
 
   const myClass = this.getVariable('MyClass').createNew([]);
   console.log(myClass.getProperty('x').toNumber());
+  myClass.setProperty('x', syntek.literalHandler.number(50));
+  console.log(myClass);
 });
 
 console.warn('Interpreter end');

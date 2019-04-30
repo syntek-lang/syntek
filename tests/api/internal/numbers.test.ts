@@ -52,5 +52,19 @@ describe('Numbers', () => {
     expect(() => {
       positiveNumber.getProperty('x');
     }).to.throw();
+
+    expect(() => {
+      negativeNumber.getProperty('x');
+    }).to.throw();
+  });
+
+  it('throws when trying to set a property', () => {
+    expect(() => {
+      positiveNumber.setProperty('x', syntek.literalHandler.number(5));
+    }).to.throw();
+
+    expect(() => {
+      negativeNumber.setProperty('x', syntek.literalHandler.number(5));
+    }).to.throw();
   });
 });

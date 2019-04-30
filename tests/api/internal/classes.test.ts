@@ -125,6 +125,54 @@ describe('Classes', () => {
 
   it('can access instance properties within a function');
 
+  it('correctly updates static properties', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('MyClass', DataType.CLASS, syntek.literalHandler.class(this, 'MyClass', function () {
+        this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+      }, function () {}));
+
+      const myClass = this.getVariable('MyClass');
+      const x = myClass.getProperty('x');
+
+      expect(x).to.be.an.instanceof(VariableStruct);
+      expect(x.type).to.equal(DataType.NUMBER);
+      expect(x.toNumber()).to.equal(5);
+
+      myClass.setProperty('x', syntek.literalHandler.number(10));
+      const newX = myClass.getProperty('x');
+
+      expect(newX).to.be.an.instanceof(VariableStruct);
+      expect(newX.type).to.equal(DataType.NUMBER);
+      expect(newX.toNumber()).to.equal(10);
+    });
+  });
+
+  it('correctly updates instance properties', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('MyClass', DataType.CLASS, syntek.literalHandler.class(this, 'MyClass', function () {}, function () {
+        this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+      }));
+
+      const myClass = this.getVariable('MyClass').createNew([]);
+      const x = myClass.getProperty('x');
+
+      expect(x).to.be.an.instanceof(VariableStruct);
+      expect(x.type).to.equal(DataType.NUMBER);
+      expect(x.toNumber()).to.equal(5);
+
+      myClass.setProperty('x', syntek.literalHandler.number(10));
+      const newX = myClass.getProperty('x');
+
+      expect(newX).to.be.an.instanceof(VariableStruct);
+      expect(newX.type).to.equal(DataType.NUMBER);
+      expect(newX.toNumber()).to.equal(10);
+    });
+  });
+
   it('throws when turned into a number', () => {
     const syntek: Syntek = new Syntek();
 
