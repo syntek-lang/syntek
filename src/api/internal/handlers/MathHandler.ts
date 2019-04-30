@@ -8,7 +8,7 @@ export default class MathHandler {
    * @param b - The right hand side
    * @returns A number structure containing the sum of a and b
    */
-  add(a: Struct, b: Struct): NumberStruct {
+  static add(a: Struct, b: Struct): NumberStruct {
     return new NumberStruct(a.toNumber() + b.toNumber());
   }
 }

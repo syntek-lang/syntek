@@ -10,7 +10,7 @@ export default class LiteralHandler {
    * @param value - The numeric value
    * @returns A number structure
    */
-  number(value: number): Struct {
+  static number(value: number): Struct {
     return new NumberStruct(value);
   }
 
@@ -24,7 +24,7 @@ export default class LiteralHandler {
    * @param returnType - The return type of the function
    * @returns A function structure
    */
-  function(
+  static function(
     context: Context,
     name: string,
     parameters: FunctionParameterList,
@@ -41,7 +41,7 @@ export default class LiteralHandler {
    * @param objectBuilder - A function that builds the object. Called immediately
    * @returns An object structure
    */
-  object(outerContext: Context, objectBuilder: ObjectBuilder): Struct {
+  static object(outerContext: Context, objectBuilder: ObjectBuilder): Struct {
     return new ObjectStruct(outerContext, objectBuilder);
   }
 
@@ -54,7 +54,7 @@ export default class LiteralHandler {
    * @param instanceBuilder - A function that builds the instance side of the class
    * @retusn A class structure
    */
-  class(
+  static class(
     outerContext: Context,
     name: string,
     staticBuilder: ObjectBuilder,

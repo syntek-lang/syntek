@@ -10,12 +10,12 @@ export default class Syntek {
   /**
    * The literal handler for creating types
    */
-  readonly literalHandler: LiteralHandler = new LiteralHandler();
+  readonly literalHandler: typeof LiteralHandler = LiteralHandler;
 
   /**
    * The math handler for doing math
    */
-  readonly mathHandler: MathHandler = new MathHandler();
+  readonly mathHandler: typeof MathHandler = MathHandler;
 
   /**
    * Create and run a program
