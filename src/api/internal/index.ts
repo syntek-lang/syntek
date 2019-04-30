@@ -7,8 +7,8 @@ console.warn('Interpreter start');
 
 const syntek: Syntek = new Syntek();
 
-syntek.context.declareVariable('print', DataType.FUNCTION, syntek.literalHandler.function(
-  syntek.context,
+syntek.globalContext.declareVariable('print', DataType.FUNCTION, syntek.literalHandler.function(
+  syntek.globalContext,
   'print',
   [{ type: DataType.ANY, name: 'item' }],
   function () {
@@ -18,24 +18,19 @@ syntek.context.declareVariable('print', DataType.FUNCTION, syntek.literalHandler
 ));
 
 syntek.createProgram(function () {
-  this.declareVariable('MyClass', DataType.CLASS, syntek.literalHandler.class(this, 'MyClass', function () {}, function () {
-    this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
-
-    this.declareVariable('MyClass', DataType.FUNCTION, syntek.literalHandler.function(
-      this,
-      'func',
-      [],
-      function () {
-        console.log(this.getVariable('this'));
-      },
-      DataType.ANY,
-    ));
-  }));
-
-  const myClass = this.getVariable('MyClass').createNew([]);
-  console.log(myClass.getProperty('x').toNumber());
-  myClass.setProperty('x', syntek.literalHandler.number(50));
-  console.log(myClass.toString());
+  this.declareVariable('loop', DataType.FUNCTION, syntek.literalHandler.function(
+    this,
+    'loop',
+    [],
+    function () {
+      this.getVariable('print').exec([syntek.literalHandler.number(5)]);
+    },
+    DataType.ANY,
+  ));
 });
+
+if (syntek.context) {
+  syntek.context.getVariable('loop').exec([]);
+}
 
 console.warn('Interpreter end');
