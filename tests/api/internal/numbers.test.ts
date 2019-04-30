@@ -28,8 +28,29 @@ describe('Numbers', () => {
     expect(negativeNumber.toNumber()).to.equal(-10);
   });
 
-  it('throws an error when used as a function', () => {
-    expect(positiveNumber.exec).to.throw();
-    expect(negativeNumber.exec).to.throw();
+  it('throws when used as a function', () => {
+    expect(() => {
+      positiveNumber.exec([]);
+    }).to.throw();
+
+    expect(() => {
+      negativeNumber.exec([]);
+    }).to.throw();
+  });
+
+  it('throws when called with new', () => {
+    expect(() => {
+      positiveNumber.createNew([]);
+    }).to.throw();
+
+    expect(() => {
+      negativeNumber.createNew([]);
+    }).to.throw();
+  });
+
+  it('throws when trying to access a property', () => {
+    expect(() => {
+      positiveNumber.getProperty('x');
+    }).to.throw();
   });
 });

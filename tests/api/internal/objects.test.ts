@@ -9,9 +9,8 @@ import {
 } from '../../../src/api/internal/structures';
 
 describe('Objects', () => {
-  const syntek: Syntek = new Syntek();
-
   it('creates an object correctly', () => {
+    const syntek: Syntek = new Syntek();
     const object = syntek.literalHandler.object(new Context(), function () {});
 
     expect(object).to.be.an.instanceof(ObjectStruct);
@@ -19,6 +18,7 @@ describe('Objects', () => {
   });
 
   it('correctly stores function declarations', () => {
+    const syntek: Syntek = new Syntek();
     const object = syntek.literalHandler.object(new Context(), function () {
       this.declareVariable('fn', DataType.FUNCTION, syntek.literalHandler.function(
         this,
@@ -41,6 +41,7 @@ describe('Objects', () => {
   });
 
   it('correctly stores variable declarations', () => {
+    const syntek: Syntek = new Syntek();
     const object = syntek.literalHandler.object(new Context(), function () {
       this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
     });
@@ -52,6 +53,7 @@ describe('Objects', () => {
   });
 
   it('correctly stores object declarations', () => {
+    const syntek: Syntek = new Syntek();
     const object = syntek.literalHandler.object(new Context(), function () {
       this.declareVariable('nested', DataType.OBJECT, syntek.literalHandler.object(this, function () {
         this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
@@ -69,6 +71,7 @@ describe('Objects', () => {
   });
 
   it('does not override variables outside of the object', () => {
+    const syntek: Syntek = new Syntek();
     const context = new Context();
     context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
@@ -81,6 +84,7 @@ describe('Objects', () => {
   });
 
   it('does override variables outside of the object when inside a function', () => {
+    const syntek: Syntek = new Syntek();
     syntek.createProgram(function () {
       this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
@@ -103,6 +107,7 @@ describe('Objects', () => {
   });
 
   it('does not override variables when nesting objects', () => {
+    const syntek: Syntek = new Syntek();
     syntek.createProgram(function () {
       this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
@@ -121,6 +126,7 @@ describe('Objects', () => {
   });
 
   it('can access own properties in functions', () => {
+    const syntek: Syntek = new Syntek();
     syntek.createProgram(function () {
       this.declareVariable('obj', DataType.OBJECT, syntek.literalHandler.object(this, function () {
         this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
@@ -141,6 +147,38 @@ describe('Objects', () => {
       }));
 
       this.getVariable('obj').getProperty('checkX').exec([]);
+    });
+  });
+
+  it('correctly turns into a JSON string');
+
+  it('throws when turned into a number', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      expect(() => {
+        syntek.literalHandler.object(this, function () {}).toNumber();
+      }).to.throw();
+    });
+  });
+
+  it('throws when used as a function', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      expect(() => {
+        syntek.literalHandler.object(this, function () {}).exec([]);
+      }).to.throw();
+    });
+  });
+
+  it('throws when called with new', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      expect(() => {
+        syntek.literalHandler.object(this, function () {}).createNew([]);
+      }).to.throw();
     });
   });
 });

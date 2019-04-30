@@ -102,4 +102,40 @@ describe('Classes', () => {
   });
 
   it('can access instance properties within a function');
+
+  it('throws when turned into a number', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('MyClass', DataType.CLASS, syntek.literalHandler.class(this, function () {}, function () {}));
+
+      expect(() => {
+        this.getVariable('MyClass').toNumber();
+      }).to.throw();
+    });
+  });
+
+  it('throws when turned into a string', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('MyClass', DataType.CLASS, syntek.literalHandler.class(this, function () {}, function () {}));
+
+      expect(() => {
+        this.getVariable('MyClass').toString();
+      }).to.throw();
+    });
+  });
+
+  it('throws when used as a function', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('MyClass', DataType.CLASS, syntek.literalHandler.class(this, function () {}, function () {}));
+
+      expect(() => {
+        this.getVariable('MyClass').exec([]);
+      }).to.throw();
+    });
+  });
 });

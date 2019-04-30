@@ -104,4 +104,76 @@ describe('Functions', () => {
       expect(this.getVariable('x').toNumber()).to.equal(10);
     });
   });
+
+  it('throws when turned into a number', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('x', DataType.FUNCTION, syntek.literalHandler.function(
+        this,
+        'x',
+        [],
+        function () {},
+        DataType.ANY,
+      ));
+
+      expect(() => {
+        this.getVariable('x').toNumber();
+      }).to.throw();
+    });
+  });
+
+  it('throws when turned into a string', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('x', DataType.FUNCTION, syntek.literalHandler.function(
+        this,
+        'x',
+        [],
+        function () {},
+        DataType.ANY,
+      ));
+
+      expect(() => {
+        this.getVariable('x').toString();
+      }).to.throw();
+    });
+  });
+
+  it('throws when called with new', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('x', DataType.FUNCTION, syntek.literalHandler.function(
+        this,
+        'x',
+        [],
+        function () {},
+        DataType.ANY,
+      ));
+
+      expect(() => {
+        this.getVariable('x').createNew([]);
+      }).to.throw();
+    });
+  });
+
+  it('throws when trying to access a property', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('x', DataType.FUNCTION, syntek.literalHandler.function(
+        this,
+        'x',
+        [],
+        function () {},
+        DataType.ANY,
+      ));
+
+      expect(() => {
+        this.getVariable('x').getProperty('x');
+      }).to.throw();
+    });
+  });
 });
