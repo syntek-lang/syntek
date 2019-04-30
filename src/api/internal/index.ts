@@ -18,22 +18,22 @@ syntek.context.declareVariable('print', DataType.FUNCTION, syntek.literalHandler
 ));
 
 syntek.createProgram(function () {
-  this.declareVariable('MyClass', DataType.CLASS, syntek.literalHandler.class(this, function () {
+  this.declareVariable('MyClass', DataType.CLASS, syntek.literalHandler.class(this, 'MyClass', function () {}, function () {
     this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
-    console.log('Static', this);
-  }, function () {
-    this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(10));
-
-    console.log('Instance', this);
+    this.declareVariable('MyClass', DataType.FUNCTION, syntek.literalHandler.function(
+      this,
+      'func',
+      [],
+      function () {
+        console.log('new instance');
+      },
+      DataType.ANY,
+    ));
   }));
 
-  // Get static property x
-  console.log(this.getVariable('MyClass').getProperty('x').toNumber());
-
-  // Create a new instance and get instance property x
-  this.declareVariable('myClass', DataType.OBJECT, this.getVariable('MyClass').createNew([]));
-  console.log(this.getVariable('myClass').getProperty('x').toNumber());
+  const myClass = this.getVariable('MyClass').createNew([]);
+  console.log(myClass.getProperty('x').toNumber());
 });
 
 console.warn('Interpreter end');

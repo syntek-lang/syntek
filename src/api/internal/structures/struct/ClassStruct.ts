@@ -9,6 +9,11 @@ export default class ClassStruct implements Struct {
   readonly type = DataType.CLASS;
 
   /**
+   * The name of the class
+   */
+  readonly name: string;
+
+  /**
    * The context outside of the class
    */
   readonly outerContext: Context;
@@ -23,8 +28,14 @@ export default class ClassStruct implements Struct {
    */
   readonly instanceBuilder: ObjectBuilder;
 
-  constructor(outerContext: Context, staticBuilder: ObjectBuilder, instanceBuilder: ObjectBuilder) {
+  constructor(
+    outerContext: Context,
+    name: string,
+    staticBuilder: ObjectBuilder,
+    instanceBuilder: ObjectBuilder,
+  ) {
     this.outerContext = outerContext;
+    this.name = name;
 
     this.staticContext = new ObjectContext(outerContext);
     staticBuilder.call(this.staticContext);
@@ -40,9 +51,19 @@ export default class ClassStruct implements Struct {
     throw new Error('You can not use a class like a function, did you forget the new keyword?');
   }
 
-  createNew(): ObjectStruct {
-    // TODO: Call the constructor of the class
-    return new ObjectStruct(this.outerContext, this.instanceBuilder);
+  createNew(params: Struct[]): ObjectStruct {
+    const instance = new ObjectStruct(this.outerContext, this.instanceBuilder);
+
+    // Check for a constructor
+    if (instance.context.hasVariable(this.name)) {
+      const construct = instance.context.getVariable(this.name);
+
+      if (construct.type === DataType.FUNCTION) {
+        construct.exec(params);
+      }
+    }
+
+    return instance;
   }
 
   toString(): string {

@@ -49,15 +49,17 @@ export default class LiteralHandler {
    * Create a new class
    *
    * @param outerContext - The context outside of the class
+   * @param name - The name of the class
    * @param staticBuilder - A function that builds the static side of the class
    * @param instanceBuilder - A function that builds the instance side of the class
    * @retusn A class structure
    */
   class(
     outerContext: Context,
+    name: string,
     staticBuilder: ObjectBuilder,
     instanceBuilder: ObjectBuilder,
   ): Struct {
-    return new ClassStruct(outerContext, staticBuilder, instanceBuilder);
+    return new ClassStruct(outerContext, name, staticBuilder, instanceBuilder);
   }
 }
