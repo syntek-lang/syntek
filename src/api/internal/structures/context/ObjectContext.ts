@@ -1,4 +1,6 @@
 import Context from './Context';
+import DataType from '../DataType';
+import { LiteralHandler } from '../../handlers';
 
 export default class ObjectContext extends Context {
   /**
@@ -26,6 +28,17 @@ export default class ObjectContext extends Context {
    * @returns A child of the outer scope
    */
   createChild(): Context {
-    return this.outerContext.createChild();
+    const context = this.outerContext.createChild();
+    const scope = this.scope;
+
+    // Assign all object properties to the `this` object
+    // The `this` object has it's own empty context
+    context.declareVariable('this', DataType.OBJECT, LiteralHandler.object(new Context(), function objectBuilder() {
+      for (const prop of Object.keys(scope)) {
+        this.declareVariable(prop, scope[prop].type, scope[prop]);
+      }
+    }));
+
+    return context;
   }
 }

@@ -26,7 +26,7 @@ syntek.createProgram(function () {
       'func',
       [],
       function () {
-        console.log('new instance');
+        console.log(this.getVariable('this'));
       },
       DataType.ANY,
     ));

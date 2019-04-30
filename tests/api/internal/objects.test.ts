@@ -11,6 +11,7 @@ import {
 describe('Objects', () => {
   it('creates an object correctly', () => {
     const syntek: Syntek = new Syntek();
+
     const object = syntek.literalHandler.object(new Context(), function () {});
 
     expect(object).to.be.an.instanceof(ObjectStruct);
@@ -19,6 +20,7 @@ describe('Objects', () => {
 
   it('correctly stores function declarations', () => {
     const syntek: Syntek = new Syntek();
+
     const object = syntek.literalHandler.object(new Context(), function () {
       this.declareVariable('fn', DataType.FUNCTION, syntek.literalHandler.function(
         this,
@@ -42,6 +44,7 @@ describe('Objects', () => {
 
   it('correctly stores variable declarations', () => {
     const syntek: Syntek = new Syntek();
+
     const object = syntek.literalHandler.object(new Context(), function () {
       this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
     });
@@ -54,6 +57,7 @@ describe('Objects', () => {
 
   it('correctly stores object declarations', () => {
     const syntek: Syntek = new Syntek();
+
     const object = syntek.literalHandler.object(new Context(), function () {
       this.declareVariable('nested', DataType.OBJECT, syntek.literalHandler.object(this, function () {
         this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
@@ -72,6 +76,7 @@ describe('Objects', () => {
 
   it('correctly reassigns a property', () => {
     const syntek: Syntek = new Syntek();
+
     const object = syntek.literalHandler.object(new Context(), function () {
       this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
     });
@@ -90,6 +95,7 @@ describe('Objects', () => {
 
   it('throws when reassigning the wrong type', () => {
     const syntek: Syntek = new Syntek();
+
     const object = syntek.literalHandler.object(new Context(), function () {
       this.declareVariable('x', DataType.OBJECT, syntek.literalHandler.object(this, function () {}));
     });
@@ -101,6 +107,7 @@ describe('Objects', () => {
 
   it('does not override variables outside of the object', () => {
     const syntek: Syntek = new Syntek();
+
     const context = new Context();
     context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
@@ -114,6 +121,7 @@ describe('Objects', () => {
 
   it('does override variables outside of the object when inside a function', () => {
     const syntek: Syntek = new Syntek();
+
     syntek.createProgram(function () {
       this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
@@ -137,6 +145,7 @@ describe('Objects', () => {
 
   it('does not override variables when nesting objects', () => {
     const syntek: Syntek = new Syntek();
+
     syntek.createProgram(function () {
       this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
@@ -154,8 +163,9 @@ describe('Objects', () => {
     });
   });
 
-  it('can access own properties in functions', () => {
+  it('can access own properties in functions using the object name', () => {
     const syntek: Syntek = new Syntek();
+
     syntek.createProgram(function () {
       this.declareVariable('obj', DataType.OBJECT, syntek.literalHandler.object(this, function () {
         this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
@@ -166,6 +176,32 @@ describe('Objects', () => {
           [],
           function () {
             const x = this.getVariable('obj').getProperty('x');
+
+            expect(x).to.be.an.instanceof(VariableStruct);
+            expect(x.type).to.equal(DataType.NUMBER);
+            expect(x.toNumber()).to.equal(5);
+          },
+          DataType.ANY,
+        ));
+      }));
+
+      this.getVariable('obj').getProperty('checkX').exec([]);
+    });
+  });
+
+  it('can access own properties in functions using \'this\'', () => {
+    const syntek: Syntek = new Syntek();
+
+    syntek.createProgram(function () {
+      this.declareVariable('obj', DataType.OBJECT, syntek.literalHandler.object(this, function () {
+        this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+
+        this.declareVariable('checkX', DataType.FUNCTION, syntek.literalHandler.function(
+          this,
+          'checkX',
+          [],
+          function () {
+            const x = this.getVariable('this').getProperty('x');
 
             expect(x).to.be.an.instanceof(VariableStruct);
             expect(x.type).to.equal(DataType.NUMBER);
