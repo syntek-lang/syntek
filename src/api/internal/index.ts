@@ -18,19 +18,9 @@ syntek.globalContext.declareVariable('print', DataType.FUNCTION, syntek.literalH
 ));
 
 syntek.createProgram(function () {
-  this.declareVariable('loop', DataType.FUNCTION, syntek.literalHandler.function(
-    this,
-    'loop',
-    [],
-    function () {
-      this.getVariable('print').exec([syntek.literalHandler.number(5)]);
-    },
-    DataType.ANY,
-  ));
+  syntek.literalHandler.repeat(this, syntek.literalHandler.number(5), function () {
+    this.getVariable('print').exec([syntek.literalHandler.number(123)]);
+  });
 });
-
-if (syntek.context) {
-  syntek.context.getVariable('loop').exec([]);
-}
 
 console.warn('Interpreter end');

@@ -1,7 +1,4 @@
-import {
-  Struct, NumberStruct, ObjectStruct, ObjectBuilder, Context, FunctionParameterList,
-  ContextFunction, DataType, FunctionStruct, ClassStruct,
-} from '../structures';
+import * as structures from '../structures';
 
 export default class LiteralHandler {
   /**
@@ -10,8 +7,8 @@ export default class LiteralHandler {
    * @param value - The numeric value
    * @returns A number structure
    */
-  static number(value: number): Struct {
-    return new NumberStruct(value);
+  static number(value: number): structures.Struct {
+    return new structures.NumberStruct(value);
   }
 
   /**
@@ -25,13 +22,13 @@ export default class LiteralHandler {
    * @returns A function structure
    */
   static function(
-    context: Context,
+    context: structures.Context,
     name: string,
-    parameters: FunctionParameterList,
-    body: ContextFunction,
-    returnType: DataType,
-  ): Struct {
-    return new FunctionStruct(context, name, parameters, body, returnType);
+    parameters: structures.FunctionParameterList,
+    body: structures.ContextFunction,
+    returnType: structures.DataType,
+  ): structures.Struct {
+    return new structures.FunctionStruct(context, name, parameters, body, returnType);
   }
 
   /**
@@ -41,8 +38,11 @@ export default class LiteralHandler {
    * @param objectBuilder - A function that builds the object. Called immediately
    * @returns An object structure
    */
-  static object(outerContext: Context, objectBuilder: ObjectBuilder): Struct {
-    return new ObjectStruct(outerContext, objectBuilder);
+  static object(
+    outerContext: structures.Context,
+    objectBuilder: structures.ObjectBuilder,
+  ): structures.Struct {
+    return new structures.ObjectStruct(outerContext, objectBuilder);
   }
 
   /**
@@ -55,11 +55,19 @@ export default class LiteralHandler {
    * @retusn A class structure
    */
   static class(
-    outerContext: Context,
+    outerContext: structures.Context,
     name: string,
-    staticBuilder: ObjectBuilder,
-    instanceBuilder: ObjectBuilder,
-  ): Struct {
-    return new ClassStruct(outerContext, name, staticBuilder, instanceBuilder);
+    staticBuilder: structures.ObjectBuilder,
+    instanceBuilder: structures.ObjectBuilder,
+  ): structures.Struct {
+    return new structures.ClassStruct(outerContext, name, staticBuilder, instanceBuilder);
+  }
+
+  static repeat(
+    context: structures.Context,
+    amount: structures.Struct,
+    body: (this: structures.Context) => void,
+  ): structures.Flow {
+    return new structures.RepeatFlow(context, amount, body);
   }
 }
