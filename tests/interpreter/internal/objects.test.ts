@@ -3,10 +3,10 @@
 import 'mocha';
 import { expect } from 'chai';
 
-import Syntek from '../../../src/api/internal/Syntek';
+import Syntek from '../../../src/interpreter/internal/Syntek';
 import {
   DataType, NumberStruct, ObjectStruct, VariableStruct, Context,
-} from '../../../src/api/internal/structures';
+} from '../../../src/interpreter/internal/structures';
 
 describe('Objects', () => {
   it('creates an object correctly', () => {

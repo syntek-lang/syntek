@@ -3,8 +3,8 @@
 import 'mocha';
 import { expect } from 'chai';
 
-import Syntek from '../../../src/api/internal/Syntek';
-import { DataType, VariableStruct, ObjectStruct } from '../../../src/api/internal/structures';
+import Syntek from '../../../src/interpreter/internal/Syntek';
+import { DataType, VariableStruct, ObjectStruct } from '../../../src/interpreter/internal/structures';
 
 describe('Classes', () => {
   it('creates a class object correctly', () => {

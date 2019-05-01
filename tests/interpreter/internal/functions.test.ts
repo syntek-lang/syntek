@@ -3,8 +3,8 @@
 import 'mocha';
 import { expect } from 'chai';
 
-import Syntek from '../../../src/api/internal/Syntek';
-import { DataType, NumberStruct } from '../../../src/api/internal/structures';
+import Syntek from '../../../src/interpreter/internal/Syntek';
+import { DataType, NumberStruct } from '../../../src/interpreter/internal/structures';
 
 describe('Functions', () => {
   it('handles function parameters correctly', () => {

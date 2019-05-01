@@ -13,7 +13,7 @@ import parsingTokens from './tokens/parsing';
 import * as tests from './tests';
 
 // Side effects :P
-import './api/internal/index';
+import './interpreter/internal/index';
 
 console.log(lexingTokens);
 console.log(parsingTokens);
