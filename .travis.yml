@@ -13,5 +13,5 @@ jobs:
     - script: npm run lint
       name: "Lint"
     - stage: Test
-      script: npm run unit:api
-      name: "API"
+      script: npm run unit:interpreter
+      name: "Interpreter"
