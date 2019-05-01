@@ -25,7 +25,7 @@ export default class LiteralHandler {
     context: structures.Context,
     name: string,
     parameters: structures.FunctionParameterList,
-    body: structures.ContextFunction,
+    body: structures.AnyContextCallback,
     returnType: structures.DataType,
   ): structures.Struct {
     return new structures.FunctionStruct(context, name, parameters, body, returnType);
@@ -40,7 +40,7 @@ export default class LiteralHandler {
    */
   static object(
     outerContext: structures.Context,
-    objectBuilder: structures.ObjectBuilder,
+    objectBuilder: structures.VoidContextCallback,
   ): structures.Struct {
     return new structures.ObjectStruct(outerContext, objectBuilder);
   }
@@ -57,8 +57,8 @@ export default class LiteralHandler {
   static class(
     outerContext: structures.Context,
     name: string,
-    staticBuilder: structures.ObjectBuilder,
-    instanceBuilder: structures.ObjectBuilder,
+    staticBuilder: structures.VoidContextCallback,
+    instanceBuilder: structures.VoidContextCallback,
   ): structures.Struct {
     return new structures.ClassStruct(outerContext, name, staticBuilder, instanceBuilder);
   }
@@ -66,7 +66,7 @@ export default class LiteralHandler {
   static repeat(
     context: structures.Context,
     amount: structures.Struct,
-    body: (this: structures.Context) => void,
+    body: structures.VoidContextCallback,
   ): structures.Flow {
     return new structures.RepeatFlow(context, amount, body);
   }

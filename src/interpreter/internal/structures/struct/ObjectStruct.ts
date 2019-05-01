@@ -1,7 +1,7 @@
 import Struct from './Struct';
 import DataType from '../DataType';
 import Context from '../context/Context';
-import { ObjectBuilder } from '../ParameterTypes';
+import { VoidContextCallback } from '../ParameterTypes';
 import ObjectContext from '../context/ObjectContext';
 
 export default class ObjectStruct implements Struct {
@@ -9,7 +9,7 @@ export default class ObjectStruct implements Struct {
 
   readonly context: ObjectContext;
 
-  constructor(outerContext: Context, objectBuilder: ObjectBuilder) {
+  constructor(outerContext: Context, objectBuilder: VoidContextCallback) {
     this.context = new ObjectContext(outerContext);
     objectBuilder.call(this.context);
   }

@@ -2,7 +2,7 @@ import Struct from './Struct';
 import DataType from '../DataType';
 import Context from '../context/Context';
 import ObjectStruct from './ObjectStruct';
-import { ObjectBuilder } from '../ParameterTypes';
+import { VoidContextCallback } from '../ParameterTypes';
 import ObjectContext from '../context/ObjectContext';
 
 export default class ClassStruct implements Struct {
@@ -26,13 +26,13 @@ export default class ClassStruct implements Struct {
   /**
    * The instance builder to create an instance of this class
    */
-  readonly instanceBuilder: ObjectBuilder;
+  readonly instanceBuilder: VoidContextCallback;
 
   constructor(
     outerContext: Context,
     name: string,
-    staticBuilder: ObjectBuilder,
-    instanceBuilder: ObjectBuilder,
+    staticBuilder: VoidContextCallback,
+    instanceBuilder: VoidContextCallback,
   ) {
     this.outerContext = outerContext;
     this.name = name;

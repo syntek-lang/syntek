@@ -1,7 +1,7 @@
 import Struct from './Struct';
 import DataType from '../DataType';
 import Context from '../context/Context';
-import { FunctionParameterList, ContextFunction } from '../ParameterTypes';
+import { FunctionParameterList, AnyContextCallback } from '../ParameterTypes';
 
 export default class FunctionStruct implements Struct {
   readonly type = DataType.FUNCTION;
@@ -12,7 +12,7 @@ export default class FunctionStruct implements Struct {
 
   readonly parameters: FunctionParameterList;
 
-  readonly body: ContextFunction;
+  readonly body: AnyContextCallback;
 
   readonly returnType: DataType;
 
@@ -20,7 +20,7 @@ export default class FunctionStruct implements Struct {
     context: Context,
     name: string,
     parameters: FunctionParameterList,
-    body: ContextFunction,
+    body: AnyContextCallback,
     returnType: DataType,
   ) {
     this.context = context;

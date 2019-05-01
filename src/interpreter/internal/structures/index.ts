@@ -1,5 +1,5 @@
 export { default as DataType } from './DataType';
-export { FunctionParameterList, ContextFunction, ObjectBuilder } from './ParameterTypes';
+export { FunctionParameterList, AnyContextCallback, VoidContextCallback } from './ParameterTypes';
 
 export { default as Context } from './context/Context';
 export { default as ObjectContext } from './context/ObjectContext';
