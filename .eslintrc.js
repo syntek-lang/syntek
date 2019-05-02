@@ -10,7 +10,12 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['import', '@typescript-eslint'],
+  plugins: [
+    'import',
+    '@typescript-eslint',
+    'jsdoc',
+    'eslint-comments',
+  ],
   settings: {
     'import/extensions': ['.js', '.ts'],
     'import/parsers': {
@@ -36,6 +41,7 @@ module.exports = {
     'no-dupe-class-members': 'off',
     'no-prototype-builtins': 'off',
 
+    // typescript-eslint
     camelcase: 'off',
     '@typescript-eslint/camelcase': 'error',
 
@@ -74,6 +80,31 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'error',
     '@typescript-eslint/prefer-interface': 'error',
     '@typescript-eslint/type-annotation-spacing': 'error',
+
+    // jsdoc
+    'jsdoc/check-alignment': 'error',
+    'jsdoc/check-examples': 'error',
+    'jsdoc/check-indentation': 'error',
+    'jsdoc/check-param-names': 'error',
+    'jsdoc/check-syntax': 'error',
+    'jsdoc/check-tag-names': 'error',
+    'jsdoc/check-types': 'error',
+    'jsdoc/newline-after-description': 'error',
+    'jsdoc/no-undefined-types': 'error',
+    'jsdoc/require-hyphen-before-param-description': 'error',
+    'jsdoc/require-param-description': 'error',
+    'jsdoc/require-param-name': 'error',
+    'jsdoc/require-param': 'error',
+    'jsdoc/require-returns-description': 'error',
+    'jsdoc/valid-types': 'error',
+
+    // eslint-comments
+    'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
+    'eslint-comments/no-aggregating-enable': 'error',
+    'eslint-comments/no-duplicate-disable': 'error',
+    'eslint-comments/no-unlimited-disable': 'error',
+    'eslint-comments/no-unused-disable': 'error',
+    'eslint-comments/no-unused-enable': 'error',
   },
   overrides: [
     {

@@ -50,10 +50,10 @@ export default class SymbolTable {
   }
 
   /**
-  * Get the nearest scope in a list of ancestor tokens
-  *
-  * @param ancestors - The ancestors to get the scope of
-  */
+   * Get the nearest scope in a list of ancestor tokens
+   *
+   * @param ancestors - The ancestors to get the scope of
+   */
   getScope(ancestors: Token[]): Token {
     let i = ancestors.length - 1;
 

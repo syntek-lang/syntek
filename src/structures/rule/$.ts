@@ -38,8 +38,8 @@ export default class $ {
    * @param tokenable - The tokenable to match
    * @param separator - The seperating tokenable
    */
-  static MANY_SEP(tokenabe: Tokenable, separator: Tokenable): Rule {
-    return new ManySepRule(tokenableToRule(tokenabe), tokenableToRule(separator));
+  static MANY_SEP(tokenable: Tokenable, separator: Tokenable): Rule {
+    return new ManySepRule(tokenableToRule(tokenable), tokenableToRule(separator));
   }
 
   /**

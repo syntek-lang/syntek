@@ -1,4 +1,4 @@
-/* eslint-disable prefer-arrow-callback, func-names, max-len */
+/* eslint-disable prefer-arrow-callback, func-names */
 
 import Syntek from './Syntek';
 import DataType from './structures/DataType';

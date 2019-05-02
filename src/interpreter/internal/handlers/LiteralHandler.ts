@@ -52,7 +52,7 @@ export default class LiteralHandler {
    * @param name - The name of the class
    * @param staticBuilder - A function that builds the static side of the class
    * @param instanceBuilder - A function that builds the instance side of the class
-   * @retusn A class structure
+   * @returns A class structure
    */
   static class(
     outerContext: structures.Context,
