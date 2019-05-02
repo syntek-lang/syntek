@@ -7,6 +7,7 @@ enum DataType {
   OBJECT,
   CLASS,
   FUNCTION,
+  MODULE,
 }
 
 export default DataType;

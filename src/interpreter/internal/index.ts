@@ -17,10 +17,16 @@ syntek.globalContext.declareVariable('print', DataType.FUNCTION, syntek.literalH
   DataType.ANY,
 ));
 
-syntek.createProgram(function () {
-  syntek.literalHandler.repeat(this, syntek.literalHandler.number(5), function () {
-    this.getVariable('print').exec([syntek.literalHandler.number(123)]);
-  });
+syntek.declareModule('builtins', function () {
+  this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(91));
 });
+
+syntek.createProgram(function () {
+  this.declareVariable('builtins', DataType.MODULE, syntek.getModule('builtins'));
+
+  this.getVariable('print').exec([this.getVariable('builtins').getProperty('x')]);
+});
+
+console.log(syntek);
 
 console.warn('Interpreter end');

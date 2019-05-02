@@ -63,6 +63,14 @@ export default class LiteralHandler {
     return new structures.ClassStruct(outerContext, name, staticBuilder, instanceBuilder);
   }
 
+  /**
+   * Create a repeat statement
+   *
+   * @param context - The context the repeat statement is in
+   * @param amount - The amount of iterations that need to be made
+   * @param body - The body of the repeat statement
+   * @returns A repeat flow
+   */
   static repeat(
     context: structures.Context,
     amount: structures.Struct,

@@ -10,7 +10,7 @@ export default class Utils {
    * @param declaredVariable - The variable that is being reassigned
    */
   static checkValidReassign(name: string, type: DataType, declaredVariable: Struct): void {
-    if (type === DataType.FUNCTION) {
+    if (type === DataType.FUNCTION || type === DataType.MODULE) {
       throw new Error(`There is already a variable with the name ${name}`);
     }
 
@@ -20,6 +20,10 @@ export default class Utils {
 
     if (declaredVariable.type === DataType.FUNCTION) {
       throw new Error('You can not reassign a variable declared as a function');
+    }
+
+    if (declaredVariable.type === DataType.MODULE) {
+      throw new Error('You can not reassign a variable declared as a module');
     }
   }
 }
