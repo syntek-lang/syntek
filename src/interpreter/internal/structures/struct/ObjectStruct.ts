@@ -15,6 +15,10 @@ export default class ObjectStruct implements Struct {
   }
 
   getProperty(name: string): Struct {
+    if (!this.context.hasVariable(name)) {
+      throw new Error(`The property ${name} does not exist on this object`);
+    }
+
     return this.context.scope[name];
   }
 
@@ -46,6 +50,10 @@ export default class ObjectStruct implements Struct {
   }
 
   toString(): string {
+    if (this.context.hasVariable('toString')) {
+      return this.context.getVariable('toString').exec([]);
+    }
+
     return JSON.stringify(this.toJson(), null, 2);
   }
 

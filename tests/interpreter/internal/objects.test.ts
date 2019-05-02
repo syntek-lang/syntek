@@ -215,6 +215,9 @@ describe('Objects', () => {
     });
   });
 
+  // This test still needs to be made, because it requires strings to function
+  it('can overwrite the toString method');
+
   it('correctly returns an object when turned into json', () => {
     const syntek: Syntek = new Syntek();
 

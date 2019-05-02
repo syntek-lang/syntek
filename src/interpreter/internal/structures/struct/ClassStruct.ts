@@ -44,6 +44,10 @@ export default class ClassStruct implements Struct {
   }
 
   getProperty(name: string): Struct {
+    if (!this.staticContext.hasVariable(name)) {
+      throw new Error(`Class does not have property ${name}`);
+    }
+
     return this.staticContext.getVariable(name);
   }
 

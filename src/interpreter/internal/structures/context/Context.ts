@@ -39,7 +39,7 @@ export default class Context {
       return;
     }
 
-    if (this.scope[name]) {
+    if (this.hasVariable(name)) {
       // Reassigning variable in the current scope
       const variable = this.scope[name];
       Utils.checkValidReassign(name, type, variable);
@@ -63,7 +63,7 @@ export default class Context {
       return this.upperContext.getVariable(name);
     }
 
-    if (!this.scope[name]) {
+    if (!this.hasVariable(name)) {
       throw new Error(`Variable ${name} does not exist`);
     }
 
@@ -81,7 +81,9 @@ export default class Context {
       return true;
     }
 
-    return !!this.scope[name];
+    // Make sure the scope has it's own property
+    // Prevents prototypes properties from being returned
+    return this.scope.hasOwnProperty(name);
   }
 
   /**

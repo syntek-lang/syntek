@@ -18,7 +18,7 @@ export default class ModuleStruct implements Struct {
   }
 
   getProperty(name: string): Struct {
-    if (!this.context.scope[name]) {
+    if (!this.context.hasVariable(name)) {
       throw new Error(`Module ${this.name} does not have a property ${name}`);
     }
 
