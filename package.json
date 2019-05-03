@@ -7,8 +7,8 @@
     "test": "npm run build && npm run lint && npm run unit",
     "build": "webpack",
     "build:watch": "webpack --watch",
-    "lint": "eslint src --ext .js,.ts",
-    "lint:fix": "eslint src --fix --ext .js,.ts",
+    "lint": "eslint . --ext .js,.ts",
+    "lint:fix": "eslint . --fix --ext .js,.ts",
     "unit": "mocha -r ts-node/register tests/**/*.test.ts",
     "unit:interpreter": "mocha -r ts-node/register tests/interpreter/**/*.test.ts"
   },
