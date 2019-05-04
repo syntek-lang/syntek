@@ -9,8 +9,12 @@ export default class ObjectStruct implements Struct {
 
   readonly context: ObjectContext;
 
-  constructor(outerContext: Context, objectBuilder: VoidContextCallback) {
-    this.context = new ObjectContext(outerContext);
+  constructor(
+    outerContext: Context,
+    objectBuilder: VoidContextCallback,
+    parentContext?: ObjectContext,
+  ) {
+    this.context = new ObjectContext(outerContext, parentContext);
     objectBuilder.call(this.context);
   }
 
@@ -19,7 +23,7 @@ export default class ObjectStruct implements Struct {
       throw new Error(`The property ${name} does not exist on this object`);
     }
 
-    return this.context.scope[name];
+    return this.context.getVariable(name);
   }
 
   setProperty(name: string, value: Struct): void {
@@ -37,12 +41,11 @@ export default class ObjectStruct implements Struct {
   toJson(): object {
     const json: object = {};
 
-    const scope = this.context.scope;
-    for (const prop of Object.keys(scope)) {
-      const jsonValue = scope[prop].toJson();
+    for (const [name, value] of this.context.getVariables()) {
+      const jsonValue = value.toJson();
 
       if (jsonValue !== undefined) {
-        json[prop] = jsonValue;
+        json[name] = jsonValue;
       }
     }
 

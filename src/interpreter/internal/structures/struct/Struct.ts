@@ -35,9 +35,10 @@ interface Struct {
    * `new MyClass()`
    *
    * @param params - An array of parameters to pass on to the structure
+   * @param callConstructor - Whether to call the constructor
    * @returns A new structure representing an instance of the previous
    */
-  createNew(params: Struct[]): Struct;
+  createNew(params: Struct[], callConstructor?: boolean): Struct;
 
   /**
    * Turn the structure into a string when serializing an object

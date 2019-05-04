@@ -5,14 +5,14 @@ import { expect } from 'chai';
 
 import Syntek from '../../../src/interpreter/internal/Syntek';
 import {
-  DataType, NumberStruct, ObjectStruct, VariableStruct, Context,
+  DataType, NumberStruct, ObjectStruct, VariableStruct, DefaultContext,
 } from '../../../src/interpreter/internal/structures';
 
 describe('Objects', () => {
   it('creates an object correctly', () => {
     const syntek: Syntek = new Syntek();
 
-    const object = syntek.literalHandler.object(new Context(), function () {});
+    const object = syntek.literalHandler.object(new DefaultContext(), function () {});
 
     expect(object).to.be.an.instanceof(ObjectStruct);
     expect(object.type).to.equal(DataType.OBJECT);
@@ -21,7 +21,7 @@ describe('Objects', () => {
   it('correctly stores function declarations', () => {
     const syntek: Syntek = new Syntek();
 
-    const object = syntek.literalHandler.object(new Context(), function () {
+    const object = syntek.literalHandler.object(new DefaultContext(), function () {
       this.declareVariable('fn', DataType.FUNCTION, syntek.literalHandler.function(
         this,
         'fn',
@@ -45,7 +45,7 @@ describe('Objects', () => {
   it('correctly stores variable declarations', () => {
     const syntek: Syntek = new Syntek();
 
-    const object = syntek.literalHandler.object(new Context(), function () {
+    const object = syntek.literalHandler.object(new DefaultContext(), function () {
       this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
     });
 
@@ -58,7 +58,7 @@ describe('Objects', () => {
   it('correctly stores object declarations', () => {
     const syntek: Syntek = new Syntek();
 
-    const object = syntek.literalHandler.object(new Context(), function () {
+    const object = syntek.literalHandler.object(new DefaultContext(), function () {
       this.declareVariable('nested', DataType.OBJECT, syntek.literalHandler.object(this, function () {
         this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
       }));
@@ -77,7 +77,7 @@ describe('Objects', () => {
   it('correctly reassigns a property', () => {
     const syntek: Syntek = new Syntek();
 
-    const object = syntek.literalHandler.object(new Context(), function () {
+    const object = syntek.literalHandler.object(new DefaultContext(), function () {
       this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
     });
 
@@ -96,7 +96,7 @@ describe('Objects', () => {
   it('throws when reassigning the wrong type', () => {
     const syntek: Syntek = new Syntek();
 
-    const object = syntek.literalHandler.object(new Context(), function () {
+    const object = syntek.literalHandler.object(new DefaultContext(), function () {
       this.declareVariable('x', DataType.OBJECT, syntek.literalHandler.object(this, function () {}));
     });
 
@@ -108,7 +108,7 @@ describe('Objects', () => {
   it('does not override variables outside of the object', () => {
     const syntek: Syntek = new Syntek();
 
-    const context = new Context();
+    const context = new DefaultContext();
     context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
     syntek.literalHandler.object(context, function () {

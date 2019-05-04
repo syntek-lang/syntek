@@ -18,22 +18,42 @@ syntek.globalContext.declareVariable('print', DataType.FUNCTION, syntek.literalH
 ));
 
 syntek.createProgram(function () {
-  this.declareVariable('obj', DataType.OBJECT, syntek.literalHandler.object(this, function () {
-    this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+  this.declareVariable('Parent', DataType.CLASS, syntek.literalHandler.class(
+    this,
+    'Parent',
+    function () {
+    },
+    function () {
+      this.declareVariable('toString', DataType.FUNCTION, syntek.literalHandler.function(
+        this,
+        'toString',
+        [],
+        function () {
+          return 'hello';
+        },
+        DataType.ANY,
+      ));
 
-    this.declareVariable('toString', DataType.FUNCTION, syntek.literalHandler.function(
-      this,
-      'toString',
-      [],
-      function () {
-        return syntek.literalHandler.number(123);
-      },
-      DataType.NUMBER,
-    ));
-  }));
+      this.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
+    },
+  ));
 
-  console.log(this.getVariable('obj'));
-  this.getVariable('print').exec([this.getVariable('obj')]);
+  this.declareVariable('Child', DataType.CLASS, syntek.literalHandler.class(
+    this,
+    'Child',
+    function () {
+    },
+    function () {
+      this.declareVariable('y', DataType.NUMBER, syntek.literalHandler.number(10));
+    },
+    this.getVariable('Parent'),
+  ));
+
+  console.log(this.getVariable('Parent').createNew([]));
+  console.log(this.getVariable('Child').createNew([]));
+
+  console.log(this.getVariable('Parent').createNew([]).getProperty('x').toNumber());
+  console.log(this.getVariable('Child').createNew([]).getProperty('x').toNumber());
 });
 
 console.warn('Interpreter end');

@@ -3,6 +3,7 @@ export { FunctionParameterList, AnyContextCallback, VoidContextCallback } from '
 
 export { default as Context } from './context/Context';
 export { default as ObjectContext } from './context/ObjectContext';
+export { default as DefaultContext } from './context/DefaultContext';
 
 export { default as Struct } from './struct/Struct';
 export { default as ClassStruct } from './struct/ClassStruct';

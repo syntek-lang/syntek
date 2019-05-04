@@ -52,6 +52,7 @@ export default class LiteralHandler {
    * @param name - The name of the class
    * @param staticBuilder - A function that builds the static side of the class
    * @param instanceBuilder - A function that builds the instance side of the class
+   * @param parent - The parent of the class
    * @returns A class structure
    */
   static class(
@@ -59,8 +60,9 @@ export default class LiteralHandler {
     name: string,
     staticBuilder: structures.VoidContextCallback,
     instanceBuilder: structures.VoidContextCallback,
+    parent?: structures.Struct,
   ): structures.Struct {
-    return new structures.ClassStruct(outerContext, name, staticBuilder, instanceBuilder);
+    return new structures.ClassStruct(outerContext, name, staticBuilder, instanceBuilder, parent);
   }
 
   /**

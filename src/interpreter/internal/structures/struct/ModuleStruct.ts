@@ -1,6 +1,7 @@
 import Struct from './Struct';
 import DataType from '../DataType';
 import Context from '../context/Context';
+import DefaultContext from '../context/DefaultContext';
 import { VoidContextCallback } from '../ParameterTypes';
 
 export default class ModuleStruct implements Struct {
@@ -13,7 +14,7 @@ export default class ModuleStruct implements Struct {
   constructor(name: string, moduleBuilder: VoidContextCallback) {
     this.name = name;
 
-    this.context = new Context();
+    this.context = new DefaultContext();
     moduleBuilder.call(this.context);
   }
 
@@ -22,7 +23,7 @@ export default class ModuleStruct implements Struct {
       throw new Error(`Module ${this.name} does not have a property ${name}`);
     }
 
-    return this.context.scope[name];
+    return this.context.getVariable(name);
   }
 
   setProperty(name: string, value: Struct): void {
@@ -40,12 +41,11 @@ export default class ModuleStruct implements Struct {
   toJson(): object {
     const json: object = {};
 
-    const scope = this.context.scope;
-    for (const prop of Object.keys(scope)) {
-      const jsonValue = scope[prop].toJson();
+    for (const [name, value] of this.context.getVariables()) {
+      const jsonValue = value.toJson();
 
       if (jsonValue !== undefined) {
-        json[prop] = jsonValue;
+        json[name] = jsonValue;
       }
     }
 

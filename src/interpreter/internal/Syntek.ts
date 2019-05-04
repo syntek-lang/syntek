@@ -1,4 +1,6 @@
-import { Context, VoidContextCallback, ModuleStruct } from './structures';
+import {
+  Context, VoidContextCallback, ModuleStruct, DefaultContext,
+} from './structures';
 import { LiteralHandler, MathHandler } from './handlers';
 
 export default class Syntek {
@@ -20,7 +22,7 @@ export default class Syntek {
   /**
    * The context of the Syntek instance. This holds variables declared outside of the language
    */
-  readonly globalContext: Context = new Context();
+  readonly globalContext: Context = new DefaultContext();
 
   /**
    * The context of the program recently executed. This resets every time `createProgram` is

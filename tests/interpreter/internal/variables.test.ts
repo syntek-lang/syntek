@@ -3,14 +3,14 @@ import { expect } from 'chai';
 
 import Syntek from '../../../src/interpreter/internal/Syntek';
 import {
-  DataType, NumberStruct, VariableStruct, Context,
+  DataType, NumberStruct, VariableStruct, DefaultContext,
 } from '../../../src/interpreter/internal/structures';
 
 describe('Variables', () => {
   const syntek: Syntek = new Syntek();
 
   it('creates an object correctly', () => {
-    const context = new Context();
+    const context = new DefaultContext();
     context.declareVariable('x', DataType.ANY, syntek.literalHandler.number(5));
 
     const x = context.getVariable('x') as VariableStruct;
@@ -21,7 +21,7 @@ describe('Variables', () => {
   });
 
   it('throws when assigned with the wrong type', () => {
-    const context = new Context();
+    const context = new DefaultContext();
 
     expect(() => {
       context.declareVariable('x', DataType.STRING, syntek.literalHandler.number(5));
@@ -29,7 +29,7 @@ describe('Variables', () => {
   });
 
   it('correctly stores the type of a variable', () => {
-    const context = new Context();
+    const context = new DefaultContext();
     context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
     const x = context.getVariable('x');
@@ -38,7 +38,7 @@ describe('Variables', () => {
   });
 
   it('correctly reassigns a variable', () => {
-    const context = new Context();
+    const context = new DefaultContext();
     context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
     const firstX = context.getVariable('x');
@@ -55,7 +55,7 @@ describe('Variables', () => {
   });
 
   it('throws when reassigned with the wrong type', () => {
-    const context = new Context();
+    const context = new DefaultContext();
     context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
     expect(() => {
@@ -64,7 +64,7 @@ describe('Variables', () => {
   });
 
   it('throws when reassigned with a type other than ANY', () => {
-    const context = new Context();
+    const context = new DefaultContext();
     context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
     expect(() => {
@@ -73,7 +73,7 @@ describe('Variables', () => {
   });
 
   it('throws when trying to reassign a function', () => {
-    const context = new Context();
+    const context = new DefaultContext();
     context.declareVariable('fn', DataType.FUNCTION, syntek.literalHandler.function(
       context,
       'fn',
@@ -88,7 +88,7 @@ describe('Variables', () => {
   });
 
   it('throws when trying to reassign a variable with a function', () => {
-    const context = new Context();
+    const context = new DefaultContext();
     context.declareVariable('x', DataType.NUMBER, syntek.literalHandler.number(5));
 
     expect(() => {
