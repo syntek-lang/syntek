@@ -37,6 +37,11 @@ export default class ObjectContext implements Context {
     this.scope = {};
   }
 
+  /**
+   * Get all variables stored on this object and it's parents
+   *
+   * @returns The variables in the format `[name, value]`
+   */
   getVariables(): [string, Struct][] {
     const variables: [string, Struct][] = [];
 
@@ -49,6 +54,13 @@ export default class ObjectContext implements Context {
     return variables;
   }
 
+  /**
+   * Declare a variable on the current object
+   *
+   * @param name - The name of the variable
+   * @param type - The type of the variable
+   * @param value - The value of the variable
+   */
   declareVariable(name: string, type: DataType, value: Struct): void {
     if (this.hasOwnVariable(name)) {
       // Reassigning variable in the current scope
@@ -63,6 +75,12 @@ export default class ObjectContext implements Context {
     this.scope[name] = new VariableStruct(name, type, value);
   }
 
+  /**
+   * Get a variable from this object or it's parents
+   *
+   * @param name - The name of the variable
+   * @returns The variable
+   */
   getVariable(name: string): Struct {
     if (!this.hasOwnVariable(name)) {
       // Check if parent has the variable
@@ -77,6 +95,12 @@ export default class ObjectContext implements Context {
     return this.scope[name];
   }
 
+  /**
+   * Check whether the variable exists on this object
+   *
+   * @param name - The name of the variable
+   * @returns Whether the variable exists
+   */
   hasVariable(name: string): boolean {
     if (this.parentObjectContext && this.parentObjectContext.hasVariable(name)) {
       return true;
@@ -85,6 +109,12 @@ export default class ObjectContext implements Context {
     return this.hasOwnVariable(name);
   }
 
+  /**
+   * Check whether the variable exists and on the current object
+   *
+   * @param name - The name of the variable
+   * @returns Whether the variable exists
+   */
   hasOwnVariable(name: string): boolean {
     return this.scope.hasOwnProperty(name);
   }

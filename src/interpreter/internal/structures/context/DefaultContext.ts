@@ -25,6 +25,11 @@ export default class DefaultContext implements Context {
     this.scope = {};
   }
 
+  /**
+   * Get all variables from the current context
+   *
+   * @returns The variables in the format `[name, value]`
+   */
   getVariables(): [string, Struct][] {
     const variables: [string, Struct][] = [];
 
