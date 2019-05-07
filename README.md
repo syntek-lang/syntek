@@ -11,4 +11,13 @@ Syntek is a programming language that provides a beginner friendly programming e
 
 ## Syntax
 Syntek is similar to Python and JavaScript. It is indentation based to force cleaner code. Syntek also aims to be close to English, to improve readability. You can read more about the syntax [here](https://github.com/syntek-lang/syntek/tree/master/syntax).
-[kmg]
+
+---
+
+## Sponsor
+
+<div align="center">
+  <img src="https://cdn.jdl-enterprises.co.uk/media/1/logos/above/color_logo_transparent.png" alt="JDL Enterprises" width="500px" />
+  <br />
+  JDL Enterprises <a href="https://jdl-enterprises.co.uk">jdl-enterprises.co.uk</a>
+</div>
