@@ -15,12 +15,22 @@ export default class ObjectStruct implements Struct {
   }
 
   get(name: string): Struct {
+    return this.context.get(name);
+  }
+
+  declare(name: string, value: Struct): void {
+    this.context.set(name, value);
+  }
+
+  callMethod(name: string, params: Struct[]): Struct {
+    // TODO: Use params to call the method
+    console.log(params);
+
     let variable: Struct | null = null;
 
     // Get from child
     let child = this.child;
-
-    while (!variable && child) {
+    while (child) { // Loop until we are at the very last child
       console.log(child);
 
       if (child.context.has(name)) {
@@ -37,7 +47,7 @@ export default class ObjectStruct implements Struct {
 
     // Get from parent
     let parent = this.parent;
-    while (!variable && parent) {
+    while (!variable && parent) { // Get from the closest parent
       console.log(parent);
 
       if (parent.context.has(name)) {
@@ -52,17 +62,8 @@ export default class ObjectStruct implements Struct {
       return variable;
     }
 
-    throw new Error(`No such property ${name}`);
-  }
-
-  declare(name: string, value: Struct): void {
-    this.context.set(name, value);
-  }
-
-  callMethod(name: string, params: Struct[]): Struct {
-    // TODO: Implement logic
-    console.log(name, params);
-    return this;
+    // Throw error if nothing was found
+    throw new Error(`No such method ${name}`);
   }
 
   createNew(): Struct {

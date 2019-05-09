@@ -1,6 +1,8 @@
 import Struct from './Struct';
 import ObjectStruct from './ObjectStruct';
 
+type ObjectBuilder = (this: ObjectStruct) => void;
+
 export default class ClassStruct implements Struct {
   readonly parent?: ClassStruct;
 
@@ -8,8 +10,11 @@ export default class ClassStruct implements Struct {
 
   readonly instanceBuilder: any;
 
-  constructor(parent?: ClassStruct) {
+  constructor(staticBuilder: ObjectBuilder, parent?: ClassStruct) {
     this.parent = parent;
+
+    this.staticScope = new ObjectStruct();
+    staticBuilder.call(this.staticScope);
   }
 
   get(name: string): Struct {
