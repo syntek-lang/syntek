@@ -1,47 +1,87 @@
-const variables: any = {
-  print: {
-    type: 'function',
-    value: {
-      call(...parameters) {
-        console.log(...parameters.map(param => param.value.toString()));
-      },
-    },
-  },
-  main() {
-    variables.printValues = {
-      type: 'function',
-      value: {
-        call() {
-          variables.sum = {
-            type: 'variable',
-            value: {
-              num: 5,
-              toString() {
-                return this.num;
-              },
-            },
-          };
+/* eslint-disable @typescript-eslint/no-use-before-define */
 
-          variables.print.value.call(variables.sum);
+class BooleanStruct {
+  readonly value: boolean;
 
-          const temp = variables.sum;
-          variables.sum = {
-            type: 'variable',
-            value: {
-              num: temp.value + 10,
-              toString() {
-                return this.num;
-              },
-            },
-          };
+  constructor(value: boolean) {
+    this.value = value;
+  }
 
-          variables.print.value.call(variables.sum);
-        },
-      },
-    };
+  toString(): StringStruct {
+    return new StringStruct(this.value.toString());
+  }
 
-    variables.printValues.value.call();
-  },
-};
+  $toNumber(): NumberStruct {
+    return new NumberStruct(this.value ? 1 : 0);
+  }
 
-variables.main();
+  $toBoolean(): BooleanStruct {
+    return this;
+  }
+
+  $add(right: NumberStruct): NumberStruct {
+    return new NumberStruct(this.$toNumber().$add(right.$toNumber()).value);
+  }
+
+  $equals(right: BooleanStruct): BooleanStruct {
+    return new BooleanStruct(this.value === right.$toBoolean().value);
+  }
+}
+
+class StringStruct {
+  readonly value: string;
+
+  constructor(value: string) {
+    this.value = value;
+  }
+
+  toString(): StringStruct {
+    return this;
+  }
+
+  $toNumber(): NumberStruct {
+    throw new Error('Can\'t turn a string into a number');
+  }
+
+  $toBoolean(): BooleanStruct {
+    throw new Error('Can\'t turn a string into a boolean');
+  }
+
+  $add(): NumberStruct {
+    throw new Error('Can\'t add 2 numbers, did you mean String#append?');
+  }
+
+  $equals(): BooleanStruct {
+    throw new Error('Compare strings with String#equals');
+  }
+}
+
+class NumberStruct {
+  readonly value: number;
+
+  constructor(value: number) {
+    this.value = value;
+  }
+
+  toString(): StringStruct {
+    return new StringStruct(this.value.toString());
+  }
+
+  $toNumber(): NumberStruct {
+    return this;
+  }
+
+  $toBoolean(): BooleanStruct {
+    return new BooleanStruct(this.value !== 0);
+  }
+
+  $add(right: NumberStruct): NumberStruct {
+    return new NumberStruct(this.value + right.$toNumber().value);
+  }
+
+  $equals(right: NumberStruct): BooleanStruct {
+    return new BooleanStruct(this.$toNumber() === right.$toNumber());
+  }
+}
+
+console.log(NumberStruct);
