@@ -1,13 +1,17 @@
 import ObjectStruct from './structures/struct/ObjectStruct';
 
-const parent1 = new ObjectStruct(undefined, undefined);
+console.warn('Interpreter start');
 
-const parent2 = new ObjectStruct(parent1, undefined);
+const parent1 = new ObjectStruct();
+
+const parent2 = new ObjectStruct(parent1);
 parent1.child = parent2;
 
-const child = new ObjectStruct(parent2, undefined);
+const child = new ObjectStruct(parent2);
 parent2.child = child;
 
-child.setProperty('y', new ObjectStruct(undefined, undefined));
+child.declare('x', new ObjectStruct());
 
-parent1.getProperty('x');
+parent1.get('x');
+
+console.warn('Interpreter end');

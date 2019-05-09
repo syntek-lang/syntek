@@ -8,14 +8,13 @@ export default class ObjectStruct implements Struct {
 
   child?: ObjectStruct;
 
-  constructor(parent?: ObjectStruct, child?: ObjectStruct) {
+  constructor(parent?: ObjectStruct) {
     this.parent = parent;
-    this.child = child;
 
     this.context = new Context();
   }
 
-  getProperty(name: string): Struct {
+  get(name: string): Struct {
     let variable: Struct | null = null;
 
     // Get from child
@@ -56,17 +55,17 @@ export default class ObjectStruct implements Struct {
     throw new Error(`No such property ${name}`);
   }
 
-  setProperty(name: string, value: Struct): void {
+  declare(name: string, value: Struct): void {
     this.context.set(name, value);
   }
 
   callMethod(name: string, params: Struct[]): Struct {
+    // TODO: Implement logic
     console.log(name, params);
     return this;
   }
 
-  createNew(params: Struct[]): Struct {
-    console.log(params);
-    return this;
+  createNew(): Struct {
+    throw new Error('You can\'t call new on an object');
   }
 }
