@@ -18,7 +18,14 @@ export default class ClassStruct implements Struct {
   }
 
   get(name: string): Struct {
-    return this.staticScope.get(name);
+    let variable = this.staticScope.get(name);
+
+    // Get the variable from a parent object
+    if (!variable && this.parent) {
+      variable = this.parent.get(name);
+    }
+
+    return variable;
   }
 
   declare(name: string, value: Struct): void {

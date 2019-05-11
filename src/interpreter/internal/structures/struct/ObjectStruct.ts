@@ -15,7 +15,14 @@ export default class ObjectStruct implements Struct {
   }
 
   get(name: string): Struct {
-    return this.context.get(name);
+    let variable = this.context.get(name);
+
+    // Get the variable from a parent object
+    if (!variable && this.parent) {
+      variable = this.parent.get(name);
+    }
+
+    return variable;
   }
 
   declare(name: string, value: Struct): void {

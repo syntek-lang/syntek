@@ -9,6 +9,6 @@ const myClass = new ClassStruct(function () {
   this.declare('x', new ObjectStruct());
 });
 
-console.log(myClass);
+console.log(myClass.get('x'));
 
 console.warn('Interpreter end');
