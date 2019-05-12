@@ -1,32 +1,31 @@
 import Struct from './Struct';
-import Context from '../Context';
+import Context from '../context/Context';
+import ObjectContext from '../context/ObjectContext';
+
+type ObjectBuilder = (this: Context) => void;
 
 export default class ObjectStruct implements Struct {
-  readonly context: Context;
+  readonly context: ObjectContext;
 
   readonly parent?: ObjectStruct;
 
   child?: ObjectStruct;
 
-  constructor(parent?: ObjectStruct) {
-    this.parent = parent;
+  constructor(outerContext: Context, objectBuilder: ObjectBuilder, parent?: ObjectStruct) {
+    // Build the object
+    const parentContext = parent ? parent.context : undefined;
+    this.context = new ObjectContext(outerContext, parentContext);
+    objectBuilder.call(this.context);
 
-    this.context = new Context();
+    this.parent = parent;
   }
 
   get(name: string): Struct {
-    let variable = this.context.get(name);
-
-    // Get the variable from a parent object
-    if (!variable && this.parent) {
-      variable = this.parent.get(name);
-    }
-
-    return variable;
+    return this.context.get(name);
   }
 
-  declare(name: string, value: Struct): void {
-    this.context.set(name, value);
+  set(name: string, value: Struct): void {
+    this.context.declare(name, value);
   }
 
   callMethod(name: string, params: Struct[]): Struct {
@@ -38,8 +37,6 @@ export default class ObjectStruct implements Struct {
     // Get from child
     let child = this.child;
     while (child) { // Loop until we are at the very last child
-      console.log(child);
-
       if (child.context.has(name)) {
         variable = child.context.get(name);
       }
@@ -47,25 +44,14 @@ export default class ObjectStruct implements Struct {
       child = child.child;
     }
 
-    // Get from current scope
-    if (!variable && this.context.has(name)) {
+    // Get variable from self or parent
+    if (!variable) {
       variable = this.context.get(name);
-    }
-
-    // Get from parent
-    let parent = this.parent;
-    while (!variable && parent) { // Get from the closest parent
-      console.log(parent);
-
-      if (parent.context.has(name)) {
-        variable = parent.context.get(name);
-      }
-
-      parent = parent.parent;
     }
 
     // Return variable
     if (variable) {
+      // TODO: Call the variable
       return variable;
     }
 

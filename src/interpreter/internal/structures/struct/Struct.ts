@@ -8,12 +8,12 @@ interface Struct {
   get(name: string): Struct;
 
   /**
-   * Declare a variable on this structure
+   * Set a variable on this structure
    *
    * @param name - The name of the variable
    * @param value - The value of the variable
    */
-  declare(name: string, value: Struct): void;
+  set(name: string, value: Struct): void;
 
   /**
    * Call a method on this structure

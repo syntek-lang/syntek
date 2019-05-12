@@ -1,35 +1,40 @@
 import Struct from './Struct';
-import ObjectStruct from './ObjectStruct';
+import Context from '../context/Context';
+import ObjectContext from '../context/ObjectContext';
 
-type ObjectBuilder = (this: ObjectStruct) => void;
+type ObjectBuilder = (this: Context) => void;
 
 export default class ClassStruct implements Struct {
+  readonly outerContext: Context;
+
   readonly parent?: ClassStruct;
 
-  readonly staticScope: ObjectStruct;
+  readonly staticContext: ObjectContext;
 
-  readonly instanceBuilder: any;
+  readonly instanceBuilder: ObjectBuilder;
 
-  constructor(staticBuilder: ObjectBuilder, parent?: ClassStruct) {
+  constructor(
+    outerContext: Context,
+    staticBuilder: ObjectBuilder,
+    instanceBuilder: ObjectBuilder,
+    parent?: ClassStruct,
+  ) {
+    this.outerContext = outerContext;
+    this.instanceBuilder = instanceBuilder;
     this.parent = parent;
 
-    this.staticScope = new ObjectStruct();
-    staticBuilder.call(this.staticScope);
+    // Build the static context
+    const parentContext = parent ? parent.staticContext : undefined;
+    this.staticContext = new ObjectContext(outerContext, parentContext);
+    staticBuilder.call(this.staticContext);
   }
 
   get(name: string): Struct {
-    let variable = this.staticScope.get(name);
-
-    // Get the variable from a parent object
-    if (!variable && this.parent) {
-      variable = this.parent.get(name);
-    }
-
-    return variable;
+    return this.staticContext.get(name);
   }
 
-  declare(name: string, value: Struct): void {
-    this.staticScope.declare(name, value);
+  set(name: string, value: Struct): void {
+    this.staticContext.declare(name, value);
   }
 
   callMethod(name: string, params: Struct[]): Struct {
