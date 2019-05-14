@@ -19,7 +19,7 @@ export default class DefaultContext implements Context {
       variable = this.variables[name];
     }
 
-    // Get variable from parent
+    // Get variable from upper context
     if (!variable && this.upperContext) {
       variable = this.upperContext.get(name);
     }
