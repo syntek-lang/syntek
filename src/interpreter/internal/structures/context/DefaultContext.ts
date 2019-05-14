@@ -32,6 +32,6 @@ export default class DefaultContext implements Context {
   }
 
   has(name: string): boolean {
-    return !!this.variables.hasOwnProperty(name);
+    return Object.prototype.hasOwnProperty.call(this.variables, name);
   }
 }
