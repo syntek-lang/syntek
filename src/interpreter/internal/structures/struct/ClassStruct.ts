@@ -42,11 +42,26 @@ export default class ClassStruct implements Struct {
     return this;
   }
 
-  createNew(params: Struct[]): Struct {
-    // TODO: Create instance, call constructor
-    console.log(params);
+  createNew(/* params: Struct[] */): Struct {
+    const instanceObject = this.createInstanceObject();
 
-    // const instance
-    return this;
+    // TODO: Call constructor with params
+    return instanceObject;
+  }
+
+  createInstanceObject(): ObjectStruct {
+    const parentInstanceObject = this.parent ? this.parent.createInstanceObject() : undefined;
+
+    const instance = new ObjectStruct(
+      this.outerContext,
+      this.instanceBuilder,
+      parentInstanceObject,
+    );
+
+    if (parentInstanceObject) {
+      parentInstanceObject.child = instance;
+    }
+
+    return instance;
   }
 }

@@ -9,9 +9,15 @@ console.warn('Interpreter start');
 const context = new DefaultContext();
 context.declare('context', new ObjectStruct(context, function () {}));
 
-const myClass = new ClassStruct(context, function () {
+const parent = new ClassStruct(context, function () {
+}, function () {
   this.declare('x', new ObjectStruct(this, function () {}));
-}, function () {});
+});
+
+const myClass = new ClassStruct(context, function () {
+}, function () {
+  this.declare('y', new ObjectStruct(this, function () {}));
+}, parent);
 
 console.log(myClass);
 
