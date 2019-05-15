@@ -37,9 +37,7 @@ export default class ClassStruct implements Struct {
   }
 
   callMethod(name: string, params: Struct[]): Struct {
-    // TODO: Implement logic
-    console.log(name, params);
-    return this;
+    return this.staticObject.callMethod(name, params);
   }
 
   createNew(/* params: Struct[] */): Struct {
@@ -63,5 +61,9 @@ export default class ClassStruct implements Struct {
     }
 
     return instance;
+  }
+
+  exec(): Struct {
+    throw new Error('You can\'t call a class');
   }
 }

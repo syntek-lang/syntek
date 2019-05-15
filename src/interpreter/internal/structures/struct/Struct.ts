@@ -31,6 +31,14 @@ interface Struct {
    * @returns The instance
    */
   createNew(params: Struct[]): Struct;
+
+  /**
+   * Execute the structure
+   *
+   * @param params - The parameters that are passed during along with the call
+   * @returns The return value of the structure
+   */
+  exec(params: Struct[]): Struct;
 }
 
 export default Struct;
