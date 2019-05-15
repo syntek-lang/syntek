@@ -29,30 +29,26 @@ export default class ObjectStruct implements Struct {
   }
 
   callMethod(name: string, params: Struct[]): Struct {
-    // TODO: Use params to call the method
-    console.log(params);
+    let method: Struct | null = null;
 
-    let variable: Struct | null = null;
-
-    // Get from child
+    // Get method from child
     let child = this.child;
     while (child) { // Loop until we are at the very last child
       if (child.context.has(name)) {
-        variable = child.context.get(name);
+        method = child.context.get(name);
       }
 
       child = child.child;
     }
 
-    // Get variable from self or parent
-    if (!variable) {
-      variable = this.context.get(name);
+    // Get method from self or parent
+    if (!method) {
+      method = this.context.get(name);
     }
 
-    // Return variable
-    if (variable) {
-      // TODO: Call the variable
-      return variable;
+    // Call the method
+    if (method) {
+      return method.exec(params);
     }
 
     // Throw error if nothing was found
