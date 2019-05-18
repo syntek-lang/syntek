@@ -20,16 +20,6 @@ export default class FunctionStruct extends ObjectStruct {
     this.body = body;
   }
 
-  callMethod(name: string, params: Struct[]): Struct {
-    switch (name) {
-      case 'toString':
-        console.log('toString', name, params);
-        return this;
-      default:
-        return super.callMethod(name, params);
-    }
-  }
-
   exec(params: Struct[]): Struct {
     const functionContext = new DefaultContext(this.functionContext);
 
