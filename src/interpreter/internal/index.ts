@@ -4,6 +4,8 @@ import DefaultContext from './structures/context/DefaultContext';
 import ClassStruct from './structures/struct/ClassStruct';
 import ObjectStruct from './structures/struct/ObjectStruct';
 
+import * as literalStructs from './structures/struct/literals';
+
 console.warn('Interpreter start');
 
 const context = new DefaultContext();
@@ -20,5 +22,6 @@ const myClass = new ClassStruct(context, function () {
 }, parent);
 
 console.log(myClass);
+console.log(literalStructs);
 
 console.warn('Interpreter end');
