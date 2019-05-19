@@ -87,6 +87,22 @@ export class NullLiteral extends Literal {
         },
       ),
 
+      $get: new FunctionStruct(
+        context,
+        ['index'],
+        function () {
+          throw new Error("You can't use '[]' on null");
+        },
+      ),
+
+      $set: new FunctionStruct(
+        context,
+        ['index', 'value'],
+        function () {
+          throw new Error("You can't use '[]' on null");
+        },
+      ),
+
       toString: new FunctionStruct(
         context,
         [],

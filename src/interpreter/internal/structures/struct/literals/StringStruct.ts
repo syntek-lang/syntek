@@ -86,6 +86,22 @@ export class StringLiteral extends Literal {
         },
       ),
 
+      $get: new FunctionStruct(
+        context,
+        ['index'],
+        function () {
+          throw new Error("You can't use '[]' on a string");
+        },
+      ),
+
+      $set: new FunctionStruct(
+        context,
+        ['index', 'value'],
+        function () {
+          throw new Error("You can't use '[]' on a string");
+        },
+      ),
+
       toString: new FunctionStruct(
         context,
         [],

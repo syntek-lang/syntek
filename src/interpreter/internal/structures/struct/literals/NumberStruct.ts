@@ -131,6 +131,22 @@ export class NumberLiteral extends Literal {
         },
       ),
 
+      $get: new FunctionStruct(
+        context,
+        ['index'],
+        function () {
+          throw new Error("You can't use '[]' on a number");
+        },
+      ),
+
+      $set: new FunctionStruct(
+        context,
+        ['index', 'value'],
+        function () {
+          throw new Error("You can't use '[]' on a number");
+        },
+      ),
+
       toString: new FunctionStruct(
         context,
         [],

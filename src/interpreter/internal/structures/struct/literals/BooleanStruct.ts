@@ -89,6 +89,22 @@ export class BooleanLiteral extends Literal {
         },
       ),
 
+      $get: new FunctionStruct(
+        context,
+        ['index'],
+        function () {
+          throw new Error("You can't use '[]' on a boolean");
+        },
+      ),
+
+      $set: new FunctionStruct(
+        context,
+        ['index', 'value'],
+        function () {
+          throw new Error("You can't use '[]' on a boolean");
+        },
+      ),
+
       toString: new FunctionStruct(
         context,
         [],

@@ -21,6 +21,10 @@ abstract class Literal extends ObjectStruct {
     $lt: FunctionStruct;
     $gt: FunctionStruct;
 
+    // Array methods
+    $get: FunctionStruct;
+    $set: FunctionStruct;
+
     // Others
     toString: FunctionStruct;
     [s: string]: Struct;
