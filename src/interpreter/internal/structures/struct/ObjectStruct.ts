@@ -55,13 +55,11 @@ export default class ObjectStruct implements Struct {
     throw new Error(`No such method ${name}`);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  createNew(_params: Struct[]): Struct {
+  createNew(): Struct {
     throw new Error('You can\'t call new on an object');
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  exec(_params: Struct[]): Struct {
+  exec(): Struct {
     throw new Error('You can\'t call an object');
   }
 }

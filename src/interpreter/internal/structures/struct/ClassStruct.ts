@@ -4,10 +4,12 @@ import ObjectStruct from './ObjectStruct';
 
 type ObjectBuilder = (this: Context) => void;
 
-export default class ClassStruct extends ObjectStruct {
+export default class ClassStruct implements Struct {
   readonly outerContext: Context;
 
   readonly parent?: ClassStruct;
+
+  readonly staticObject: ObjectStruct;
 
   readonly instanceBuilder: ObjectBuilder;
 
@@ -17,11 +19,25 @@ export default class ClassStruct extends ObjectStruct {
     instanceBuilder: ObjectBuilder,
     parent?: ClassStruct,
   ) {
-    super(outerContext, staticBuilder, parent);
-
     this.outerContext = outerContext;
     this.instanceBuilder = instanceBuilder;
     this.parent = parent;
+
+    // Build the static object
+    const parentStaticObject = parent ? parent.staticObject : undefined;
+    this.staticObject = new ObjectStruct(outerContext, staticBuilder, parentStaticObject);
+  }
+
+  get(name: string): Struct {
+    return this.staticObject.get(name);
+  }
+
+  set(name: string, value: Struct): void {
+    this.staticObject.set(name, value);
+  }
+
+  callMethod(name: string, params: Struct[]): Struct {
+    return this.staticObject.callMethod(name, params);
   }
 
   createNew(): Struct {

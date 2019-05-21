@@ -1,27 +1,40 @@
 import Struct from './Struct';
 import Context from '../context/Context';
-import ObjectStruct from './ObjectStruct';
 import DefaultContext from '../context/DefaultContext';
 
 type FunctionBody = (this: Context) => Struct;
 
-export default class FunctionStruct extends ObjectStruct {
-  readonly functionContext: Context;
+export default class FunctionStruct implements Struct {
+  readonly upperContext: Context;
 
   readonly paramNames: string[];
 
   readonly body: FunctionBody;
 
-  constructor(functionContext: Context, paramNames: string[], body: FunctionBody) {
-    super(new DefaultContext(), () => {});
-
-    this.functionContext = functionContext;
+  constructor(upperContext: Context, paramNames: string[], body: FunctionBody) {
+    this.upperContext = upperContext;
     this.paramNames = paramNames;
     this.body = body;
   }
 
+  get(): Struct {
+    throw new Error('Functions don\'t have properties');
+  }
+
+  set(): void {
+    throw new Error('You can\'t set a property on a function');
+  }
+
+  callMethod(): Struct {
+    throw new Error('Functions don\'t have methods');
+  }
+
+  createNew(): Struct {
+    throw new Error('You can\'t call new on a function');
+  }
+
   exec(params: Struct[]): Struct {
-    const functionContext = new DefaultContext(this.functionContext);
+    const functionContext = new DefaultContext(this.upperContext);
 
     // Assign parameters to the context
     for (let i = 0; i < this.paramNames.length; i += 1) {
