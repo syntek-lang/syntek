@@ -12,19 +12,17 @@ export default class DefaultContext implements Context {
   }
 
   get(name: string): Struct {
-    let variable;
-
     // Get variable from self
     if (this.has(name)) {
-      variable = this.variables[name];
+      return this.variables[name];
     }
 
     // Get variable from upper context
-    if (!variable && this.upperContext) {
-      variable = this.upperContext.get(name);
+    if (this.upperContext) {
+      return this.upperContext.get(name);
     }
 
-    return variable;
+    throw new Error('No such variable');
   }
 
   declare(name: string, value: Struct): void {

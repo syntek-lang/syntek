@@ -1,6 +1,7 @@
 import Struct from './Struct';
 import Context from '../context/Context';
 import ObjectStruct from './ObjectStruct';
+import ClassContext from '../context/ClassContext';
 
 type ObjectBuilder = (this: Context) => void;
 
@@ -9,7 +10,7 @@ export default class ClassStruct implements Struct {
 
   readonly parent?: ClassStruct;
 
-  readonly staticObject: ObjectStruct;
+  readonly staticContext: ClassContext;
 
   readonly instanceBuilder: ObjectBuilder;
 
@@ -23,21 +24,31 @@ export default class ClassStruct implements Struct {
     this.instanceBuilder = instanceBuilder;
     this.parent = parent;
 
-    // Build the static object
-    const parentStaticObject = parent ? parent.staticObject : undefined;
-    this.staticObject = new ObjectStruct(outerContext, staticBuilder, parentStaticObject);
+    // Build the static context
+    this.staticContext = new ClassContext(outerContext);
+    staticBuilder.call(this.staticContext);
   }
 
   get(name: string): Struct {
-    return this.staticObject.get(name);
+    // Get from self
+    if (this.staticContext.has(name)) {
+      return this.staticContext.get(name);
+    }
+
+    // Get from parent
+    if (this.parent) {
+      return this.parent.get(name);
+    }
+
+    throw new Error(`No variable with the name ${name}`);
   }
 
   set(name: string, value: Struct): void {
-    this.staticObject.set(name, value);
+    this.staticContext.declare(name, value);
   }
 
   callMethod(name: string, params: Struct[]): Struct {
-    return this.staticObject.callMethod(name, params);
+    return this.get(name).exec(params);
   }
 
   createNew(): Struct {
