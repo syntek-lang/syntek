@@ -1,7 +1,7 @@
 import Struct from './Struct';
 import Context from '../context/Context';
-import ObjectStruct from './ObjectStruct';
-import ClassContext from '../context/ClassContext';
+
+import { ClassContext, ObjectStruct } from '..';
 
 type ObjectBuilder = (this: Context) => void;
 

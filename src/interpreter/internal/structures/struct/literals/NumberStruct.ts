@@ -1,11 +1,10 @@
-/* eslint-disable func-names, prefer-arrow-callback,
-import/prefer-default-export, import/no-cycle */
+/* eslint-disable func-names, prefer-arrow-callback, import/prefer-default-export */
 
-import { StringLiteral, BooleanLiteral } from '.';
+import {
+  StringLiteral, BooleanLiteral, DefaultContext, FunctionStruct,
+} from '../..';
 
 import Literal from './Literal';
-import FunctionStruct from '../FunctionStruct';
-import DefaultContext from '../../context/DefaultContext';
 
 export class NumberLiteral extends Literal {
   readonly value: number;
@@ -21,10 +20,10 @@ export class NumberLiteral extends Literal {
           const right = this.get('right');
 
           if (right instanceof NumberLiteral) {
-            return new NumberLiteral(value + right.value);
+            this.return(new NumberLiteral(value + right.value));
+          } else {
+            throw new Error("You can't add a non-number");
           }
-
-          throw new Error("You can't add a non-number");
         },
       ),
 
@@ -35,10 +34,10 @@ export class NumberLiteral extends Literal {
           const right = this.get('right');
 
           if (right instanceof NumberLiteral) {
-            return new NumberLiteral(value - right.value);
+            this.return(new NumberLiteral(value - right.value));
+          } else {
+            throw new Error("You can't subtract a non-number");
           }
-
-          throw new Error("You can't subtract a non-number");
         },
       ),
 
@@ -49,10 +48,10 @@ export class NumberLiteral extends Literal {
           const right = this.get('right');
 
           if (right instanceof NumberLiteral) {
-            return new NumberLiteral(value * right.value);
+            this.return(new NumberLiteral(value * right.value));
+          } else {
+            throw new Error("You can't multiply a non-number");
           }
-
-          throw new Error("You can't multiply a non-number");
         },
       ),
 
@@ -63,10 +62,10 @@ export class NumberLiteral extends Literal {
           const right = this.get('right');
 
           if (right instanceof NumberLiteral) {
-            return new NumberLiteral(value / right.value);
+            this.return(new NumberLiteral(value / right.value));
+          } else {
+            throw new Error("You can't divide a non-number");
           }
-
-          throw new Error("You can't divide a non-number");
         },
       ),
 
@@ -77,10 +76,10 @@ export class NumberLiteral extends Literal {
           const right = this.get('right');
 
           if (right instanceof NumberLiteral) {
-            return new NumberLiteral(value % right.value);
+            this.return(new NumberLiteral(value % right.value));
+          } else {
+            throw new Error("You can't modulo a non-number");
           }
-
-          throw new Error("You can't modulo a non-number");
         },
       ),
 
@@ -91,10 +90,10 @@ export class NumberLiteral extends Literal {
           const right = this.get('right');
 
           if (right instanceof NumberLiteral) {
-            return new NumberLiteral(value ** right.value);
+            this.return(new NumberLiteral(value ** right.value));
+          } else {
+            throw new Error("You can't pow a non-number");
           }
-
-          throw new Error("You can't pow a non-number");
         },
       ),
 
@@ -105,7 +104,7 @@ export class NumberLiteral extends Literal {
           const right = this.get('right');
           const isEqual = right instanceof NumberLiteral && value === right.value;
 
-          return new BooleanLiteral(isEqual);
+          this.return(new BooleanLiteral(isEqual));
         },
       ),
 
@@ -116,7 +115,7 @@ export class NumberLiteral extends Literal {
           const right = this.get('right');
           const isLessThan = right instanceof NumberLiteral && value < right.value;
 
-          return new BooleanLiteral(isLessThan);
+          this.return(new BooleanLiteral(isLessThan));
         },
       ),
 
@@ -127,7 +126,7 @@ export class NumberLiteral extends Literal {
           const right = this.get('right');
           const isGreaterThan = right instanceof NumberLiteral && value > right.value;
 
-          return new BooleanLiteral(isGreaterThan);
+          this.return(new BooleanLiteral(isGreaterThan));
         },
       ),
 
@@ -151,7 +150,7 @@ export class NumberLiteral extends Literal {
         context,
         [],
         function () {
-          return new StringLiteral(value.toString());
+          this.return(new StringLiteral(value.toString()));
         },
       ),
     });

@@ -1,11 +1,10 @@
-/* eslint-disable func-names, prefer-arrow-callback,
-import/prefer-default-export, import/no-cycle */
+/* eslint-disable func-names, prefer-arrow-callback, import/prefer-default-export */
 
-import { StringLiteral, BooleanLiteral } from '.';
+import {
+  StringLiteral, BooleanLiteral, DefaultContext, FunctionStruct,
+} from '../..';
 
 import Literal from './Literal';
-import FunctionStruct from '../FunctionStruct';
-import DefaultContext from '../../context/DefaultContext';
 
 export class NullLiteral extends Literal {
   readonly value: null;
@@ -66,8 +65,7 @@ export class NullLiteral extends Literal {
         context,
         ['right'],
         function () {
-          const right = this.get('right');
-          return new BooleanLiteral(right instanceof NullLiteral);
+          this.return(new BooleanLiteral(this.get('right') instanceof NullLiteral));
         },
       ),
 
@@ -107,7 +105,7 @@ export class NullLiteral extends Literal {
         context,
         [],
         function () {
-          return new StringLiteral('null');
+          this.return(new StringLiteral('null'));
         },
       ),
     });

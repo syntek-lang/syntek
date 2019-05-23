@@ -1,11 +1,8 @@
-/* eslint-disable func-names, prefer-arrow-callback,
-import/prefer-default-export, import/no-cycle */
+/* eslint-disable func-names, prefer-arrow-callback, import/prefer-default-export */
 
-import { BooleanLiteral } from '.';
+import { BooleanLiteral, DefaultContext, FunctionStruct } from '../..';
 
 import Literal from './Literal';
-import FunctionStruct from '../FunctionStruct';
-import DefaultContext from '../../context/DefaultContext';
 
 export class StringLiteral extends Literal {
   readonly value: string;
@@ -106,7 +103,7 @@ export class StringLiteral extends Literal {
         context,
         [],
         function () {
-          return new StringLiteral(value);
+          this.return(new StringLiteral(value));
         },
       ),
 
@@ -117,7 +114,7 @@ export class StringLiteral extends Literal {
           const string = this.get('string');
           const equals = string instanceof StringLiteral && value === string.value;
 
-          return new BooleanLiteral(equals);
+          this.return(new BooleanLiteral(equals));
         },
       ),
 
@@ -128,10 +125,10 @@ export class StringLiteral extends Literal {
           const string = this.get('string');
 
           if (string instanceof StringLiteral) {
-            return new StringLiteral(value + string.value);
+            this.return(new StringLiteral(value + string.value));
+          } else {
+            throw new Error('You can only append strings');
           }
-
-          throw new Error('You can only append strings');
         },
       ),
 
@@ -139,7 +136,7 @@ export class StringLiteral extends Literal {
         context,
         [],
         function () {
-          return new StringLiteral(value.toLowerCase());
+          this.return(new StringLiteral(value.toLowerCase()));
         },
       ),
 
@@ -147,7 +144,7 @@ export class StringLiteral extends Literal {
         context,
         [],
         function () {
-          return new StringLiteral(value.toUpperCase());
+          this.return(new StringLiteral(value.toUpperCase()));
         },
       ),
     });

@@ -6,6 +6,12 @@ export default class ClassContext implements Context {
 
   readonly variables: { [s: string]: Struct };
 
+  readonly hasReturn: boolean = false;
+
+  readonly hasBreak: boolean = false;
+
+  readonly hasContinue: boolean = false;
+
   constructor(outerContext: Context) {
     this.outerContext = outerContext;
     this.variables = {};
@@ -25,5 +31,17 @@ export default class ClassContext implements Context {
 
   getOwn(name: string): Struct {
     return this.variables[name];
+  }
+
+  return(): void {
+    throw new Error("You can't use return here");
+  }
+
+  break(): void {
+    throw new Error("You can't use break here");
+  }
+
+  continue(): void {
+    throw new Error("You can't use continue here");
   }
 }

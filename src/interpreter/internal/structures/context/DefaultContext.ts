@@ -6,6 +6,14 @@ export default class DefaultContext implements Context {
 
   readonly variables: { [s: string]: Struct };
 
+  returnValue?: Struct;
+
+  hasReturn: boolean;
+
+  hasBreak: boolean;
+
+  hasContinue: boolean;
+
   constructor(upperContext?: Context) {
     this.upperContext = upperContext;
     this.variables = {};
@@ -35,5 +43,18 @@ export default class DefaultContext implements Context {
 
   getOwn(name: string): Struct {
     return this.variables[name];
+  }
+
+  return(returnValue?: Struct): void {
+    this.returnValue = returnValue;
+    this.hasReturn = true;
+  }
+
+  break(): void {
+    this.hasBreak = true;
+  }
+
+  continue(): void {
+    this.hasContinue = true;
   }
 }

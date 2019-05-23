@@ -1,28 +1,26 @@
 /* eslint-disable func-names, no-new */
 
-import DefaultContext from './structures/context/DefaultContext';
-import FunctionStruct from './structures/struct/FunctionStruct';
-import RepeatFlow from './structures/flow/RepeatFlow';
-
-import * as literals from './structures/struct/literals';
+import * as s from './structures';
 
 console.warn('Interpreter start');
 
-const context = new DefaultContext();
-context.declare('print', new FunctionStruct(context, ['param'], function () {
+const context = new s.DefaultContext();
+context.declare('print', new s.FunctionStruct(context, ['param'], function () {
   console.log(this.get('param'));
-  return new literals.NullLiteral();
+  return new s.NullLiteral();
 }));
 
-context.declare('main', new FunctionStruct(context, [], function () {
-  new RepeatFlow(this, new literals.NumberLiteral(5), function () {
-    this.get('print').exec([new literals.StringLiteral('Hello, World!')]);
+context.declare('main', new s.FunctionStruct(context, [], function () {
+  new s.RepeatFlow(this, new s.NumberLiteral(5), function () {
+    this.get('print').exec([new s.StringLiteral('Hello, World!')]);
+    return this.return(new s.StringLiteral('Return value'));
   });
+  if (this.hasReturn) return;
 
-  return new literals.NullLiteral();
+  this.get('print').exec([new s.StringLiteral('After the loop')]);
 }));
 
-context.get('main').exec([]);
-console.log(literals);
+console.log(context.get('main').exec([]));
+console.log(s);
 
 console.warn('Interpreter end');

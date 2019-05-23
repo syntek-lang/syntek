@@ -1,8 +1,9 @@
 import Struct from './Struct';
 import Context from '../context/Context';
-import DefaultContext from '../context/DefaultContext';
 
-type FunctionBody = (this: Context) => Struct;
+import { NullLiteral, DefaultContext } from '..';
+
+type FunctionBody = (this: Context) => void;
 
 export default class FunctionStruct implements Struct {
   readonly upperContext: Context;
@@ -41,6 +42,9 @@ export default class FunctionStruct implements Struct {
       functionContext.declare(this.paramNames[i], params[i]);
     }
 
-    return this.body.call(functionContext);
+    // Execute the function
+    this.body.call(functionContext);
+
+    return functionContext.returnValue || new NullLiteral();
   }
 }

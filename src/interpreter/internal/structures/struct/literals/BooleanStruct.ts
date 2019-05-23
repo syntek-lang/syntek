@@ -1,11 +1,8 @@
-/* eslint-disable func-names, prefer-arrow-callback,
-import/prefer-default-export, import/no-cycle */
+/* eslint-disable func-names, prefer-arrow-callback, import/prefer-default-export */
 
-import { StringLiteral } from '.';
+import { StringLiteral, DefaultContext, FunctionStruct } from '../..';
 
 import Literal from './Literal';
-import FunctionStruct from '../FunctionStruct';
-import DefaultContext from '../../context/DefaultContext';
 
 export class BooleanLiteral extends Literal {
   readonly value: boolean;
@@ -69,7 +66,7 @@ export class BooleanLiteral extends Literal {
           const right = this.get('right');
           const isEqual = right instanceof BooleanLiteral && value === right.value;
 
-          return new BooleanLiteral(isEqual);
+          this.return(new BooleanLiteral(isEqual));
         },
       ),
 
@@ -109,7 +106,7 @@ export class BooleanLiteral extends Literal {
         context,
         [],
         function () {
-          return new StringLiteral(value.toString());
+          this.return(new StringLiteral(value.toString()));
         },
       ),
     });

@@ -2,6 +2,21 @@ import Struct from '../struct/Struct';
 
 interface Context {
   /**
+   * Whether return has been called
+   */
+  hasReturn: boolean;
+
+  /**
+   * Whether break has been called
+   */
+  hasBreak: boolean;
+
+  /**
+   * Whether continue has been called
+   */
+  hasContinue: boolean;
+
+  /**
    * Get a variable from the context
    *
    * @param name - The name of the variable
@@ -32,6 +47,23 @@ interface Context {
    * @returns The variable
    */
   getOwn(name: string): Struct;
+
+  /**
+   * Return statement
+   *
+   * @param returnValue - The structure to return
+   */
+  return(returnValue?: Struct): void;
+
+  /**
+   * Break statement
+   */
+  break(): void;
+
+  /**
+   * Continue statement
+   */
+  continue(): void;
 }
 
 export default Context;

@@ -39,6 +39,7 @@ module.exports = {
     'import/named': 'off',
     'no-useless-constructor': 'off',
     'no-dupe-class-members': 'off',
+    'import/no-cycle': 'off',
 
     // typescript-eslint
     camelcase: 'off',

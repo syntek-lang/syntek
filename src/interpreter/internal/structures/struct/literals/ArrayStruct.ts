@@ -1,12 +1,12 @@
 /* eslint-disable func-names, prefer-arrow-callback,
-import/prefer-default-export, import/no-cycle, no-param-reassign */
+import/prefer-default-export, no-param-reassign */
 
-import { StringLiteral, NullLiteral, NumberLiteral } from '.';
+import {
+  StringLiteral, NumberLiteral, DefaultContext, FunctionStruct,
+} from '../..';
 
 import Struct from '../Struct';
 import Literal from './Literal';
-import FunctionStruct from '../FunctionStruct';
-import DefaultContext from '../../context/DefaultContext';
 
 export class ArrayLiteral extends Literal {
   readonly value: Struct[];
@@ -94,10 +94,10 @@ export class ArrayLiteral extends Literal {
           const index = this.get('index');
 
           if (index instanceof NumberLiteral) {
-            return value[index.value] || new NullLiteral();
+            this.return(value[index.value]);
+          } else {
+            throw new Error('Index must be a number');
           }
-
-          throw new Error('Index must be a number');
         },
       ),
 
@@ -109,10 +109,9 @@ export class ArrayLiteral extends Literal {
 
           if (index instanceof NumberLiteral) {
             value[index.value] = this.get('value');
-            return new NullLiteral();
+          } else {
+            throw new Error('Index must be a number');
           }
-
-          throw new Error('Index must be a number');
         },
       ),
 
@@ -120,7 +119,7 @@ export class ArrayLiteral extends Literal {
         context,
         [],
         function () {
-          return new StringLiteral(`[${value.join(', ')}]`);
+          this.return(new StringLiteral(`[${value.join(', ')}]`));
         },
       ),
 
@@ -129,7 +128,6 @@ export class ArrayLiteral extends Literal {
         ['element'],
         function () {
           value.push(this.get('element'));
-          return new NullLiteral();
         },
       ),
     });
