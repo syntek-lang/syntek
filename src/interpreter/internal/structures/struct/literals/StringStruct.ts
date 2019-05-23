@@ -125,7 +125,7 @@ export class StringLiteral extends Literal {
         context,
         ['string'],
         function () {
-          const string = this.get('obj');
+          const string = this.get('string');
 
           if (string instanceof StringLiteral) {
             return new StringLiteral(value + string.value);
