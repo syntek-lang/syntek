@@ -31,8 +31,8 @@ export default class ClassStruct implements Struct {
 
   get(name: string): Struct {
     // Get from self
-    if (this.staticContext.has(name)) {
-      return this.staticContext.get(name);
+    if (this.staticContext.hasOwn(name)) {
+      return this.staticContext.getOwn(name);
     }
 
     // Get from parent

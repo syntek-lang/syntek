@@ -13,15 +13,18 @@ export default class ObjectStruct implements Struct {
 
   constructor(outerContext: Context, objectBuilder: ObjectBuilder, parent?: ObjectStruct) {
     // Build the object
-    const parentContext = parent ? parent.context : undefined;
-    this.context = new ObjectContext(outerContext, parentContext);
+    this.context = new ObjectContext(outerContext, this);
     objectBuilder.call(this.context);
 
     this.parent = parent;
   }
 
   get(name: string): Struct {
-    return this.context.get(name);
+    if (this.context.hasOwn(name)) {
+      return this.context.getOwn(name);
+    }
+
+    throw new Error(`There is no variable called ${name}`);
   }
 
   set(name: string, value: Struct): void {
@@ -34,16 +37,28 @@ export default class ObjectStruct implements Struct {
     // Get method from child
     let child = this.child;
     while (child) { // Loop until we are at the very last child
-      if (child.context.has(name)) {
-        method = child.context.get(name);
+      if (child.context.hasOwn(name)) {
+        method = child.context.getOwn(name);
       }
 
       child = child.child;
     }
 
-    // Get method from self or parent
+    // Get method from self
     if (!method) {
-      method = this.context.get(name);
+      method = this.context.getOwn(name);
+    }
+
+    // Get method from parent
+    if (!method) {
+      let parent = this.parent;
+      while (!method && parent) {
+        if (parent.context.hasOwn(name)) {
+          method = parent.context.getOwn(name);
+        }
+
+        parent = parent.parent;
+      }
     }
 
     // Call the method
@@ -52,7 +67,7 @@ export default class ObjectStruct implements Struct {
     }
 
     // Throw error if nothing was found
-    throw new Error(`No such method ${name}`);
+    throw new Error(`There is no method called ${name}`);
   }
 
   createNew(): Struct {

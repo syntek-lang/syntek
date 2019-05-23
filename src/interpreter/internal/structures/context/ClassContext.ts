@@ -19,7 +19,11 @@ export default class ClassContext implements Context {
     this.variables[name] = value;
   }
 
-  has(name: string): boolean {
+  hasOwn(name: string): boolean {
     return Object.prototype.hasOwnProperty.call(this.variables, name);
+  }
+
+  getOwn(name: string): Struct {
+    return this.variables[name];
   }
 }

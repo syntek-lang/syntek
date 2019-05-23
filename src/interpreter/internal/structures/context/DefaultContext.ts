@@ -13,8 +13,8 @@ export default class DefaultContext implements Context {
 
   get(name: string): Struct {
     // Get variable from self
-    if (this.has(name)) {
-      return this.variables[name];
+    if (this.hasOwn(name)) {
+      return this.getOwn(name);
     }
 
     // Get variable from upper context
@@ -22,14 +22,18 @@ export default class DefaultContext implements Context {
       return this.upperContext.get(name);
     }
 
-    throw new Error('No such variable');
+    throw new Error(`There is no variable called ${name}`);
   }
 
   declare(name: string, value: Struct): void {
     this.variables[name] = value;
   }
 
-  has(name: string): boolean {
+  hasOwn(name: string): boolean {
     return Object.prototype.hasOwnProperty.call(this.variables, name);
+  }
+
+  getOwn(name: string): Struct {
+    return this.variables[name];
   }
 }

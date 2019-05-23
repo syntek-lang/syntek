@@ -4,38 +4,34 @@ import Struct from '../struct/Struct';
 export default class ObjectContext implements Context {
   readonly outerContext: Context;
 
-  readonly parentObjectContext?: ObjectContext;
+  readonly thisValue: Struct;
 
   readonly variables: { [s: string]: Struct };
 
-  constructor(outerContext: Context, parentObjectContext?: ObjectContext) {
+  constructor(outerContext: Context, thisValue: Struct) {
     this.outerContext = outerContext;
-    this.parentObjectContext = parentObjectContext;
+    this.thisValue = thisValue;
 
     this.variables = {};
   }
 
   get(name: string): Struct {
-    let variable;
-
-    // Get variable from self
-    if (this.has(name)) {
-      variable = this.variables[name];
+    if (name === 'this') {
+      return this.thisValue;
     }
 
-    // Get variable from parent
-    if (!variable && this.parentObjectContext) {
-      variable = this.parentObjectContext.get(name);
-    }
-
-    return variable;
+    return this.outerContext.get(name);
   }
 
   declare(name: string, value: Struct): void {
     this.variables[name] = value;
   }
 
-  has(name: string): boolean {
+  hasOwn(name: string): boolean {
     return Object.prototype.hasOwnProperty.call(this.variables, name);
+  }
+
+  getOwn(name: string): Struct {
+    return this.variables[name];
   }
 }
