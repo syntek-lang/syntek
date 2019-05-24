@@ -7,13 +7,16 @@ console.warn('Interpreter start');
 const context = new s.DefaultContext();
 context.declare('print', new s.FunctionStruct(context, ['param'], function () {
   console.log(this.get('param'));
-  return new s.NullLiteral();
 }));
 
 context.declare('main', new s.FunctionStruct(context, [], function () {
-  new s.RepeatFlow(this, new s.NumberLiteral(5), function () {
+  this.declare('x', new s.NumberLiteral(0));
+
+  new s.WhileFlow(this, function () {
+    return this.get('x').callMethod('$lt', [new s.NumberLiteral(5)]);
+  }, function () {
     this.get('print').exec([new s.StringLiteral('Hello, World!')]);
-    return this.return(new s.StringLiteral('Return value'));
+    this.declare('x', this.get('x').callMethod('$add', [new s.NumberLiteral(1)]));
   });
   if (this.hasReturn) return;
 

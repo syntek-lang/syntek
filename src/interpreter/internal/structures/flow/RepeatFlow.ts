@@ -3,8 +3,10 @@ import Context from '../context/Context';
 
 import { NumberLiteral } from '..';
 
+type Body = (this: Context) => void;
+
 export default class RepeatFlow {
-  constructor(context: Context, amount: Struct, body: (this: Context) => void) {
+  constructor(context: Context, amount: Struct, body: Body) {
     if (!(amount instanceof NumberLiteral)) {
       throw new Error('Amount must be a number');
     }
