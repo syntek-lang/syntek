@@ -10,13 +10,14 @@ context.declare('print', new s.FunctionStruct(context, ['param'], function () {
 }));
 
 context.declare('main', new s.FunctionStruct(context, [], function () {
-  this.declare('x', new s.NumberLiteral(0));
+  this.declare('fruits', new s.ArrayLiteral([
+    new s.StringLiteral('banana'),
+    new s.StringLiteral('apple'),
+    new s.StringLiteral('mango'),
+  ]));
 
-  new s.WhileFlow(this, function () {
-    return this.get('x').callMethod('$lt', [new s.NumberLiteral(5)]);
-  }, function () {
-    this.get('print').exec([new s.StringLiteral('Hello, World!')]);
-    this.declare('x', this.get('x').callMethod('$add', [new s.NumberLiteral(1)]));
+  new s.ForFlow(this, 'fruit', this.get('fruits'), function () {
+    this.get('print').exec([this.get('fruit')]);
   });
   if (this.hasReturn) return;
 

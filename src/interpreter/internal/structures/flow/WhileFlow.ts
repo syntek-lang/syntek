@@ -6,7 +6,7 @@ import { BooleanLiteral } from '..';
 type Condition = (this: Context) => Struct;
 type Body = (this: Context) => void;
 
-export default class RepeatFlow {
+export default class WhileFlow {
   constructor(context: Context, condition: Condition, body: Body) {
     // eslint-disable-next-line no-constant-condition
     while (true) {
