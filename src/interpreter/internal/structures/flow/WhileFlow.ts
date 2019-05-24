@@ -13,7 +13,7 @@ export default class WhileFlow {
       const conditionResult: Struct = condition.call(context);
 
       if (!(conditionResult instanceof BooleanLiteral)) {
-        throw new Error('Condition must be a boolean');
+        throw new Error('Condition must return a boolean');
       }
 
       // If the condition is false return

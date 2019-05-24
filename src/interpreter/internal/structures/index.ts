@@ -7,6 +7,7 @@ export { default as ClassContext } from './context/ClassContext';
 export { default as RepeatFlow } from './flow/RepeatFlow';
 export { default as WhileFlow } from './flow/WhileFlow';
 export { default as ForFlow } from './flow/ForFlow';
+export { default as IfFlow } from './flow/IfFlow';
 
 // Struct
 export * from './struct/literals/BooleanStruct';

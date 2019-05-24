@@ -10,15 +10,31 @@ context.declare('print', new s.FunctionStruct(context, ['param'], function () {
 }));
 
 context.declare('main', new s.FunctionStruct(context, [], function () {
-  this.declare('fruits', new s.ArrayLiteral([
-    new s.StringLiteral('banana'),
-    new s.StringLiteral('apple'),
-    new s.StringLiteral('mango'),
-  ]));
+  this.declare('x', new s.NumberLiteral(5));
 
-  new s.ForFlow(this, 'fruit', this.get('fruits'), function () {
-    this.get('print').exec([this.get('fruit')]);
-  });
+  new s.IfFlow(this, [
+    {
+      condition() {
+        return this.get('x').callMethod('$eq', [new s.NumberLiteral(5)]);
+      },
+      body() {
+        this.get('print').exec([new s.StringLiteral('First check')]);
+      },
+    },
+    {
+      condition() {
+        return this.get('x').callMethod('$eq', [new s.NumberLiteral(6)]);
+      },
+      body() {
+        this.get('print').exec([new s.StringLiteral('Second check')]);
+      },
+    },
+    {
+      body() {
+        this.get('print').exec([new s.StringLiteral('Final check')]);
+      },
+    },
+  ]);
   if (this.hasReturn) return;
 
   this.get('print').exec([new s.StringLiteral('After the loop')]);
