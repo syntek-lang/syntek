@@ -2,7 +2,7 @@ import Struct from './Struct';
 import Context from '../context/Context';
 import VariableType from '../VariableType';
 
-import { ClassContext, ObjectStruct } from '..';
+import { ObjectStruct, ObjectContext } from '..';
 
 type ObjectBuilder = (this: Context) => void;
 
@@ -11,7 +11,7 @@ export default class ClassStruct implements Struct {
 
   readonly parent?: ClassStruct;
 
-  readonly staticContext: ClassContext;
+  readonly staticContext: ObjectContext;
 
   readonly instanceBuilder: ObjectBuilder;
 
@@ -26,7 +26,7 @@ export default class ClassStruct implements Struct {
     this.parent = parent;
 
     // Build the static context
-    this.staticContext = new ClassContext(outerContext);
+    this.staticContext = new ObjectContext(outerContext);
     staticBuilder.call(this.staticContext);
   }
 

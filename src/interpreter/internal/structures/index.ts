@@ -1,7 +1,6 @@
 // Context
 export { default as DefaultContext } from './context/DefaultContext';
 export { default as ObjectContext } from './context/ObjectContext';
-export { default as ClassContext } from './context/ClassContext';
 
 // Flow
 export { default as RepeatFlow } from './flow/RepeatFlow';

@@ -6,7 +6,7 @@ import VariableType from '../VariableType';
 export default class ObjectContext implements Context {
   readonly outerContext: Context;
 
-  readonly thisValue: Struct;
+  readonly thisValue?: Struct;
 
   readonly variables: {
     [s: string]: {
@@ -21,7 +21,7 @@ export default class ObjectContext implements Context {
 
   readonly hasContinue: boolean = false;
 
-  constructor(outerContext: Context, thisValue: Struct) {
+  constructor(outerContext: Context, thisValue?: Struct) {
     this.outerContext = outerContext;
     this.thisValue = thisValue;
 
@@ -29,7 +29,7 @@ export default class ObjectContext implements Context {
   }
 
   get(name: string): Struct {
-    if (name === 'this') {
+    if (this.thisValue && name === 'this') {
       return this.thisValue;
     }
 
