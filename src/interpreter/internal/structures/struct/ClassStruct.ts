@@ -2,12 +2,14 @@ import Struct from './Struct';
 import Context from '../context/Context';
 import VariableType from '../VariableType';
 
-import { ObjectStruct, ObjectContext } from '..';
+import { ObjectStruct, ObjectContext, FunctionStruct } from '..';
 
 type ObjectBuilder = (this: Context) => void;
 
 export default class ClassStruct implements Struct {
   readonly outerContext: Context;
+
+  readonly name: string;
 
   readonly parent?: ClassStruct;
 
@@ -17,11 +19,13 @@ export default class ClassStruct implements Struct {
 
   constructor(
     outerContext: Context,
+    name: string,
     staticBuilder: ObjectBuilder,
     instanceBuilder: ObjectBuilder,
     parent?: ClassStruct,
   ) {
     this.outerContext = outerContext;
+    this.name = name;
     this.instanceBuilder = instanceBuilder;
     this.parent = parent;
 
@@ -52,10 +56,17 @@ export default class ClassStruct implements Struct {
     return this.get(name).exec(params);
   }
 
-  createNew(): Struct {
+  createNew(params: Struct[]): Struct {
     const instanceObject = this.createInstanceObject();
 
-    // TODO: Call constructor with params
+    if (instanceObject.context.hasOwn(this.name)) {
+      const constructor = instanceObject.context.getOwn(this.name);
+
+      if (constructor instanceof FunctionStruct) {
+        constructor.exec(params);
+      }
+    }
+
     return instanceObject;
   }
 

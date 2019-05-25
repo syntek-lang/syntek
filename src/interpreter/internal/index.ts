@@ -9,14 +9,13 @@ context.declare('print', s.FunctionStruct, new s.FunctionStruct(context, [{ type
   console.log(this.get('param'));
 }));
 
-context.declare('main', s.FunctionStruct, new s.FunctionStruct(context, [], function () {
-  this.declare('x', s.StringLiteral, new s.StringLiteral('Hello'));
-  this.declare('x', null, new s.StringLiteral('Hello, World!'));
-
-  this.get('print').exec([this.get('x')]);
+context.declare('MyClass', s.ClassStruct, new s.ClassStruct(context, 'MyClass', (() => {}), function () {
+  this.declare('MyClass', s.FunctionStruct, new s.FunctionStruct(this, [], function () {
+    console.log('Constructor', this);
+  }));
 }));
 
-console.log(context.get('main').exec([]));
+console.log(context.get('MyClass').createNew([]));
 console.log(s);
 
 console.warn('Interpreter end');
