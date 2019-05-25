@@ -13,7 +13,7 @@ export class BooleanLiteral extends Literal {
     super({
       $add: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '+' on a boolean");
         },
@@ -21,7 +21,7 @@ export class BooleanLiteral extends Literal {
 
       $sub: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '-' on a boolean");
         },
@@ -29,7 +29,7 @@ export class BooleanLiteral extends Literal {
 
       $mul: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '*' on a boolean");
         },
@@ -37,7 +37,7 @@ export class BooleanLiteral extends Literal {
 
       $div: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '/' on a boolean");
         },
@@ -45,7 +45,7 @@ export class BooleanLiteral extends Literal {
 
       $mod: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '%' on a boolean");
         },
@@ -53,7 +53,7 @@ export class BooleanLiteral extends Literal {
 
       $pow: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '^' on a boolean");
         },
@@ -61,7 +61,7 @@ export class BooleanLiteral extends Literal {
 
       $eq: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           const right = this.get('right');
           const isEqual = right instanceof BooleanLiteral && value === right.value;
@@ -72,7 +72,7 @@ export class BooleanLiteral extends Literal {
 
       $lt: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare a boolean with 'is less than'");
         },
@@ -80,7 +80,7 @@ export class BooleanLiteral extends Literal {
 
       $gt: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare a boolean with 'is greater than'");
         },
@@ -88,7 +88,7 @@ export class BooleanLiteral extends Literal {
 
       $get: new FunctionStruct(
         context,
-        ['index'],
+        [{ type: null, name: 'index' }],
         function () {
           throw new Error("You can't use '[]' on a boolean");
         },
@@ -96,7 +96,7 @@ export class BooleanLiteral extends Literal {
 
       $set: new FunctionStruct(
         context,
-        ['index', 'value'],
+        [{ type: null, name: 'index' }, { type: null, name: 'value' }],
         function () {
           throw new Error("You can't use '[]' on a boolean");
         },

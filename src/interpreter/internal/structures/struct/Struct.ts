@@ -1,3 +1,5 @@
+import VariableType from '../VariableType';
+
 interface Struct {
   /**
    * Get a variable of this structure
@@ -11,9 +13,10 @@ interface Struct {
    * Set a variable on this structure
    *
    * @param name - The name of the variable
+   * @param type - The type of the variable
    * @param value - The value of the variable
    */
-  set(name: string, value: Struct): void;
+  set(name: string, type: VariableType, value: Struct): void;
 
   /**
    * Call a method on this structure

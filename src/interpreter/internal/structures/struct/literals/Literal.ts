@@ -31,7 +31,7 @@ abstract class Literal extends ObjectStruct {
   }) {
     super(new DefaultContext(), function () {
       for (const [name, struct] of Utils.objectEntries(members)) {
-        this.declare(name, struct);
+        this.declare(name, struct.constructor, struct);
       }
     });
   }

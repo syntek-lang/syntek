@@ -1,4 +1,5 @@
 import Struct from '../struct/Struct';
+import VariableType from '../VariableType';
 
 interface Context {
   /**
@@ -28,9 +29,18 @@ interface Context {
    * Declare a variable on the context
    *
    * @param name - The name of the variable
+   * @param type - The type of the variable
    * @param value - The value of the variable
    */
-  declare(name: string, value: Struct): void;
+  declare(name: string, type: VariableType, value: Struct): void;
+
+  /**
+   * Check if a variable with the given name exists in the context, or upper context
+   *
+   * @param name - The name of the variable
+   * @returns Whether the variable exists
+   */
+  has(name: string): boolean;
 
   /**
    * Check if a variable with the given name exists on the current context

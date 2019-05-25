@@ -15,7 +15,7 @@ export class NullLiteral extends Literal {
     super({
       $add: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '+' on null");
         },
@@ -23,7 +23,7 @@ export class NullLiteral extends Literal {
 
       $sub: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '-' on null");
         },
@@ -31,7 +31,7 @@ export class NullLiteral extends Literal {
 
       $mul: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '*' on null");
         },
@@ -39,7 +39,7 @@ export class NullLiteral extends Literal {
 
       $div: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '/' on null");
         },
@@ -47,7 +47,7 @@ export class NullLiteral extends Literal {
 
       $mod: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '%' on null");
         },
@@ -55,7 +55,7 @@ export class NullLiteral extends Literal {
 
       $pow: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '^' on null");
         },
@@ -63,7 +63,7 @@ export class NullLiteral extends Literal {
 
       $eq: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           this.return(new BooleanLiteral(this.get('right') instanceof NullLiteral));
         },
@@ -71,7 +71,7 @@ export class NullLiteral extends Literal {
 
       $lt: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare null with 'is less than'");
         },
@@ -79,7 +79,7 @@ export class NullLiteral extends Literal {
 
       $gt: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare null with 'is greater than'");
         },
@@ -87,7 +87,7 @@ export class NullLiteral extends Literal {
 
       $get: new FunctionStruct(
         context,
-        ['index'],
+        [{ type: null, name: 'index' }],
         function () {
           throw new Error("You can't use '[]' on null");
         },
@@ -95,7 +95,7 @@ export class NullLiteral extends Literal {
 
       $set: new FunctionStruct(
         context,
-        ['index', 'value'],
+        [{ type: null, name: 'index' }, { type: null, name: 'value' }],
         function () {
           throw new Error("You can't use '[]' on null");
         },

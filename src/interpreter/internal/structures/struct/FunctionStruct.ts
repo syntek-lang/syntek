@@ -2,19 +2,21 @@ import Struct from './Struct';
 import Context from '../context/Context';
 
 import { NullLiteral, DefaultContext } from '..';
+import VariableType from '../VariableType';
 
 type FunctionBody = (this: Context) => void;
+type ParameterList = { type: VariableType; name: string }[];
 
 export default class FunctionStruct implements Struct {
   readonly upperContext: Context;
 
-  readonly paramNames: string[];
+  readonly params: ParameterList;
 
   readonly body: FunctionBody;
 
-  constructor(upperContext: Context, paramNames: string[], body: FunctionBody) {
+  constructor(upperContext: Context, params: ParameterList, body: FunctionBody) {
     this.upperContext = upperContext;
-    this.paramNames = paramNames;
+    this.params = params;
     this.body = body;
   }
 
@@ -38,8 +40,8 @@ export default class FunctionStruct implements Struct {
     const functionContext = new DefaultContext(this.upperContext);
 
     // Assign parameters to the context
-    for (let i = 0; i < this.paramNames.length; i += 1) {
-      functionContext.declare(this.paramNames[i], params[i]);
+    for (let i = 0; i < this.params.length; i += 1) {
+      functionContext.declare(this.params[i].name, this.params[i].type, params[i]);
     }
 
     // Execute the function

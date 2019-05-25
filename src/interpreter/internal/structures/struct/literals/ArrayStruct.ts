@@ -17,7 +17,7 @@ export class ArrayLiteral extends Literal {
     super({
       $add: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '+' on an array");
         },
@@ -25,7 +25,7 @@ export class ArrayLiteral extends Literal {
 
       $sub: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '-' on an array");
         },
@@ -33,7 +33,7 @@ export class ArrayLiteral extends Literal {
 
       $mul: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '*' on an array");
         },
@@ -41,7 +41,7 @@ export class ArrayLiteral extends Literal {
 
       $div: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '/' on an array");
         },
@@ -49,7 +49,7 @@ export class ArrayLiteral extends Literal {
 
       $mod: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '%' on an array");
         },
@@ -57,7 +57,7 @@ export class ArrayLiteral extends Literal {
 
       $pow: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '^' on an array");
         },
@@ -65,7 +65,7 @@ export class ArrayLiteral extends Literal {
 
       $eq: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare an array with 'is'");
         },
@@ -73,7 +73,7 @@ export class ArrayLiteral extends Literal {
 
       $lt: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare an array with 'is less than'");
         },
@@ -81,7 +81,7 @@ export class ArrayLiteral extends Literal {
 
       $gt: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare an array with 'is greater than'");
         },
@@ -89,7 +89,7 @@ export class ArrayLiteral extends Literal {
 
       $get: new FunctionStruct(
         context,
-        ['index'],
+        [{ type: null, name: 'index' }],
         function () {
           const index = this.get('index');
 
@@ -103,7 +103,7 @@ export class ArrayLiteral extends Literal {
 
       $set: new FunctionStruct(
         context,
-        ['index', 'value'],
+        [{ type: null, name: 'index' }, { type: null, name: 'value' }],
         function () {
           const index = this.get('index');
 
@@ -125,7 +125,7 @@ export class ArrayLiteral extends Literal {
 
       append: new FunctionStruct(
         context,
-        ['element'],
+        [{ type: null, name: 'element' }],
         function () {
           value.push(this.get('element'));
         },

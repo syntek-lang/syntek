@@ -1,12 +1,19 @@
+import Utils from '../Utils';
 import Context from './Context';
 import Struct from '../struct/Struct';
+import VariableType from '../VariableType';
 
 export default class ObjectContext implements Context {
   readonly outerContext: Context;
 
   readonly thisValue: Struct;
 
-  readonly variables: { [s: string]: Struct };
+  readonly variables: {
+    [s: string]: {
+      type: VariableType;
+      value: Struct;
+    };
+  };
 
   readonly hasReturn: boolean = false;
 
@@ -29,8 +36,19 @@ export default class ObjectContext implements Context {
     return this.outerContext.get(name);
   }
 
-  declare(name: string, value: Struct): void {
-    this.variables[name] = value;
+  declare(name: string, type: VariableType, value: Struct): void {
+    if (this.hasOwn(name)) {
+      const variable = this.variables[name];
+
+      Utils.checkValidReassign(name, variable.type, type, value);
+    }
+
+    Utils.checkValidAssign(type, value);
+    this.variables[name] = { type, value };
+  }
+
+  has(name: string): boolean {
+    return this.outerContext.has(name);
   }
 
   hasOwn(name: string): boolean {
@@ -38,7 +56,7 @@ export default class ObjectContext implements Context {
   }
 
   getOwn(name: string): Struct {
-    return this.variables[name];
+    return this.variables[name].value;
   }
 
   return(): void {

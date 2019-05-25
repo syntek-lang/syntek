@@ -1,5 +1,6 @@
 import Struct from './Struct';
 import Context from '../context/Context';
+import VariableType from '../VariableType';
 
 import { ClassContext, ObjectStruct } from '..';
 
@@ -43,8 +44,8 @@ export default class ClassStruct implements Struct {
     throw new Error(`No variable with the name ${name}`);
   }
 
-  set(name: string, value: Struct): void {
-    this.staticContext.declare(name, value);
+  set(name: string, type: VariableType, value: Struct): void {
+    this.staticContext.declare(name, type, value);
   }
 
   callMethod(name: string, params: Struct[]): Struct {

@@ -9,7 +9,7 @@ export default class ForFlow {
   constructor(context: Context, variableName: string, iterable: Struct, body: Body) {
     if (iterable instanceof ArrayLiteral) {
       for (let i = 0; i < iterable.value.length; i += 1) {
-        context.declare(variableName, iterable.value[i]);
+        context.declare(variableName, null, iterable.value[i]);
 
         body.call(context);
 
@@ -24,7 +24,7 @@ export default class ForFlow {
 
     if (iterable instanceof StringLiteral) {
       for (let i = 0; i < iterable.value.length; i += 1) {
-        context.declare(variableName, new StringLiteral(iterable.value[i]));
+        context.declare(variableName, null, new StringLiteral(iterable.value[i]));
 
         body.call(context);
 

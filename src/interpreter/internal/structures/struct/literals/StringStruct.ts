@@ -13,7 +13,7 @@ export class StringLiteral extends Literal {
     super({
       $add: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '+' on a string. Did you mean String#append?");
         },
@@ -21,7 +21,7 @@ export class StringLiteral extends Literal {
 
       $sub: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '-' on a string");
         },
@@ -29,7 +29,7 @@ export class StringLiteral extends Literal {
 
       $mul: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '*' on a string");
         },
@@ -37,7 +37,7 @@ export class StringLiteral extends Literal {
 
       $div: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '/' on a string");
         },
@@ -45,7 +45,7 @@ export class StringLiteral extends Literal {
 
       $mod: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '%' on a string");
         },
@@ -53,7 +53,7 @@ export class StringLiteral extends Literal {
 
       $pow: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't use '^' on a string");
         },
@@ -61,7 +61,7 @@ export class StringLiteral extends Literal {
 
       $eq: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare a string with 'is'. Did you mean String#equals?");
         },
@@ -69,7 +69,7 @@ export class StringLiteral extends Literal {
 
       $lt: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare a string with 'is less than'");
         },
@@ -77,7 +77,7 @@ export class StringLiteral extends Literal {
 
       $gt: new FunctionStruct(
         context,
-        ['right'],
+        [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare a string with 'is greater than'");
         },
@@ -85,7 +85,7 @@ export class StringLiteral extends Literal {
 
       $get: new FunctionStruct(
         context,
-        ['index'],
+        [{ type: null, name: 'index' }],
         function () {
           throw new Error("You can't use '[]' on a string");
         },
@@ -93,7 +93,7 @@ export class StringLiteral extends Literal {
 
       $set: new FunctionStruct(
         context,
-        ['index', 'value'],
+        [{ type: null, name: 'index' }, { type: null, name: 'value' }],
         function () {
           throw new Error("You can't use '[]' on a string");
         },
@@ -109,7 +109,7 @@ export class StringLiteral extends Literal {
 
       equals: new FunctionStruct(
         context,
-        ['string'],
+        [{ type: null, name: 'string' }],
         function () {
           const string = this.get('string');
           const equals = string instanceof StringLiteral && value === string.value;
@@ -120,7 +120,7 @@ export class StringLiteral extends Literal {
 
       append: new FunctionStruct(
         context,
-        ['string'],
+        [{ type: null, name: 'string' }],
         function () {
           const string = this.get('string');
 
