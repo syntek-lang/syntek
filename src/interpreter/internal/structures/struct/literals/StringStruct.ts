@@ -67,6 +67,14 @@ export class StringLiteral extends Literal {
         },
       ),
 
+      $neq: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          throw new Error("You can't compare a string with 'is not'. Did you mean String#equals?");
+        },
+      ),
+
       $lt: new FunctionStruct(
         context,
         [{ type: null, name: 'right' }],
@@ -80,6 +88,30 @@ export class StringLiteral extends Literal {
         [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare a string with 'is greater than'");
+        },
+      ),
+
+      $and: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          throw new Error("You can't use 'and' on a string");
+        },
+      ),
+
+      $or: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          throw new Error("You can't use 'or' on a string");
+        },
+      ),
+
+      $not: new FunctionStruct(
+        context,
+        [],
+        function () {
+          throw new Error("You can't use 'not' on a string");
         },
       ),
 

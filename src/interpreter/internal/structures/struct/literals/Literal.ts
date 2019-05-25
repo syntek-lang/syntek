@@ -18,8 +18,14 @@ abstract class Literal extends ObjectStruct {
 
     // Comparison methods
     $eq: FunctionStruct;
+    $neq: FunctionStruct;
     $lt: FunctionStruct;
     $gt: FunctionStruct;
+
+    // Logical methods
+    $and: FunctionStruct;
+    $or: FunctionStruct;
+    $not: FunctionStruct;
 
     // Array methods
     $get: FunctionStruct;

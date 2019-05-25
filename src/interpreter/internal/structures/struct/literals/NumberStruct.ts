@@ -108,6 +108,17 @@ export class NumberLiteral extends Literal {
         },
       ),
 
+      $neq: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          const right = this.get('right');
+          const isEqual = right instanceof NumberLiteral && value === right.value;
+
+          this.return(new BooleanLiteral(!isEqual));
+        },
+      ),
+
       $lt: new FunctionStruct(
         context,
         [{ type: null, name: 'right' }],
@@ -127,6 +138,30 @@ export class NumberLiteral extends Literal {
           const isGreaterThan = right instanceof NumberLiteral && value > right.value;
 
           this.return(new BooleanLiteral(isGreaterThan));
+        },
+      ),
+
+      $and: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          throw new Error("You can't use 'and' on a number");
+        },
+      ),
+
+      $or: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          throw new Error("You can't use 'or' on a number");
+        },
+      ),
+
+      $not: new FunctionStruct(
+        context,
+        [],
+        function () {
+          throw new Error("You can't use 'not' on a number");
         },
       ),
 

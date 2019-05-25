@@ -70,6 +70,17 @@ export class BooleanLiteral extends Literal {
         },
       ),
 
+      $neq: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          const right = this.get('right');
+          const isEqual = right instanceof BooleanLiteral && value === right.value;
+
+          this.return(new BooleanLiteral(!isEqual));
+        },
+      ),
+
       $lt: new FunctionStruct(
         context,
         [{ type: null, name: 'right' }],
@@ -83,6 +94,36 @@ export class BooleanLiteral extends Literal {
         [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare a boolean with 'is greater than'");
+        },
+      ),
+
+      $and: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          const right = this.get('right');
+          const and = value && right instanceof BooleanLiteral && right.value;
+
+          this.return(new BooleanLiteral(and));
+        },
+      ),
+
+      $or: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          const right = this.get('right');
+          const or = value || (right instanceof BooleanLiteral && right.value);
+
+          this.return(new BooleanLiteral(or));
+        },
+      ),
+
+      $not: new FunctionStruct(
+        context,
+        [],
+        function () {
+          this.return(new BooleanLiteral(!value));
         },
       ),
 

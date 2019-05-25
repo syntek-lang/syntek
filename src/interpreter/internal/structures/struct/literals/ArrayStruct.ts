@@ -71,6 +71,14 @@ export class ArrayLiteral extends Literal {
         },
       ),
 
+      $neq: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          throw new Error("You can't compare an array with 'is not'");
+        },
+      ),
+
       $lt: new FunctionStruct(
         context,
         [{ type: null, name: 'right' }],
@@ -84,6 +92,30 @@ export class ArrayLiteral extends Literal {
         [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare an array with 'is greater than'");
+        },
+      ),
+
+      $and: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          throw new Error("You can't use 'and' on an array");
+        },
+      ),
+
+      $or: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          throw new Error("You can't use 'or' on an array");
+        },
+      ),
+
+      $not: new FunctionStruct(
+        context,
+        [],
+        function () {
+          throw new Error("You can't use 'not' on an array");
         },
       ),
 

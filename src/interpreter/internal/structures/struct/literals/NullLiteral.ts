@@ -65,7 +65,17 @@ export class NullLiteral extends Literal {
         context,
         [{ type: null, name: 'right' }],
         function () {
-          this.return(new BooleanLiteral(this.get('right') instanceof NullLiteral));
+          const equal = this.get('right') instanceof NullLiteral;
+          this.return(new BooleanLiteral(equal));
+        },
+      ),
+
+      $neq: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          const equal = this.get('right') instanceof NullLiteral;
+          this.return(new BooleanLiteral(!equal));
         },
       ),
 
@@ -82,6 +92,30 @@ export class NullLiteral extends Literal {
         [{ type: null, name: 'right' }],
         function () {
           throw new Error("You can't compare null with 'is greater than'");
+        },
+      ),
+
+      $and: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          throw new Error("You can't use 'and' on null");
+        },
+      ),
+
+      $or: new FunctionStruct(
+        context,
+        [{ type: null, name: 'right' }],
+        function () {
+          throw new Error("You can't use 'or' on null");
+        },
+      ),
+
+      $not: new FunctionStruct(
+        context,
+        [],
+        function () {
+          throw new Error("You can't use 'not' on null");
         },
       ),
 
