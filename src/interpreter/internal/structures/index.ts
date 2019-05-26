@@ -16,5 +16,6 @@ export * from './struct/literals/ArrayStruct';
 export * from './struct/literals/NullLiteral';
 
 export { default as FunctionStruct } from './struct/FunctionStruct';
+export { default as ModuleStruct } from './struct/ModuleStruct';
 export { default as ObjectStruct } from './struct/ObjectStruct';
 export { default as ClassStruct } from './struct/ClassStruct';

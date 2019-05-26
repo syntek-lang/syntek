@@ -1,21 +1,27 @@
 /* eslint-disable func-names */
 
 import * as s from './structures';
+import Interpreter from './Interpreter';
 
 console.warn('Interpreter start');
 
-const context = new s.DefaultContext();
-context.declare('print', s.FunctionStruct, new s.FunctionStruct(context, [{ type: null, name: 'param' }], function () {
+const interpreter = new Interpreter();
+
+interpreter.globalContext.declare('print', s.FunctionStruct, new s.FunctionStruct(interpreter.globalContext, [{ type: null, name: 'param' }], function () {
   console.log(this.get('param'));
 }));
 
-context.declare('MyClass', s.ClassStruct, new s.ClassStruct(context, 'MyClass', (() => {}), function () {
-  this.declare('MyClass', s.FunctionStruct, new s.FunctionStruct(this, [], function () {
-    console.log('Constructor', this);
+interpreter.run(function () {
+  this.declare('MyClass', s.ClassStruct, new s.ClassStruct(this, 'MyClass', (() => {}), function () {
+    this.declare('MyClass', s.FunctionStruct, new s.FunctionStruct(this, [], function () {
+      console.log('Constructor', this);
+    }));
   }));
-}));
 
-console.log(context.get('MyClass').createNew([]));
+  this.get('MyClass').createNew([]);
+});
+
+console.log(interpreter);
 console.log(s);
 
 console.warn('Interpreter end');
