@@ -17,7 +17,8 @@ export class NotExpression extends Token {
   }
 
   build(): string {
-    return '';
+    const argument = this.argument instanceof tokens.Identifier ? `this.get('${this.argument.build()}')` : this.argument.build();
+    return `${argument}.callMethod('$not', [])`;
   }
 }
 

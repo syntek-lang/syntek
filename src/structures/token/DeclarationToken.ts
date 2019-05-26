@@ -15,7 +15,7 @@ abstract class DeclarationToken extends Token {
     super(location, matchedTokens);
 
     this.identifier = identifier;
-    this.id = identifier.raw;
+    this.id = identifier.raw || '';
   }
 }
 

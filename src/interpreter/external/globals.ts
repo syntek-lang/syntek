@@ -13,7 +13,7 @@ export default function declareGlobals(interpreter: Interpreter): void {
         if (obj instanceof s.StringLiteral) {
           string = obj.value;
         }
-      } finally {
+      } catch {} finally { // eslint-disable-line no-empty
         console.log(string || '[unknown]');
       }
     }));

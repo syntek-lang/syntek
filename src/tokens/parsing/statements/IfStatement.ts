@@ -37,7 +37,19 @@ export class IfStatement extends Token {
   }
 
   build(): string {
-    return '';
+    const options = this.options.map((option) => {
+      const body = option.body.map(token => token.build()).join(';');
+
+      if (option.condition) {
+        const condition = option.condition.build();
+
+        return `{condition:function(){return ${condition}},body:function(){${body}}}`;
+      }
+
+      return `{body:function(){${body}}}`;
+    });
+
+    return `new s.IfFlow(this,[${options}])`;
   }
 }
 

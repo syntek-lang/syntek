@@ -2,7 +2,7 @@ import { Token, TokenMatcher } from '../../../../structures/token';
 
 export class ObjectKeyword extends Token {
   build(): string {
-    return '';
+    return 's.ObjectStruct';
   }
 }
 

@@ -17,7 +17,8 @@ export class ArrayExpression extends Token {
   }
 
   build(): string {
-    return '';
+    const elements = this.elements.map(token => token.build()).join(',');
+    return `new s.ArrayLiteral([${elements}])`;
   }
 }
 

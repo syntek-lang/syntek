@@ -24,7 +24,10 @@ export class RepeatStatement extends Token {
   }
 
   build(): string {
-    return '';
+    const amount = this.amount instanceof tokens.Identifier ? `this.get('${this.amount.build()}')` : this.amount.build();
+    const body = this.body.map(token => token.build()).join(';');
+
+    return `new s.RepeatFlow(this,${amount},function(){${body}})`;
   }
 }
 

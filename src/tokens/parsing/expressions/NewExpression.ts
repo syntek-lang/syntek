@@ -8,7 +8,7 @@ export class NewExpression extends Token {
   /**
    * The token `new` is being called on
    */
-  readonly callee: Token;
+  readonly callee: ExpressionStatement;
 
   constructor(location, matchedTokens) {
     super(location, matchedTokens);
@@ -17,7 +17,10 @@ export class NewExpression extends Token {
   }
 
   build(): string {
-    return '';
+    const callee = `this.get('${this.callee.callee.build()}')`;
+    const args = this.callee.buildArgs();
+
+    return `${callee}.createNew([${args}])`;
   }
 }
 

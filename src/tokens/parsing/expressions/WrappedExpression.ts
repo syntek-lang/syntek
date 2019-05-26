@@ -17,7 +17,7 @@ export class WrappedExpression extends Token {
   }
 
   build(): string {
-    return '';
+    return this.body.build();
   }
 }
 

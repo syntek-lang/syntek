@@ -13,6 +13,6 @@ export default class Program extends Token {
   }
 
   build(): string {
-    return '';
+    return this.body.map(token => token.build()).join(';');
   }
 }

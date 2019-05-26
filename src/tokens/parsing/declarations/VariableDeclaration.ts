@@ -38,7 +38,11 @@ export class VariableDeclaration extends DeclarationToken {
   }
 
   build(): string {
-    return '';
+    const identifier = this.identifier.build();
+    const type = this.type ? this.type.build() : 'null';
+    const init = this.init instanceof tokens.Identifier ? `this.get('${this.init.build()}')` : this.init.build();
+
+    return `this.declare('${identifier}',${type},${init})`;
   }
 }
 

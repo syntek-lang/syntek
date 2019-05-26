@@ -30,7 +30,11 @@ export class ForStatement extends Token {
   }
 
   build(): string {
-    return '';
+    const id = this.id.build();
+    const collection = this.collection instanceof tokens.Identifier ? `this.get('${this.collection.build()}')` : this.collection.build();
+    const body = this.body.map(token => token.build()).join(';');
+
+    return `new s.ForFlow(this,'${id}',${collection},function(){${body}})`;
   }
 }
 

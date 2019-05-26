@@ -36,7 +36,11 @@ export class FunctionDeclaration extends DeclarationToken {
   }
 
   build(): string {
-    return '';
+    const identifier = this.identifier.build();
+    const params = this.params.map(param => `{type:null,name:'${param.id.build()}'}`);
+    const body = this.body.map(token => token.build()).join(';');
+
+    return `this.declare('${identifier}',s.FunctionStruct,new s.FunctionStruct(this,[${params}],function(){${body}}))`;
   }
 }
 

@@ -19,7 +19,15 @@ export class ReturnStatement extends Token {
   }
 
   build(): string {
-    return '';
+    let argument = '';
+
+    if (this.argument instanceof tokens.Identifier) {
+      argument = `this.get('${this.argument.build()}')`;
+    } else if (this.argument) {
+      argument = this.argument.build();
+    }
+
+    return `return this.return(${argument})`;
   }
 }
 

@@ -18,10 +18,9 @@ export class ExpressionStatement extends Token {
   readonly callee: Token;
 
   /**
-   * The arguments of the expression. A single token if type is `array`, an array
-   * of tokens if type is `function`.
+   * The arguments of the expression.
    */
-  readonly arguments: Token | Token[];
+  readonly arguments: Token[];
 
   constructor(location, matchedTokens) {
     super(location, matchedTokens);
@@ -36,12 +35,29 @@ export class ExpressionStatement extends Token {
         this.arguments = matchedTokens[1].filter((_, index) => index % 2 !== 0);
       }
     } else {
-      this.arguments = matchedTokens[1][1];
+      this.arguments = [matchedTokens[1][1]];
     }
   }
 
   build(): string {
-    return '';
+    const args = this.buildArgs();
+
+    if (this.callee instanceof MemberExpression) {
+      return `${this.callee.buildObject()}.callMethod('${this.callee.property.build()}', [${args}])`;
+    }
+
+    return `this.get('${this.callee.build()}').exec([${args}])`;
+  }
+
+  buildArgs(): string {
+    return this.arguments.map((arg) => {
+      switch (arg.constructor) {
+        case tokens.Identifier:
+          return `this.get('${arg.build()}')`;
+        default:
+          return arg.build();
+      }
+    }).join(',');
   }
 }
 

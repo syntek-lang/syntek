@@ -16,7 +16,10 @@ export class PowEquation extends EquationToken {
   }
 
   build(): string {
-    return '';
+    const left = this.left instanceof tokens.Identifier ? `this.get('${this.left.build()}')` : this.left.build();
+    const right = this.right instanceof tokens.Identifier ? `this.get('${this.right.build()}')` : this.right.build();
+
+    return `${left}.callMethod('$pow', [${right}])`;
   }
 }
 

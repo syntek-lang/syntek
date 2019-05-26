@@ -2,7 +2,7 @@ import { Token, TokenMatcher } from '../../../../structures/token';
 
 export class Break extends Token {
   build(): string {
-    return '';
+    return 'return this.break()';
   }
 }
 

@@ -24,7 +24,10 @@ export class WhileStatement extends Token {
   }
 
   build(): string {
-    return '';
+    const condition = this.condition.build();
+    const body = this.body.map(token => token.build()).join(';');
+
+    return `new s.WhileFlow(this,function(){return ${condition}},function(){${body}})`;
   }
 }
 

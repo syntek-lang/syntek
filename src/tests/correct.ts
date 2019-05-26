@@ -10,7 +10,12 @@ function pow(base, exponent)
 	sum = base
 	repeat exponent - 1 times
 		sum = multiply(sum, base)
-	return sum`;
+	return sum
+
+print(multiply(3, 4))
+print(multiply(5, 10))
+print(pow(2, 3))
+print(pow(4, 2))`;
 
 export const snake = `direction = 1
 

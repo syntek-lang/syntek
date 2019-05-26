@@ -21,7 +21,9 @@ export class ObjectExpression extends Token {
   }
 
   build(): string {
-    return '';
+    const builder = this.properties.map(token => token.build()).join(';');
+
+    return `new s.ObjectStruct(this,function(){${builder}})`;
   }
 }
 

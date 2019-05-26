@@ -23,7 +23,14 @@ export class MemberExpression extends Token {
   }
 
   build(): string {
-    return '';
+    const object = this.buildObject();
+    const property = this.property.build();
+
+    return `${object}.get('${property}')`;
+  }
+
+  buildObject(): string {
+    return this.object instanceof tokens.Identifier ? `this.get('${this.object.build()}')` : this.object.build();
   }
 }
 

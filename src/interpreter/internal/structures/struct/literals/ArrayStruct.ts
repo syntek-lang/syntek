@@ -151,7 +151,23 @@ export class ArrayLiteral extends Literal {
         context,
         [],
         function () {
-          this.return(new StringLiteral(`[${value.join(', ')}]`));
+          const strings: string[] = [];
+
+          for (const item of value) {
+            try {
+              const obj = item.callMethod('toString', []);
+
+              if (obj instanceof StringLiteral) {
+                strings.push(obj.value);
+              } else {
+                strings.push('[unknown]');
+              }
+            } catch {
+              strings.push('[unknown]');
+            }
+          }
+
+          this.return(new StringLiteral(`[${strings.join(', ')}]`));
         },
       ),
 

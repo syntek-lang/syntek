@@ -34,7 +34,23 @@ export class ClassDeclaration extends DeclarationToken {
   }
 
   build(): string {
-    return '';
+    const id = this.id;
+
+    const staticVariables: Token[] = [];
+    const instanceVariables: Token[] = [];
+
+    for (const prop of this.body) {
+      if (prop.isStatic) {
+        staticVariables.push(prop.token);
+      } else {
+        instanceVariables.push(prop.token);
+      }
+    }
+
+    const staticBuilder = `function(){${staticVariables.map(token => token.build()).join('\n')}}`;
+    const instanceBuilder = `function(){${instanceVariables.map(token => token.build()).join('\n')}}`;
+
+    return `this.declare('${id}',s.ClassStruct,new s.ClassStruct(this,'${id}',${staticBuilder},${instanceBuilder}))`;
   }
 }
 

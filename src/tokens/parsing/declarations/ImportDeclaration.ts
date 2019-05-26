@@ -32,7 +32,10 @@ export class ImportDeclaration extends DeclarationToken {
   }
 
   build(): string {
-    return '';
+    const id = this.id;
+    const source = this.source.build();
+
+    return `this.declare('${id}',s.ModuleStruct,i.getModule('${source}'))`;
   }
 }
 

@@ -29,7 +29,20 @@ export class ComparisonExpression extends Token {
   }
 
   build(): string {
-    return '';
+    let op: string;
+
+    switch (this.operator.constructor) {
+      case tokens.Is: op = '$eq'; break;
+      case tokens.IsNot: op = '$neq'; break;
+      case tokens.IsLessThan: op = '$lt'; break;
+      case tokens.IsGreaterThan: op = '$gt'; break;
+      default: throw new Error('Unknown comparison token');
+    }
+
+    const left = this.left instanceof tokens.Identifier ? `this.get('${this.left.build()}')` : this.left.build();
+    const right = this.right instanceof tokens.Identifier ? `this.get('${this.right.build()}')` : this.right.build();
+
+    return `${left}.callMethod('${op}', [${right}])`;
   }
 }
 

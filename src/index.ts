@@ -6,6 +6,7 @@ import Program from './tokens/parsing/Program';
 import lexer from './compiler/lexer';
 import parser from './compiler/parser';
 import analyzer from './compiler/analyzer';
+import * as interpreter from './interpreter/external';
 
 import lexingTokens from './tokens/lexing';
 import parsingTokens from './tokens/parsing';
@@ -15,7 +16,7 @@ import * as tests from './tests';
 console.log(lexingTokens);
 console.log(parsingTokens);
 
-const input = tests.correct.expressionChain;
+const input = tests.correct.calculator;
 const fileName = 'test';
 
 (document.getElementById('input') as HTMLElement).innerText = input;
@@ -43,3 +44,8 @@ analyzer(parsed as Program).forEach((report) => {
 
   console[report.type](`${Utils.padRight(location, 8)} | ${report.message}`);
 });
+
+console.warn('Output:');
+const code = (parsed as Program).build();
+console.log(code);
+interpreter.run(code);
