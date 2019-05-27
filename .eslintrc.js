@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'eslint-config-syntek/typescript',
+  extends: '@syntek/syntek/typescript',
   rules: {
     'no-loop-func': 'off',
   },
