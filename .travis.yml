@@ -11,7 +11,7 @@ jobs:
       script: npm run build
       name: "Build"
     # - script: npm run lint
-    - script: npx eslint src --ext .js,.ts
+    - script: eslint src --ext .js,.ts
       name: "Lint"
     # - stage: Test
     #   script: npm run unit:interpreter
