@@ -2,7 +2,7 @@
   "name": "syntek",
   "version": "0.0.1",
   "description": "A programming language for beginners",
-  "main": "index.js",
+  "main": "src/lib.ts",
   "scripts": {
     "test": "npm run build && npm run lint && npm run unit",
     "build": "webpack",
