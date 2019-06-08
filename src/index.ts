@@ -10,7 +10,9 @@ import Utils from './utils';
 export { default as lexer } from './compiler/lexer';
 export { default as parser } from './compiler/parser';
 export { default as analyzer } from './compiler/analyzer';
+
 export * from './interpreter/external';
+export * from './interpreter/internal/structures';
 
 export function compile(code: string, file: string): string {
   const lexed = lexer(code, file);
