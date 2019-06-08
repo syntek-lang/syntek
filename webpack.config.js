@@ -20,6 +20,8 @@ module.exports = {
     ],
   },
   output: {
+    library: 'syntek',
+    libraryTarget: 'umd',
     filename: 'bundle.js',
     path: path.resolve(__dirname, './build'),
   },
