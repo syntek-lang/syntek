@@ -22,6 +22,7 @@ module.exports = {
   output: {
     library: 'syntek',
     libraryTarget: 'umd',
+    globalObject: "(typeof self !== 'undefined' ? self : this)", // https://github.com/webpack/webpack/issues/6522
     filename: 'bundle.js',
     path: path.resolve(__dirname, './build'),
   },
