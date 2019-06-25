@@ -5,7 +5,9 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "declaration": true,
+    "declarationDir": "./typings"
   },
   "exclude": [
     "**/*.test.ts"
