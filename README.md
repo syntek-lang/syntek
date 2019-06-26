@@ -7,17 +7,21 @@
 </div>
 
 # Syntek
-Syntek is a programming language that provides a beginner friendly programming environment. Syntek is designed to teach beginners the concepts of programming through visual and interactive assignments, such as creating snake.
 
-## Syntax
-Syntek is similar to Python and JavaScript. It is indentation based to force cleaner code. Syntek also aims to be close to English, to improve readability. You can read more about the syntax [here](https://github.com/syntek-lang/syntek/tree/master/syntax).
+Syntek is an easy to use educational programming language. It is designed to provide a good ground for beginners to start their programming journey through interactive tasks and assignments. Syntek is highly configurable to make it the right fit for all assignments. Try out the demo at [syntek.dev](https://syntek.dev/)!
+
+## Resources
+
+- [Site](https://syntek.dev/)
+- [Guide](https://docs.syntek.dev/guide/)
+- [Specification](https://docs.syntek.dev/spec/)
 
 ---
 
 ## Sponsor
 
 <div align="center">
-  <img src="https://cdn.jdl-enterprises.co.uk/media/1/logos/above/color_logo_transparent.png" alt="JDL Enterprises" width="500px" />
+  <img src="https://cdn.jdl-enterprises.co.uk/media/1/logos/above/color_logo_transparent.png" alt="JDL Enterprises" width="300px" />
   <br />
   JDL Enterprises <a href="https://jdl-enterprises.co.uk">jdl-enterprises.co.uk</a>
 </div>

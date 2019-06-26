@@ -7,12 +7,10 @@ cache: npm
 
 jobs:
   include:
-    - stage: Build
+    - stage: Test
       script: npm run build
       name: "Build"
-    # - script: npm run lint
-    - script: eslint src --ext .js,.ts
+    - script: npm run lint
       name: "Lint"
-    # - stage: Test
-    #   script: npm run unit:interpreter
-    #   name: "Interpreter"
+    - script: npm run build
+      name: "Test"
