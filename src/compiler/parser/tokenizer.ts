@@ -126,12 +126,18 @@ export function tokenize(input: string): { tokens: Token[]; errors: UnexpectedTo
       }
     }
 
-    // Every line has a newline token
+    // Every line ends with a newline
     tokens.push(new Token(LexicalToken.NEWLINE, '\n', {
       start: [lineIndex, line.length],
       end: [lineIndex, line.length + 1],
     }));
   }
+
+  // Add EOF token after all tokens are scanned
+  tokens.push(new Token(LexicalToken.EOF, '', {
+    start: [lines.length - 1, lines[lines.length - 1].length],
+    end: [lines.length - 1, lines[lines.length - 1].length + 1],
+  }));
 
   return { tokens, errors };
 }
