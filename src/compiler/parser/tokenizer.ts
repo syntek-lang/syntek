@@ -96,6 +96,15 @@ export function tokenize(input: string): { tokens: Token[]; errors: UnexpectedTo
 
               colIndex += stringMatch[0].length;
             }
+          } else if (char === '#') {
+            // Current character is the start of a comment
+            // Comments last until the end of the current line
+            tokens.push(new Token(LexicalToken.COMMENT, remainingChars, {
+              start: [lineIndex, colIndex],
+              end: [lineIndex, colIndex + remainingChars.length],
+            }));
+
+            colIndex += remainingChars.length;
           } else {
             // Remaining characters should be a word
             const wordMatch = remainingChars.match(/^[a-z_]\w*/i);
