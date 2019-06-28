@@ -11,6 +11,10 @@ module.exports = {
         test: /\.ts$/,
         loader: 'ts-loader',
       },
+      {
+        test: /\.tek$/,
+        loader: 'raw-loader',
+      },
     ],
   },
   resolve: {

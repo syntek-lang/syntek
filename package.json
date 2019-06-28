@@ -23,7 +23,6 @@
     "url": "https://github.com/SebastiaanYN/Syntek/issues"
   },
   "homepage": "https://syntek.dev",
-  "dependencies": {},
   "devDependencies": {
     "@syntek/eslint-config-syntek": "^2.0.2",
     "@types/chai": "^4.1.7",
@@ -37,6 +36,7 @@
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jsdoc": "^10.0.0",
     "mocha": "^6.1.4",
+    "raw-loader": "^3.0.0",
     "ts-loader": "^6.0.4",
     "ts-node": "^8.1.0",
     "typescript": "^3.5.2",
