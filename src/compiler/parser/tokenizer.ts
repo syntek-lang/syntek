@@ -142,6 +142,12 @@ export function tokenize(input: string): { tokens: Token[]; errors: UnexpectedTo
     }));
   }
 
+  // Add outdent tokens
+  tokens.push(...new Array(prevIndent).fill(null).map(() => new Token(LexicalToken.OUTDENT, '', {
+    start: [lines.length - 1, 0],
+    end: [lines.length - 1, prevIndent],
+  })));
+
   // Add EOF token after all tokens are scanned
   tokens.push(new Token(LexicalToken.EOF, '', {
     start: [lines.length - 1, lines[lines.length - 1].length],
