@@ -1,5 +1,7 @@
 import { Node, SyntacticToken, TokenLocation } from '../..';
 
+type LiteralValue = number | string | boolean | null;
+
 export function isExpression(node: Node): boolean {
   return node.type === SyntacticToken.WRAPPED_EXPR
     || node.type === SyntacticToken.UNARY_EXPR
@@ -11,12 +13,17 @@ export function isExpression(node: Node): boolean {
     || node.type === SyntacticToken.INSTANCEOF_EXPR
     || node.type === SyntacticToken.ASYNC_EXPR
     || node.type === SyntacticToken.ARRAY_EXPR
-    || node.type === SyntacticToken.OBJECT_EXPR;
+    || node.type === SyntacticToken.OBJECT_EXPR
+    || node.type === SyntacticToken.LITERAL_EXPR;
 }
 
 export class WrappedExpression extends Node {
-  constructor(location: TokenLocation) {
+  readonly expression: Node;
+
+  constructor(expression: Node, location: TokenLocation) {
     super(SyntacticToken.WRAPPED_EXPR, location);
+
+    this.expression = expression;
   }
 }
 
@@ -77,5 +84,15 @@ export class ArrayExpression extends Node {
 export class ObjectExpression extends Node {
   constructor(location: TokenLocation) {
     super(SyntacticToken.OBJECT_EXPR, location);
+  }
+}
+
+export class LiteralExpression extends Node {
+  readonly value: LiteralValue;
+
+  constructor(value: LiteralValue, location: TokenLocation) {
+    super(SyntacticToken.LITERAL_EXPR, location);
+
+    this.value = value;
   }
 }

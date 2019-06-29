@@ -1,6 +1,10 @@
-import { tokenize } from './compiler';
+import { tokenize, parse } from './compiler';
 
-import fizzbuzz from '../tests/syntek/programs/fizzbuzz.tek';
+// import program from '../tests/syntek/programs/fizzbuzz.tek';
+import program from './dev.tek';
 
-const tokens = tokenize(fizzbuzz);
-console.log(tokens);
+const tokenResult = tokenize(program);
+console.log(tokenResult);
+
+const ast = parse(tokenResult.tokens);
+console.log(ast);

@@ -17,6 +17,7 @@ export enum SyntacticToken {
   ASYNC_EXPR,
   ARRAY_EXPR,
   OBJECT_EXPR,
+  LITERAL_EXPR,
 
   // Statements
   IF_STMT,
