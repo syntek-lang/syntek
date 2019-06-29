@@ -10,8 +10,29 @@ import { ExpressionMatcher } from '../ExpressionMatcher';
 // | Literals
 // | Super
 // | This
+// | Array Expression
+// | TODO: Object Expression
+
+function matchArrayContent(this: ExpressionMatcher): Node[] {
+  const content: Node[] = [];
+
+  this.eatWhitespace();
+
+  while (!this.match(LexicalToken.RSQB)) {
+    content.push(this.expression());
+    this.eatWhitespace();
+
+    if (this.peek().type !== LexicalToken.RSQB) {
+      this.consume(LexicalToken.COMMA, 'Expected ","');
+      this.eatWhitespace();
+    }
+  }
+
+  return content;
+}
 
 export function op12(this: ExpressionMatcher): Node {
+  // Wrapped Expression
   if (this.match(LexicalToken.LPAR)) {
     const start = this.previous().location.start;
     this.eatWhitespace();
@@ -25,10 +46,12 @@ export function op12(this: ExpressionMatcher): Node {
     return new Expressions.WrappedExpression(expr, { start, end });
   }
 
+  // Identifiers
   if (this.match(LexicalToken.IDENTIFIER)) {
     return new Expressions.Identifier(this.previous(), this.previous().location);
   }
 
+  // Literals
   if (this.match(
     LexicalToken.BOOLEAN,
     LexicalToken.NULL,
@@ -38,12 +61,25 @@ export function op12(this: ExpressionMatcher): Node {
     return new Expressions.Literal(this.previous(), this.previous().location);
   }
 
+  // Super
   if (this.match(LexicalToken.SUPER)) {
     return new Expressions.Super(this.previous().location);
   }
 
+  // This
   if (this.match(LexicalToken.THIS)) {
     return new Expressions.This(this.previous().location);
+  }
+
+  // Array Expression
+  if (this.match(LexicalToken.LSQB)) {
+    const start = this.previous().location.start;
+
+    const content = matchArrayContent.call(this);
+    return new Expressions.ArrayExpression(content, {
+      start,
+      end: this.previous().location.end,
+    });
   }
 
   // TODO: proper error handling

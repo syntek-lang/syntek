@@ -1,6 +1,1 @@
-new MyClass(
-	5,
-	10
-).prop
-	.fn()
-	.exec()
+[[2], 2, 3].call(5)

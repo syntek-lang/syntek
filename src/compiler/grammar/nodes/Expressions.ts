@@ -136,8 +136,12 @@ export class AsyncExpression extends Node {
 }
 
 export class ArrayExpression extends Node {
-  constructor(location: TokenLocation) {
+  readonly content: Node[];
+
+  constructor(content: Node[], location: TokenLocation) {
     super(SyntacticToken.ARRAY_EXPR, location);
+
+    this.content = content;
   }
 }
 
