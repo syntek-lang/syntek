@@ -50,8 +50,8 @@ export abstract class Matcher {
     return this.peek().type === LexicalToken.EOF;
   }
 
-  protected peek(): Token {
-    return this.tokens[this.current];
+  protected peek(amount = 0): Token {
+    return this.tokens[this.current + amount];
   }
 
   protected previous(): Token {

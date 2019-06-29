@@ -1,6 +1,6 @@
-import { Node, SyntacticToken, TokenLocation } from '../..';
-
-type LiteralValue = number | string | boolean | null;
+import {
+  Token, Node, SyntacticToken, TokenLocation,
+} from '../..';
 
 export function isExpression(node: Node): boolean {
   return node.type === SyntacticToken.WRAPPED_EXPR
@@ -28,14 +28,31 @@ export class WrappedExpression extends Node {
 }
 
 export class UnaryExpression extends Node {
-  constructor(location: TokenLocation) {
+  readonly operator: Token;
+
+  readonly right: Node;
+
+  constructor(operator: Token, right: Node, location: TokenLocation) {
     super(SyntacticToken.UNARY_EXPR, location);
+
+    this.operator = operator;
+    this.right = right;
   }
 }
 
 export class BinaryExpression extends Node {
-  constructor(location: TokenLocation) {
+  readonly left: Node;
+
+  readonly operator: Token;
+
+  readonly right: Node;
+
+  constructor(left: Node, operator: Token, right: Node, location: TokenLocation) {
     super(SyntacticToken.BINARY_EXPR, location);
+
+    this.left = left;
+    this.operator = operator;
+    this.right = right;
   }
 }
 
@@ -88,9 +105,9 @@ export class ObjectExpression extends Node {
 }
 
 export class LiteralExpression extends Node {
-  readonly value: LiteralValue;
+  readonly value: Token;
 
-  constructor(value: LiteralValue, location: TokenLocation) {
+  constructor(value: Token, location: TokenLocation) {
     super(SyntacticToken.LITERAL_EXPR, location);
 
     this.value = value;
