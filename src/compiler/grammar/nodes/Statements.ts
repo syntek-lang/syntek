@@ -8,7 +8,8 @@ export function isStatement(node: Node): boolean {
     || node.type === SyntacticToken.WHILE_STMT
     || node.type === SyntacticToken.TRY_STMT
     || node.type === SyntacticToken.THROW_STMT
-    || node.type === SyntacticToken.RETURN_STMT;
+    || node.type === SyntacticToken.RETURN_STMT
+    || node.type === SyntacticToken.EXPRESSION_STMT;
 }
 
 export class IfStatement extends Node {
@@ -56,5 +57,11 @@ export class ThrowStatement extends Node {
 export class ReturnStatement extends Node {
   constructor(location: TokenLocation) {
     super(SyntacticToken.RETURN_STMT, location);
+  }
+}
+
+export class ExpressionStatement extends Node {
+  constructor(location: TokenLocation) {
+    super(SyntacticToken.EXPRESSION_STMT, location);
   }
 }

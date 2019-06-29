@@ -27,4 +27,5 @@ export enum SyntacticToken {
   TRY_STMT,
   THROW_STMT,
   RETURN_STMT,
+  EXPRESSION_STMT,
 }
