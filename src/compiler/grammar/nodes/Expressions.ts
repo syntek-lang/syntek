@@ -14,7 +14,11 @@ export function isExpression(node: Node): boolean {
     || node.type === SyntacticToken.ASYNC_EXPR
     || node.type === SyntacticToken.ARRAY_EXPR
     || node.type === SyntacticToken.OBJECT_EXPR
-    || node.type === SyntacticToken.LITERAL_EXPR;
+
+    || node.type === SyntacticToken.IDENTIFIER
+    || node.type === SyntacticToken.LITERAL
+    || node.type === SyntacticToken.SUPER
+    || node.type === SyntacticToken.THIS;
 }
 
 export class WrappedExpression extends Node {
@@ -57,38 +61,77 @@ export class BinaryExpression extends Node {
 }
 
 export class CallExpression extends Node {
-  constructor(location: TokenLocation) {
+  readonly object: Node;
+
+  readonly params: Node[];
+
+  constructor(object: Node, params: Node[], location: TokenLocation) {
     super(SyntacticToken.CALL_EXPR, location);
+
+    this.object = object;
+    this.params = params;
   }
 }
 
 export class IndexExpression extends Node {
-  constructor(location: TokenLocation) {
+  readonly object: Node;
+
+  readonly index: Node;
+
+  constructor(object: Node, index: Node, location: TokenLocation) {
     super(SyntacticToken.INDEX_EXPR, location);
+
+    this.object = object;
+    this.index = index;
   }
 }
 
 export class MemberExpression extends Node {
-  constructor(location: TokenLocation) {
+  readonly object: Node;
+
+  readonly property: Token;
+
+  constructor(object: Node, property: Token, location: TokenLocation) {
     super(SyntacticToken.MEMBER_EXPR, location);
+
+    this.object = object;
+    this.property = property;
   }
 }
 
 export class NewExpression extends Node {
-  constructor(location: TokenLocation) {
+  readonly object: Node;
+
+  readonly params: Node[];
+
+  constructor(object: Node, params: Node[], location: TokenLocation) {
     super(SyntacticToken.NEW_EXPR, location);
+
+    this.object = object;
+    this.params = params;
   }
 }
 
 export class InstanceofExpression extends Node {
-  constructor(location: TokenLocation) {
+  readonly left: Node;
+
+  readonly right: Node;
+
+  constructor(left: Node, right: Node, location: TokenLocation) {
     super(SyntacticToken.INSTANCEOF_EXPR, location);
+
+    this.left = left;
+    this.right = right;
   }
 }
 
 export class AsyncExpression extends Node {
-  constructor(location: TokenLocation) {
+  readonly expression: Node;
+
+  constructor(expression: Node, location: TokenLocation) {
     super(SyntacticToken.ASYNC_EXPR, location);
+
+    this.expression = expression;
   }
 }
 
@@ -104,12 +147,34 @@ export class ObjectExpression extends Node {
   }
 }
 
-export class LiteralExpression extends Node {
+export class Identifier extends Node {
+  readonly identifier: Token;
+
+  constructor(identifier: Token, location: TokenLocation) {
+    super(SyntacticToken.IDENTIFIER, location);
+
+    this.identifier = identifier;
+  }
+}
+
+export class Literal extends Node {
   readonly value: Token;
 
   constructor(value: Token, location: TokenLocation) {
-    super(SyntacticToken.LITERAL_EXPR, location);
+    super(SyntacticToken.LITERAL, location);
 
     this.value = value;
+  }
+}
+
+export class Super extends Node {
+  constructor(location: TokenLocation) {
+    super(SyntacticToken.SUPER, location);
+  }
+}
+
+export class This extends Node {
+  constructor(location: TokenLocation) {
+    super(SyntacticToken.THIS, location);
   }
 }

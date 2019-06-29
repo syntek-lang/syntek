@@ -9,14 +9,17 @@ export abstract class Matcher {
     this.tokens = tokens;
   }
 
+  protected isWhitespace(token: Token): boolean {
+    return token.type === LexicalToken.NEWLINE
+      || token.type === LexicalToken.INDENT
+      || token.type === LexicalToken.OUTDENT
+      || token.type === LexicalToken.COMMENT;
+  }
+
   protected eatWhitespace(): void {
-    while (this.match(
-      LexicalToken.NEWLINE,
-      LexicalToken.INDENT,
-      LexicalToken.OUTDENT,
-      LexicalToken.COMMENT,
-    )) {
-      // Whitespace is being consumed :)
+    while (this.isWhitespace(this.peek())) {
+      // Consume whitespace
+      this.advance();
     }
   }
 
@@ -63,6 +66,16 @@ export abstract class Matcher {
 
   protected peek(amount = 0): Token {
     return this.tokens[this.current + amount];
+  }
+
+  protected peekIgnoreWhitespace(amount = 0): Token {
+    let whitespaceAmount = 0;
+
+    while (this.isWhitespace(this.peek(whitespaceAmount))) {
+      whitespaceAmount += 1;
+    }
+
+    return this.peek(amount + whitespaceAmount);
   }
 
   protected previous(): Token {

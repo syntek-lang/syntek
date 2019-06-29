@@ -4,9 +4,10 @@ import { ExpressionMatcher } from '../ExpressionMatcher';
 
 // https://docs.syntek.dev/spec/operator-precedence.html
 // | Unary Expression
-// | TODO: Async Expression
+// | Async Expression
 
 export function op10(this: ExpressionMatcher): Node {
+  // Unary
   if (this.match(
     LexicalToken.MINUS,
     LexicalToken.PLUS,
@@ -20,6 +21,14 @@ export function op10(this: ExpressionMatcher): Node {
       start: operator.location.start,
       end: right.location.end,
     });
+  }
+
+  // Async
+  if (this.match(LexicalToken.ASYNC)) {
+    this.eatWhitespace();
+    const expr = this.op11();
+
+    return new Expressions.AsyncExpression(expr, expr.location);
   }
 
   return this.op11();

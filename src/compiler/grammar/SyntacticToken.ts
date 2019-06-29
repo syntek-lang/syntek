@@ -17,7 +17,11 @@ export enum SyntacticToken {
   ASYNC_EXPR,
   ARRAY_EXPR,
   OBJECT_EXPR,
-  LITERAL_EXPR,
+
+  IDENTIFIER,
+  LITERAL,
+  SUPER,
+  THIS,
 
   // Statements
   IF_STMT,
