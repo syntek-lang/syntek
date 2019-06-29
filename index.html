@@ -9,7 +9,45 @@
 </head>
 
 <body>
+  <script src="https://unpkg.com/treeify"></script>
   <script src="./build/bundle.js"></script>
+
+  <pre id="tree"></pre>
+
+  <script>
+    function remove(obj, name) {
+      for (prop in obj) {
+        if (prop === name) {
+          delete obj[prop];
+        } else if (typeof obj[prop] === 'object') {
+          remove(obj[prop], name);
+        }
+      }
+    }
+
+    function typeToName(obj) {
+      for (prop in obj) {
+        if (prop === 'type') {
+          if (obj instanceof syntek.Node) {
+            obj[prop] = syntek.SyntacticToken[obj[prop]];
+          } else if (obj instanceof syntek.Token) {
+            obj[prop] = syntek.LexicalToken[obj[prop]];
+          }
+        } else if (typeof obj[prop] === 'object') {
+          typeToName(obj[prop]);
+        }
+      }
+    }
+
+    // Types can be converted on the original AST so it also updates in console
+    typeToName(syntek.ast);
+
+    // Create a copy and remove the location properties from that
+    const ast = JSON.parse(JSON.stringify(syntek.ast));
+    remove(ast, 'location');
+    document.getElementById('tree').innerHTML = treeify.asTree(ast, true);
+
+  </script>
 </body>
 
 </html>

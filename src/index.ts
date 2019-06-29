@@ -5,8 +5,10 @@ import program from './dev.tek';
 
 console.log(program);
 
-const tokenResult = tokenize(program);
+export const tokenResult = tokenize(program);
 console.log(tokenResult);
 
-const ast = parse(tokenResult.tokens);
+export const ast = parse(tokenResult.tokens);
 console.log(ast);
+
+export * from './compiler';
