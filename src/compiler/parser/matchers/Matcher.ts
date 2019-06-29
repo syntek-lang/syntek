@@ -10,7 +10,12 @@ export abstract class Matcher {
   }
 
   protected eatWhitespace(): void {
-    while (this.match(LexicalToken.NEWLINE, LexicalToken.INDENT, LexicalToken.OUTDENT)) {
+    while (this.match(
+      LexicalToken.NEWLINE,
+      LexicalToken.INDENT,
+      LexicalToken.OUTDENT,
+      LexicalToken.COMMENT,
+    )) {
       // Whitespace is being consumed :)
     }
   }
