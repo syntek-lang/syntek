@@ -9,6 +9,12 @@ export abstract class Matcher {
     this.tokens = tokens;
   }
 
+  protected eatWhitespace(): void {
+    while (this.match(LexicalToken.NEWLINE, LexicalToken.INDENT, LexicalToken.OUTDENT)) {
+      // Whitespace is being consumed :)
+    }
+  }
+
   protected consume(type: LexicalToken, message: string): Token {
     if (this.check(type)) {
       return this.advance();

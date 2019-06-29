@@ -14,6 +14,7 @@ export function op7(this: ExpressionMatcher): Node {
     LexicalToken.MINUS,
   )) {
     const operator = this.previous();
+    this.eatWhitespace();
     const right = this.op8();
 
     expr = new Expressions.BinaryExpression(expr, operator, right, {

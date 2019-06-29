@@ -13,6 +13,7 @@ export function op10(this: ExpressionMatcher): Node {
     LexicalToken.NOT,
   )) {
     const operator = this.previous();
+    this.eatWhitespace();
     const right = this.op11();
 
     return new Expressions.UnaryExpression(operator, right, {

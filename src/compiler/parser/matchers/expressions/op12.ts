@@ -18,8 +18,11 @@ export function op12(this: ExpressionMatcher): Node {
 
   if (this.match(LexicalToken.LPAR)) {
     const start = this.previous().location.start;
+    this.eatWhitespace();
 
     const expr = this.expression();
+    this.eatWhitespace();
+
     this.consume(LexicalToken.RPAR, 'Expected ")" after expression.');
 
     const end = this.previous().location.end;

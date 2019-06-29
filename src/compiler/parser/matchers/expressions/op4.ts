@@ -10,6 +10,7 @@ export function op4(this: ExpressionMatcher): Node {
 
   while (this.match(LexicalToken.AND)) {
     const operator = this.previous();
+    this.eatWhitespace();
     const right = this.op5();
 
     expr = new Expressions.BinaryExpression(expr, operator, right, {

@@ -16,6 +16,7 @@ export function op5(this: ExpressionMatcher): Node {
       operator = this.advance();
     }
 
+    this.eatWhitespace();
     const right = this.op6();
 
     expr = new Expressions.BinaryExpression(expr, operator, right, {

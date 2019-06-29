@@ -15,6 +15,8 @@ export function op6(this: ExpressionMatcher): Node {
 
     const operator = this.advance();
     this.consume(LexicalToken.THAN, `Expected "than" after "${operator.lexeme}"`);
+
+    this.eatWhitespace();
     const right = this.op7();
 
     expr = new Expressions.BinaryExpression(expr, operator, right, {

@@ -16,6 +16,7 @@ export function op8(this: ExpressionMatcher): Node {
     LexicalToken.PERCENT,
   )) {
     const operator = this.previous();
+    this.eatWhitespace();
     const right = this.op9();
 
     expr = new Expressions.BinaryExpression(expr, operator, right, {
