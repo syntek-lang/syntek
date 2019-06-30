@@ -11,7 +11,7 @@ export function op9(this: ExpressionMatcher): Node {
   while (this.match(LexicalToken.CARET)) {
     const operator = this.previous();
     this.eatWhitespace();
-    const right = this.op10();
+    const right = this.op9();
 
     expr = new Expressions.BinaryExpression(expr, operator, right, {
       start: expr.location.start,
