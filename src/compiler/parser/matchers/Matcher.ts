@@ -19,20 +19,52 @@ export class Matcher {
   protected parsePrecedence(precedence: Precedence): Node {
     const prefixToken = this.advance();
 
-    const prefixRule = this.getRule(prefixToken.type).prefix;
-    if (!prefixRule) {
+    const prefixFn = this.getRule(prefixToken.type).prefix;
+    if (!prefixFn) {
       // TODO: proper error handling
       throw new Error('Expected expression');
     }
 
-    let left: Node = prefixRule.call(this, prefixToken);
+    let left: Node = prefixFn.call(this, prefixToken);
 
-    while (precedence <= this.getRule(this.peek().type).precedence) {
-      const infixToken = this.advance();
-      const infixRule = this.getRule(infixToken.type).infix;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      let ignoredWhitespaceToken: Token | null = null;
 
-      if (infixRule) {
-        left = infixRule.call(this, left, infixToken);
+      // Break if the next token's precedence is lower than the wanted
+      if (precedence > this.getRule(this.peek().type).precedence) {
+        ignoredWhitespaceToken = this.peekIgnoreWhitespace();
+
+        if (precedence > this.getRule(ignoredWhitespaceToken.type).precedence) {
+          break;
+        }
+      }
+
+      let infixRule: ParseRule;
+      let infixToken: Token;
+
+      // When a token was found after ignoring whitespace check if the rule
+      // associated with that token allows ignoring whitespace. If it does trim
+      // the whitespace and advance.
+      if (ignoredWhitespaceToken) {
+        infixRule = this.getRule(ignoredWhitespaceToken.type);
+
+        if (infixRule.ignoreWhiteSpace) {
+          this.eatWhitespace();
+          infixToken = this.advance();
+        } else {
+          break;
+        }
+      } else {
+        infixToken = this.advance();
+        infixRule = this.getRule(infixToken.type);
+      }
+
+      if (infixRule.infix) {
+        left = infixRule.infix.call(this, left, infixToken);
+      } else {
+        // TODO: proper error handling
+        throw new Error(`Unexpected token ${infixToken}`);
       }
     }
 

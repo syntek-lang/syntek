@@ -5,7 +5,11 @@ import { Node, Token } from '../..';
 // Expressions
 import { async_ } from './expressions/async_';
 import { binary } from './expressions/binary';
+import { call } from './expressions/call';
+import { index } from './expressions';
 import { instanceof_ } from './expressions/instanceof_';
+import { member } from './expressions/member';
+import { new_ } from './expressions/new_';
 import { unary } from './expressions/unary';
 import { wrapped } from './expressions/wrapped';
 
@@ -21,6 +25,7 @@ export interface ParseRule {
   prefix: PrefixFunction | null;
   infix: InfixFunction | null;
   precedence: Precedence;
+  ignoreWhiteSpace?: boolean;
 }
 
 export const rules: ParseRule[] = [
@@ -44,11 +49,13 @@ export const rules: ParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP2 }, // EQUAL
 
   // Punctuation
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // DOT
+  {
+    prefix: null, infix: member, precedence: Precedence.OP11, ignoreWhiteSpace: true,
+  }, // DOT
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // COMMA
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // LSQB
+  { prefix: null, infix: index, precedence: Precedence.OP11 }, // LSQB
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RSQB
-  { prefix: wrapped, infix: null, precedence: Precedence.OP12 }, // LPAR
+  { prefix: wrapped, infix: call, precedence: Precedence.OP11 }, // LPAR
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RPAR
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // LBRACE
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RBRACE
@@ -61,7 +68,7 @@ export const rules: ParseRule[] = [
 
   // Keywords
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // CLASS
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // NEW
+  { prefix: new_, infix: null, precedence: Precedence.OP1 }, // NEW
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // STATIC
   { prefix: this_, infix: null, precedence: Precedence.OP1 }, // THIS
   { prefix: super_, infix: null, precedence: Precedence.OP1 }, // SUPER
