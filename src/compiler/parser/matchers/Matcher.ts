@@ -1,12 +1,46 @@
-import { Token, LexicalToken } from '../..';
+import { Node, Token, LexicalToken } from '../..';
 
-export abstract class Matcher {
+import { Precedence } from './Precedence';
+import { ParseRule, rules } from './ParseRule';
+
+export class Matcher {
   private current = 0;
 
   private tokens: Token[];
 
   constructor(tokens: Token[]) {
     this.tokens = tokens;
+  }
+
+  expression(): Node {
+    return this.parsePrecedence(Precedence.OP2);
+  }
+
+  protected parsePrecedence(precedence: Precedence): Node {
+    const prefixToken = this.advance();
+
+    const prefixRule = this.getRule(prefixToken.type).prefix;
+    if (!prefixRule) {
+      // TODO: proper error handling
+      throw new Error('Expected expression');
+    }
+
+    let left: Node = prefixRule.call(this, prefixToken);
+
+    while (precedence <= this.getRule(this.peek().type).precedence) {
+      const infixToken = this.advance();
+      const infixRule = this.getRule(infixToken.type).infix;
+
+      if (infixRule) {
+        left = infixRule.call(this, left, infixToken);
+      }
+    }
+
+    return left;
+  }
+
+  protected getRule(type: LexicalToken): ParseRule {
+    return rules[type];
   }
 
   protected isWhitespace(token: Token): boolean {
@@ -68,6 +102,10 @@ export abstract class Matcher {
     return this.tokens[this.current + amount];
   }
 
+  protected previous(): Token {
+    return this.peek(-1);
+  }
+
   protected peekIgnoreWhitespace(amount = 0): Token {
     let whitespaceAmount = 0;
 
@@ -76,9 +114,5 @@ export abstract class Matcher {
     }
 
     return this.peek(amount + whitespaceAmount);
-  }
-
-  protected previous(): Token {
-    return this.tokens[this.current - 1];
   }
 }
