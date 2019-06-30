@@ -3,16 +3,16 @@ import { Node, LexicalToken } from '../..';
 import { Matcher } from './Matcher';
 
 export class Utils {
-  static matchParamList(this: Matcher): Node[] {
+  static matchExpressionList(this: Matcher, closingToken: LexicalToken): Node[] {
     const params: Node[] = [];
 
     this.eatWhitespace();
 
-    while (!this.match(LexicalToken.RPAR)) {
+    while (!this.match(closingToken)) {
       params.push(this.expression());
       this.eatWhitespace();
 
-      if (this.peek().type !== LexicalToken.RPAR) {
+      if (this.peek().type !== closingToken) {
         this.consume(LexicalToken.COMMA, 'Expected ","');
         this.eatWhitespace();
       }

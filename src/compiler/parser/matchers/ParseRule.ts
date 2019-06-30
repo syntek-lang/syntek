@@ -14,6 +14,7 @@ import { unary } from './expressions/unary';
 import { wrapped } from './expressions/wrapped';
 
 // Literals
+import { array } from './literals/array';
 import { literals } from './literals/literals';
 import { super_ } from './literals/super_';
 import { this_ } from './literals/this_';
@@ -53,7 +54,7 @@ export const rules: ParseRule[] = [
     prefix: null, infix: member, precedence: Precedence.OP11, ignoreWhiteSpace: true,
   }, // DOT
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // COMMA
-  { prefix: null, infix: index, precedence: Precedence.OP11 }, // LSQB
+  { prefix: array, infix: index, precedence: Precedence.OP11 }, // LSQB
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RSQB
   { prefix: wrapped, infix: call, precedence: Precedence.OP11 }, // LPAR
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RPAR

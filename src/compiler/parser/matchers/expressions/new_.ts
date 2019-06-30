@@ -25,7 +25,7 @@ export function new_(this: Matcher, prefix: Token): Node {
 
   this.eatWhitespace();
   this.consume(LexicalToken.LPAR, 'Expected "("');
-  const params = Utils.matchParamList.call(this);
+  const params = Utils.matchExpressionList.call(this, LexicalToken.RPAR);
 
   return new Expressions.NewExpression(object, params, {
     start,
