@@ -98,7 +98,7 @@ export const rules: ParseRule[] = [
 
   { prefix: null, infix: binary, precedence: Precedence.OP4 }, // AND
   { prefix: null, infix: binary, precedence: Precedence.OP3 }, // OR
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // NOT
+  { prefix: unary, infix: null, precedence: Precedence.OP1 }, // NOT
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // IS
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // GREATER
