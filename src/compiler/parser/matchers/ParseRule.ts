@@ -43,10 +43,18 @@ export const rules: ParseRule[] = [
   // Operators
   { prefix: unary, infix: binary, precedence: Precedence.OP7 }, // PLUS
   { prefix: unary, infix: binary, precedence: Precedence.OP7 }, // MINUS
-  { prefix: null, infix: binary, precedence: Precedence.OP8 }, // STAR
-  { prefix: null, infix: binary, precedence: Precedence.OP8 }, // SLASH
-  { prefix: null, infix: binary, precedence: Precedence.OP8 }, // PERCENT
-  { prefix: null, infix: binary, precedence: Precedence.OP9 }, // CARET
+  {
+    prefix: null, infix: binary, precedence: Precedence.OP8, ignoreWhiteSpace: true,
+  }, // STAR
+  {
+    prefix: null, infix: binary, precedence: Precedence.OP8, ignoreWhiteSpace: true,
+  }, // SLASH
+  {
+    prefix: null, infix: binary, precedence: Precedence.OP8, ignoreWhiteSpace: true,
+  }, // PERCENT
+  {
+    prefix: null, infix: binary, precedence: Precedence.OP9, ignoreWhiteSpace: true,
+  }, // CARET
   { prefix: null, infix: null, precedence: Precedence.OP2 }, // EQUAL
 
   // Punctuation
@@ -74,7 +82,9 @@ export const rules: ParseRule[] = [
   { prefix: this_, infix: null, precedence: Precedence.OP1 }, // THIS
   { prefix: super_, infix: null, precedence: Precedence.OP1 }, // SUPER
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // EXTENDS
-  { prefix: null, infix: instanceof_, precedence: Precedence.OP6 }, // INSTANCEOF
+  {
+    prefix: null, infix: instanceof_, precedence: Precedence.OP6, ignoreWhiteSpace: true,
+  }, // INSTANCEOF
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // IF
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // ELSE
@@ -104,11 +114,17 @@ export const rules: ParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // CONTINUE
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // BREAK
 
-  { prefix: null, infix: binary, precedence: Precedence.OP4 }, // AND
-  { prefix: null, infix: binary, precedence: Precedence.OP3 }, // OR
+  {
+    prefix: null, infix: binary, precedence: Precedence.OP4, ignoreWhiteSpace: true,
+  }, // AND
+  {
+    prefix: null, infix: binary, precedence: Precedence.OP3, ignoreWhiteSpace: true,
+  }, // OR
   { prefix: unary, infix: null, precedence: Precedence.OP1 }, // NOT
 
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // IS
+  {
+    prefix: null, infix: null, precedence: Precedence.OP1, ignoreWhiteSpace: true,
+  }, // IS
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // GREATER
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // LESS
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // THAN
