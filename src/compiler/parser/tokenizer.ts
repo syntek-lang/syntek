@@ -3,7 +3,7 @@ import {
   CHAR_TOKENS, WORD_TOKENS,
 } from '..';
 
-type UnexpectedTokens = { char: string; loc: TokenLocation }[];
+type UnexpectedTokens = { string: string; loc: TokenLocation }[];
 
 function getIndent(line: string): number {
   const match = line.match(/^\t+/);
@@ -110,18 +110,53 @@ export function tokenize(input: string): { tokens: Token[]; errors: UnexpectedTo
             const wordMatch = remainingChars.match(/^[a-z_]\w*/i);
 
             if (wordMatch) {
-              const type = WORD_TOKENS[wordMatch[0]] || LexicalToken.IDENTIFIER;
+              let lexeme = wordMatch[0];
+              let type = WORD_TOKENS[lexeme] || LexicalToken.IDENTIFIER;
 
-              tokens.push(new Token(type, wordMatch[0], {
+              // If 'less', 'greater', or 'than' is matched as a lexeme the line
+              // did not include 'is' and is therefore incorrect
+              if (lexeme === 'less' || lexeme === 'greater' || lexeme === 'than') {
+                errors.push({
+                  string: lexeme, // TODO: Improve error message
+                  loc: {
+                    start: [lineIndex, colIndex],
+                    end: [lineIndex, colIndex + lexeme.length],
+                  },
+                });
+
+                colIndex += lexeme.length;
+              }
+
+              if (wordMatch[0] === 'is') {
+                // This regex matches 'is not', 'is less than', and 'is greater than'
+                // It is used to group the 2-3 words into a single token
+                // 'is' does not match
+                const comparisonOperatorMatch = remainingChars.match(/^is\s+(not|(?:(less|greater)\s+than))/);
+
+                if (comparisonOperatorMatch) {
+                  lexeme = comparisonOperatorMatch[0];
+
+                  // 'less' and 'greater' are the 3rd element, 'not' is the 2nd element
+                  const operator = comparisonOperatorMatch[2] || comparisonOperatorMatch[1];
+                  switch (operator) {
+                    case 'not': type = LexicalToken.IS_NOT; break;
+                    case 'less': type = LexicalToken.IS_LESS_THAN; break;
+                    case 'greater': type = LexicalToken.IS_GREATER_THAN; break;
+                    default: break;
+                  }
+                }
+              }
+
+              tokens.push(new Token(type, lexeme, {
                 start: [lineIndex, colIndex],
-                end: [lineIndex, colIndex + wordMatch[0].length],
+                end: [lineIndex, colIndex + lexeme.length],
               }));
 
-              colIndex += wordMatch[0].length;
+              colIndex += lexeme.length;
             } else {
               // Unexpected character
               errors.push({
-                char,
+                string: char,
                 loc: {
                   start: [lineIndex, colIndex],
                   end: [lineIndex, colIndex + 1],

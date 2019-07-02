@@ -76,9 +76,9 @@ export enum LexicalToken {
   NOT,
 
   IS,
-  GREATER,
-  LESS,
-  THAN,
+  IS_NOT,
+  IS_LESS_THAN,
+  IS_GREATER_THAN,
 
   ANY,
 
@@ -163,9 +163,6 @@ export const WORD_TOKENS: { [key: string]: LexicalToken } = {
   not: LexicalToken.NOT,
 
   is: LexicalToken.IS,
-  greater: LexicalToken.GREATER,
-  less: LexicalToken.LESS,
-  than: LexicalToken.THAN,
 
   any: LexicalToken.ANY,
 };

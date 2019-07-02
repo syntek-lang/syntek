@@ -125,9 +125,9 @@ export const rules: ParseRule[] = [
   {
     prefix: null, infix: null, precedence: Precedence.OP1, ignoreWhiteSpace: true,
   }, // IS
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // GREATER
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // LESS
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // THAN
+  { prefix: null, infix: null, precedence: Precedence.OP1 }, // IS_NOT
+  { prefix: null, infix: null, precedence: Precedence.OP1 }, // IS_LESS_THAN
+  { prefix: null, infix: null, precedence: Precedence.OP1 }, // IS_GREATER_THAN
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // ANY
 
