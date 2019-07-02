@@ -123,11 +123,17 @@ export const rules: ParseRule[] = [
   { prefix: unary, infix: null, precedence: Precedence.OP1 }, // NOT
 
   {
-    prefix: null, infix: null, precedence: Precedence.OP1, ignoreWhiteSpace: true,
+    prefix: null, infix: binary, precedence: Precedence.OP5, ignoreWhiteSpace: true,
   }, // IS
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // IS_NOT
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // IS_LESS_THAN
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // IS_GREATER_THAN
+  {
+    prefix: null, infix: binary, precedence: Precedence.OP5, ignoreWhiteSpace: true,
+  }, // IS_NOT
+  {
+    prefix: null, infix: binary, precedence: Precedence.OP6, ignoreWhiteSpace: true,
+  }, // IS_LESS_THAN
+  {
+    prefix: null, infix: binary, precedence: Precedence.OP6, ignoreWhiteSpace: true,
+  }, // IS_GREATER_THAN
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // ANY
 
