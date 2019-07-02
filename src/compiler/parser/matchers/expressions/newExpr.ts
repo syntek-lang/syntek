@@ -6,8 +6,7 @@ import { Precedence } from '../Precedence';
 import { Parser } from '../../Parser';
 import { Utils } from '../Utils';
 
-// eslint-disable-next-line no-underscore-dangle
-export function new_(this: Parser, prefix: Token): Node {
+export function newExpr(this: Parser, prefix: Token): Node {
   const start = prefix.location.start;
   this.eatWhitespace();
 

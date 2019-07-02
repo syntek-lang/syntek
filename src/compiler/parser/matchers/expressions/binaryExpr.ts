@@ -4,7 +4,7 @@ import {
 
 import { Parser } from '../../Parser';
 
-export function binary(this: Parser, left: Node, operator: Token): Node {
+export function binaryExpr(this: Parser, left: Node, operator: Token): Node {
   this.eatWhitespace();
 
   const rule = this.getRule(operator.type);

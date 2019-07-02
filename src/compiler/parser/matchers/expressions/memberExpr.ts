@@ -2,7 +2,7 @@ import { Node, LexicalToken, Expressions } from '../../..';
 
 import { Parser } from '../../Parser';
 
-export function member(this: Parser, left: Node): Node {
+export function memberExpr(this: Parser, left: Node): Node {
   this.eatWhitespace();
   const property = this.consume(LexicalToken.IDENTIFIER, 'Expected identifier');
 

@@ -3,7 +3,7 @@ import { Node, Token, Expressions } from '../../..';
 import { Parser } from '../../Parser';
 import { Precedence } from '../Precedence';
 
-export function unary(this: Parser, operator: Token): Node {
+export function unaryExpr(this: Parser, operator: Token): Node {
   this.eatWhitespace();
 
   const right = this.parsePrecedence(Precedence.OP10);

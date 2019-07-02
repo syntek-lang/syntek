@@ -2,8 +2,7 @@ import { Node, Token, Expressions } from '../../..';
 
 import { Parser } from '../../Parser';
 
-// eslint-disable-next-line no-underscore-dangle
-export function instanceof_(this: Parser, left: Node, operator: Token): Node {
+export function instanceofExpr(this: Parser, left: Node, operator: Token): Node {
   this.eatWhitespace();
 
   const rule = this.getRule(operator.type);

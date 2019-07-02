@@ -3,7 +3,7 @@ import { Node, LexicalToken, Expressions } from '../../..';
 import { Parser } from '../../Parser';
 import { Utils } from '../Utils';
 
-export function call(this: Parser, left: Node): Node {
+export function callExpr(this: Parser, left: Node): Node {
   this.eatWhitespace();
 
   const params = Utils.matchExpressionList.call(this, LexicalToken.RPAR);

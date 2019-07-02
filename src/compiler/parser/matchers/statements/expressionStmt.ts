@@ -2,7 +2,7 @@ import { Node, LexicalToken, Statements } from '../../..';
 
 import { Parser } from '../../Parser';
 
-export function expression(this: Parser): Node {
+export function expressionStmt(this: Parser): Node {
   const expr = this.expression();
   this.consume(LexicalToken.NEWLINE, 'Expected newline after expression');
 

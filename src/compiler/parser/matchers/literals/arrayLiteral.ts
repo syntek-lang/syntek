@@ -5,7 +5,7 @@ import {
 import { Parser } from '../../Parser';
 import { Utils } from '../Utils';
 
-export function array(this: Parser, prefix: Token): Node {
+export function arrayLiteral(this: Parser, prefix: Token): Node {
   const start = prefix.location.start;
   this.eatWhitespace();
 

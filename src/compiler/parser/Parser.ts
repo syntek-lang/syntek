@@ -5,7 +5,7 @@ import {
 import { Precedence } from './matchers/Precedence';
 import { ExpressionParseRule, expressionRules, statementRules } from './matchers/ParseRules';
 
-import { expression } from './matchers/statements/expression';
+import { expressionStmt } from './matchers/statements/expressionStmt';
 
 export class Parser {
   private current = 0;
@@ -41,7 +41,7 @@ export class Parser {
       return handler.call(this);
     }
 
-    return expression.call(this);
+    return expressionStmt.call(this);
   }
 
   expression(): Node {
