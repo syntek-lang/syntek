@@ -10,25 +10,29 @@ function getIndent(line: string): number {
   return match ? match[0].length : 0;
 }
 
-export function tokenize(input: string): { tokens: Token[]; errors: UnexpectedTokens } {
+export function tokenize(input: string): {
+  tokens: Token[];
+  errors: UnexpectedTokens;
+  comments: Token[];
+} {
   const tokens: Token[] = [];
   const errors: UnexpectedTokens = [];
-  const lines = input.split(/\r?\n/g);
+  const comments: Token[] = [];
 
+  const lines = input.split(/\r?\n/g);
   let prevIndent = 0;
 
   for (let lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
     const line = lines[lineIndex];
 
     // Check if the line is considered empty
-    const emptyLineMatch = line.match(/^\s*(#.*)?$/);
-
-    if (emptyLineMatch) {
+    const trimmed = line.trim();
+    if (trimmed.length === 0 || trimmed.charAt(0) === '#') {
       // Add a comment if there is one
-      if (emptyLineMatch[1]) {
-        tokens.push(new Token(LexicalToken.COMMENT, emptyLineMatch[1], {
-          start: [lineIndex, 0],
-          end: [lineIndex, emptyLineMatch[0].indexOf('#')],
+      if (trimmed.charAt(0) === '#') {
+        comments.push(new Token(LexicalToken.COMMENT, trimmed, {
+          start: [lineIndex, line.length - trimmed.length],
+          end: [lineIndex, line.length],
         }));
       }
     } else {
@@ -99,7 +103,7 @@ export function tokenize(input: string): { tokens: Token[]; errors: UnexpectedTo
           } else if (char === '#') {
             // Current character is the start of a comment
             // Comments last until the end of the current line
-            tokens.push(new Token(LexicalToken.COMMENT, remainingChars, {
+            comments.push(new Token(LexicalToken.COMMENT, remainingChars, {
               start: [lineIndex, colIndex],
               end: [lineIndex, colIndex + remainingChars.length],
             }));
@@ -189,5 +193,5 @@ export function tokenize(input: string): { tokens: Token[]; errors: UnexpectedTo
     end: [lines.length - 1, lines[lines.length - 1].length + 1],
   }));
 
-  return { tokens, errors };
+  return { tokens, errors, comments };
 }

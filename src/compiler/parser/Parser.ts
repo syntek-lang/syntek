@@ -110,8 +110,7 @@ export class Parser {
   protected isWhitespace(token: Token): boolean {
     return token.type === LexicalToken.NEWLINE
       || token.type === LexicalToken.INDENT
-      || token.type === LexicalToken.OUTDENT
-      || token.type === LexicalToken.COMMENT;
+      || token.type === LexicalToken.OUTDENT;
   }
 
   protected eatWhitespace(): void {
