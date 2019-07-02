@@ -2,9 +2,9 @@ import {
   Node, Token, LexicalToken, Expressions,
 } from '../../..';
 
-import { Matcher } from '../Matcher';
+import { Parser } from '../../Parser';
 
-export function wrapped(this: Matcher, prefix: Token): Node {
+export function wrapped(this: Parser, prefix: Token): Node {
   const start = prefix.location.start;
   this.eatWhitespace();
 

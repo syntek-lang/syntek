@@ -1,15 +1,38 @@
-import { Node, Token, LexicalToken } from '../..';
+import {
+  Node, Token, LexicalToken, Program,
+} from '..';
 
-import { Precedence } from './Precedence';
-import { ParseRule, rules } from './ParseRule';
+import { Precedence } from './matchers/Precedence';
+import { ExpressionParseRule, rules } from './matchers/ExpressionParseRule';
 
-export class Matcher {
+export class Parser {
   private current = 0;
 
   private tokens: Token[];
 
   constructor(tokens: Token[]) {
-    this.tokens = tokens;
+    this.tokens = tokens.filter(token => token.type !== LexicalToken.WHITESPACE);
+  }
+
+  parse(): Program {
+    const body: Node[] = [];
+
+    // while (!this.match(LexicalToken.EOF)) {
+    body.push(this.declaration());
+    // }
+
+    return new Program(body, {
+      start: body[0].location.start,
+      end: body[body.length - 1].location.end,
+    });
+  }
+
+  declaration(): Node {
+    return this.statement();
+  }
+
+  statement(): Node {
+    return this.expression();
   }
 
   expression(): Node {
@@ -40,7 +63,7 @@ export class Matcher {
         }
       }
 
-      let infixRule: ParseRule;
+      let infixRule: ExpressionParseRule;
       let infixToken: Token;
 
       // When a token was found after ignoring whitespace check if the rule
@@ -71,7 +94,7 @@ export class Matcher {
     return left;
   }
 
-  protected getRule(type: LexicalToken): ParseRule {
+  protected getRule(type: LexicalToken): ExpressionParseRule {
     return rules[type];
   }
 

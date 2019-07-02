@@ -19,6 +19,8 @@ export {
   Statements,
 };
 
+export * from './grammar/nodes/Program';
+
 // parser
 export * from './parser/tokenizer';
-export * from './parser/parser';
+export * from './parser/Parser';

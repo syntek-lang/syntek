@@ -2,9 +2,9 @@ import {
   Node, Token, LexicalToken, Expressions,
 } from '../../..';
 
-import { Matcher } from '../Matcher';
+import { Parser } from '../../Parser';
 
-export function binary(this: Matcher, left: Node, operator: Token): Node {
+export function binary(this: Parser, left: Node, operator: Token): Node {
   this.eatWhitespace();
 
   const rule = this.getRule(operator.type);

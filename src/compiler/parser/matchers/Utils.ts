@@ -1,9 +1,9 @@
 import { Node, LexicalToken } from '../..';
 
-import { Matcher } from './Matcher';
+import { Parser } from '../Parser';
 
 export class Utils {
-  static matchExpressionList(this: Matcher, closingToken: LexicalToken): Node[] {
+  static matchExpressionList(this: Parser, closingToken: LexicalToken): Node[] {
     const params: Node[] = [];
 
     this.eatWhitespace();

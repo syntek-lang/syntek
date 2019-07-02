@@ -33,4 +33,7 @@ export enum SyntacticToken {
   THROW_STMT,
   RETURN_STMT,
   EXPRESSION_STMT,
+
+  // Program
+  PROGRAM,
 }

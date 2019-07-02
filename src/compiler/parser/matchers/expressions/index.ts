@@ -1,8 +1,8 @@
 import { Node, LexicalToken, Expressions } from '../../..';
 
-import { Matcher } from '../Matcher';
+import { Parser } from '../../Parser';
 
-export function index(this: Matcher, left: Node): Node {
+export function index(this: Parser, left: Node): Node {
   this.eatWhitespace();
   const indexExpr = this.expression();
 

@@ -1,6 +1,6 @@
 import { Precedence } from './Precedence';
-import { Matcher } from './Matcher';
 import { Node, Token } from '../..';
+import { Parser } from '../Parser';
 
 // Expressions
 import { async_ } from './expressions/async_';
@@ -19,17 +19,17 @@ import { literals } from './literals/literals';
 import { super_ } from './literals/super_';
 import { this_ } from './literals/this_';
 
-export type PrefixFunction = (this: Matcher, prefix: Token) => Node;
-export type InfixFunction = (this: Matcher, left: Node, infix: Token) => Node;
+export type PrefixFunction = (this: Parser, prefix: Token) => Node;
+export type InfixFunction = (this: Parser, left: Node, infix: Token) => Node;
 
-export interface ParseRule {
+export interface ExpressionParseRule {
   prefix: PrefixFunction | null;
   infix: InfixFunction | null;
   precedence: Precedence;
   ignoreWhiteSpace?: boolean;
 }
 
-export const rules: ParseRule[] = [
+export const rules: ExpressionParseRule[] = [
   // Whitespace
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // NEWLINE
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // INDENT

@@ -1,9 +1,9 @@
 import { Node, Token, Expressions } from '../../..';
 
-import { Matcher } from '../Matcher';
+import { Parser } from '../../Parser';
 import { Precedence } from '../Precedence';
 
-export function unary(this: Matcher, operator: Token): Node {
+export function unary(this: Parser, operator: Token): Node {
   this.eatWhitespace();
 
   const right = this.parsePrecedence(Precedence.OP10);
