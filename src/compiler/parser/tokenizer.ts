@@ -168,13 +168,13 @@ export function tokenize(input: string): { tokens: Token[]; errors: UnexpectedTo
           }
         }
       }
-    }
 
-    // Every line ends with a newline
-    tokens.push(new Token(LexicalToken.NEWLINE, '\n', {
-      start: [lineIndex, line.length],
-      end: [lineIndex, line.length + 1],
-    }));
+      // Every line ends with a newline
+      tokens.push(new Token(LexicalToken.NEWLINE, '\n', {
+        start: [lineIndex, line.length],
+        end: [lineIndex, line.length + 1],
+      }));
+    }
   }
 
   // Add outdent tokens

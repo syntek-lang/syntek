@@ -61,7 +61,11 @@ export class ReturnStatement extends Node {
 }
 
 export class ExpressionStatement extends Node {
-  constructor(location: TokenLocation) {
+  readonly expression: Node;
+
+  constructor(expression: Node, location: TokenLocation) {
     super(SyntacticToken.EXPRESSION_STMT, location);
+
+    this.expression = expression;
   }
 }

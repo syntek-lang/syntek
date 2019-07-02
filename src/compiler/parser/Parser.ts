@@ -3,7 +3,9 @@ import {
 } from '..';
 
 import { Precedence } from './matchers/Precedence';
-import { ExpressionParseRule, rules } from './matchers/ExpressionParseRule';
+import { ExpressionParseRule, expressionRules, statementRules } from './matchers/ParseRules';
+
+import { expression } from './matchers/statements/expression';
 
 export class Parser {
   private current = 0;
@@ -17,9 +19,9 @@ export class Parser {
   parse(): Program {
     const body: Node[] = [];
 
-    // while (!this.match(LexicalToken.EOF)) {
-    body.push(this.declaration());
-    // }
+    while (!this.isAtEnd()) {
+      body.push(this.declaration());
+    }
 
     return new Program(body, {
       start: body[0].location.start,
@@ -32,7 +34,14 @@ export class Parser {
   }
 
   statement(): Node {
-    return this.expression();
+    const handler = statementRules[this.peek().type];
+
+    if (handler) {
+      this.advance();
+      return handler.call(this);
+    }
+
+    return expression.call(this);
   }
 
   expression(): Node {
@@ -95,7 +104,7 @@ export class Parser {
   }
 
   protected getRule(type: LexicalToken): ExpressionParseRule {
-    return rules[type];
+    return expressionRules[type];
   }
 
   protected isWhitespace(token: Token): boolean {

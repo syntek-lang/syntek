@@ -1,6 +1,7 @@
 import { Precedence } from './Precedence';
-import { Node, Token } from '../..';
-import { Parser } from '../Parser';
+import {
+  Node, Token, Parser, LexicalToken,
+} from '../..';
 
 // Expressions
 import { async_ } from './expressions/async_';
@@ -19,8 +20,9 @@ import { literals } from './literals/literals';
 import { super_ } from './literals/super_';
 import { this_ } from './literals/this_';
 
-export type PrefixFunction = (this: Parser, prefix: Token) => Node;
-export type InfixFunction = (this: Parser, left: Node, infix: Token) => Node;
+type PrefixFunction = (this: Parser, prefix: Token) => Node;
+type InfixFunction = (this: Parser, left: Node, infix: Token) => Node;
+type ParsingHandler = (this: Parser) => Node;
 
 export interface ExpressionParseRule {
   prefix: PrefixFunction | null;
@@ -29,7 +31,7 @@ export interface ExpressionParseRule {
   ignoreWhiteSpace?: boolean;
 }
 
-export const rules: ExpressionParseRule[] = [
+export const expressionRules: ExpressionParseRule[] = [
   // Whitespace
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // NEWLINE
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // INDENT
@@ -140,3 +142,5 @@ export const rules: ExpressionParseRule[] = [
   // End of file
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // EOF
 ];
+
+export const statementRules: { [key: number]: ParsingHandler } = {};
