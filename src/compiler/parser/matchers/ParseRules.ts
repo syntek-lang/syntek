@@ -22,6 +22,7 @@ import { superLiteral } from './literals/superLiteral';
 import { thisLiteral } from './literals/thisLiteral';
 
 // Statements
+import { forStmt } from './statements/forStmt';
 import { ifStmt } from './statements/ifStmt';
 import { whileStmt } from './statements/whileStmt';
 
@@ -151,6 +152,7 @@ export const expressionRules: ExpressionParseRule[] = [
 ];
 
 export const statementRules: { [key: number]: ParsingHandler } = {
+  [LexicalToken.FOR]: forStmt,
   [LexicalToken.IF]: ifStmt,
   [LexicalToken.WHILE]: whileStmt,
 };

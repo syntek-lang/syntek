@@ -9,6 +9,12 @@ export interface VarDeclReport {
   arrayDepth: number;
 }
 
+export interface TypeDeclReport {
+  isTypeDecl: boolean;
+  type: Token | null;
+  arrayDepth: number;
+}
+
 export class Utils {
   static matchExpressionList(this: Parser, closingToken: LexicalToken): Node[] {
     const params: Node[] = [];
@@ -79,6 +85,47 @@ export class Utils {
     return {
       isVarDecl: false,
       identifier: null,
+      type: null,
+      arrayDepth: 0,
+    };
+  }
+
+  static matchTypeDecl(this: Parser): TypeDeclReport {
+    if (!this.check(LexicalToken.IDENTIFIER)) {
+      return {
+        isTypeDecl: false,
+        type: null,
+        arrayDepth: 0,
+      };
+    }
+
+    // Number x
+    if (this.check(LexicalToken.IDENTIFIER, 1)) {
+      return {
+        isTypeDecl: true,
+        type: this.peek(),
+        arrayDepth: 0,
+      };
+    }
+
+    // Number[] x
+    // Number[][] x
+    // Number[][][] x
+    let offset = 1;
+    while (this.check(LexicalToken.LSQB, offset) && this.check(LexicalToken.RSQB, offset + 1)) {
+      offset += 2;
+    }
+
+    if (this.check(LexicalToken.IDENTIFIER, offset)) {
+      return {
+        isTypeDecl: true,
+        type: this.peek(),
+        arrayDepth: (offset - 1) / 2,
+      };
+    }
+
+    return {
+      isTypeDecl: false,
       type: null,
       arrayDepth: 0,
     };

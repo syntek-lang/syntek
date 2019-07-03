@@ -1,4 +1,6 @@
-import { Node, SyntacticToken, TokenLocation } from '../..';
+import {
+  Node, Token, SyntacticToken, TokenLocation,
+} from '../..';
 
 export function isStatement(node: Node): boolean {
   return node.type === SyntacticToken.IF_STMT
@@ -46,8 +48,31 @@ export class SwitchStatement extends Node {
 }
 
 export class ForStatement extends Node {
-  constructor(location: TokenLocation) {
+  readonly identifier: Token;
+
+  readonly variableType: Token | null;
+
+  readonly arrayDepth: number;
+
+  readonly object: Node;
+
+  readonly body: Node[];
+
+  constructor(
+    identifier: Token,
+    variableType: Token | null,
+    arrayDepth: number,
+    object: Node,
+    body: Node[],
+    location: TokenLocation,
+  ) {
     super(SyntacticToken.FOR_STMT, location);
+
+    this.identifier = identifier;
+    this.variableType = variableType;
+    this.arrayDepth = arrayDepth;
+    this.object = object;
+    this.body = body;
   }
 }
 
