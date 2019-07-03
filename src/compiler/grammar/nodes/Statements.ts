@@ -13,8 +13,15 @@ export function isStatement(node: Node): boolean {
 }
 
 export class IfStatement extends Node {
-  constructor(location: TokenLocation) {
+  readonly condition: Node;
+
+  readonly body: Node[];
+
+  constructor(condition: Node, body: Node[], location: TokenLocation) {
     super(SyntacticToken.IF_STMT, location);
+
+    this.condition = condition;
+    this.body = body;
   }
 }
 

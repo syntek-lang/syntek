@@ -136,15 +136,25 @@ export class Parser {
     }
   }
 
-  protected syncWhitespace(): void {
-    while (this.indent > 0) {
-      this.consume(LexicalToken.OUTDENT, 'Expected outdent');
-      this.indent -= 1;
-    }
+  protected syncIndentation(): void {
+    while (this.indent !== 0) {
+      if (this.indent > 0) {
+        if (this.check(LexicalToken.OUTDENT)) {
+          this.advance();
+        } else {
+          this.tokens.splice(this.current, 0, new Token(LexicalToken.INDENT, '\t', { start: [0, 0], end: [0, 0] }));
+        }
 
-    while (this.indent < 0) {
-      this.consume(LexicalToken.INDENT, 'Expected indent');
-      this.indent += 1;
+        this.indent -= 1;
+      } else {
+        if (this.check(LexicalToken.INDENT)) {
+          this.advance();
+        } else {
+          this.tokens.splice(this.current, 0, new Token(LexicalToken.OUTDENT, '', { start: [0, 0], end: [0, 0] }));
+        }
+
+        this.indent += 1;
+      }
     }
   }
 

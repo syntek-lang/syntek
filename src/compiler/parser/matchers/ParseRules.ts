@@ -1,5 +1,7 @@
 import { Precedence } from './Precedence';
-import { Node, Token, Parser } from '../..';
+import {
+  Node, Token, Parser, LexicalToken,
+} from '../..';
 
 // Expressions
 import { assignmentExpr } from './expressions/assignmentExpr';
@@ -18,6 +20,9 @@ import { arrayLiteral } from './literals/arrayLiteral';
 import { literals } from './literals/literals';
 import { superLiteral } from './literals/superLiteral';
 import { thisLiteral } from './literals/thisLiteral';
+
+// Statements
+import { ifStmt } from './statements/ifStmt';
 
 type PrefixFunction = (this: Parser, prefix: Token) => Node;
 type InfixFunction = (this: Parser, left: Node, infix: Token) => Node;
@@ -144,4 +149,6 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // EOF
 ];
 
-export const statementRules: { [key: number]: ParsingHandler } = {};
+export const statementRules: { [key: number]: ParsingHandler } = {
+  [LexicalToken.IF]: ifStmt,
+};

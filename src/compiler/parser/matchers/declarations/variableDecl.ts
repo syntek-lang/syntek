@@ -25,7 +25,7 @@ export function variableDecl(this: Parser, varDeclReport: VarDeclReport): Node {
   const expr = this.expression();
   this.consume(LexicalToken.NEWLINE, 'Expected newline after variable declaration');
 
-  this.syncWhitespace();
+  this.syncIndentation();
 
   return new Declarations.VariableDeclaration(
     identifier,

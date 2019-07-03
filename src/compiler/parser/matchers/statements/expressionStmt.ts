@@ -6,7 +6,7 @@ export function expressionStmt(this: Parser): Node {
   const expr = this.expression();
   this.consume(LexicalToken.NEWLINE, 'Expected newline after expression');
 
-  this.syncWhitespace();
+  this.syncIndentation();
 
   return new Statements.ExpressionStatement(expr, {
     start: expr.location.start,
