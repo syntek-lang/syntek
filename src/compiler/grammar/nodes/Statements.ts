@@ -58,8 +58,15 @@ export class RepeatStatement extends Node {
 }
 
 export class WhileStatement extends Node {
-  constructor(location: TokenLocation) {
+  readonly condition: Node;
+
+  readonly body: Node[];
+
+  constructor(condition: Node, body: Node[], location: TokenLocation) {
     super(SyntacticToken.WHILE_STMT, location);
+
+    this.condition = condition;
+    this.body = body;
   }
 }
 

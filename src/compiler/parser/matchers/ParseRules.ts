@@ -23,6 +23,7 @@ import { thisLiteral } from './literals/thisLiteral';
 
 // Statements
 import { ifStmt } from './statements/ifStmt';
+import { whileStmt } from './statements/whileStmt';
 
 type PrefixFunction = (this: Parser, prefix: Token) => Node;
 type InfixFunction = (this: Parser, left: Node, infix: Token) => Node;
@@ -151,4 +152,5 @@ export const expressionRules: ExpressionParseRule[] = [
 
 export const statementRules: { [key: number]: ParsingHandler } = {
   [LexicalToken.IF]: ifStmt,
+  [LexicalToken.WHILE]: whileStmt,
 };
