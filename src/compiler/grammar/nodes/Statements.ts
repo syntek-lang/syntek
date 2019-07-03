@@ -2,6 +2,7 @@ import { Node, SyntacticToken, TokenLocation } from '../..';
 
 export function isStatement(node: Node): boolean {
   return node.type === SyntacticToken.IF_STMT
+    || node.type === SyntacticToken.ELSE_STMT
     || node.type === SyntacticToken.SWITCH_STMT
     || node.type === SyntacticToken.FOR_STMT
     || node.type === SyntacticToken.REPEAT_STMT
@@ -17,10 +18,23 @@ export class IfStatement extends Node {
 
   readonly body: Node[];
 
-  constructor(condition: Node, body: Node[], location: TokenLocation) {
+  readonly elseClause: Node | null;
+
+  constructor(condition: Node, body: Node[], elseClause: Node | null, location: TokenLocation) {
     super(SyntacticToken.IF_STMT, location);
 
     this.condition = condition;
+    this.body = body;
+    this.elseClause = elseClause;
+  }
+}
+
+export class ElseStatement extends Node {
+  readonly body: Node[];
+
+  constructor(body: Node[], location: TokenLocation) {
+    super(SyntacticToken.ELSE_STMT, location);
+
     this.body = body;
   }
 }

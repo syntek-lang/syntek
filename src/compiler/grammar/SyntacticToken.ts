@@ -26,6 +26,7 @@ export enum SyntacticToken {
 
   // Statements
   IF_STMT,
+  ELSE_STMT,
   SWITCH_STMT,
   FOR_STMT,
   REPEAT_STMT,
