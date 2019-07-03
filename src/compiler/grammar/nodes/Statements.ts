@@ -109,14 +109,22 @@ export class TryStatement extends Node {
 }
 
 export class ThrowStatement extends Node {
-  constructor(location: TokenLocation) {
+  readonly expression: Node;
+
+  constructor(expression: Node, location: TokenLocation) {
     super(SyntacticToken.THROW_STMT, location);
+
+    this.expression = expression;
   }
 }
 
 export class ReturnStatement extends Node {
-  constructor(location: TokenLocation) {
+  readonly expression: Node | null;
+
+  constructor(expression: Node | null, location: TokenLocation) {
     super(SyntacticToken.RETURN_STMT, location);
+
+    this.expression = expression;
   }
 }
 

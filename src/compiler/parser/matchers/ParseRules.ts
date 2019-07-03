@@ -25,6 +25,8 @@ import { thisLiteral } from './literals/thisLiteral';
 import { forStmt } from './statements/forStmt';
 import { ifStmt } from './statements/ifStmt';
 import { repeatStmt } from './statements/repeatStmt';
+import { returnStmt } from './statements/returnStmt';
+import { throwStmt } from './statements/throwStmt';
 import { whileStmt } from './statements/whileStmt';
 
 type PrefixFunction = (this: Parser, prefix: Token) => Node;
@@ -156,5 +158,7 @@ export const statementRules: { [key: number]: ParsingHandler } = {
   [LexicalToken.FOR]: forStmt,
   [LexicalToken.IF]: ifStmt,
   [LexicalToken.REPEAT]: repeatStmt,
+  [LexicalToken.RETURN]: returnStmt,
+  [LexicalToken.THROW]: throwStmt,
   [LexicalToken.WHILE]: whileStmt,
 };
