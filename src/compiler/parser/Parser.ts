@@ -2,10 +2,12 @@ import {
   Node, Token, LexicalToken, Program,
 } from '..';
 
+import { Utils, VarDeclReport } from './matchers/Utils';
 import { Precedence } from './matchers/Precedence';
 import { ExpressionParseRule, expressionRules, statementRules } from './matchers/ParseRules';
 
 import { expressionStmt } from './matchers/statements/expressionStmt';
+import { variableDecl } from './matchers/declarations/variableDecl';
 
 export class Parser {
   private current = 0;
@@ -32,6 +34,12 @@ export class Parser {
   }
 
   declaration(): Node {
+    const varDeclReport: VarDeclReport = Utils.varDeclCheck.call(this);
+
+    if (varDeclReport.isVarDecl) {
+      return variableDecl.call(this, varDeclReport);
+    }
+
     return this.statement();
   }
 
@@ -169,20 +177,20 @@ export class Parser {
     return this.previous();
   }
 
-  protected check(type: LexicalToken): boolean {
+  protected check(type: LexicalToken, offset = 0): boolean {
     if (this.isAtEnd()) {
       return false;
     }
 
-    return this.peek().type === type;
+    return this.peek(offset).type === type;
   }
 
   protected isAtEnd(): boolean {
     return this.peek().type === LexicalToken.EOF;
   }
 
-  protected peek(amount = 0): Token {
-    return this.tokens[this.current + amount];
+  protected peek(offset = 0): Token {
+    return this.tokens[this.current + offset];
   }
 
   protected previous(): Token {

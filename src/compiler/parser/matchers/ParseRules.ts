@@ -2,6 +2,7 @@ import { Precedence } from './Precedence';
 import { Node, Token, Parser } from '../..';
 
 // Expressions
+import { assignmentExpr } from './expressions/assignmentExpr';
 import { asyncExpr } from './expressions/asyncExpr';
 import { binaryExpr } from './expressions/binaryExpr';
 import { callExpr } from './expressions/callExpr';
@@ -55,7 +56,9 @@ export const expressionRules: ExpressionParseRule[] = [
   {
     prefix: null, infix: binaryExpr, precedence: Precedence.OP9, ignoreWhiteSpace: true,
   }, // CARET
-  { prefix: null, infix: null, precedence: Precedence.OP2 }, // EQUAL
+  {
+    prefix: null, infix: assignmentExpr, precedence: Precedence.OP2, ignoreWhiteSpace: true,
+  }, // EQUAL
 
   // Punctuation
   {

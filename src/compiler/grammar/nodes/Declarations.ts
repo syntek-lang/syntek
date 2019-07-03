@@ -1,4 +1,6 @@
-import { Node, SyntacticToken, TokenLocation } from '../..';
+import {
+  Node, Token, SyntacticToken, TokenLocation,
+} from '../..';
 
 export function isDeclaration(node: Node): boolean {
   return node.type === SyntacticToken.VARIABLE_DECL
@@ -8,8 +10,27 @@ export function isDeclaration(node: Node): boolean {
 }
 
 export class VariableDeclaration extends Node {
-  constructor(location: TokenLocation) {
+  readonly identifier: Token;
+
+  readonly variableType: Token | null;
+
+  readonly arrayDepth: number;
+
+  readonly value: Node;
+
+  constructor(
+    identifier: Token,
+    variableType: Token | null,
+    arrayDepth: number,
+    value: Node,
+    location: TokenLocation,
+  ) {
     super(SyntacticToken.VARIABLE_DECL, location);
+
+    this.identifier = identifier;
+    this.variableType = variableType;
+    this.arrayDepth = arrayDepth;
+    this.value = value;
   }
 }
 
