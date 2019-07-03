@@ -77,8 +77,15 @@ export class ForStatement extends Node {
 }
 
 export class RepeatStatement extends Node {
-  constructor(location: TokenLocation) {
+  readonly amount: Node;
+
+  readonly body: Node[];
+
+  constructor(amount: Node, body: Node[], location: TokenLocation) {
     super(SyntacticToken.REPEAT_STMT, location);
+
+    this.amount = amount;
+    this.body = body;
   }
 }
 
