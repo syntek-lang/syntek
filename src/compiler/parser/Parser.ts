@@ -10,6 +10,8 @@ import { expressionStmt } from './matchers/statements/expressionStmt';
 export class Parser {
   private current = 0;
 
+  private indent = 0;
+
   private tokens: Token[];
 
   constructor(tokens: Token[]) {
@@ -116,7 +118,25 @@ export class Parser {
   protected eatWhitespace(): void {
     while (this.isWhitespace(this.peek())) {
       // Consume whitespace
-      this.advance();
+      const token = this.advance();
+
+      if (token.type === LexicalToken.INDENT) {
+        this.indent += 1;
+      } else if (token.type === LexicalToken.OUTDENT) {
+        this.indent -= 1;
+      }
+    }
+  }
+
+  protected syncWhitespace(): void {
+    while (this.indent > 0) {
+      this.consume(LexicalToken.OUTDENT, 'Expected outdent');
+      this.indent -= 1;
+    }
+
+    while (this.indent < 0) {
+      this.consume(LexicalToken.INDENT, 'Expected indent');
+      this.indent += 1;
     }
   }
 
