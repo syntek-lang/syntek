@@ -4,7 +4,10 @@ import {
 
 import { Utils, VarDeclReport } from './matchers/Utils';
 import { Precedence } from './matchers/Precedence';
-import { ExpressionParseRule, expressionRules, statementRules } from './matchers/ParseRules';
+import {
+  ExpressionParseRule,
+  declarationRules, expressionRules, statementRules,
+} from './matchers/ParseRules';
 
 import { expressionStmt } from './matchers/statements/expressionStmt';
 import { variableDecl } from './matchers/declarations/variableDecl';
@@ -38,6 +41,12 @@ export class Parser {
 
     if (varDeclReport.isVarDecl) {
       return variableDecl.call(this, varDeclReport);
+    }
+
+    const handler = declarationRules[this.peek().type];
+    if (handler) {
+      this.advance();
+      return handler.call(this);
     }
 
     return this.statement();

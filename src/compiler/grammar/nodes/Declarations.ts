@@ -47,7 +47,14 @@ export class ClassDeclaration extends Node {
 }
 
 export class ImportDeclaration extends Node {
-  constructor(location: TokenLocation) {
+  readonly source: Token;
+
+  readonly identifier: Token | null;
+
+  constructor(source: Token, identifier: Token | null, location: TokenLocation) {
     super(SyntacticToken.IMPORT_DECL, location);
+
+    this.source = source;
+    this.identifier = identifier;
   }
 }

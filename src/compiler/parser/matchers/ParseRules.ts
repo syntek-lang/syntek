@@ -3,6 +3,9 @@ import {
   Node, Token, Parser, LexicalToken,
 } from '../..';
 
+// Declarations
+import { importDecl } from './declarations/importDecl';
+
 // Expressions
 import { arrayExpr } from './expressions/arrayExpr';
 import { assignmentExpr } from './expressions/assignmentExpr';
@@ -45,6 +48,10 @@ export interface ExpressionParseRule {
   precedence: Precedence;
   ignoreWhiteSpace?: boolean;
 }
+
+export const declarationRules: { [key: number]: ParsingHandler } = {
+  [LexicalToken.IMPORT]: importDecl,
+};
 
 export const expressionRules: ExpressionParseRule[] = [
   // Whitespace
