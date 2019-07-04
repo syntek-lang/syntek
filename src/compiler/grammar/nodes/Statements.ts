@@ -12,7 +12,11 @@ export function isStatement(node: Node): boolean {
     || node.type === SyntacticToken.TRY_STMT
     || node.type === SyntacticToken.THROW_STMT
     || node.type === SyntacticToken.RETURN_STMT
-    || node.type === SyntacticToken.EXPRESSION_STMT;
+    || node.type === SyntacticToken.EXPRESSION_STMT
+
+    || node.type === SyntacticToken.BREAK_STMT
+    || node.type === SyntacticToken.CONTINUE_STMT
+    || node.type === SyntacticToken.FALLTHROUGH_STMT;
 }
 
 export class IfStatement extends Node {
