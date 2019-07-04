@@ -103,8 +103,31 @@ export class WhileStatement extends Node {
 }
 
 export class TryStatement extends Node {
-  constructor(location: TokenLocation) {
+  readonly tryBody: Node[];
+
+  readonly identifier: Token;
+
+  readonly variableType: Token | null;
+
+  readonly arrayDepth: number;
+
+  readonly catchBody: Node[];
+
+  constructor(
+    tryBody: Node[],
+    identifier: Token,
+    variableType: Token | null,
+    arrayDepth: number,
+    catchBody: Node[],
+    location: TokenLocation,
+  ) {
     super(SyntacticToken.TRY_STMT, location);
+
+    this.tryBody = tryBody;
+    this.identifier = identifier;
+    this.variableType = variableType;
+    this.arrayDepth = arrayDepth;
+    this.catchBody = catchBody;
   }
 }
 
