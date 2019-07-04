@@ -22,10 +22,14 @@ import { superLiteral } from './literals/superLiteral';
 import { thisLiteral } from './literals/thisLiteral';
 
 // Statements
+import { breakStmt } from './statements/breakStmt';
+import { continueStmt } from './statements/continueStmt';
+import { fallthroughStmt } from './statements/fallthroughStmt';
 import { forStmt } from './statements/forStmt';
 import { ifStmt } from './statements/ifStmt';
 import { repeatStmt } from './statements/repeatStmt';
 import { returnStmt } from './statements/returnStmt';
+import { switchStmt } from './statements/switchStmt';
 import { throwStmt } from './statements/throwStmt';
 import { tryStmt } from './statements/tryStmt';
 import { whileStmt } from './statements/whileStmt';
@@ -156,10 +160,14 @@ export const expressionRules: ExpressionParseRule[] = [
 ];
 
 export const statementRules: { [key: number]: ParsingHandler } = {
+  [LexicalToken.BREAK]: breakStmt,
+  [LexicalToken.CONTINUE]: continueStmt,
+  [LexicalToken.FALLTHROUGH]: fallthroughStmt,
   [LexicalToken.FOR]: forStmt,
   [LexicalToken.IF]: ifStmt,
   [LexicalToken.REPEAT]: repeatStmt,
   [LexicalToken.RETURN]: returnStmt,
+  [LexicalToken.SWITCH]: switchStmt,
   [LexicalToken.THROW]: throwStmt,
   [LexicalToken.TRY]: tryStmt,
   [LexicalToken.WHILE]: whileStmt,

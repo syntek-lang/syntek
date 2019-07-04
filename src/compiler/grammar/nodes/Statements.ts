@@ -1,5 +1,5 @@
 import {
-  Node, Token, SyntacticToken, TokenLocation,
+  Node, Token, SyntacticToken, TokenLocation, SwitchCase,
 } from '../..';
 
 export function isStatement(node: Node): boolean {
@@ -42,8 +42,15 @@ export class ElseStatement extends Node {
 }
 
 export class SwitchStatement extends Node {
-  constructor(location: TokenLocation) {
+  readonly expression: Node;
+
+  readonly cases: SwitchCase[];
+
+  constructor(expression: Node, cases: SwitchCase[], location: TokenLocation) {
     super(SyntacticToken.SWITCH_STMT, location);
+
+    this.expression = expression;
+    this.cases = cases;
   }
 }
 
@@ -158,5 +165,23 @@ export class ExpressionStatement extends Node {
     super(SyntacticToken.EXPRESSION_STMT, location);
 
     this.expression = expression;
+  }
+}
+
+export class BreakStatement extends Node {
+  constructor(location: TokenLocation) {
+    super(SyntacticToken.BREAK_STMT, location);
+  }
+}
+
+export class ContinueStatement extends Node {
+  constructor(location: TokenLocation) {
+    super(SyntacticToken.CONTINUE_STMT, location);
+  }
+}
+
+export class FallthroughStatement extends Node {
+  constructor(location: TokenLocation) {
+    super(SyntacticToken.FALLTHROUGH_STMT, location);
   }
 }

@@ -19,7 +19,7 @@ export {
   Statements,
 };
 
-export * from './grammar/nodes/Program';
+export * from './grammar/nodes/Other';
 
 // parser
 export * from './parser/tokenizer';

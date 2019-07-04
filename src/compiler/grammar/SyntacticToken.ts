@@ -36,6 +36,11 @@ export enum SyntacticToken {
   RETURN_STMT,
   EXPRESSION_STMT,
 
-  // Program
+  BREAK_STMT,
+  CONTINUE_STMT,
+  FALLTHROUGH_STMT,
+
+  // Other
   PROGRAM,
+  SWITCH_CASE,
 }
