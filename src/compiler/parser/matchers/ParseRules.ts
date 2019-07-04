@@ -4,6 +4,7 @@ import {
 } from '../..';
 
 // Expressions
+import { arrayExpr } from './expressions/arrayExpr';
 import { assignmentExpr } from './expressions/assignmentExpr';
 import { asyncExpr } from './expressions/asyncExpr';
 import { binaryExpr } from './expressions/binaryExpr';
@@ -12,11 +13,11 @@ import { indexExpr } from './expressions/indexExpr';
 import { instanceofExpr } from './expressions/instanceofExpr';
 import { memberExpr } from './expressions/memberExpr';
 import { newExpr } from './expressions/newExpr';
+import { objectExpr } from './expressions/objectExpr';
 import { unaryExpr } from './expressions/unaryExpr';
 import { wrappedExpr } from './expressions/wrappedExpr';
 
 // Literals
-import { arrayLiteral } from './literals/arrayLiteral';
 import { literals } from './literals/literals';
 import { superLiteral } from './literals/superLiteral';
 import { thisLiteral } from './literals/thisLiteral';
@@ -80,11 +81,11 @@ export const expressionRules: ExpressionParseRule[] = [
     prefix: null, infix: memberExpr, precedence: Precedence.OP11, ignoreWhiteSpace: true,
   }, // DOT
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // COMMA
-  { prefix: arrayLiteral, infix: indexExpr, precedence: Precedence.OP11 }, // LSQB
+  { prefix: arrayExpr, infix: indexExpr, precedence: Precedence.OP11 }, // LSQB
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RSQB
   { prefix: wrappedExpr, infix: callExpr, precedence: Precedence.OP11 }, // LPAR
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RPAR
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // LBRACE
+  { prefix: objectExpr, infix: null, precedence: Precedence.OP1 }, // LBRACE
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RBRACE
 
   // Literals

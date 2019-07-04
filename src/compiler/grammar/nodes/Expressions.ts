@@ -147,8 +147,12 @@ export class ArrayExpression extends Node {
 }
 
 export class ObjectExpression extends Node {
-  constructor(location: TokenLocation) {
+  readonly props: Node[];
+
+  constructor(props: Node[], location: TokenLocation) {
     super(SyntacticToken.OBJECT_EXPR, location);
+
+    this.props = props;
   }
 }
 
