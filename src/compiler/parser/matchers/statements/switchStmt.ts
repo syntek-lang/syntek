@@ -17,10 +17,16 @@ export function switchStmt(this: Parser): Node {
 
     const conditions: Node[] = [];
     do {
+      this.eatWhitespace();
       conditions.push(this.expression());
+
+      if (this.peekIgnoreWhitespace().type === LexicalToken.COMMA) {
+        this.eatWhitespace();
+      }
     } while (this.match(LexicalToken.COMMA));
 
     this.consume(LexicalToken.NEWLINE, 'Expected newline after case');
+    this.syncIndentation();
     this.consume(LexicalToken.INDENT, 'Expected indent after case');
 
     const body: Node[] = [];
