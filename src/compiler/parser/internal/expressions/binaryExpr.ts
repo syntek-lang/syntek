@@ -4,14 +4,14 @@ import {
 
 import { Parser } from '../../..';
 
-export function binaryExpr(this: Parser, left: Node, operator: Token): Node {
-  this.eatWhitespace();
+export function binaryExpr(parser: Parser, left: Node, operator: Token): Node {
+  parser.eatWhitespace();
 
-  const rule = this.getRule(operator.type);
+  const rule = parser.getRule(operator.type);
   const exponentation = operator.type === LexicalToken.CARET;
 
   // Exponentation is right-associative
-  const right = this.parsePrecedence(rule.precedence + (exponentation ? 0 : 1));
+  const right = parser.parsePrecedence(rule.precedence + (exponentation ? 0 : 1));
 
   return new BinaryExpression(left, operator, right, {
     start: left.location.start,

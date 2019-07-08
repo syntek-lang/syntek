@@ -2,19 +2,19 @@ import { Node, LexicalToken, ReturnStatement } from '../../../../grammar';
 
 import { Parser } from '../../..';
 
-export function returnStmt(this: Parser): Node {
-  const start = this.previous().location.start;
+export function returnStmt(parser: Parser): Node {
+  const start = parser.previous().location.start;
 
   let expression: Node | null = null;
-  if (!this.match(LexicalToken.NEWLINE)) {
-    expression = this.expression();
-    this.consume(LexicalToken.NEWLINE, 'Expected newline after return statement');
+  if (!parser.match(LexicalToken.NEWLINE)) {
+    expression = parser.expression();
+    parser.consume(LexicalToken.NEWLINE, 'Expected newline after return statement');
   }
 
-  this.syncIndentation();
+  parser.syncIndentation();
 
   return new ReturnStatement(expression, {
     start,
-    end: this.previous().location.end,
+    end: parser.previous().location.end,
   });
 }

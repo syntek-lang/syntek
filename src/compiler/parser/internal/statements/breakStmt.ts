@@ -2,11 +2,11 @@ import { Node, LexicalToken, BreakStatement } from '../../../../grammar';
 
 import { Parser } from '../../..';
 
-export function breakStmt(this: Parser): Node {
-  this.consume(LexicalToken.NEWLINE, 'Expected newline after break');
+export function breakStmt(parser: Parser): Node {
+  parser.consume(LexicalToken.NEWLINE, 'Expected newline after break');
 
   return new BreakStatement({
-    start: this.previous().location.start,
-    end: this.previous().location.end,
+    start: parser.previous().location.start,
+    end: parser.previous().location.end,
   });
 }

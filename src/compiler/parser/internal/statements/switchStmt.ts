@@ -4,44 +4,44 @@ import {
 
 import { Parser } from '../../..';
 
-export function switchStmt(this: Parser): Node {
-  const start = this.previous().location.start;
+export function switchStmt(parser: Parser): Node {
+  const start = parser.previous().location.start;
 
-  const expression = this.expression();
-  this.consume(LexicalToken.NEWLINE, 'Expected newline after switch');
-  this.consume(LexicalToken.INDENT, 'Expected indent after switch');
+  const expression = parser.expression();
+  parser.consume(LexicalToken.NEWLINE, 'Expected newline after switch');
+  parser.consume(LexicalToken.INDENT, 'Expected indent after switch');
 
   const cases: SwitchCase[] = [];
-  while (!this.match(LexicalToken.OUTDENT)) {
-    const caseKeyword = this.consume(LexicalToken.CASE, 'Expected case');
+  while (!parser.match(LexicalToken.OUTDENT)) {
+    const caseKeyword = parser.consume(LexicalToken.CASE, 'Expected case');
 
     const conditions: Node[] = [];
     do {
-      this.eatWhitespace();
-      conditions.push(this.expression());
+      parser.eatWhitespace();
+      conditions.push(parser.expression());
 
-      if (this.peekIgnoreWhitespace().type === LexicalToken.COMMA) {
-        this.eatWhitespace();
+      if (parser.peekIgnoreWhitespace().type === LexicalToken.COMMA) {
+        parser.eatWhitespace();
       }
-    } while (this.match(LexicalToken.COMMA));
+    } while (parser.match(LexicalToken.COMMA));
 
-    this.consume(LexicalToken.NEWLINE, 'Expected newline after case');
-    this.syncIndentation();
-    this.consume(LexicalToken.INDENT, 'Expected indent after case');
+    parser.consume(LexicalToken.NEWLINE, 'Expected newline after case');
+    parser.syncIndentation();
+    parser.consume(LexicalToken.INDENT, 'Expected indent after case');
 
     const body: Node[] = [];
-    while (!this.match(LexicalToken.OUTDENT)) {
-      body.push(this.declaration());
+    while (!parser.match(LexicalToken.OUTDENT)) {
+      body.push(parser.declaration());
     }
 
     cases.push(new SwitchCase(conditions, body, {
       start: caseKeyword.location.start,
-      end: this.previous().location.end,
+      end: parser.previous().location.end,
     }));
   }
 
   return new SwitchStatement(expression, cases, {
     start,
-    end: this.previous().location.end,
+    end: parser.previous().location.end,
   });
 }

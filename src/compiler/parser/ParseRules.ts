@@ -36,9 +36,9 @@ import { throwStmt } from './internal/statements/throwStmt';
 import { tryStmt } from './internal/statements/tryStmt';
 import { whileStmt } from './internal/statements/whileStmt';
 
-type PrefixFunction = (this: Parser, prefix: Token) => Node;
-type InfixFunction = (this: Parser, left: Node, infix: Token) => Node;
-type ParsingHandler = (this: Parser) => Node;
+type PrefixFunction = (parser: Parser, prefix: Token) => Node;
+type InfixFunction = (parser: Parser, left: Node, infix: Token) => Node;
+type ParsingHandler = (parser: Parser) => Node;
 
 export interface ExpressionParseRule {
   prefix: PrefixFunction | null;

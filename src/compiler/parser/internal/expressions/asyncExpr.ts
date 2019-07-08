@@ -2,10 +2,10 @@ import { Node, Token, AsyncExpression } from '../../../../grammar';
 
 import { Parser, Precedence } from '../../..';
 
-export function asyncExpr(this: Parser, operator: Token): Node {
-  this.eatWhitespace();
+export function asyncExpr(parser: Parser, operator: Token): Node {
+  parser.eatWhitespace();
 
-  const right = this.parsePrecedence(Precedence.OP10);
+  const right = parser.parsePrecedence(Precedence.OP10);
 
   return new AsyncExpression(right, {
     start: operator.location.start,

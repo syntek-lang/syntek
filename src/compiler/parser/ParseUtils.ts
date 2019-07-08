@@ -14,26 +14,26 @@ export interface VarDeclReport extends TypeDeclReport {
 }
 
 export class ParseUtils {
-  static matchExpressionList(this: Parser, closingToken: LexicalToken): Node[] {
+  static matchExpressionList(parser: Parser, closingToken: LexicalToken): Node[] {
     const params: Node[] = [];
 
-    this.eatWhitespace();
+    parser.eatWhitespace();
 
-    while (!this.match(closingToken)) {
-      params.push(this.expression());
-      this.eatWhitespace();
+    while (!parser.match(closingToken)) {
+      params.push(parser.expression());
+      parser.eatWhitespace();
 
-      if (this.peek().type !== closingToken) {
-        this.consume(LexicalToken.COMMA, 'Expected ","');
-        this.eatWhitespace();
+      if (parser.peek().type !== closingToken) {
+        parser.consume(LexicalToken.COMMA, 'Expected ","');
+        parser.eatWhitespace();
       }
     }
 
     return params;
   }
 
-  static matchTypeDecl(this: Parser): TypeDeclReport {
-    if (!this.check(LexicalToken.IDENTIFIER)) {
+  static matchTypeDecl(parser: Parser): TypeDeclReport {
+    if (!parser.check(LexicalToken.IDENTIFIER)) {
       return {
         match: false,
         variableType: null,
@@ -41,7 +41,7 @@ export class ParseUtils {
     }
 
     // Number x
-    if (this.check(LexicalToken.IDENTIFIER, 1)) {
+    if (parser.check(LexicalToken.IDENTIFIER, 1)) {
       return {
         match: true,
         variableType: null,
@@ -52,17 +52,17 @@ export class ParseUtils {
     // Number[][] x
     // Number[][][] x
     let offset = 1;
-    while (this.check(LexicalToken.LSQB, offset) && this.check(LexicalToken.RSQB, offset + 1)) {
+    while (parser.check(LexicalToken.LSQB, offset) && parser.check(LexicalToken.RSQB, offset + 1)) {
       offset += 2;
     }
 
-    if (this.check(LexicalToken.IDENTIFIER, offset)) {
-      const type = this.advance();
+    if (parser.check(LexicalToken.IDENTIFIER, offset)) {
+      const type = parser.advance();
       const arrayDepth = (offset - 1) / 2;
 
       for (let i = 0; i < arrayDepth; i += 1) {
-        this.advance();
-        this.advance();
+        parser.advance();
+        parser.advance();
       }
 
       return {
@@ -80,9 +80,9 @@ export class ParseUtils {
     };
   }
 
-  static checkVarDecl(this: Parser): VarDeclReport {
+  static checkVarDecl(parser: Parser): VarDeclReport {
     // Variable declarations always start with an identifier
-    if (!this.check(LexicalToken.IDENTIFIER)) {
+    if (!parser.check(LexicalToken.IDENTIFIER)) {
       return {
         match: false,
         identifier: null,
@@ -91,21 +91,21 @@ export class ParseUtils {
     }
 
     // x = ...
-    if (this.check(LexicalToken.EQUAL, 1)) {
+    if (parser.check(LexicalToken.EQUAL, 1)) {
       return {
         match: true,
-        identifier: this.peek(),
+        identifier: parser.peek(),
         variableType: null,
       };
     }
 
     // Number x = ...
-    if (this.check(LexicalToken.IDENTIFIER, 1) && this.check(LexicalToken.EQUAL, 2)) {
+    if (parser.check(LexicalToken.IDENTIFIER, 1) && parser.check(LexicalToken.EQUAL, 2)) {
       return {
         match: true,
-        identifier: this.peek(1),
+        identifier: parser.peek(1),
         variableType: {
-          type: this.peek(),
+          type: parser.peek(),
           arrayDepth: 0,
         },
       };
@@ -115,16 +115,19 @@ export class ParseUtils {
     // Number[][] x = ...
     // Number[][][] x = ...
     let offset = 1;
-    while (this.check(LexicalToken.LSQB, offset) && this.check(LexicalToken.RSQB, offset + 1)) {
+    while (parser.check(LexicalToken.LSQB, offset) && parser.check(LexicalToken.RSQB, offset + 1)) {
       offset += 2;
     }
 
-    if (this.check(LexicalToken.IDENTIFIER, offset) && this.check(LexicalToken.EQUAL, offset + 1)) {
+    if (
+      parser.check(LexicalToken.IDENTIFIER, offset)
+        && parser.check(LexicalToken.EQUAL, offset + 1)
+    ) {
       return {
         match: true,
-        identifier: this.peek(offset),
+        identifier: parser.peek(offset),
         variableType: {
-          type: this.peek(),
+          type: parser.peek(),
           arrayDepth: (offset - 1) / 2,
         },
       };

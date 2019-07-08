@@ -4,13 +4,13 @@ import {
 
 import { Parser, ParseUtils } from '../../..';
 
-export function arrayExpr(this: Parser, prefix: Token): Node {
+export function arrayExpr(parser: Parser, prefix: Token): Node {
   const start = prefix.location.start;
-  this.eatWhitespace();
+  parser.eatWhitespace();
 
-  const content = ParseUtils.matchExpressionList.call(this, LexicalToken.RSQB);
+  const content = ParseUtils.matchExpressionList(parser, LexicalToken.RSQB);
   return new ArrayExpression(content, {
     start,
-    end: this.previous().location.end,
+    end: parser.previous().location.end,
   });
 }

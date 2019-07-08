@@ -1,28 +1,28 @@
 import { Node, LexicalToken, TryStatement } from '../../../../grammar';
 
-import { Parser, ParseUtils, TypeDeclReport } from '../../..';
+import { Parser, ParseUtils } from '../../..';
 
-export function tryStmt(this: Parser): Node {
-  const start = this.previous().location.start;
-  this.consume(LexicalToken.NEWLINE, 'Expected newline after try');
-  this.consume(LexicalToken.INDENT, 'Expected indent after try');
+export function tryStmt(parser: Parser): Node {
+  const start = parser.previous().location.start;
+  parser.consume(LexicalToken.NEWLINE, 'Expected newline after try');
+  parser.consume(LexicalToken.INDENT, 'Expected indent after try');
 
   const tryBody: Node[] = [];
-  while (!this.match(LexicalToken.OUTDENT)) {
-    tryBody.push(this.declaration());
+  while (!parser.match(LexicalToken.OUTDENT)) {
+    tryBody.push(parser.declaration());
   }
 
-  this.consume(LexicalToken.CATCH, 'Expected catch after try block');
+  parser.consume(LexicalToken.CATCH, 'Expected catch after try block');
 
-  const typeDeclReport: TypeDeclReport = ParseUtils.matchTypeDecl.call(this);
+  const typeDeclReport = ParseUtils.matchTypeDecl(parser);
 
-  const identifier = this.consume(LexicalToken.IDENTIFIER, 'Expected identifier after catch');
-  this.consume(LexicalToken.NEWLINE, 'Expected newline after catch');
-  this.consume(LexicalToken.INDENT, 'Expected indent after catch');
+  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after catch');
+  parser.consume(LexicalToken.NEWLINE, 'Expected newline after catch');
+  parser.consume(LexicalToken.INDENT, 'Expected indent after catch');
 
   const catchBody: Node[] = [];
-  while (!this.match(LexicalToken.OUTDENT)) {
-    catchBody.push(this.declaration());
+  while (!parser.match(LexicalToken.OUTDENT)) {
+    catchBody.push(parser.declaration());
   }
 
   return new TryStatement(
@@ -32,7 +32,7 @@ export function tryStmt(this: Parser): Node {
     catchBody,
     {
       start,
-      end: this.previous().location.end,
+      end: parser.previous().location.end,
     },
   );
 }

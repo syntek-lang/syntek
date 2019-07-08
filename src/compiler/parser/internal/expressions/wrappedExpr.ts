@@ -4,15 +4,15 @@ import {
 
 import { Parser } from '../../..';
 
-export function wrappedExpr(this: Parser, prefix: Token): Node {
+export function wrappedExpr(parser: Parser, prefix: Token): Node {
   const start = prefix.location.start;
-  this.eatWhitespace();
+  parser.eatWhitespace();
 
-  const expr = this.expression();
-  this.eatWhitespace();
+  const expr = parser.expression();
+  parser.eatWhitespace();
 
-  this.consume(LexicalToken.RPAR, 'Expected ")" after expression.');
-  const end = this.previous().location.end;
+  parser.consume(LexicalToken.RPAR, 'Expected ")" after expression.');
+  const end = parser.previous().location.end;
 
   return new WrappedExpression(expr, { start, end });
 }

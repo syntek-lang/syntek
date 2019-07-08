@@ -2,10 +2,10 @@ import { Node, Token, UnaryExpression } from '../../../../grammar';
 
 import { Parser, Precedence } from '../../..';
 
-export function unaryExpr(this: Parser, operator: Token): Node {
-  this.eatWhitespace();
+export function unaryExpr(parser: Parser, operator: Token): Node {
+  parser.eatWhitespace();
 
-  const right = this.parsePrecedence(Precedence.OP10);
+  const right = parser.parsePrecedence(Precedence.OP10);
 
   return new UnaryExpression(operator, right, {
     start: operator.location.start,

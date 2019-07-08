@@ -1,23 +1,23 @@
 import { Node, LexicalToken, ForStatement } from '../../../../grammar';
 
-import { Parser, ParseUtils, TypeDeclReport } from '../../..';
+import { Parser, ParseUtils } from '../../..';
 
-export function forStmt(this: Parser): Node {
-  const start = this.previous().location.start;
-  const typeDeclReport: TypeDeclReport = ParseUtils.matchTypeDecl.call(this);
+export function forStmt(parser: Parser): Node {
+  const start = parser.previous().location.start;
+  const typeDeclReport = ParseUtils.matchTypeDecl(parser);
 
-  const identifier = this.consume(LexicalToken.IDENTIFIER, 'Expected identifier after for');
-  this.consume(LexicalToken.IN, 'Expected "in" after identifier');
+  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after for');
+  parser.consume(LexicalToken.IN, 'Expected "in" after identifier');
 
-  const object = this.expression();
-  this.consume(LexicalToken.NEWLINE, 'Expected newline after for statement');
+  const object = parser.expression();
+  parser.consume(LexicalToken.NEWLINE, 'Expected newline after for statement');
 
-  this.syncIndentation();
-  this.consume(LexicalToken.INDENT, 'Expected indent after for statement');
+  parser.syncIndentation();
+  parser.consume(LexicalToken.INDENT, 'Expected indent after for statement');
 
   const body: Node[] = [];
-  while (!this.match(LexicalToken.OUTDENT)) {
-    body.push(this.declaration());
+  while (!parser.match(LexicalToken.OUTDENT)) {
+    body.push(parser.declaration());
   }
 
   return new ForStatement(
@@ -27,7 +27,7 @@ export function forStmt(this: Parser): Node {
     body,
     {
       start,
-      end: this.previous().location.end,
+      end: parser.previous().location.end,
     },
   );
 }

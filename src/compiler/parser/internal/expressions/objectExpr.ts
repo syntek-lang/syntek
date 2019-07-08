@@ -4,17 +4,17 @@ import {
 
 import { Parser } from '../../..';
 
-export function objectExpr(this: Parser, prefix: Token): Node {
+export function objectExpr(parser: Parser, prefix: Token): Node {
   const start = prefix.location.start;
-  this.eatWhitespace();
+  parser.eatWhitespace();
 
   const props: Node[] = [];
-  while (!this.match(LexicalToken.RBRACE)) {
-    props.push(this.declaration());
+  while (!parser.match(LexicalToken.RBRACE)) {
+    props.push(parser.declaration());
   }
 
   return new ObjectExpression(props, {
     start,
-    end: this.previous().location.end,
+    end: parser.previous().location.end,
   });
 }

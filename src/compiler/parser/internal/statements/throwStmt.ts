@@ -2,16 +2,16 @@ import { Node, LexicalToken, ThrowStatement } from '../../../../grammar';
 
 import { Parser } from '../../..';
 
-export function throwStmt(this: Parser): Node {
-  const start = this.previous().location.start;
+export function throwStmt(parser: Parser): Node {
+  const start = parser.previous().location.start;
 
-  const expression = this.expression();
-  this.consume(LexicalToken.NEWLINE, 'Expected newline after throw statement');
+  const expression = parser.expression();
+  parser.consume(LexicalToken.NEWLINE, 'Expected newline after throw statement');
 
-  this.syncIndentation();
+  parser.syncIndentation();
 
   return new ThrowStatement(expression, {
     start,
-    end: this.previous().location.end,
+    end: parser.previous().location.end,
   });
 }

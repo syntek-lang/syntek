@@ -2,9 +2,9 @@ import { Node, AssignmentExpression } from '../../../../grammar';
 
 import { Parser } from '../../..';
 
-export function assignmentExpr(this: Parser, left: Node): Node {
-  this.eatWhitespace();
-  const value = this.expression();
+export function assignmentExpr(parser: Parser, left: Node): Node {
+  parser.eatWhitespace();
+  const value = parser.expression();
 
   return new AssignmentExpression(left, value, {
     start: left.location.start,

@@ -2,22 +2,22 @@ import { Node, LexicalToken, WhileStatement } from '../../../../grammar';
 
 import { Parser } from '../../..';
 
-export function whileStmt(this: Parser): Node {
-  const start = this.previous().location.start;
+export function whileStmt(parser: Parser): Node {
+  const start = parser.previous().location.start;
 
-  const condition = this.expression();
-  this.consume(LexicalToken.NEWLINE, 'Expected newline after while');
+  const condition = parser.expression();
+  parser.consume(LexicalToken.NEWLINE, 'Expected newline after while');
 
-  this.syncIndentation();
-  this.consume(LexicalToken.INDENT, 'Expected indent after while');
+  parser.syncIndentation();
+  parser.consume(LexicalToken.INDENT, 'Expected indent after while');
 
   const body: Node[] = [];
-  while (!this.match(LexicalToken.OUTDENT)) {
-    body.push(this.declaration());
+  while (!parser.match(LexicalToken.OUTDENT)) {
+    body.push(parser.declaration());
   }
 
   return new WhileStatement(condition, body, {
     start,
-    end: this.previous().location.end,
+    end: parser.previous().location.end,
   });
 }

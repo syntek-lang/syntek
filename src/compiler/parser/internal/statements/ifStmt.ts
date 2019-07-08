@@ -4,48 +4,48 @@ import {
 
 import { Parser } from '../../..';
 
-function elseStmt(this: Parser): Node {
-  const start = this.previous().location.start;
+function elseStmt(parser: Parser): Node {
+  const start = parser.previous().location.start;
 
-  this.consume(LexicalToken.NEWLINE, 'Expected newline after else');
-  this.consume(LexicalToken.INDENT, 'Expected indent after else');
+  parser.consume(LexicalToken.NEWLINE, 'Expected newline after else');
+  parser.consume(LexicalToken.INDENT, 'Expected indent after else');
 
   const body: Node[] = [];
-  while (!this.match(LexicalToken.OUTDENT)) {
-    body.push(this.declaration());
+  while (!parser.match(LexicalToken.OUTDENT)) {
+    body.push(parser.declaration());
   }
 
   return new ElseStatement(body, {
     start,
-    end: this.previous().location.end,
+    end: parser.previous().location.end,
   });
 }
 
-export function ifStmt(this: Parser): Node {
-  const start = this.previous().location.start;
+export function ifStmt(parser: Parser): Node {
+  const start = parser.previous().location.start;
 
-  const condition = this.expression();
-  this.consume(LexicalToken.NEWLINE, 'Expected newline after if');
+  const condition = parser.expression();
+  parser.consume(LexicalToken.NEWLINE, 'Expected newline after if');
 
-  this.syncIndentation();
-  this.consume(LexicalToken.INDENT, 'Expected indent after if');
+  parser.syncIndentation();
+  parser.consume(LexicalToken.INDENT, 'Expected indent after if');
 
   const body: Node[] = [];
-  while (!this.match(LexicalToken.OUTDENT)) {
-    body.push(this.declaration());
+  while (!parser.match(LexicalToken.OUTDENT)) {
+    body.push(parser.declaration());
   }
 
-  let elseClause = null;
-  if (this.match(LexicalToken.ELSE)) {
-    if (this.match(LexicalToken.IF)) {
-      elseClause = ifStmt.call(this);
+  let elseClause: Node | null = null;
+  if (parser.match(LexicalToken.ELSE)) {
+    if (parser.match(LexicalToken.IF)) {
+      elseClause = ifStmt(parser);
     } else {
-      elseClause = elseStmt.call(this);
+      elseClause = elseStmt(parser);
     }
   }
 
   return new IfStatement(condition, body, elseClause, {
     start,
-    end: this.previous().location.end,
+    end: parser.previous().location.end,
   });
 }

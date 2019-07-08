@@ -37,16 +37,16 @@ export class Parser {
   }
 
   declaration(): Node {
-    const varDeclReport: VarDeclReport = ParseUtils.checkVarDecl.call(this);
+    const varDeclReport: VarDeclReport = ParseUtils.checkVarDecl(this);
 
     if (varDeclReport.match) {
-      return variableDecl.call(this, varDeclReport);
+      return variableDecl(this, varDeclReport);
     }
 
     const handler = declarationRules[this.peek().type];
     if (handler) {
       this.advance();
-      return handler.call(this);
+      return handler(this);
     }
 
     return this.statement();
@@ -57,17 +57,17 @@ export class Parser {
 
     if (handler) {
       this.advance();
-      return handler.call(this);
+      return handler(this);
     }
 
-    return expressionStmt.call(this);
+    return expressionStmt(this);
   }
 
   expression(): Node {
     return this.parsePrecedence(Precedence.OP2);
   }
 
-  protected parsePrecedence(precedence: Precedence): Node {
+  parsePrecedence(precedence: Precedence): Node {
     const prefixToken = this.advance();
 
     const prefixFn = this.getRule(prefixToken.type).prefix;
@@ -76,7 +76,7 @@ export class Parser {
       throw new Error('Expected expression');
     }
 
-    let left: Node = prefixFn.call(this, prefixToken);
+    let left: Node = prefixFn(this, prefixToken);
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -112,7 +112,7 @@ export class Parser {
       }
 
       if (infixRule.infix) {
-        left = infixRule.infix.call(this, left, infixToken);
+        left = infixRule.infix(this, left, infixToken);
       } else {
         // TODO: proper error handling
         throw new Error(`Unexpected token ${infixToken}`);
@@ -122,17 +122,17 @@ export class Parser {
     return left;
   }
 
-  protected getRule(type: LexicalToken): ExpressionParseRule {
+  getRule(type: LexicalToken): ExpressionParseRule {
     return expressionRules[type];
   }
 
-  protected isWhitespace(token: Token): boolean {
+  isWhitespace(token: Token): boolean {
     return token.type === LexicalToken.NEWLINE
       || token.type === LexicalToken.INDENT
       || token.type === LexicalToken.OUTDENT;
   }
 
-  protected eatWhitespace(): void {
+  eatWhitespace(): void {
     while (this.isWhitespace(this.peek())) {
       // Consume whitespace
       const token = this.advance();
@@ -145,7 +145,7 @@ export class Parser {
     }
   }
 
-  protected syncIndentation(): void {
+  syncIndentation(): void {
     while (this.indent !== 0) {
       if (this.indent > 0) {
         if (this.check(LexicalToken.OUTDENT)) {
@@ -167,7 +167,7 @@ export class Parser {
     }
   }
 
-  protected consume(type: LexicalToken, message: string): Token {
+  consume(type: LexicalToken, message: string): Token {
     if (this.check(type)) {
       return this.advance();
     }
@@ -177,7 +177,7 @@ export class Parser {
     throw new Error();
   }
 
-  protected match(...types: LexicalToken[]): boolean {
+  match(...types: LexicalToken[]): boolean {
     for (const type of types) {
       if (this.check(type)) {
         this.advance();
@@ -188,7 +188,7 @@ export class Parser {
     return false;
   }
 
-  protected advance(): Token {
+  advance(): Token {
     if (!this.isAtEnd()) {
       this.current += 1;
     }
@@ -196,7 +196,7 @@ export class Parser {
     return this.previous();
   }
 
-  protected check(type: LexicalToken, offset = 0): boolean {
+  check(type: LexicalToken, offset = 0): boolean {
     if (this.isAtEnd()) {
       return false;
     }
@@ -204,19 +204,19 @@ export class Parser {
     return this.peek(offset).type === type;
   }
 
-  protected isAtEnd(): boolean {
+  isAtEnd(): boolean {
     return this.peek().type === LexicalToken.EOF;
   }
 
-  protected peek(offset = 0): Token {
+  peek(offset = 0): Token {
     return this.tokens[this.current + offset];
   }
 
-  protected previous(): Token {
+  previous(): Token {
     return this.peek(-1);
   }
 
-  protected peekIgnoreWhitespace(amount = 0): Token {
+  peekIgnoreWhitespace(amount = 0): Token {
     let whitespaceAmount = 0;
 
     while (this.isWhitespace(this.peek(whitespaceAmount))) {
