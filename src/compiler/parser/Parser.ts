@@ -39,7 +39,7 @@ export class Parser {
   declaration(): Node {
     const varDeclReport: VarDeclReport = ParseUtils.varDeclCheck.call(this);
 
-    if (varDeclReport.isVarDecl) {
+    if (varDeclReport.match) {
       return variableDecl.call(this, varDeclReport);
     }
 

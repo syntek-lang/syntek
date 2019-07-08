@@ -4,14 +4,14 @@ import { Parser, VarDeclReport } from '../../..';
 
 export function variableDecl(this: Parser, varDeclReport: VarDeclReport): Node {
   // Type
-  if (varDeclReport.type) {
+  if (varDeclReport.variableType) {
     this.advance();
-  }
 
-  // Array brackets
-  for (let i = 0; i < varDeclReport.arrayDepth; i += 1) {
-    this.advance();
-    this.advance();
+    // Array brackets
+    for (let i = 0; i < varDeclReport.variableType.arrayDepth; i += 1) {
+      this.advance();
+      this.advance();
+    }
   }
 
   // Identifier
@@ -28,10 +28,7 @@ export function variableDecl(this: Parser, varDeclReport: VarDeclReport): Node {
 
   return new VariableDeclaration(
     identifier,
-    {
-      type: varDeclReport.type,
-      arrayDepth: varDeclReport.arrayDepth,
-    },
+    varDeclReport.variableType,
     expr,
     {
       start: expr.location.start,

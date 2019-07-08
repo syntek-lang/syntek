@@ -15,16 +15,6 @@ export function tryStmt(this: Parser): Node {
   this.consume(LexicalToken.CATCH, 'Expected catch after try block');
 
   const typeDeclReport: TypeDeclReport = ParseUtils.matchTypeDecl.call(this);
-  if (typeDeclReport.isTypeDecl) {
-    // Type
-    this.advance();
-
-    // Array brackets
-    for (let i = 0; i < typeDeclReport.arrayDepth; i += 1) {
-      this.advance();
-      this.advance();
-    }
-  }
 
   const identifier = this.consume(LexicalToken.IDENTIFIER, 'Expected identifier after catch');
   this.consume(LexicalToken.NEWLINE, 'Expected newline after catch');
@@ -38,10 +28,7 @@ export function tryStmt(this: Parser): Node {
   return new TryStatement(
     tryBody,
     identifier,
-    {
-      type: typeDeclReport.type,
-      arrayDepth: typeDeclReport.arrayDepth,
-    },
+    typeDeclReport.variableType,
     catchBody,
     {
       start,

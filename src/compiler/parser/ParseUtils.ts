@@ -1,18 +1,16 @@
-import { Node, Token, LexicalToken } from '../../grammar';
+import {
+  Node, Token, LexicalToken, VariableType,
+} from '../../grammar';
 
 import { Parser } from '..';
 
-export interface VarDeclReport {
-  isVarDecl: boolean;
-  identifier: Token | null;
-  type: Token | null;
-  arrayDepth: number;
+export interface TypeDeclReport {
+  match: boolean;
+  variableType: VariableType;
 }
 
-export interface TypeDeclReport {
-  isTypeDecl: boolean;
-  type: Token | null;
-  arrayDepth: number;
+export interface VarDeclReport extends TypeDeclReport {
+  identifier: Token | null;
 }
 
 export class ParseUtils {
@@ -34,34 +32,82 @@ export class ParseUtils {
     return params;
   }
 
+  static matchTypeDecl(this: Parser): TypeDeclReport {
+    if (!this.check(LexicalToken.IDENTIFIER)) {
+      return {
+        match: false,
+        variableType: null,
+      };
+    }
+
+    // Number x
+    if (this.check(LexicalToken.IDENTIFIER, 1)) {
+      return {
+        match: true,
+        variableType: null,
+      };
+    }
+
+    // Number[] x
+    // Number[][] x
+    // Number[][][] x
+    let offset = 1;
+    while (this.check(LexicalToken.LSQB, offset) && this.check(LexicalToken.RSQB, offset + 1)) {
+      offset += 2;
+    }
+
+    if (this.check(LexicalToken.IDENTIFIER, offset)) {
+      const type = this.advance();
+      const arrayDepth = (offset - 1) / 2;
+
+      for (let i = 0; i < arrayDepth; i += 1) {
+        this.advance();
+        this.advance();
+      }
+
+      return {
+        match: true,
+        variableType: {
+          type,
+          arrayDepth,
+        },
+      };
+    }
+
+    return {
+      match: false,
+      variableType: null,
+    };
+  }
+
   static varDeclCheck(this: Parser): VarDeclReport {
     // Variable declarations always start with an identifier
     if (!this.check(LexicalToken.IDENTIFIER)) {
       return {
-        isVarDecl: false,
+        match: false,
         identifier: null,
-        type: null,
-        arrayDepth: 0,
+        variableType: null,
       };
     }
 
     // x = ...
     if (this.check(LexicalToken.EQUAL, 1)) {
       return {
-        isVarDecl: true,
+        match: true,
         identifier: this.peek(),
-        type: null,
-        arrayDepth: 0,
+        variableType: null,
       };
     }
 
     // Number x = ...
     if (this.check(LexicalToken.IDENTIFIER, 1) && this.check(LexicalToken.EQUAL, 2)) {
       return {
-        isVarDecl: true,
+        match: true,
         identifier: this.peek(1),
-        type: this.peek(),
-        arrayDepth: 0,
+        variableType: {
+          type: this.peek(),
+          arrayDepth: 0,
+        },
       };
     }
 
@@ -75,59 +121,19 @@ export class ParseUtils {
 
     if (this.check(LexicalToken.IDENTIFIER, offset) && this.check(LexicalToken.EQUAL, offset + 1)) {
       return {
-        isVarDecl: true,
+        match: true,
         identifier: this.peek(offset),
-        type: this.peek(),
-        arrayDepth: (offset - 1) / 2,
+        variableType: {
+          type: this.peek(),
+          arrayDepth: (offset - 1) / 2,
+        },
       };
     }
 
     return {
-      isVarDecl: false,
+      match: false,
       identifier: null,
-      type: null,
-      arrayDepth: 0,
-    };
-  }
-
-  static matchTypeDecl(this: Parser): TypeDeclReport {
-    if (!this.check(LexicalToken.IDENTIFIER)) {
-      return {
-        isTypeDecl: false,
-        type: null,
-        arrayDepth: 0,
-      };
-    }
-
-    // Number x
-    if (this.check(LexicalToken.IDENTIFIER, 1)) {
-      return {
-        isTypeDecl: true,
-        type: this.peek(),
-        arrayDepth: 0,
-      };
-    }
-
-    // Number[] x
-    // Number[][] x
-    // Number[][][] x
-    let offset = 1;
-    while (this.check(LexicalToken.LSQB, offset) && this.check(LexicalToken.RSQB, offset + 1)) {
-      offset += 2;
-    }
-
-    if (this.check(LexicalToken.IDENTIFIER, offset)) {
-      return {
-        isTypeDecl: true,
-        type: this.peek(),
-        arrayDepth: (offset - 1) / 2,
-      };
-    }
-
-    return {
-      isTypeDecl: false,
-      type: null,
-      arrayDepth: 0,
+      variableType: null,
     };
   }
 }

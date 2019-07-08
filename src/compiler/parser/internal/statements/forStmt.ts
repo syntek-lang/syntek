@@ -4,18 +4,7 @@ import { Parser, ParseUtils, TypeDeclReport } from '../../..';
 
 export function forStmt(this: Parser): Node {
   const start = this.previous().location.start;
-
   const typeDeclReport: TypeDeclReport = ParseUtils.matchTypeDecl.call(this);
-  if (typeDeclReport.isTypeDecl) {
-    // Type
-    this.advance();
-
-    // Array brackets
-    for (let i = 0; i < typeDeclReport.arrayDepth; i += 1) {
-      this.advance();
-      this.advance();
-    }
-  }
 
   const identifier = this.consume(LexicalToken.IDENTIFIER, 'Expected identifier after for');
   this.consume(LexicalToken.IN, 'Expected "in" after identifier');
@@ -33,10 +22,7 @@ export function forStmt(this: Parser): Node {
 
   return new ForStatement(
     identifier,
-    {
-      type: typeDeclReport.type,
-      arrayDepth: typeDeclReport.arrayDepth,
-    },
+    typeDeclReport.variableType,
     object,
     body,
     {

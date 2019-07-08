@@ -1,6 +1,6 @@
 import { Token } from '.';
 
-export interface VariableType {
-  type: Token | null;
+export type VariableType = {
+  type: Token;
   arrayDepth: number;
-}
+} | null;
