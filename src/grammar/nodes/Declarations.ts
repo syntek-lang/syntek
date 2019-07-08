@@ -1,5 +1,5 @@
 import {
-  Node, Token, SyntacticToken, TokenLocation, VariableType,
+  Node, Token, SyntacticToken, TokenLocation, VariableType, FunctionParam,
 } from '..';
 
 export function isDeclaration(node: Node): boolean {
@@ -31,8 +31,27 @@ export class VariableDeclaration extends Node {
 }
 
 export class FunctionDeclaration extends Node {
-  constructor(location: TokenLocation) {
+  readonly identifier: Token;
+
+  readonly params: FunctionParam[];
+
+  readonly returnType: VariableType;
+
+  readonly body: Node[];
+
+  constructor(
+    identifier: Token,
+    params: FunctionParam[],
+    returnType: VariableType,
+    body: Node[],
+    location: TokenLocation,
+  ) {
     super(SyntacticToken.FUNCTION_DECL, location);
+
+    this.identifier = identifier;
+    this.params = params;
+    this.returnType = returnType;
+    this.body = body;
   }
 }
 

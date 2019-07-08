@@ -1,5 +1,5 @@
 import {
-  Node, Token, LexicalToken, VariableType,
+  Node, Token, LexicalToken, VariableType, FunctionParam,
 } from '../../grammar';
 
 import { Parser } from '..';
@@ -80,6 +80,48 @@ export class ParseUtils {
     };
   }
 
+  static matchFunctionParams(parser: Parser): FunctionParam[] {
+    const params: FunctionParam[] = [];
+
+    parser.eatWhitespace();
+
+    while (!parser.match(LexicalToken.RPAR)) {
+      let variableType: VariableType = null;
+
+      if (parser.peek(1).type === LexicalToken.LSQB) {
+        // Number[] x
+        const type = parser.consume(LexicalToken.IDENTIFIER, 'Expected type');
+        const arrayDepth = ParseUtils.getArrayDepth(parser);
+
+        for (let i = 0; i < arrayDepth; i += 1) {
+          parser.advance();
+          parser.advance();
+        }
+
+        variableType = { type, arrayDepth };
+      } else if (parser.peek(1).type === LexicalToken.IDENTIFIER) {
+        // Number x
+        const type = parser.consume(LexicalToken.IDENTIFIER, 'Expected type');
+        variableType = { type, arrayDepth: 0 };
+      }
+
+      const name = parser.consume(LexicalToken.IDENTIFIER, 'Expected param name');
+      params.push({
+        name,
+        variableType,
+      });
+
+      parser.eatWhitespace();
+
+      if (parser.peek().type !== LexicalToken.RPAR) {
+        parser.consume(LexicalToken.COMMA, 'Expected ","');
+        parser.eatWhitespace();
+      }
+    }
+
+    return params;
+  }
+
   static checkVarDecl(parser: Parser): VarDeclReport {
     // Variable declarations always start with an identifier
     if (!parser.check(LexicalToken.IDENTIFIER)) {
@@ -114,10 +156,8 @@ export class ParseUtils {
     // Number[] x = ...
     // Number[][] x = ...
     // Number[][][] x = ...
-    let offset = 1;
-    while (parser.check(LexicalToken.LSQB, offset) && parser.check(LexicalToken.RSQB, offset + 1)) {
-      offset += 2;
-    }
+    const offset = 1;
+    const arrayDepth = ParseUtils.getArrayDepth(parser, offset);
 
     if (
       parser.check(LexicalToken.IDENTIFIER, offset)
@@ -128,7 +168,7 @@ export class ParseUtils {
         identifier: parser.peek(offset),
         variableType: {
           type: parser.peek(),
-          arrayDepth: (offset - 1) / 2,
+          arrayDepth,
         },
       };
     }
@@ -138,5 +178,18 @@ export class ParseUtils {
       identifier: null,
       variableType: null,
     };
+  }
+
+  static getArrayDepth(parser: Parser, offset = 0): number {
+    let i = 0;
+
+    while (
+      parser.check(LexicalToken.LSQB, i + offset)
+        && parser.check(LexicalToken.RSQB, i + offset + 1)
+    ) {
+      i += 2;
+    }
+
+    return i / 2;
   }
 }

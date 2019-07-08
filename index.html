@@ -33,7 +33,9 @@
           } else if (obj instanceof syntek.Token) {
             obj[prop] = syntek.LexicalToken[obj[prop]];
           }
-        } else if (typeof obj[prop] === 'object') {
+        }
+
+        if (typeof obj[prop] === 'object') {
           typeToName(obj[prop]);
         }
       }

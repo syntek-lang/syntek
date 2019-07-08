@@ -1,7 +1,15 @@
-x = 5
-Number y = 5
-Number[] numbers = [1, 2, 3]
-Number[][] matrix = [
-	[1, 2],
-	[3, 4],
-]
+function main()
+	print('Hello, World!')
+
+function add(a, b)
+	return a + b
+
+function multiply(Number a, Number b)
+	return a * b
+
+function pow(a, b) returns Number
+	return a ^ b
+
+function printNumbers(Number[] numbers)
+	for num in numbers
+		print(num)

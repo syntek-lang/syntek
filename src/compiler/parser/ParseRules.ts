@@ -2,6 +2,7 @@ import { Node, Token, LexicalToken } from '../../grammar';
 import { Parser, Precedence } from '..';
 
 // Declarations
+import { functionDecl } from './internal/declarations/functionDecl';
 import { importDecl } from './internal/declarations/importDecl';
 
 // Expressions
@@ -48,6 +49,7 @@ export interface ExpressionParseRule {
 }
 
 export const declarationRules: { [key: number]: ParsingHandler } = {
+  [LexicalToken.FUNCTION]: functionDecl,
   [LexicalToken.IMPORT]: importDecl,
 };
 
