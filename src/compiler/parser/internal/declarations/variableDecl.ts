@@ -28,8 +28,10 @@ export function variableDecl(this: Parser, varDeclReport: VarDeclReport): Node {
 
   return new VariableDeclaration(
     identifier,
-    varDeclReport.type,
-    varDeclReport.arrayDepth,
+    {
+      type: varDeclReport.type,
+      arrayDepth: varDeclReport.arrayDepth,
+    },
     expr,
     {
       start: expr.location.start,

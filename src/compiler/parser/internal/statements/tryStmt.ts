@@ -38,8 +38,10 @@ export function tryStmt(this: Parser): Node {
   return new TryStatement(
     tryBody,
     identifier,
-    typeDeclReport.type,
-    typeDeclReport.arrayDepth,
+    {
+      type: typeDeclReport.type,
+      arrayDepth: typeDeclReport.arrayDepth,
+    },
     catchBody,
     {
       start,

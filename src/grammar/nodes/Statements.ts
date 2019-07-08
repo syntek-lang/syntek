@@ -1,5 +1,5 @@
 import {
-  Node, Token, SyntacticToken, TokenLocation, SwitchCase,
+  Node, Token, SyntacticToken, TokenLocation, SwitchCase, VariableType,
 } from '..';
 
 export function isStatement(node: Node): boolean {
@@ -61,9 +61,7 @@ export class SwitchStatement extends Node {
 export class ForStatement extends Node {
   readonly identifier: Token;
 
-  readonly variableType: Token | null;
-
-  readonly arrayDepth: number;
+  readonly variableType: VariableType
 
   readonly object: Node;
 
@@ -71,8 +69,7 @@ export class ForStatement extends Node {
 
   constructor(
     identifier: Token,
-    variableType: Token | null,
-    arrayDepth: number,
+    variableType: VariableType,
     object: Node,
     body: Node[],
     location: TokenLocation,
@@ -81,7 +78,6 @@ export class ForStatement extends Node {
 
     this.identifier = identifier;
     this.variableType = variableType;
-    this.arrayDepth = arrayDepth;
     this.object = object;
     this.body = body;
   }
@@ -118,17 +114,14 @@ export class TryStatement extends Node {
 
   readonly identifier: Token;
 
-  readonly variableType: Token | null;
-
-  readonly arrayDepth: number;
+  readonly variableType: VariableType;
 
   readonly catchBody: Node[];
 
   constructor(
     tryBody: Node[],
     identifier: Token,
-    variableType: Token | null,
-    arrayDepth: number,
+    variableType: VariableType,
     catchBody: Node[],
     location: TokenLocation,
   ) {
@@ -137,7 +130,6 @@ export class TryStatement extends Node {
     this.tryBody = tryBody;
     this.identifier = identifier;
     this.variableType = variableType;
-    this.arrayDepth = arrayDepth;
     this.catchBody = catchBody;
   }
 }

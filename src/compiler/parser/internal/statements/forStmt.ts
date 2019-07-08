@@ -33,8 +33,10 @@ export function forStmt(this: Parser): Node {
 
   return new ForStatement(
     identifier,
-    typeDeclReport.type,
-    typeDeclReport.arrayDepth,
+    {
+      type: typeDeclReport.type,
+      arrayDepth: typeDeclReport.arrayDepth,
+    },
     object,
     body,
     {
