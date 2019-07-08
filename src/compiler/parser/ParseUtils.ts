@@ -80,7 +80,7 @@ export class ParseUtils {
     };
   }
 
-  static varDeclCheck(this: Parser): VarDeclReport {
+  static checkVarDecl(this: Parser): VarDeclReport {
     // Variable declarations always start with an identifier
     if (!this.check(LexicalToken.IDENTIFIER)) {
       return {
