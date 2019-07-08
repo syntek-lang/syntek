@@ -1,16 +1,16 @@
 import {
   Node, Token, LexicalToken, Program,
-} from '..';
+} from '../../grammar';
 
-import { Utils, VarDeclReport } from './matchers/Utils';
-import { Precedence } from './matchers/Precedence';
 import {
+  ParseUtils, VarDeclReport,
+  Precedence,
   ExpressionParseRule,
   declarationRules, expressionRules, statementRules,
-} from './matchers/ParseRules';
+} from '..';
 
-import { expressionStmt } from './matchers/statements/expressionStmt';
-import { variableDecl } from './matchers/declarations/variableDecl';
+import { expressionStmt } from './internal/statements/expressionStmt';
+import { variableDecl } from './internal/declarations/variableDecl';
 
 export class Parser {
   private current = 0;
@@ -37,7 +37,7 @@ export class Parser {
   }
 
   declaration(): Node {
-    const varDeclReport: VarDeclReport = Utils.varDeclCheck.call(this);
+    const varDeclReport: VarDeclReport = ParseUtils.varDeclCheck.call(this);
 
     if (varDeclReport.isVarDecl) {
       return variableDecl.call(this, varDeclReport);

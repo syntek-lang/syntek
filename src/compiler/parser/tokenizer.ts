@@ -1,7 +1,7 @@
 import {
   Token, LexicalToken, TokenLocation,
   CHAR_TOKENS, WORD_TOKENS,
-} from '..';
+} from '../../grammar';
 
 type UnexpectedTokens = { string: string; loc: TokenLocation }[];
 

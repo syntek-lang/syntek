@@ -12,3 +12,4 @@ export const ast = new Parser(tokenResult.tokens).parse();
 console.log(ast);
 
 export * from './compiler';
+export * from './grammar';
