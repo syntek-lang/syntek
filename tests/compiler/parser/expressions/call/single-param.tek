@@ -1,0 +1,21 @@
+fn(true)
+
+fn(true,)
+
+fn(true
+)
+
+fn(
+true
+)
+
+fn(
+true)
+
+fn(
+		true
+)
+
+fn(
+			true
+		)

@@ -1,0 +1,31 @@
+fn(true, 20)
+
+fn(true, 20,)
+
+fn(true, 20
+)
+
+fn(
+true,
+20
+)
+
+fn(
+true,
+20,
+)
+
+fn(
+true, 20)
+
+fn(true,
+20)
+
+fn(
+	true,
+	20
+)
+
+fn(
+	true,
+	20)
