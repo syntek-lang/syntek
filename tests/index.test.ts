@@ -1,1 +1,3 @@
-// Empty file to make sure 'npm run unit' does not error
+import { loadTestsInDir } from './TestUtils';
+
+loadTestsInDir(__dirname, './compiler');

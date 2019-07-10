@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 import { join } from 'path';
-import { readFileSync } from 'fs';
+import { readFileSync, readdirSync, lstatSync } from 'fs';
 
 import { Program } from '../src/grammar/nodes/Other';
 import { tokenize } from '../src/compiler/parser/tokenizer';
 import { Parser } from '../src/compiler/parser/Parser';
 
-export function loadRaw(dirname: string, filename: string): string {
-  const path = join(dirname, filename);
-  const content = readFileSync(path);
+export function loadRaw(base: string, path: string): string {
+  const fullPath = join(base, path);
+  const content = readFileSync(fullPath);
   return content.toString();
 }
 
@@ -24,4 +26,22 @@ export function parse(code: string): Program {
 
   const parser = new Parser(tokens.tokens);
   return parser.parse();
+}
+
+export function loadTestsInDir(base: string, path: string): void {
+  const fullPath = join(base, path);
+
+  readdirSync(fullPath)
+    .filter(file => file.endsWith('.ts') || file.endsWith('.js'))
+    .map(file => join(fullPath, file))
+    .filter(file => lstatSync(file).isFile())
+    .forEach(require);
+}
+
+export function getDirsInDir(base: string, path: string): string[] {
+  const fullPath = join(base, path);
+
+  return readdirSync(fullPath)
+    .filter(file => lstatSync(join(fullPath, file)).isDirectory())
+    .map(file => join(path, file));
 }

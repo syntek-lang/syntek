@@ -11,7 +11,7 @@
     "build": "webpack -p --devtool false",
     "prepublishOnly": "npm run build",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "unit": "mocha -r ts-node/register tests/**/*.test.ts"
+    "unit": "mocha -r ts-node/register tests/index.test.ts"
   },
   "repository": {
     "type": "git",
