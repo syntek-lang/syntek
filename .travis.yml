@@ -12,5 +12,5 @@ jobs:
       name: "Build"
     - script: npm run lint
       name: "Lint"
-    - script: npm run build
-      name: "Test"
+    - script: npm run unit
+      name: "Unit"
