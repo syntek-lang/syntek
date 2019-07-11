@@ -1,0 +1,87 @@
+new Class(true, 20)
+
+new Class(true,
+20)
+
+new Class(
+true, 20)
+
+new Class(
+true,
+20
+)
+
+new Class(
+true,20
+)
+
+new Class
+(true, 20)
+
+new Class
+(true, 20
+)
+
+new Class
+(
+true, 20)
+
+new Class
+(
+true, 20
+)
+
+new Class
+(
+true,
+20
+)
+
+new
+Class(true, 20)
+
+new
+Class(true, 20,
+)
+
+new
+Class(
+true, 20)
+
+new
+Class(
+true, 20
+)
+
+new
+Class(
+true,
+20,
+)
+
+new
+Class
+(true, 20)
+
+new
+Class
+(true, 20
+)
+
+new
+Class
+(
+true, 20)
+
+new
+Class
+(
+true, 20
+)
+
+new
+Class
+(
+true,
+20,
+)

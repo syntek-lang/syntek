@@ -1,0 +1,63 @@
+new Class(true)
+
+new Class(true
+)
+
+new Class(
+true)
+
+new Class(
+true
+)
+
+new Class
+(true)
+
+new Class
+(true
+)
+
+new Class
+(
+true)
+
+new Class
+(
+true
+)
+
+new
+Class(true)
+
+new
+Class(true
+)
+
+new
+Class(
+true)
+
+new
+Class(
+true
+)
+
+new
+Class
+(true)
+
+new
+Class
+(true
+)
+
+new
+Class
+(
+true)
+
+new
+Class
+(
+true
+)

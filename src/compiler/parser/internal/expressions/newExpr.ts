@@ -1,8 +1,9 @@
 import {
-  Node, Token, LexicalToken, MemberExpression, NewExpression,
+  Node, Token, LexicalToken, NewExpression,
 } from '../../../../grammar';
 
 import { Parser, ParseUtils, Precedence } from '../../..';
+import { memberExpr } from './memberExpr';
 
 export function newExpr(parser: Parser, prefix: Token): Node {
   const start = prefix.location.start;
@@ -12,12 +13,7 @@ export function newExpr(parser: Parser, prefix: Token): Node {
   parser.eatWhitespace();
 
   while (parser.match(LexicalToken.DOT)) {
-    const property = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier');
-
-    object = new MemberExpression(object, property, {
-      start: object.location.start,
-      end: property.location.end,
-    });
+    object = memberExpr(parser, object);
   }
 
   parser.eatWhitespace();
