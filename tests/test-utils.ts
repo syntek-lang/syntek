@@ -38,7 +38,7 @@ export function loadTestsInDir(base: string, path: string): void {
     .forEach(require);
 }
 
-export function getDirsInDir(base: string, path: string): string[] {
+export function getDirsFrom(base: string, path: string): string[] {
   const fullPath = join(base, path);
 
   return readdirSync(fullPath)

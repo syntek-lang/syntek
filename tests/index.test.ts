@@ -1,3 +1,3 @@
-import { loadTestsInDir } from './TestUtils';
+import { loadTestsInDir } from './test-utils';
 
 loadTestsInDir(__dirname, './compiler');

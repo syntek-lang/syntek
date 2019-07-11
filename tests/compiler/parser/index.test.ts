@@ -1,8 +1,8 @@
-import { loadTestsInDir, getDirsInDir } from '../../TestUtils';
+import { loadTestsInDir, getDirsFrom } from '../../test-utils';
 
 describe('parser', () => {
   describe('expressions', () => {
-    getDirsInDir(__dirname, './expressions')
+    getDirsFrom(__dirname, './expressions')
       .forEach(dir => loadTestsInDir(__dirname, dir));
   });
 });

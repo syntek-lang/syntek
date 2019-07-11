@@ -1,7 +1,7 @@
 import 'mocha';
 import { expect } from 'chai';
 
-import { parse, loadRaw } from '../../../../TestUtils';
+import { parse, loadRaw } from '../../../../test-utils';
 
 import { Node } from '../../../../../src/grammar/Node';
 import { SyntacticToken } from '../../../../../src/grammar/SyntacticToken';
