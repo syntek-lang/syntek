@@ -6,7 +6,7 @@ import { parse, loadRaw } from '../../../../test-utils';
 import { Node } from '../../../../../src/grammar/Node';
 import { SyntacticToken } from '../../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../../src/grammar/nodes/Statements';
-import { Literal, InstanceofExpression } from '../../../../../src/grammar/nodes/Expressions';
+import { Literal, Identifier, InstanceofExpression } from '../../../../../src/grammar/nodes/Expressions';
 
 describe('instanceof', () => {
   it('parses correctly', () => {
@@ -26,10 +26,10 @@ describe('instanceof', () => {
       expect(left).to.be.an.instanceof(Literal);
       expect(left.value.lexeme).to.equal('true');
 
-      const right = expr.right as Literal;
-      expect(right.type).to.equal(SyntacticToken.LITERAL);
-      expect(right).to.be.an.instanceof(Literal);
-      expect(right.value.lexeme).to.equal('Boolean');
+      const right = expr.right as Identifier;
+      expect(right.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(right).to.be.an.instanceof(Identifier);
+      expect(right.identifier.lexeme).to.equal('Boolean');
     }
 
     program.body.forEach(check);

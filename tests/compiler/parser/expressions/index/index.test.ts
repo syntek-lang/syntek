@@ -6,7 +6,7 @@ import { parse, loadRaw } from '../../../../test-utils';
 import { Node } from '../../../../../src/grammar/Node';
 import { SyntacticToken } from '../../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../../src/grammar/nodes/Statements';
-import { Literal, IndexExpression } from '../../../../../src/grammar/nodes/Expressions';
+import { Literal, Identifier, IndexExpression } from '../../../../../src/grammar/nodes/Expressions';
 
 describe('index', () => {
   it('parses correctly', () => {
@@ -21,10 +21,10 @@ describe('index', () => {
       expect(expr.type).to.equal(SyntacticToken.INDEX_EXPR);
       expect(expr).to.be.an.instanceof(IndexExpression);
 
-      const object = expr.object as Literal;
-      expect(object.type).to.equal(SyntacticToken.LITERAL);
-      expect(object).to.be.an.instanceof(Literal);
-      expect(object.value.lexeme).to.equal('array');
+      const object = expr.object as Identifier;
+      expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(object).to.be.an.instanceof(Identifier);
+      expect(object.identifier.lexeme).to.equal('array');
 
       const index = expr.index as Literal;
       expect(index.type).to.equal(SyntacticToken.LITERAL);

@@ -5,4 +5,9 @@ describe('parser', () => {
     getDirsFrom(__dirname, './expressions')
       .forEach(dir => loadTestsInDir(__dirname, dir));
   });
+
+  describe('statements', () => {
+    getDirsFrom(__dirname, './statements')
+      .forEach(dir => loadTestsInDir(__dirname, dir));
+  });
 });

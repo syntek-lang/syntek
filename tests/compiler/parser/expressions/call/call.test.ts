@@ -6,7 +6,7 @@ import { parse, loadRaw } from '../../../../test-utils';
 import { Node } from '../../../../../src/grammar/Node';
 import { SyntacticToken } from '../../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../../src/grammar/nodes/Statements';
-import { Literal, CallExpression } from '../../../../../src/grammar/nodes/Expressions';
+import { Literal, Identifier, CallExpression } from '../../../../../src/grammar/nodes/Expressions';
 
 describe('call', () => {
   it('parses no params correctly', () => {
@@ -23,10 +23,10 @@ describe('call', () => {
 
       expect(expr.params.length).to.equal(0);
 
-      const object = expr.object as Literal;
-      expect(object.type).to.equal(SyntacticToken.LITERAL);
-      expect(object).to.be.an.instanceof(Literal);
-      expect(object.value.lexeme).to.equal('fn');
+      const object = expr.object as Identifier;
+      expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(object).to.be.an.instanceof(Identifier);
+      expect(object.identifier.lexeme).to.equal('fn');
     }
 
     program.body.forEach(check);
@@ -51,10 +51,10 @@ describe('call', () => {
       expect(param).to.be.an.instanceof(Literal);
       expect(param.value.lexeme).to.equal('true');
 
-      const object = expr.object as Literal;
-      expect(object.type).to.equal(SyntacticToken.LITERAL);
-      expect(object).to.be.an.instanceof(Literal);
-      expect(object.value.lexeme).to.equal('fn');
+      const object = expr.object as Identifier;
+      expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(object).to.be.an.instanceof(Identifier);
+      expect(object.identifier.lexeme).to.equal('fn');
     }
 
     program.body.forEach(check);
@@ -84,10 +84,10 @@ describe('call', () => {
       expect(secondParam).to.be.an.instanceof(Literal);
       expect(secondParam.value.lexeme).to.equal('20');
 
-      const object = expr.object as Literal;
-      expect(object.type).to.equal(SyntacticToken.LITERAL);
-      expect(object).to.be.an.instanceof(Literal);
-      expect(object.value.lexeme).to.equal('fn');
+      const object = expr.object as Identifier;
+      expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(object).to.be.an.instanceof(Identifier);
+      expect(object.identifier.lexeme).to.equal('fn');
     }
 
     program.body.forEach(check);

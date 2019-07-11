@@ -1,0 +1,18 @@
+if true
+	one
+	two
+
+if
+true
+	one
+	two
+
+if
+	true
+	one
+	two
+
+if
+		true
+	one
+	two

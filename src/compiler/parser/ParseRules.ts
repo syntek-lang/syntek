@@ -20,6 +20,7 @@ import { unaryExpr } from './internal/expressions/unaryExpr';
 import { wrappedExpr } from './internal/expressions/wrappedExpr';
 
 // Literals
+import { identifier } from './internal/literals/identifier';
 import { literals } from './internal/literals/literals';
 import { superLiteral } from './internal/literals/superLiteral';
 import { thisLiteral } from './internal/literals/thisLiteral';
@@ -62,7 +63,7 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // WHITESPACE
 
   // Identifier
-  { prefix: literals, infix: null, precedence: Precedence.OP1 }, // IDENTIFIER
+  { prefix: identifier, infix: null, precedence: Precedence.OP1 }, // IDENTIFIER
 
   // Operators
   { prefix: unaryExpr, infix: binaryExpr, precedence: Precedence.OP7 }, // PLUS

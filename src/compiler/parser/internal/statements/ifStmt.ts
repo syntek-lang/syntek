@@ -23,6 +23,7 @@ function elseStmt(parser: Parser): Node {
 
 export function ifStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
+  parser.eatWhitespace();
 
   const condition = parser.expression();
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after if');

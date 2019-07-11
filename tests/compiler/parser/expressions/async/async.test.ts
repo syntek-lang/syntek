@@ -6,7 +6,7 @@ import { parse, loadRaw } from '../../../../test-utils';
 import { Node } from '../../../../../src/grammar/Node';
 import { SyntacticToken } from '../../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../../src/grammar/nodes/Statements';
-import { Literal, AsyncExpression } from '../../../../../src/grammar/nodes/Expressions';
+import { Identifier, AsyncExpression } from '../../../../../src/grammar/nodes/Expressions';
 
 describe('async', () => {
   it('parses correctly', () => {
@@ -21,10 +21,10 @@ describe('async', () => {
       expect(expr.type).to.equal(SyntacticToken.ASYNC_EXPR);
       expect(expr).to.be.an.instanceof(AsyncExpression);
 
-      const literal = expr.expression as Literal;
-      expect(literal.type).to.equal(SyntacticToken.LITERAL);
-      expect(literal).to.be.an.instanceof(Literal);
-      expect(literal.value.lexeme).to.equal('Foo');
+      const literal = expr.expression as Identifier;
+      expect(literal.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(literal).to.be.an.instanceof(Identifier);
+      expect(literal.identifier.lexeme).to.equal('Foo');
     }
 
     program.body.forEach(check);

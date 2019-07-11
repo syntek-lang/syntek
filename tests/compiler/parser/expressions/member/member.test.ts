@@ -7,7 +7,7 @@ import { Node } from '../../../../../src/grammar/Node';
 import { LexicalToken } from '../../../../../src/grammar/LexicalToken';
 import { SyntacticToken } from '../../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../../src/grammar/nodes/Statements';
-import { Literal, MemberExpression } from '../../../../../src/grammar/nodes/Expressions';
+import { Identifier, MemberExpression } from '../../../../../src/grammar/nodes/Expressions';
 
 describe('member', () => {
   it('parses correctly', () => {
@@ -22,10 +22,10 @@ describe('member', () => {
       expect(expr.type).to.equal(SyntacticToken.MEMBER_EXPR);
       expect(expr).to.be.an.instanceof(MemberExpression);
 
-      const object = expr.object as Literal;
-      expect(object.type).to.equal(SyntacticToken.LITERAL);
-      expect(object).to.be.an.instanceof(Literal);
-      expect(object.value.lexeme).to.equal('obj');
+      const object = expr.object as Identifier;
+      expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(object).to.be.an.instanceof(Identifier);
+      expect(object.identifier.lexeme).to.equal('obj');
 
       const property = expr.property;
       expect(property.type).to.equal(LexicalToken.IDENTIFIER);
