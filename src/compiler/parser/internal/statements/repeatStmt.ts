@@ -4,6 +4,7 @@ import { Parser } from '../../..';
 
 export function repeatStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
+  parser.eatWhitespace();
 
   const amount = parser.expression();
   parser.eatWhitespace();

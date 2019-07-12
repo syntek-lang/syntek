@@ -1,0 +1,18 @@
+while true
+	one
+	two
+
+while
+true
+	one
+	two
+
+while
+	true
+	one
+	two
+
+while
+		true
+	one
+	two

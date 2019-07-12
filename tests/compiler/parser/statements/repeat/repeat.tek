@@ -1,0 +1,57 @@
+repeat 10 times
+	one
+	two
+
+repeat
+10 times
+	one
+	two
+
+repeat
+	10 times
+	one
+	two
+
+repeat
+		10 times
+	one
+	two
+
+repeat 10
+times
+	one
+	two
+
+repeat 10
+	times
+	one
+	two
+
+repeat 10
+		times
+	one
+	two
+
+repeat
+10
+times
+	one
+	two
+
+repeat
+	10
+	times
+	one
+	two
+
+repeat
+		10
+		times
+	one
+	two
+
+repeat
+					10
+				times
+	one
+	two

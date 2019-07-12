@@ -4,6 +4,7 @@ import { Parser } from '../../..';
 
 export function whileStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
+  parser.eatWhitespace();
 
   const condition = parser.expression();
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after while');

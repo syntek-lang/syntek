@@ -1,0 +1,55 @@
+for x in y
+	one
+	two
+
+for
+x in y
+	one
+	two
+
+for
+	x in y
+	one
+	two
+
+for
+		x in y
+	one
+	two
+
+for x
+in y
+	one
+	two
+
+for x
+	in y
+	one
+	two
+
+for x
+		in y
+	one
+	two
+
+for x in
+y
+	one
+	two
+
+for x in
+	y
+	one
+	two
+
+for x in
+		y
+	one
+	two
+
+for
+x
+in
+y
+	one
+	two

@@ -4,11 +4,15 @@ import { Parser, ParseUtils } from '../../..';
 
 export function forStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
-  const typeDeclReport = ParseUtils.matchTypeDecl(parser);
+  parser.eatWhitespace();
 
+  const typeDeclReport = ParseUtils.matchTypeDecl(parser);
   const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after for');
+
+  parser.eatWhitespace();
   parser.consume(LexicalToken.IN, 'Expected "in" after identifier');
 
+  parser.eatWhitespace();
   const object = parser.expression();
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after for statement');
 
