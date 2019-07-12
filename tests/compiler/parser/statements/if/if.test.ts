@@ -69,8 +69,8 @@ describe('if', () => {
     program.body.forEach(check);
   });
 
-  it('parses if with single else if correctly', () => {
-    const program = parse(loadRaw(__dirname, './if-with-single-else-if.tek'));
+  it('parses if with else if correctly', () => {
+    const program = parse(loadRaw(__dirname, './if-with-else-if.tek'));
 
     function check(node: Node): void {
       const stmt = node as IfStatement;
