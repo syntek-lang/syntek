@@ -78,7 +78,7 @@ export function tokenize(input: string): {
 
           if (char >= '0' && char <= '9') {
             // Current character is start of number
-            const numberMatch = remainingChars.match(/^\d+(?:\.\d+)?/);
+            const numberMatch = remainingChars.match(/^\d(?:\d|_)*(?:\.\d(?:\d|_)*)?/);
 
             if (numberMatch) {
               tokens.push(new Token(LexicalToken.NUMBER, numberMatch[0], {

@@ -10,4 +10,9 @@ describe('parser', () => {
     getDirsFrom(__dirname, './statements')
       .forEach(dir => loadTestsInDir(__dirname, dir));
   });
+
+  describe('literals', () => {
+    getDirsFrom(__dirname, './literals')
+      .forEach(dir => loadTestsInDir(__dirname, dir));
+  });
 });
