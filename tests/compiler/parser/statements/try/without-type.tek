@@ -1,0 +1,30 @@
+try
+	one
+	two
+catch error
+	one
+	two
+
+try
+	one
+	two
+catch
+error
+	one
+	two
+
+try
+	one
+	two
+catch
+	error
+	one
+	two
+
+try
+	one
+	two
+catch
+		error
+	one
+	two

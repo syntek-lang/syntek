@@ -13,11 +13,14 @@ export function tryStmt(parser: Parser): Node {
   }
 
   parser.consume(LexicalToken.CATCH, 'Expected catch after try block');
+  parser.eatWhitespace();
 
   const typeDeclReport = ParseUtils.matchTypeDecl(parser);
-
   const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after catch');
+
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after catch');
+  parser.syncIndentation();
+
   parser.consume(LexicalToken.INDENT, 'Expected indent after catch');
 
   const catchBody: Node[] = [];
