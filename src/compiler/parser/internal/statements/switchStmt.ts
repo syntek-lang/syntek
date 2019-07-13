@@ -6,9 +6,11 @@ import { Parser } from '../../..';
 
 export function switchStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
+  parser.eatWhitespace();
 
   const expression = parser.expression();
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after switch');
+  parser.syncIndentation();
   parser.consume(LexicalToken.INDENT, 'Expected indent after switch');
 
   const cases: SwitchCase[] = [];

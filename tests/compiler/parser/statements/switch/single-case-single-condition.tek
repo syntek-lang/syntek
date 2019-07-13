@@ -1,0 +1,74 @@
+switch x
+	case y
+		one
+		two
+
+switch
+x
+	case y
+		one
+		two
+
+switch
+	x
+	case y
+		one
+		two
+
+switch
+		x
+	case y
+		one
+		two
+
+switch x
+	case
+y
+		one
+		two
+
+switch x
+	case
+	y
+		one
+		two
+
+switch x
+	case
+		y
+		one
+		two
+
+switch x
+	case
+			y
+		one
+		two
+
+switch
+x
+	case
+y
+		one
+		two
+
+switch
+	x
+	case
+	y
+		one
+		two
+
+switch
+		x
+	case
+		y
+		one
+		two
+
+switch
+			x
+	case
+			y
+		one
+		two
