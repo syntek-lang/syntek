@@ -14,7 +14,6 @@ export function isExpression(node: Node): boolean {
     || node.type === SyntacticToken.ASYNC_EXPR
     || node.type === SyntacticToken.ARRAY_EXPR
     || node.type === SyntacticToken.OBJECT_EXPR
-    || node.type === SyntacticToken.ASSIGNMENT_EXPR
 
     || node.type === SyntacticToken.IDENTIFIER
     || node.type === SyntacticToken.LITERAL
@@ -153,19 +152,6 @@ export class ObjectExpression extends Node {
     super(SyntacticToken.OBJECT_EXPR, location);
 
     this.props = props;
-  }
-}
-
-export class AssignmentExpression extends Node {
-  readonly left: Node;
-
-  readonly value: Node;
-
-  constructor(left: Node, value: Node, location: TokenLocation) {
-    super(SyntacticToken.ASSIGNMENT_EXPR, location);
-
-    this.left = left;
-    this.value = value;
   }
 }
 

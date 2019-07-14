@@ -216,13 +216,13 @@ export class Parser {
     return this.peek(-1);
   }
 
-  peekIgnoreWhitespace(amount = 0): Token {
+  peekIgnoreWhitespace(): Token {
     let whitespaceAmount = 0;
 
     while (this.isWhitespace(this.peek(whitespaceAmount))) {
       whitespaceAmount += 1;
     }
 
-    return this.peek(amount + whitespaceAmount);
+    return this.peek(whitespaceAmount);
   }
 }

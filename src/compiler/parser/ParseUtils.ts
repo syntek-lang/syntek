@@ -160,8 +160,8 @@ export class ParseUtils {
     const arrayDepth = ParseUtils.getArrayDepth(parser, offset);
 
     if (
-      parser.check(LexicalToken.IDENTIFIER, offset)
-        && parser.check(LexicalToken.EQUAL, offset + 1)
+      parser.check(LexicalToken.IDENTIFIER, offset + arrayDepth * 2)
+        && parser.check(LexicalToken.EQUAL, offset + arrayDepth * 2 + 1)
     ) {
       return {
         match: true,

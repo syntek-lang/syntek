@@ -7,7 +7,6 @@ import { importDecl } from './internal/declarations/importDecl';
 
 // Expressions
 import { arrayExpr } from './internal/expressions/arrayExpr';
-import { assignmentExpr } from './internal/expressions/assignmentExpr';
 import { asyncExpr } from './internal/expressions/asyncExpr';
 import { binaryExpr } from './internal/expressions/binaryExpr';
 import { callExpr } from './internal/expressions/callExpr';
@@ -80,9 +79,7 @@ export const expressionRules: ExpressionParseRule[] = [
   {
     prefix: null, infix: binaryExpr, precedence: Precedence.OP9, ignoreWhiteSpace: true,
   }, // CARET
-  {
-    prefix: null, infix: assignmentExpr, precedence: Precedence.OP2, ignoreWhiteSpace: true,
-  }, // EQUAL
+  { prefix: null, infix: null, precedence: Precedence.OP2 }, // EQUAL
 
   // Punctuation
   {
