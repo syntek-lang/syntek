@@ -8,6 +8,7 @@ module.exports = {
       files: ['*.test.ts'],
       rules: {
         'no-unused-expressions': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off',
       },
     },
   ],

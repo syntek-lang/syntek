@@ -1,0 +1,71 @@
+import foo as bar
+
+import
+foo as bar
+
+import
+  foo as bar
+
+import foo
+as bar
+
+import foo
+  as bar
+
+import foo as
+bar
+
+import foo as
+  bar
+
+import
+foo as
+bar
+
+import
+  foo as
+bar
+
+import
+foo as
+  bar
+
+import
+foo
+as
+bar
+
+import
+  foo
+as
+bar
+
+import
+foo
+  as
+bar
+
+import
+foo
+as
+  bar
+
+import
+  foo
+  as
+bar
+
+import
+  foo
+as
+  bar
+
+import
+foo
+  as
+  bar
+
+import
+  foo
+  as
+  bar
