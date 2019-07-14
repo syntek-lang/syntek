@@ -48,5 +48,78 @@ describe('for', () => {
     program.body.forEach(check);
   });
 
-  it('parses correctly with type');
+  it('parses correctly with type, no array depth', () => {
+    const program = parse(loadRaw(__dirname, './with-type-no-array-depth.tek'));
+
+    function check(node: Node): void {
+      const stmt = node as ForStatement;
+      expect(stmt.type).to.equal(SyntacticToken.FOR_STMT);
+      expect(stmt).to.be.an.instanceof(ForStatement);
+
+      expect(stmt.identifier.lexeme).to.equal('x');
+
+      expect(stmt.variableType).to.not.be.null;
+      expect(stmt.variableType!.type.lexeme).to.equal('Number');
+      expect(stmt.variableType!.arrayDepth).to.equal(0);
+
+      const object = stmt.object as Identifier;
+      expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(object).to.be.an.instanceof(Identifier);
+      expect(object.identifier.lexeme).to.equal('y');
+
+      checkBody(stmt.body);
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses correctly with type, single array depth', () => {
+    const program = parse(loadRaw(__dirname, './with-type-single-array-depth.tek'));
+
+    function check(node: Node): void {
+      const stmt = node as ForStatement;
+      expect(stmt.type).to.equal(SyntacticToken.FOR_STMT);
+      expect(stmt).to.be.an.instanceof(ForStatement);
+
+      expect(stmt.identifier.lexeme).to.equal('x');
+
+      expect(stmt.variableType).to.not.be.null;
+      expect(stmt.variableType!.type.lexeme).to.equal('Number');
+      expect(stmt.variableType!.arrayDepth).to.equal(1);
+
+      const object = stmt.object as Identifier;
+      expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(object).to.be.an.instanceof(Identifier);
+      expect(object.identifier.lexeme).to.equal('y');
+
+      checkBody(stmt.body);
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses correctly with type, multi array depth', () => {
+    const program = parse(loadRaw(__dirname, './with-type-multi-array-depth.tek'));
+
+    function check(node: Node): void {
+      const stmt = node as ForStatement;
+      expect(stmt.type).to.equal(SyntacticToken.FOR_STMT);
+      expect(stmt).to.be.an.instanceof(ForStatement);
+
+      expect(stmt.identifier.lexeme).to.equal('x');
+
+      expect(stmt.variableType).to.not.be.null;
+      expect(stmt.variableType!.type.lexeme).to.equal('Number');
+      expect(stmt.variableType!.arrayDepth).to.equal(2);
+
+      const object = stmt.object as Identifier;
+      expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(object).to.be.an.instanceof(Identifier);
+      expect(object.identifier.lexeme).to.equal('y');
+
+      checkBody(stmt.body);
+    }
+
+    program.body.forEach(check);
+  });
 });

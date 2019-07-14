@@ -44,7 +44,10 @@ export class ParseUtils {
     if (parser.check(LexicalToken.IDENTIFIER, 1)) {
       return {
         match: true,
-        variableType: null,
+        variableType: {
+          type: parser.advance(),
+          arrayDepth: 0,
+        },
       };
     }
 

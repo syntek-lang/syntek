@@ -1,0 +1,69 @@
+for Number[][] x in y
+	one
+	two
+
+for
+Number[][] x in y
+	one
+	two
+
+for
+	Number[][] x in y
+	one
+	two
+
+for
+		Number[][] x in y
+	one
+	two
+
+for Number[][] x
+in y
+	one
+	two
+
+for Number[][] x
+	in y
+	one
+	two
+
+for Number[][] x
+		in y
+	one
+	two
+
+for Number[][] x in
+y
+	one
+	two
+
+for Number[][] x in
+	y
+	one
+	two
+
+for Number[][] x in
+		y
+	one
+	two
+
+for
+Number[][] x
+in
+y
+	one
+	two
+
+for
+	Number[][] x
+	in
+	y
+	one
+	two
+
+for
+		Number[][] x
+		in
+		y
+	one
+	two
