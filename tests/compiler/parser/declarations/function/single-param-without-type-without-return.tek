@@ -1,0 +1,129 @@
+function foo(x)
+	one
+	two
+
+function
+foo(x)
+	one
+	two
+
+function
+	foo(x)
+	one
+	two
+
+function
+		foo(x)
+	one
+	two
+
+function foo
+(x)
+	one
+	two
+
+function foo
+	(x)
+	one
+	two
+
+function foo
+		(x)
+	one
+	two
+
+function
+foo
+(x)
+	one
+	two
+
+function
+	foo
+(x)
+	one
+	two
+
+function
+		foo
+(x)
+	one
+	two
+
+function
+foo
+	(x)
+	one
+	two
+
+function
+foo
+		(x)
+	one
+	two
+
+function
+	foo
+	(x)
+	one
+	two
+
+function
+		foo
+		(x)
+	one
+	two
+
+function foo(
+x)
+	one
+	two
+
+function foo(
+x
+)
+	one
+	two
+
+function foo(
+	x
+)
+	one
+	two
+
+function foo(
+	x
+	)
+	one
+	two
+
+function
+foo
+(
+x
+)
+	one
+	two
+
+function
+foo
+(
+	x
+)
+	one
+	two
+
+function
+foo
+(
+	x)
+	one
+	two
+
+function
+		foo
+		(
+			x
+		)
+	one
+	two
