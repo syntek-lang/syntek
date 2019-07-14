@@ -45,5 +45,69 @@ describe('try', () => {
     program.body.forEach(check);
   });
 
-  it('parses correctly with type');
+  it('parses correctly with type, no array depth', () => {
+    const program = parse(loadRaw(__dirname, './with-type-no-array-depth.tek'));
+
+    function check(node: Node): void {
+      const stmt = node as TryStatement;
+      expect(stmt.type).to.equal(SyntacticToken.TRY_STMT);
+      expect(stmt).to.be.an.instanceof(TryStatement);
+
+      checkBody(stmt.tryBody);
+
+      expect(stmt.identifier.lexeme).to.equal('error');
+
+      expect(stmt.variableType).to.not.be.null;
+      expect(stmt.variableType!.type.lexeme).to.equal('Error');
+      expect(stmt.variableType!.arrayDepth).to.equal(0);
+
+      checkBody(stmt.catchBody);
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses correctly with type, no array depth', () => {
+    const program = parse(loadRaw(__dirname, './with-type-single-array-depth.tek'));
+
+    function check(node: Node): void {
+      const stmt = node as TryStatement;
+      expect(stmt.type).to.equal(SyntacticToken.TRY_STMT);
+      expect(stmt).to.be.an.instanceof(TryStatement);
+
+      checkBody(stmt.tryBody);
+
+      expect(stmt.identifier.lexeme).to.equal('error');
+
+      expect(stmt.variableType).to.not.be.null;
+      expect(stmt.variableType!.type.lexeme).to.equal('Error');
+      expect(stmt.variableType!.arrayDepth).to.equal(1);
+
+      checkBody(stmt.catchBody);
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses correctly with type, multi array depth', () => {
+    const program = parse(loadRaw(__dirname, './with-type-multi-array-depth.tek'));
+
+    function check(node: Node): void {
+      const stmt = node as TryStatement;
+      expect(stmt.type).to.equal(SyntacticToken.TRY_STMT);
+      expect(stmt).to.be.an.instanceof(TryStatement);
+
+      checkBody(stmt.tryBody);
+
+      expect(stmt.identifier.lexeme).to.equal('error');
+
+      expect(stmt.variableType).to.not.be.null;
+      expect(stmt.variableType!.type.lexeme).to.equal('Error');
+      expect(stmt.variableType!.arrayDepth).to.equal(2);
+
+      checkBody(stmt.catchBody);
+    }
+
+    program.body.forEach(check);
+  });
 });

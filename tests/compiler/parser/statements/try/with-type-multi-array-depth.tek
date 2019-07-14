@@ -1,0 +1,30 @@
+try
+	one
+	two
+catch Error[][] error
+	one
+	two
+
+try
+	one
+	two
+catch
+Error[][] error
+	one
+	two
+
+try
+	one
+	two
+catch
+	Error[][] error
+	one
+	two
+
+try
+	one
+	two
+catch
+		Error[][] error
+	one
+	two
