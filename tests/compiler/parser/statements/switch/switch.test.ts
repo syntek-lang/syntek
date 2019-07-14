@@ -94,7 +94,86 @@ describe('switch', () => {
     program.body.forEach(check);
   });
 
-  it('parses single case multi condition correctly');
+  it('parses single case multi condition correctly', () => {
+    const program = parse(loadRaw(__dirname, './single-case-multi-condition.tek'));
 
-  it('parses multi case multi condition correctly');
+    function check(node: Node): void {
+      const stmt = node as SwitchStatement;
+      expect(stmt.type).to.equal(SyntacticToken.SWITCH_STMT);
+      expect(stmt).to.be.an.instanceof(SwitchStatement);
+
+      const expr = stmt.expression as Identifier;
+      expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(expr).to.be.an.instanceof(Identifier);
+      expect(expr.identifier.lexeme).to.equal('x');
+
+      expect(stmt.cases.length).to.equal(1);
+
+      const firstCase = stmt.cases[0];
+      expect(firstCase.conditions.length).to.equal(2);
+
+      const firstCondition = firstCase.conditions[0] as Identifier;
+      expect(firstCondition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(firstCondition).to.be.an.instanceof(Identifier);
+      expect(firstCondition.identifier.lexeme).to.equal('y');
+
+      const secondCondition = firstCase.conditions[1] as Identifier;
+      expect(secondCondition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(secondCondition).to.be.an.instanceof(Identifier);
+      expect(secondCondition.identifier.lexeme).to.equal('z');
+
+      checkBody(firstCase.body);
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses multi case multi condition correctly', () => {
+    const program = parse(loadRaw(__dirname, './multi-case-multi-condition.tek'));
+
+    function check(node: Node): void {
+      const stmt = node as SwitchStatement;
+      expect(stmt.type).to.equal(SyntacticToken.SWITCH_STMT);
+      expect(stmt).to.be.an.instanceof(SwitchStatement);
+
+      const expr = stmt.expression as Identifier;
+      expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(expr).to.be.an.instanceof(Identifier);
+      expect(expr.identifier.lexeme).to.equal('x');
+
+      expect(stmt.cases.length).to.equal(2);
+
+      const firstCase = stmt.cases[0];
+      expect(firstCase.conditions.length).to.equal(2);
+
+      const firstCondition = firstCase.conditions[0] as Identifier;
+      expect(firstCondition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(firstCondition).to.be.an.instanceof(Identifier);
+      expect(firstCondition.identifier.lexeme).to.equal('y');
+
+      const secondCondition = firstCase.conditions[1] as Identifier;
+      expect(secondCondition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(secondCondition).to.be.an.instanceof(Identifier);
+      expect(secondCondition.identifier.lexeme).to.equal('z');
+
+      checkBody(firstCase.body);
+
+      const secondCase = stmt.cases[1];
+      expect(secondCase.conditions.length).to.equal(2);
+
+      const thirdCondition = secondCase.conditions[0] as Identifier;
+      expect(thirdCondition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(thirdCondition).to.be.an.instanceof(Identifier);
+      expect(thirdCondition.identifier.lexeme).to.equal('a');
+
+      const fourthCondition = secondCase.conditions[1] as Identifier;
+      expect(fourthCondition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(fourthCondition).to.be.an.instanceof(Identifier);
+      expect(fourthCondition.identifier.lexeme).to.equal('b');
+
+      checkBody(secondCase.body);
+    }
+
+    program.body.forEach(check);
+  });
 });

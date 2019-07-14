@@ -1,0 +1,142 @@
+switch x
+	case y, z
+		one
+		two
+
+switch
+x
+	case y, z
+		one
+		two
+
+switch
+	x
+	case y, z
+		one
+		two
+
+switch
+		x
+	case y, z
+		one
+		two
+
+switch x
+	case
+y, z
+		one
+		two
+
+switch x
+	case
+	y, z
+		one
+		two
+
+switch x
+	case
+		y, z
+		one
+		two
+
+switch x
+	case
+			y, z
+		one
+		two
+
+switch
+x
+	case
+y, z
+		one
+		two
+
+switch
+	x
+	case
+	y, z
+		one
+		two
+
+switch
+		x
+	case
+		y, z
+		one
+		two
+
+switch
+			x
+	case
+			y, z
+		one
+		two
+
+switch x
+	case y,
+z
+		one
+		two
+
+switch x
+	case y,
+	z
+		one
+		two
+
+switch x
+	case y,
+		z
+		one
+		two
+
+switch x
+	case y,
+			z
+		one
+		two
+
+switch x
+	case y
+, z
+		one
+		two
+
+switch x
+	case y
+,
+z
+		one
+		two
+
+switch x
+	case y
+	,
+z
+		one
+		two
+
+switch x
+	case
+y
+,
+z
+		one
+		two
+
+switch x
+	case
+	y
+	,
+	z
+		one
+		two
+
+switch x
+	case
+		y
+		,
+		z
+		one
+		two
