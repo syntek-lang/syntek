@@ -4,10 +4,14 @@ import { Parser } from '../../..';
 
 export function memberExpr(parser: Parser, left: Node): Node {
   parser.eatWhitespace();
-  const property = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier');
+  const property = parser.match(LexicalToken.IDENTIFIER, LexicalToken.SUPER);
 
-  return new MemberExpression(left, property, {
+  if (!property) {
+    throw new Error('Expected identifier or super');
+  }
+
+  return new MemberExpression(left, parser.previous(), {
     start: left.location.start,
-    end: property.location.end,
+    end: parser.previous().location.end,
   });
 }
