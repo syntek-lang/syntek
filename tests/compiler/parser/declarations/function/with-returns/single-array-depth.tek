@@ -1,0 +1,132 @@
+function foo() returns Boolean[]
+	one
+	two
+
+function foo(
+) returns Boolean[]
+	one
+	two
+
+function foo(
+	) returns Boolean[]
+	one
+	two
+
+function foo(
+		) returns Boolean[]
+	one
+	two
+
+function
+foo() returns Boolean[]
+	one
+	two
+
+function
+	foo() returns Boolean[]
+	one
+	two
+
+function
+		foo() returns Boolean[]
+	one
+	two
+
+function
+foo(
+) returns Boolean[]
+	one
+	two
+
+function
+	foo(
+	) returns Boolean[]
+	one
+	two
+
+function
+		foo(
+		) returns Boolean[]
+	one
+	two
+
+function
+foo
+() returns Boolean[]
+	one
+	two
+
+function
+foo
+	() returns Boolean[]
+	one
+	two
+
+function
+foo
+		() returns Boolean[]
+	one
+	two
+
+function
+	foo
+() returns Boolean[]
+	one
+	two
+
+function
+		foo
+() returns Boolean[]
+	one
+	two
+
+function
+	foo
+	() returns Boolean[]
+	one
+	two
+
+function
+		foo
+		() returns Boolean[]
+	one
+	two
+
+function
+		foo
+		(
+		) returns Boolean[]
+	one
+	two
+
+function
+		foo
+		(
+) returns Boolean[]
+	one
+	two
+
+function foo()
+returns Boolean[]
+	one
+	two
+
+function
+foo
+()
+returns Boolean[]
+	one
+	two
+
+function
+	foo
+	()
+	returns Boolean[]
+	one
+	two
+
+function foo
+()
+returns Boolean[]
+	one
+	two

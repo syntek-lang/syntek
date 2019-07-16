@@ -27,89 +27,314 @@ function checkBody(nodes: Node[]): void {
 }
 
 describe('function', () => {
-  // without returns
-  it('parses without params, without returns correctly', () => {
-    const program = parse(loadRaw(__dirname, './without-params-without-return.tek'));
+  describe('without returns', () => {
+    it('parses without params', () => {
+      const program = parse(loadRaw(__dirname, './without-returns/without-params.tek'));
 
-    function check(node: Node): void {
-      const decl = node as FunctionDeclaration;
-      expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
-      expect(decl).to.be.an.instanceof(FunctionDeclaration);
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
-      expect(decl.identifier.lexeme).to.equal('foo');
-      expect(decl.params.length).to.equal(0);
-      expect(decl.returnType).to.be.null;
+        expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.params.length).to.equal(0);
+        expect(decl.returnType).to.be.null;
 
-      checkBody(decl.body);
-    }
+        checkBody(decl.body);
+      }
 
-    program.body.forEach(check);
+      program.body.forEach(check);
+    });
+
+    it('parses single param without type', () => {
+      const program = parse(loadRaw(__dirname, './without-returns/single-param-without-type.tek'));
+
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+
+        expect(decl.params.length).to.equal(1);
+
+        const param = decl.params[0];
+        expect(param.name.lexeme).to.equal('x');
+        expect(param.variableType).to.be.null;
+
+        expect(decl.returnType).to.be.null;
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses single param with type, no array depth', () => {
+      const program = parse(loadRaw(__dirname, './without-returns/single-param-with-type-no-array-depth.tek'));
+
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+
+        expect(decl.params.length).to.equal(1);
+
+        const param = decl.params[0];
+        expect(param.name.lexeme).to.equal('x');
+        expect(param.variableType).to.not.be.null;
+        expect(param.variableType!.type.lexeme).to.equal('Number');
+        expect(param.variableType!.arrayDepth).to.equal(0);
+
+        expect(decl.returnType).to.be.null;
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses single param with type, single array depth', () => {
+      const program = parse(loadRaw(__dirname, './without-returns/single-param-with-type-single-array-depth.tek'));
+
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+
+        expect(decl.params.length).to.equal(1);
+
+        const param = decl.params[0];
+        expect(param.name.lexeme).to.equal('x');
+        expect(param.variableType).to.not.be.null;
+        expect(param.variableType!.type.lexeme).to.equal('Number');
+        expect(param.variableType!.arrayDepth).to.equal(1);
+
+        expect(decl.returnType).to.be.null;
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses single param with type, multi array depth', () => {
+      const program = parse(loadRaw(__dirname, './without-returns/single-param-with-type-multi-array-depth.tek'));
+
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+
+        expect(decl.params.length).to.equal(1);
+
+        const param = decl.params[0];
+        expect(param.name.lexeme).to.equal('x');
+        expect(param.variableType).to.not.be.null;
+        expect(param.variableType!.type.lexeme).to.equal('Number');
+        expect(param.variableType!.arrayDepth).to.equal(2);
+
+        expect(decl.returnType).to.be.null;
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses multi param without type', () => {
+      const program = parse(loadRaw(__dirname, './without-returns/multi-param-without-type.tek'));
+
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+
+        expect(decl.params.length).to.equal(2);
+
+        const firstParam = decl.params[0];
+        expect(firstParam.name.lexeme).to.equal('x');
+        expect(firstParam.variableType).to.be.null;
+
+        const secondParam = decl.params[1];
+        expect(secondParam.name.lexeme).to.equal('y');
+        expect(secondParam.variableType).to.be.null;
+
+        expect(decl.returnType).to.be.null;
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses multi param with type, no array depth', () => {
+      const program = parse(loadRaw(__dirname, './without-returns/multi-param-with-type-no-array-depth.tek'));
+
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+
+        expect(decl.params.length).to.equal(2);
+
+        const firstParam = decl.params[0];
+        expect(firstParam.name.lexeme).to.equal('x');
+        expect(firstParam.variableType).to.not.be.null;
+        expect(firstParam.variableType!.type.lexeme).to.equal('Number');
+        expect(firstParam.variableType!.arrayDepth).to.equal(0);
+
+        const secondParam = decl.params[1];
+        expect(secondParam.name.lexeme).to.equal('y');
+        expect(secondParam.variableType).to.not.be.null;
+        expect(secondParam.variableType!.type.lexeme).to.equal('String');
+        expect(secondParam.variableType!.arrayDepth).to.equal(0);
+
+        expect(decl.returnType).to.be.null;
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses multi param with type, single array depth', () => {
+      const program = parse(loadRaw(__dirname, './without-returns/multi-param-with-type-single-array-depth.tek'));
+
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+
+        expect(decl.params.length).to.equal(2);
+
+        const firstParam = decl.params[0];
+        expect(firstParam.name.lexeme).to.equal('x');
+        expect(firstParam.variableType).to.not.be.null;
+        expect(firstParam.variableType!.type.lexeme).to.equal('Number');
+        expect(firstParam.variableType!.arrayDepth).to.equal(1);
+
+        const secondParam = decl.params[1];
+        expect(secondParam.name.lexeme).to.equal('y');
+        expect(secondParam.variableType).to.not.be.null;
+        expect(secondParam.variableType!.type.lexeme).to.equal('String');
+        expect(secondParam.variableType!.arrayDepth).to.equal(1);
+
+        expect(decl.returnType).to.be.null;
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses multi param with type, multi array depth', () => {
+      const program = parse(loadRaw(__dirname, './without-returns/multi-param-with-type-multi-array-depth.tek'));
+
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+
+        expect(decl.params.length).to.equal(2);
+
+        const firstParam = decl.params[0];
+        expect(firstParam.name.lexeme).to.equal('x');
+        expect(firstParam.variableType).to.not.be.null;
+        expect(firstParam.variableType!.type.lexeme).to.equal('Number');
+        expect(firstParam.variableType!.arrayDepth).to.equal(2);
+
+        const secondParam = decl.params[1];
+        expect(secondParam.name.lexeme).to.equal('y');
+        expect(secondParam.variableType).to.not.be.null;
+        expect(secondParam.variableType!.type.lexeme).to.equal('String');
+        expect(secondParam.variableType!.arrayDepth).to.equal(2);
+
+        expect(decl.returnType).to.be.null;
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
   });
 
-  it('parses single param without type, without returns correctly', () => {
-    const program = parse(loadRaw(__dirname, './single-param-without-type-without-return.tek'));
+  describe('with returns', () => {
+    it('parses without params, no array depth', () => {
+      const program = parse(loadRaw(__dirname, './with-returns/no-array-depth.tek'));
 
-    function check(node: Node): void {
-      const decl = node as FunctionDeclaration;
-      expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
-      expect(decl).to.be.an.instanceof(FunctionDeclaration);
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
-      expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.params.length).to.equal(0);
 
-      expect(decl.params.length).to.equal(1);
+        expect(decl.returnType).to.not.be.null;
+        expect(decl.returnType!.type.lexeme).to.equal('Boolean');
+        expect(decl.returnType!.arrayDepth).to.equal(0);
 
-      const param = decl.params[0];
-      expect(param.name.lexeme).to.equal('x');
-      expect(param.variableType).to.be.null;
+        checkBody(decl.body);
+      }
 
-      expect(decl.returnType).to.be.null;
+      program.body.forEach(check);
+    });
 
-      checkBody(decl.body);
-    }
+    it('parses without params, single array depth', () => {
+      const program = parse(loadRaw(__dirname, './with-returns/single-array-depth.tek'));
 
-    program.body.forEach(check);
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.params.length).to.equal(0);
+
+        expect(decl.returnType).to.not.be.null;
+        expect(decl.returnType!.type.lexeme).to.equal('Boolean');
+        expect(decl.returnType!.arrayDepth).to.equal(1);
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses without params, multi array depth', () => {
+      const program = parse(loadRaw(__dirname, './with-returns/multi-array-depth.tek'));
+
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.params.length).to.equal(0);
+
+        expect(decl.returnType).to.not.be.null;
+        expect(decl.returnType!.type.lexeme).to.equal('Boolean');
+        expect(decl.returnType!.arrayDepth).to.equal(2);
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
   });
-
-  it('parses single param with type, without returns correctly');
-
-  it('parses multi param without type, without returns correctly', () => {
-    const program = parse(loadRaw(__dirname, './multi-param-without-type-without-return.tek'));
-
-    function check(node: Node): void {
-      const decl = node as FunctionDeclaration;
-      expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
-      expect(decl).to.be.an.instanceof(FunctionDeclaration);
-
-      expect(decl.identifier.lexeme).to.equal('foo');
-
-      expect(decl.params.length).to.equal(2);
-
-      const firstParam = decl.params[0];
-      expect(firstParam.name.lexeme).to.equal('x');
-      expect(firstParam.variableType).to.be.null;
-
-      const secondParam = decl.params[1];
-      expect(secondParam.name.lexeme).to.equal('y');
-      expect(secondParam.variableType).to.be.null;
-
-      expect(decl.returnType).to.be.null;
-
-      checkBody(decl.body);
-    }
-
-    program.body.forEach(check);
-  });
-
-  it('parses multi param with type, without returns correctly');
-
-  // with returns
-  it('parses without params, with returns correctly');
-
-  it('parses single param without type, with returns correctly');
-
-  it('parses single param with type, with returns correctly');
-
-  it('parses multi param without type, with returns correctly');
-
-  it('parses multi param with type, with returns correctly');
 });

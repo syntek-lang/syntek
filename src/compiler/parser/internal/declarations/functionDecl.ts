@@ -16,16 +16,20 @@ export function functionDecl(parser: Parser): Node {
 
   let returnType: VariableType = null;
   if (parser.peekIgnoreWhitespace().type === LexicalToken.RETURNS) {
+    parser.eatWhitespace();
     parser.advance();
 
     const type = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after returns');
-    let arrayDepth = 0;
 
+    let arrayDepth = 0;
     while (
-      parser.check(LexicalToken.LSQB, arrayDepth)
-        && parser.check(LexicalToken.RSQB, arrayDepth + 1)
+      parser.check(LexicalToken.LSQB)
+        && parser.check(LexicalToken.RSQB, 1)
     ) {
-      arrayDepth += 2;
+      arrayDepth += 1;
+
+      parser.advance();
+      parser.advance();
     }
 
     returnType = { type, arrayDepth };

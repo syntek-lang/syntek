@@ -1,0 +1,121 @@
+function foo(Number[][] x)
+	one
+	two
+
+function
+foo(Number[][] x)
+	one
+	two
+
+function
+	foo(Number[][] x)
+	one
+	two
+
+function
+		foo(Number[][] x)
+	one
+	two
+
+function foo
+(Number[][] x)
+	one
+	two
+
+function foo
+	(Number[][] x)
+	one
+	two
+
+function foo
+		(Number[][] x)
+	one
+	two
+
+function
+foo
+(Number[][] x)
+	one
+	two
+
+function
+	foo
+(Number[][] x)
+	one
+	two
+
+function
+		foo
+(Number[][] x)
+	one
+	two
+
+function
+foo
+	(Number[][] x)
+	one
+	two
+
+function
+foo
+		(Number[][] x)
+	one
+	two
+
+function
+	foo
+	(Number[][] x)
+	one
+	two
+
+function
+		foo
+		(Number[][] x)
+	one
+	two
+
+function foo(
+Number[][] x)
+	one
+	two
+
+function foo(
+Number[][] x
+)
+	one
+	two
+
+function foo(
+	Number[][] x
+)
+	one
+	two
+
+function foo(
+	Number[][] x
+	)
+	one
+	two
+
+function
+foo
+(
+Number[][] x
+)
+	one
+	two
+
+function
+foo
+(
+	Number[][] x
+)
+	one
+	two
+
+function
+foo
+(
+	Number[][] x)
+	one
+	two
