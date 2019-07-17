@@ -62,7 +62,12 @@ export function tokenize(input: string): {
         const char = line[colIndex];
 
         // Get the single char type, if any
-        const singleCharType = CHAR_TOKENS[char];
+        const singleCharType: LexicalToken | null = Object.prototype.hasOwnProperty.call(
+          CHAR_TOKENS,
+          char,
+        )
+          ? CHAR_TOKENS[char]
+          : null;
 
         // If it is a single char type add it to the tokens
         if (singleCharType) {
@@ -115,7 +120,12 @@ export function tokenize(input: string): {
 
             if (wordMatch) {
               let lexeme = wordMatch[0];
-              let type = WORD_TOKENS[lexeme] || LexicalToken.IDENTIFIER;
+              let type = LexicalToken.IDENTIFIER;
+
+              // Check if the lexeme is a word token
+              if (Object.prototype.hasOwnProperty.call(WORD_TOKENS, lexeme)) {
+                type = WORD_TOKENS[lexeme];
+              }
 
               // If 'less', 'greater', or 'than' is matched as a lexeme the line
               // did not include 'is' and is therefore incorrect
