@@ -1,0 +1,180 @@
+class MyClass
+	static x = y
+	static a = b
+
+class MyClass
+	static x =
+y
+	static a =
+b
+
+class MyClass
+	static x =
+	y
+	static a =
+	b
+
+class MyClass
+	static x =
+		y
+	static a =
+		b
+
+class MyClass
+	static x
+= y
+	static a
+= b
+
+class MyClass
+	static x
+	= y
+	static a
+	= b
+
+class MyClass
+	static x
+		= y
+	static a
+		= b
+
+class MyClass
+	static x
+=
+y
+	static a
+=
+b
+
+class MyClass
+	static x
+	=
+y
+	static a
+	=
+b
+
+class MyClass
+	static x
+		=
+y
+	static a
+		=
+b
+
+class MyClass
+	static x
+=
+	y
+	static a
+=
+	b
+
+class MyClass
+	static x
+=
+		y
+	static a
+=
+		b
+
+class MyClass
+	static x
+	=
+	y
+	static a
+	=
+	b
+
+class MyClass
+	static x
+		=
+		y
+	static a
+		=
+		b
+
+class MyClass
+	static
+x = y
+	static
+a = b
+
+class MyClass
+	static
+	x = y
+	static
+	a = b
+
+class MyClass
+	static
+		x = y
+	static
+		a = b
+
+class MyClass
+	static
+x
+=
+y
+	static
+a
+=
+b
+
+class MyClass
+	static
+	x
+	=
+	y
+	static
+	a
+	=
+	b
+
+class MyClass
+	static
+		x
+		=
+		y
+	static
+		a
+		=
+		b
+
+class
+MyClass
+	static x = y
+	static a = b
+
+class
+	MyClass
+	static x = y
+	static a = b
+
+class
+		MyClass
+	static x = y
+	static a = b
+
+class
+MyClass
+	static
+x
+=
+y
+	static
+a
+=
+b
+
+class
+		MyClass
+	static
+		x
+		=
+		y
+	static
+		a
+		=
+		b

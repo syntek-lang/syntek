@@ -3,6 +3,7 @@ import { Precedence } from './Precedence';
 import { Parser } from '..';
 
 // Declarations
+import { classDecl } from './internal/declarations/classDecl';
 import { functionDecl } from './internal/declarations/functionDecl';
 import { importDecl } from './internal/declarations/importDecl';
 
@@ -51,6 +52,7 @@ export interface ExpressionParseRule {
 }
 
 export const declarationRules: { [key: number]: ParsingHandler } = {
+  [LexicalToken.CLASS]: classDecl,
   [LexicalToken.FUNCTION]: functionDecl,
   [LexicalToken.IMPORT]: importDecl,
 };

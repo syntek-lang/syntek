@@ -1,0 +1,107 @@
+class MyClass
+	function x()
+		one
+		two
+
+class MyClass
+	function
+x()
+		one
+		two
+
+class MyClass
+	function
+	x()
+		one
+		two
+
+class MyClass
+	function
+		x()
+		one
+		two
+
+class MyClass
+	function x
+()
+		one
+		two
+
+class MyClass
+	function x
+	()
+		one
+		two
+
+class MyClass
+	function x
+		()
+		one
+		two
+
+class MyClass
+	function
+x
+()
+		one
+		two
+
+class MyClass
+	function
+	x
+	(
+	)
+		one
+		two
+
+class MyClass
+	function
+		x
+		(
+		)
+		one
+		two
+
+class MyClass
+	function
+			x
+			(
+			)
+		one
+		two
+
+class
+MyClass
+	function x()
+		one
+		two
+
+class
+	MyClass
+	function x()
+		one
+		two
+
+class
+		MyClass
+	function x()
+		one
+		two
+
+class
+MyClass
+	function
+x
+(
+)
+		one
+		two
+
+class
+		MyClass
+	function
+		x
+		(
+		)
+		one
+		two

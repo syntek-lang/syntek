@@ -1,5 +1,5 @@
 import {
-  Node, Token, SyntacticToken, TokenLocation, VariableType, FunctionParam,
+  Node, Token, SyntacticToken, TokenLocation, VariableType, FunctionParam, ClassProp,
 } from '..';
 
 export function isDeclaration(node: Node): boolean {
@@ -56,8 +56,23 @@ export class FunctionDeclaration extends Node {
 }
 
 export class ClassDeclaration extends Node {
-  constructor(location: TokenLocation) {
+  readonly identifer: Token;
+
+  readonly extends: Token[];
+
+  readonly body: ClassProp[];
+
+  constructor(
+    identifier: Token,
+    extend: Token[],
+    body: ClassProp[],
+    location: TokenLocation,
+  ) {
     super(SyntacticToken.CLASS_DECL, location);
+
+    this.identifer = identifier;
+    this.extends = extend;
+    this.body = body;
   }
 }
 

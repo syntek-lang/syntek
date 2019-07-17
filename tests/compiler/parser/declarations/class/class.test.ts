@@ -1,23 +1,278 @@
 import 'mocha';
+import { expect } from 'chai';
+
+import { parse, loadRaw } from '../../../../test-utils';
+
+import { Node } from '../../../../../src/grammar/Node';
+import { Identifier } from '../../../../../src/grammar/nodes/Expressions';
+import { SyntacticToken } from '../../../../../src/grammar/SyntacticToken';
+import { ExpressionStatement } from '../../../../../src/grammar/nodes/Statements';
+import { ClassDeclaration, VariableDeclaration, FunctionDeclaration } from '../../../../../src/grammar/nodes/Declarations';
+
+function checkIdentifier(node: Node, name: string): void {
+  expect(node.type).to.equal(SyntacticToken.IDENTIFIER);
+  expect(node).to.be.an.instanceof(Identifier);
+  expect((node as Identifier).identifier.lexeme).to.equal(name);
+}
+
+function checkBody(nodes: Node[]): void {
+  const names = ['one', 'two'];
+
+  expect(nodes.length).to.equal(names.length);
+
+  for (let i = 0; i < names.length; i += 1) {
+    const stmt = nodes[i] as ExpressionStatement;
+    expect(stmt.type).to.equal(SyntacticToken.EXPRESSION_STMT);
+    expect(stmt).to.be.an.instanceof(ExpressionStatement);
+
+    const expr = stmt.expression as Identifier;
+    expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
+    expect(expr).to.be.an.instanceof(Identifier);
+    expect(expr.identifier.lexeme).to.equal(names[i]);
+  }
+}
 
 describe('class', () => {
-  it('parses single var correctly');
+  it('parses single var correctly', () => {
+    const program = parse(loadRaw(__dirname, './single-var.tek'));
 
-  it('parses multi var correctly');
+    function check(node: Node): void {
+      const decl = node as ClassDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
+      expect(decl).to.be.an.instanceof(ClassDeclaration);
+      expect(decl.identifer.lexeme).to.equal('MyClass');
 
-  it('parses single static var correctly');
+      expect(decl.extends.length).to.equal(0);
+      expect(decl.body.length).to.equal(1);
 
-  it('parses multi static var correctly');
+      const prop = decl.body[0];
+      expect(prop.static).to.be.false;
 
-  it('parses single func correctly');
+      const value = prop.value as VariableDeclaration;
+      expect(value.type).to.equal(SyntacticToken.VARIABLE_DECL);
+      expect(value).to.be.an.instanceof(VariableDeclaration);
+      expect(value.variableType).to.be.null;
+      expect(value.identifier.lexeme).to.equal('x');
 
-  it('parses multi func correctly');
+      checkIdentifier(value.value, 'y');
+    }
 
-  it('parses single static func correctly');
+    program.body.forEach(check);
+  });
 
-  it('parses multi static func correctly');
+  it('parses multi var correctly', () => {
+    const program = parse(loadRaw(__dirname, './multi-var.tek'));
 
-  it('parses single extend correctly');
+    function check(node: Node): void {
+      const decl = node as ClassDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
+      expect(decl).to.be.an.instanceof(ClassDeclaration);
+      expect(decl.identifer.lexeme).to.equal('MyClass');
 
-  it('parses multi extend correctly');
+      expect(decl.extends.length).to.equal(0);
+      expect(decl.body.length).to.equal(2);
+
+      const firstProp = decl.body[0];
+      expect(firstProp.static).to.be.false;
+
+      const firstValue = firstProp.value as VariableDeclaration;
+      expect(firstValue.type).to.equal(SyntacticToken.VARIABLE_DECL);
+      expect(firstValue).to.be.an.instanceof(VariableDeclaration);
+      expect(firstValue.variableType).to.be.null;
+      expect(firstValue.identifier.lexeme).to.equal('x');
+
+      checkIdentifier(firstValue.value, 'y');
+
+      const secondProp = decl.body[1];
+      expect(secondProp.static).to.be.false;
+
+      const secondValue = secondProp.value as VariableDeclaration;
+      expect(secondValue.type).to.equal(SyntacticToken.VARIABLE_DECL);
+      expect(secondValue).to.be.an.instanceof(VariableDeclaration);
+      expect(secondValue.variableType).to.be.null;
+      expect(secondValue.identifier.lexeme).to.equal('a');
+
+      checkIdentifier(secondValue.value, 'b');
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses single static var correctly', () => {
+    const program = parse(loadRaw(__dirname, './single-static-var.tek'));
+
+    function check(node: Node): void {
+      const decl = node as ClassDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
+      expect(decl).to.be.an.instanceof(ClassDeclaration);
+      expect(decl.identifer.lexeme).to.equal('MyClass');
+
+      expect(decl.extends.length).to.equal(0);
+      expect(decl.body.length).to.equal(1);
+
+      const prop = decl.body[0];
+      expect(prop.static).to.be.true;
+
+      const value = prop.value as VariableDeclaration;
+      expect(value.type).to.equal(SyntacticToken.VARIABLE_DECL);
+      expect(value).to.be.an.instanceof(VariableDeclaration);
+      expect(value.variableType).to.be.null;
+      expect(value.identifier.lexeme).to.equal('x');
+
+      checkIdentifier(value.value, 'y');
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses multi static var correctly', () => {
+    const program = parse(loadRaw(__dirname, './multi-static-var.tek'));
+
+    function check(node: Node): void {
+      const decl = node as ClassDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
+      expect(decl).to.be.an.instanceof(ClassDeclaration);
+      expect(decl.identifer.lexeme).to.equal('MyClass');
+
+      expect(decl.extends.length).to.equal(0);
+      expect(decl.body.length).to.equal(2);
+
+      const firstProp = decl.body[0];
+      expect(firstProp.static).to.be.true;
+
+      const firstValue = firstProp.value as VariableDeclaration;
+      expect(firstValue.type).to.equal(SyntacticToken.VARIABLE_DECL);
+      expect(firstValue).to.be.an.instanceof(VariableDeclaration);
+      expect(firstValue.variableType).to.be.null;
+      expect(firstValue.identifier.lexeme).to.equal('x');
+
+      checkIdentifier(firstValue.value, 'y');
+
+      const secondProp = decl.body[1];
+      expect(secondProp.static).to.be.true;
+
+      const secondValue = secondProp.value as VariableDeclaration;
+      expect(secondValue.type).to.equal(SyntacticToken.VARIABLE_DECL);
+      expect(secondValue).to.be.an.instanceof(VariableDeclaration);
+      expect(secondValue.variableType).to.be.null;
+      expect(secondValue.identifier.lexeme).to.equal('a');
+
+      checkIdentifier(secondValue.value, 'b');
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses func correctly', () => {
+    const program = parse(loadRaw(__dirname, './func.tek'));
+
+    function check(node: Node): void {
+      const decl = node as ClassDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
+      expect(decl).to.be.an.instanceof(ClassDeclaration);
+      expect(decl.identifer.lexeme).to.equal('MyClass');
+
+      expect(decl.extends.length).to.equal(0);
+      expect(decl.body.length).to.equal(1);
+
+      const prop = decl.body[0];
+      expect(prop.static).to.be.false;
+
+      const value = prop.value as FunctionDeclaration;
+      expect(value.type).to.equal(SyntacticToken.FUNCTION_DECL);
+      expect(value).to.be.an.instanceof(FunctionDeclaration);
+      expect(value.identifier.lexeme).to.equal('x');
+      expect(value.params.length).to.equal(0);
+      expect(value.returnType).to.be.null;
+      checkBody(value.body);
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses static func correctly', () => {
+    const program = parse(loadRaw(__dirname, './static-func.tek'));
+
+    function check(node: Node): void {
+      const decl = node as ClassDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
+      expect(decl).to.be.an.instanceof(ClassDeclaration);
+      expect(decl.identifer.lexeme).to.equal('MyClass');
+
+      expect(decl.extends.length).to.equal(0);
+      expect(decl.body.length).to.equal(1);
+
+      const prop = decl.body[0];
+      expect(prop.static).to.be.true;
+
+      const value = prop.value as FunctionDeclaration;
+      expect(value.type).to.equal(SyntacticToken.FUNCTION_DECL);
+      expect(value).to.be.an.instanceof(FunctionDeclaration);
+      expect(value.identifier.lexeme).to.equal('x');
+      expect(value.params.length).to.equal(0);
+      expect(value.returnType).to.be.null;
+      checkBody(value.body);
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses single extend correctly', () => {
+    const program = parse(loadRaw(__dirname, './single-extend.tek'));
+
+    function check(node: Node): void {
+      const decl = node as ClassDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
+      expect(decl).to.be.an.instanceof(ClassDeclaration);
+      expect(decl.identifer.lexeme).to.equal('MyClass');
+
+      expect(decl.extends.length).to.equal(1);
+      expect(decl.extends[0].lexeme).to.equal('Object');
+
+      expect(decl.body.length).to.equal(1);
+
+      const prop = decl.body[0];
+      expect(prop.static).to.be.false;
+
+      const value = prop.value as VariableDeclaration;
+      expect(value.type).to.equal(SyntacticToken.VARIABLE_DECL);
+      expect(value).to.be.an.instanceof(VariableDeclaration);
+      expect(value.variableType).to.be.null;
+      expect(value.identifier.lexeme).to.equal('x');
+
+      checkIdentifier(value.value, 'y');
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses multi extend correctly', () => {
+    const program = parse(loadRaw(__dirname, './multi-extend.tek'));
+
+    function check(node: Node): void {
+      const decl = node as ClassDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
+      expect(decl).to.be.an.instanceof(ClassDeclaration);
+      expect(decl.identifer.lexeme).to.equal('MyClass');
+
+      expect(decl.extends.length).to.equal(2);
+      expect(decl.extends[0].lexeme).to.equal('Object');
+      expect(decl.extends[1].lexeme).to.equal('Other');
+
+      expect(decl.body.length).to.equal(1);
+
+      const prop = decl.body[0];
+      expect(prop.static).to.be.false;
+
+      const value = prop.value as VariableDeclaration;
+      expect(value.type).to.equal(SyntacticToken.VARIABLE_DECL);
+      expect(value).to.be.an.instanceof(VariableDeclaration);
+      expect(value.variableType).to.be.null;
+      expect(value.identifier.lexeme).to.equal('x');
+
+      checkIdentifier(value.value, 'y');
+    }
+
+    program.body.forEach(check);
+  });
 });

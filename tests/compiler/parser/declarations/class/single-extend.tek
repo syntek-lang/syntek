@@ -1,0 +1,66 @@
+class MyClass extends Object
+	x = y
+
+class
+MyClass extends Object
+	x = y
+
+class
+	MyClass extends Object
+	x = y
+
+class
+		MyClass extends Object
+	x = y
+
+class MyClass
+extends Object
+	x = y
+
+class MyClass
+	extends Object
+	x = y
+
+class MyClass
+		extends Object
+	x = y
+
+class MyClass extends
+Object
+	x = y
+
+class MyClass extends
+	Object
+	x = y
+
+class MyClass extends
+		Object
+	x = y
+
+class
+MyClass extends
+Object
+	x = y
+
+class
+	MyClass extends
+Object
+	x = y
+
+class
+MyClass
+extends
+Object
+	x = y
+
+class
+	MyClass
+extends
+	Object
+	x = y
+
+class
+		MyClass
+		extends
+		Object
+	x = y

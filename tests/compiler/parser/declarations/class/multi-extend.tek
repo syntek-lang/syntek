@@ -1,0 +1,137 @@
+class MyClass extends Object, Other
+	x = y
+
+class
+MyClass extends Object, Other
+	x = y
+
+class
+	MyClass extends Object, Other
+	x = y
+
+class
+		MyClass extends Object, Other
+	x = y
+
+class MyClass
+extends Object, Other
+	x = y
+
+class MyClass
+	extends Object, Other
+	x = y
+
+class MyClass
+		extends Object, Other
+	x = y
+
+class MyClass extends
+Object, Other
+	x = y
+
+class MyClass extends
+	Object, Other
+	x = y
+
+class MyClass extends
+		Object, Other
+	x = y
+
+class
+MyClass extends
+Object, Other
+	x = y
+
+class
+	MyClass extends
+Object, Other
+	x = y
+
+class
+MyClass
+extends
+Object, Other
+	x = y
+
+class
+	MyClass
+extends
+	Object, Other
+	x = y
+
+class
+		MyClass
+		extends
+		Object, Other
+	x = y
+
+class MyClass extends Object,
+Other
+	x = y
+
+class MyClass extends Object,
+	Other
+	x = y
+
+class MyClass extends Object,
+		Other
+	x = y
+
+class MyClass extends Object
+, Other
+	x = y
+
+class MyClass extends Object
+	, Other
+	x = y
+
+class MyClass extends Object
+		, Other
+	x = y
+
+class MyClass
+extends Object,
+Other
+	x = y
+
+class MyClass
+extends Object
+, Other
+	x = y
+
+class MyClass
+extends
+Object,
+Other
+	x = y
+
+class MyClass
+	extends
+	Object
+	,
+	Other
+	x = y
+
+class
+MyClass
+extends
+Object
+,
+Other
+	x = y
+
+class
+	MyClass
+	extends
+	Object
+	,
+	Other
+	x = y
+
+class
+		MyClass
+		extends
+		Object
+		,
+		Other
+	x = y
