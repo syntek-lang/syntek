@@ -45,8 +45,8 @@ export class Parser {
 
     return {
       ast: new Program(body, {
-        start: body[0].location.start,
-        end: body[body.length - 1].location.end,
+        start: body.length ? body[0].location.start : [0, 0],
+        end: body.length ? body[body.length - 1].location.end : [0, 0],
       }),
       errors: this.errors,
     };
