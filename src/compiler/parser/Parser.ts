@@ -12,10 +12,16 @@ import {
 import { variableDecl } from './internal/declarations/variableDecl';
 import { expressionStmt } from './internal/statements/expressionStmt';
 
+type UnexpectedTokens = { token: Token; message: string }[];
+
 export class Parser {
   private current = 0;
 
   private indent = 0;
+
+  private hasError = false;
+
+  private errors: UnexpectedTokens = [];
 
   private tokens: Token[];
 
@@ -23,17 +29,27 @@ export class Parser {
     this.tokens = tokens.filter(token => token.type !== LexicalToken.WHITESPACE);
   }
 
-  parse(): Program {
+  parse(): {
+    ast: Program;
+    errors: UnexpectedTokens;
+  } {
     const body: Node[] = [];
 
     while (!this.isAtEnd()) {
-      body.push(this.declaration());
+      try {
+        body.push(this.declaration());
+      } catch {
+        this.sync();
+      }
     }
 
-    return new Program(body, {
-      start: body[0].location.start,
-      end: body[body.length - 1].location.end,
-    });
+    return {
+      ast: new Program(body, {
+        start: body[0].location.start,
+        end: body[body.length - 1].location.end,
+      }),
+      errors: this.errors,
+    };
   }
 
   declaration(): Node {
@@ -76,8 +92,13 @@ export class Parser {
 
     const prefixFn = this.getRule(prefixToken.type).prefix;
     if (!prefixFn) {
-      // TODO: proper error handling
-      throw new Error('Expected expression');
+      if (this.hasError && this.previous().type === LexicalToken.OUTDENT) {
+        // When the program is already invalid, and an outdent token is invalid it is not reported
+        // This prevents error reports in the wrong places
+        throw new Error('Invalid outdent in error mode');
+      } else {
+        throw this.error(this.previous(), `Expected an expression, instead got "${this.previous().lexeme}"`);
+      }
     }
 
     let left: Node = prefixFn(this, prefixToken);
@@ -118,8 +139,7 @@ export class Parser {
       if (infixRule.infix) {
         left = infixRule.infix(this, left, infixToken);
       } else {
-        // TODO: proper error handling
-        throw new Error(`Unexpected token ${infixToken}`);
+        throw this.error(this.peek(), `Unexpected token ${infixToken}`);
       }
     }
 
@@ -176,9 +196,7 @@ export class Parser {
       return this.advance();
     }
 
-    // TODO: proper error handling
-    console.error(this.peek(), message);
-    throw new Error();
+    throw this.error(this.peek(), message);
   }
 
   match(...types: LexicalToken[]): boolean {
@@ -232,5 +250,35 @@ export class Parser {
 
   skip(amount: number): void {
     this.current += amount;
+  }
+
+  error(token: Token, message: string): Error {
+    this.hasError = true;
+    this.errors.push({ token, message });
+    return new Error(message);
+  }
+
+  sync(): void {
+    this.current -= 1;
+    this.indent = 0;
+
+    while (!this.isAtEnd()) {
+      switch (this.peek().type) {
+        case LexicalToken.FUNCTION:
+        case LexicalToken.CLASS:
+        case LexicalToken.IMPORT:
+        case LexicalToken.IF:
+        case LexicalToken.SWITCH:
+        case LexicalToken.FOR:
+        case LexicalToken.REPEAT:
+        case LexicalToken.WHILE:
+        case LexicalToken.TRY:
+        case LexicalToken.THROW:
+        case LexicalToken.RETURN:
+          return;
+        default:
+          this.advance();
+      }
+    }
   }
 }

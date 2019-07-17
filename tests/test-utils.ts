@@ -25,7 +25,17 @@ export function parse(code: string): Program {
   }
 
   const parser = new Parser(tokens.tokens);
-  return parser.parse();
+  const parsed = parser.parse();
+
+  if (parsed.errors.length) {
+    parsed.errors.forEach((error) => {
+      console.error(error.message, error.token);
+    });
+
+    process.exit(1);
+  }
+
+  return parsed.ast;
 }
 
 export function loadTestsInDir(base: string, path: string): void {

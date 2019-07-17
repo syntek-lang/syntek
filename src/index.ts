@@ -8,8 +8,8 @@ console.log(program);
 export const tokenResult = tokenize(program);
 console.log(tokenResult);
 
-export const ast = new Parser(tokenResult.tokens).parse();
-console.log(ast);
+export const parseResult = new Parser(tokenResult.tokens).parse();
+console.log(parseResult);
 
 export * from './compiler';
 export * from './grammar';

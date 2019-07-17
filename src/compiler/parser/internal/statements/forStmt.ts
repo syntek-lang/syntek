@@ -9,7 +9,7 @@ export function forStmt(parser: Parser): Node {
 
   const varDecl = checkVar(parser);
   if (!varDecl) {
-    throw new Error('Expected variable after for');
+    throw parser.error(parser.peek(), 'Expected variable after for');
   }
 
   skipVarSize(parser, varDecl);

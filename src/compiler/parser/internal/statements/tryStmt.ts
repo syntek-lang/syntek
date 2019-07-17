@@ -18,7 +18,7 @@ export function tryStmt(parser: Parser): Node {
 
   const varDecl = checkVar(parser);
   if (!varDecl) {
-    throw new Error('Expected variable after catch');
+    throw parser.error(parser.peek(), 'Expected variable after catch');
   }
 
   skipVarSize(parser, varDecl);

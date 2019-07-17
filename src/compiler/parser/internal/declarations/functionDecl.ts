@@ -23,7 +23,7 @@ export function functionDecl(parser: Parser): Node {
     returnType = checkType(parser);
 
     if (!returnType) {
-      throw new Error('Expected type after returns');
+      throw parser.error(parser.peek(), 'Expected type after returns');
     }
 
     parser.skip(returnType.arrayDepth * 2 + 1);
