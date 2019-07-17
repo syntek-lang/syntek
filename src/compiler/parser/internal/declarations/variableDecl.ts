@@ -7,6 +7,7 @@ export function variableDecl(parser: Parser, varDecl: VarDecl): Node {
   skipVarSize(parser, varDecl);
 
   // Equals
+  parser.eatWhitespace();
   parser.advance();
 
   parser.eatWhitespace();

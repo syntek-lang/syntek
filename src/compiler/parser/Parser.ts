@@ -39,11 +39,10 @@ export class Parser {
   declaration(): Node {
     const varDecl = checkVar(this);
 
-
     if (varDecl) {
       const equalOffset = varDecl.variableType ? varDecl.variableType.arrayDepth * 2 + 2 : 1;
 
-      if (this.check(LexicalToken.EQUAL, equalOffset)) {
+      if (this.peekIgnoreWhitespace(equalOffset).type === LexicalToken.EQUAL) {
         return variableDecl(this, varDecl);
       }
     }
@@ -221,14 +220,14 @@ export class Parser {
     return this.peek(-1);
   }
 
-  peekIgnoreWhitespace(): Token {
+  peekIgnoreWhitespace(offset = 0): Token {
     let whitespaceAmount = 0;
 
-    while (this.isWhitespace(this.peek(whitespaceAmount))) {
+    while (this.isWhitespace(this.peek(offset + whitespaceAmount))) {
       whitespaceAmount += 1;
     }
 
-    return this.peek(whitespaceAmount);
+    return this.peek(offset + whitespaceAmount);
   }
 
   skip(amount: number): void {
