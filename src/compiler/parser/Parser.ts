@@ -2,15 +2,15 @@ import {
   Node, Token, LexicalToken, Program,
 } from '../../grammar';
 
+import { checkVar } from './ParseUtils';
+import { Precedence } from './Precedence';
 import {
-  ParseUtils, VarDeclReport,
-  Precedence,
-  ExpressionParseRule,
   declarationRules, expressionRules, statementRules,
-} from '..';
+  ExpressionParseRule,
+} from './ParseRules';
 
-import { expressionStmt } from './internal/statements/expressionStmt';
 import { variableDecl } from './internal/declarations/variableDecl';
+import { expressionStmt } from './internal/statements/expressionStmt';
 
 export class Parser {
   private current = 0;
@@ -37,10 +37,15 @@ export class Parser {
   }
 
   declaration(): Node {
-    const varDeclReport: VarDeclReport = ParseUtils.checkVarDecl(this);
+    const varDecl = checkVar(this);
 
-    if (varDeclReport.match) {
-      return variableDecl(this, varDeclReport);
+
+    if (varDecl) {
+      const equalOffset = varDecl.variableType ? varDecl.variableType.arrayDepth * 2 + 2 : 1;
+
+      if (this.check(LexicalToken.EQUAL, equalOffset)) {
+        return variableDecl(this, varDecl);
+      }
     }
 
     const handler = declarationRules[this.peek().type];
@@ -224,5 +229,9 @@ export class Parser {
     }
 
     return this.peek(whitespaceAmount);
+  }
+
+  skip(amount: number): void {
+    this.current += amount;
   }
 }

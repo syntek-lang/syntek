@@ -1,5 +1,6 @@
 import { Node, Token, LexicalToken } from '../../grammar';
-import { Parser, Precedence } from '..';
+import { Precedence } from './Precedence';
+import { Parser } from '..';
 
 // Declarations
 import { functionDecl } from './internal/declarations/functionDecl';

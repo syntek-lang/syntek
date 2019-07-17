@@ -1,6 +1,7 @@
 import { Node, LexicalToken, TryStatement } from '../../../../grammar';
 
-import { Parser, ParseUtils } from '../../..';
+import { Parser } from '../../..';
+import { checkVar, skipVarSize } from '../../ParseUtils';
 
 export function tryStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
@@ -15,8 +16,12 @@ export function tryStmt(parser: Parser): Node {
   parser.consume(LexicalToken.CATCH, 'Expected catch after try block');
   parser.eatWhitespace();
 
-  const typeDeclReport = ParseUtils.matchTypeDecl(parser);
-  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after catch');
+  const varDecl = checkVar(parser);
+  if (!varDecl) {
+    throw new Error('Expected variable after catch');
+  }
+
+  skipVarSize(parser, varDecl);
 
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after catch');
   parser.syncIndentation();
@@ -30,8 +35,8 @@ export function tryStmt(parser: Parser): Node {
 
   return new TryStatement(
     tryBody,
-    identifier,
-    typeDeclReport.variableType,
+    varDecl.identifier,
+    varDecl.variableType,
     catchBody,
     {
       start,

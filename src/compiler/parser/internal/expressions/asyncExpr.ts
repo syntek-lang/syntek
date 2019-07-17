@@ -1,6 +1,7 @@
 import { Node, Token, AsyncExpression } from '../../../../grammar';
 
-import { Parser, Precedence } from '../../..';
+import { Parser } from '../../..';
+import { Precedence } from '../../Precedence';
 
 export function asyncExpr(parser: Parser, operator: Token): Node {
   parser.eatWhitespace();

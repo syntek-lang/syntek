@@ -4,195 +4,109 @@ import {
 
 import { Parser } from '..';
 
-export interface TypeDeclReport {
-  match: boolean;
-  variableType: VariableType;
+export interface VarDecl {
+  variableType: VariableType | null;
+  identifier: Token;
 }
 
-export interface VarDeclReport extends TypeDeclReport {
-  identifier: Token | null;
-}
-
-export class ParseUtils {
-  static matchExpressionList(parser: Parser, closingToken: LexicalToken): Node[] {
-    const params: Node[] = [];
-
-    parser.eatWhitespace();
-
-    while (!parser.match(closingToken)) {
-      params.push(parser.expression());
-      parser.eatWhitespace();
-
-      if (parser.peek().type !== closingToken) {
-        parser.consume(LexicalToken.COMMA, 'Expected ","');
-        parser.eatWhitespace();
-      }
-    }
-
-    return params;
+export function checkType(parser: Parser): VariableType | null {
+  if (!parser.check(LexicalToken.IDENTIFIER)) {
+    return null;
   }
 
-  static matchTypeDecl(parser: Parser): TypeDeclReport {
-    if (!parser.check(LexicalToken.IDENTIFIER)) {
-      return {
-        match: false,
-        variableType: null,
-      };
+  let offset = 1;
+  while (parser.check(LexicalToken.LSQB, offset)) {
+    if (!parser.check(LexicalToken.RSQB, offset + 1)) {
+      return null;
     }
 
-    // Number x
-    if (parser.check(LexicalToken.IDENTIFIER, 1)) {
-      return {
-        match: true,
-        variableType: {
-          type: parser.advance(),
-          arrayDepth: 0,
-        },
-      };
-    }
+    offset += 2;
+  }
 
-    // Number[] x
-    // Number[][] x
-    // Number[][][] x
-    let offset = 1;
-    while (parser.check(LexicalToken.LSQB, offset) && parser.check(LexicalToken.RSQB, offset + 1)) {
-      offset += 2;
-    }
+  return {
+    type: parser.peek(),
+    arrayDepth: (offset - 1) / 2,
+  };
+}
 
-    if (parser.check(LexicalToken.IDENTIFIER, offset)) {
-      const type = parser.advance();
-      const arrayDepth = (offset - 1) / 2;
+export function checkVar(parser: Parser): VarDecl | null {
+  if (!parser.check(LexicalToken.IDENTIFIER)) {
+    return null;
+  }
 
-      for (let i = 0; i < arrayDepth; i += 1) {
-        parser.advance();
-        parser.advance();
-      }
+  const typeDecl = checkType(parser);
+  if (!typeDecl) {
+    return null;
+  }
 
-      return {
-        match: true,
-        variableType: {
-          type,
-          arrayDepth,
-        },
-      };
-    }
-
+  const offset = typeDecl.arrayDepth * 2 + 1;
+  if (parser.check(LexicalToken.IDENTIFIER, offset)) {
     return {
-      match: false,
-      variableType: null,
+      variableType: {
+        type: typeDecl.type,
+        arrayDepth: typeDecl.arrayDepth,
+      },
+      identifier: parser.peek(offset),
     };
   }
 
-  static matchFunctionParams(parser: Parser): FunctionParam[] {
-    const params: FunctionParam[] = [];
+  return {
+    variableType: null,
+    identifier: parser.peek(),
+  };
+}
+
+export function skipVarSize(parser: Parser, varDecl: VarDecl): void {
+  if (varDecl.variableType) {
+    parser.skip(varDecl.variableType.arrayDepth * 2 + 2);
+  } else {
+    parser.skip(1);
+  }
+}
+
+export function matchFunctionParams(parser: Parser): FunctionParam[] {
+  const params: FunctionParam[] = [];
+  parser.eatWhitespace();
+
+  while (!parser.match(LexicalToken.RPAR)) {
+    let typeDecl: VariableType | null = null;
+
+    if (parser.check(LexicalToken.LSQB, 1) || parser.check(LexicalToken.IDENTIFIER, 1)) {
+      // Number[] x
+      typeDecl = checkType(parser);
+      if (!typeDecl) {
+        throw new Error('Expected type');
+      }
+
+      parser.skip(typeDecl.arrayDepth * 2 + 1);
+    }
+
+    const name = parser.consume(LexicalToken.IDENTIFIER, 'Expected param name');
+    params.push({ name, variableType: typeDecl });
 
     parser.eatWhitespace();
-
-    while (!parser.match(LexicalToken.RPAR)) {
-      let variableType: VariableType = null;
-
-      if (parser.peek(1).type === LexicalToken.LSQB) {
-        // Number[] x
-        const type = parser.consume(LexicalToken.IDENTIFIER, 'Expected type');
-        const arrayDepth = ParseUtils.getArrayDepth(parser);
-
-        for (let i = 0; i < arrayDepth; i += 1) {
-          parser.advance();
-          parser.advance();
-        }
-
-        variableType = { type, arrayDepth };
-      } else if (parser.peek(1).type === LexicalToken.IDENTIFIER) {
-        // Number x
-        const type = parser.consume(LexicalToken.IDENTIFIER, 'Expected type');
-        variableType = { type, arrayDepth: 0 };
-      }
-
-      const name = parser.consume(LexicalToken.IDENTIFIER, 'Expected param name');
-      params.push({
-        name,
-        variableType,
-      });
-
+    if (parser.peek().type !== LexicalToken.RPAR) {
+      parser.consume(LexicalToken.COMMA, 'Expected ","');
       parser.eatWhitespace();
-
-      if (parser.peek().type !== LexicalToken.RPAR) {
-        parser.consume(LexicalToken.COMMA, 'Expected ","');
-        parser.eatWhitespace();
-      }
     }
-
-    return params;
   }
 
-  static checkVarDecl(parser: Parser): VarDeclReport {
-    // Variable declarations always start with an identifier
-    if (!parser.check(LexicalToken.IDENTIFIER)) {
-      return {
-        match: false,
-        identifier: null,
-        variableType: null,
-      };
+  return params;
+}
+
+export function matchExpressionList(parser: Parser, closingToken: LexicalToken): Node[] {
+  const expressions: Node[] = [];
+  parser.eatWhitespace();
+
+  while (!parser.match(closingToken)) {
+    expressions.push(parser.expression());
+    parser.eatWhitespace();
+
+    if (!parser.check(closingToken)) {
+      parser.consume(LexicalToken.COMMA, 'Expected ","');
+      parser.eatWhitespace();
     }
-
-    // x = ...
-    if (parser.check(LexicalToken.EQUAL, 1)) {
-      return {
-        match: true,
-        identifier: parser.peek(),
-        variableType: null,
-      };
-    }
-
-    // Number x = ...
-    if (parser.check(LexicalToken.IDENTIFIER, 1) && parser.check(LexicalToken.EQUAL, 2)) {
-      return {
-        match: true,
-        identifier: parser.peek(1),
-        variableType: {
-          type: parser.peek(),
-          arrayDepth: 0,
-        },
-      };
-    }
-
-    // Number[] x = ...
-    // Number[][] x = ...
-    // Number[][][] x = ...
-    const offset = 1;
-    const arrayDepth = ParseUtils.getArrayDepth(parser, offset);
-
-    if (
-      parser.check(LexicalToken.IDENTIFIER, offset + arrayDepth * 2)
-        && parser.check(LexicalToken.EQUAL, offset + arrayDepth * 2 + 1)
-    ) {
-      return {
-        match: true,
-        identifier: parser.peek(offset),
-        variableType: {
-          type: parser.peek(),
-          arrayDepth,
-        },
-      };
-    }
-
-    return {
-      match: false,
-      identifier: null,
-      variableType: null,
-    };
   }
 
-  static getArrayDepth(parser: Parser, offset = 0): number {
-    let i = 0;
-
-    while (
-      parser.check(LexicalToken.LSQB, i + offset)
-        && parser.check(LexicalToken.RSQB, i + offset + 1)
-    ) {
-      i += 2;
-    }
-
-    return i / 2;
-  }
+  return expressions;
 }

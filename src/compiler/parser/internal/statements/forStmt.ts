@@ -1,13 +1,18 @@
 import { Node, LexicalToken, ForStatement } from '../../../../grammar';
 
-import { Parser, ParseUtils } from '../../..';
+import { Parser } from '../../..';
+import { checkVar, skipVarSize } from '../../ParseUtils';
 
 export function forStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
   parser.eatWhitespace();
 
-  const typeDeclReport = ParseUtils.matchTypeDecl(parser);
-  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after for');
+  const varDecl = checkVar(parser);
+  if (!varDecl) {
+    throw new Error('Expected variable after for');
+  }
+
+  skipVarSize(parser, varDecl);
 
   parser.eatWhitespace();
   parser.consume(LexicalToken.IN, 'Expected "in" after identifier');
@@ -25,8 +30,8 @@ export function forStmt(parser: Parser): Node {
   }
 
   return new ForStatement(
-    identifier,
-    typeDeclReport.variableType,
+    varDecl.identifier,
+    varDecl.variableType,
     object,
     body,
     {

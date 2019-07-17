@@ -2,12 +2,13 @@ import {
   Node, Token, LexicalToken, ArrayExpression,
 } from '../../../../grammar';
 
-import { Parser, ParseUtils } from '../../..';
+import { Parser } from '../../..';
+import { matchExpressionList } from '../../ParseUtils';
 
 export function arrayExpr(parser: Parser, prefix: Token): Node {
   const start = prefix.location.start;
 
-  const content = ParseUtils.matchExpressionList(parser, LexicalToken.RSQB);
+  const content = matchExpressionList(parser, LexicalToken.RSQB);
   return new ArrayExpression(content, {
     start,
     end: parser.previous().location.end,

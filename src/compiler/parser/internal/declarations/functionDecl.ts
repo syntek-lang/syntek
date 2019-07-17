@@ -1,8 +1,9 @@
 import {
-  Node, LexicalToken, VariableType, FunctionDeclaration,
+  Node, LexicalToken, FunctionDeclaration, VariableType,
 } from '../../../../grammar';
 
-import { Parser, ParseUtils } from '../../..';
+import { Parser } from '../../..';
+import { checkType, matchFunctionParams } from '../../ParseUtils';
 
 export function functionDecl(parser: Parser): Node {
   const start = parser.previous().location.start;
@@ -12,27 +13,20 @@ export function functionDecl(parser: Parser): Node {
   parser.eatWhitespace();
 
   parser.consume(LexicalToken.LPAR, 'Expected "(" after function name');
-  const params = ParseUtils.matchFunctionParams(parser);
+  const params = matchFunctionParams(parser);
 
-  let returnType: VariableType = null;
+  let returnType: VariableType | null = null;
   if (parser.peekIgnoreWhitespace().type === LexicalToken.RETURNS) {
     parser.eatWhitespace();
     parser.advance();
 
-    const type = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after returns');
+    returnType = checkType(parser);
 
-    let arrayDepth = 0;
-    while (
-      parser.check(LexicalToken.LSQB)
-        && parser.check(LexicalToken.RSQB, 1)
-    ) {
-      arrayDepth += 1;
-
-      parser.advance();
-      parser.advance();
+    if (!returnType) {
+      throw new Error('Expected type after returns');
     }
 
-    returnType = { type, arrayDepth };
+    parser.skip(returnType.arrayDepth * 2 + 1);
   }
 
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after function signature');

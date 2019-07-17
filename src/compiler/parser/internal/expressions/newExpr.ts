@@ -2,7 +2,10 @@ import {
   Node, Token, LexicalToken, NewExpression,
 } from '../../../../grammar';
 
-import { Parser, ParseUtils, Precedence } from '../../..';
+import { Parser } from '../../..';
+import { Precedence } from '../../Precedence';
+import { matchExpressionList } from '../../ParseUtils';
+
 import { memberExpr } from './memberExpr';
 
 export function newExpr(parser: Parser, prefix: Token): Node {
@@ -18,7 +21,7 @@ export function newExpr(parser: Parser, prefix: Token): Node {
 
   parser.eatWhitespace();
   parser.consume(LexicalToken.LPAR, 'Expected "("');
-  const params = ParseUtils.matchExpressionList(parser, LexicalToken.RPAR);
+  const params = matchExpressionList(parser, LexicalToken.RPAR);
 
   return new NewExpression(object, params, {
     start,

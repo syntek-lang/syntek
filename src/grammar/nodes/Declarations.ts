@@ -12,13 +12,13 @@ export function isDeclaration(node: Node): boolean {
 export class VariableDeclaration extends Node {
   readonly identifier: Token;
 
-  readonly variableType: VariableType;
+  readonly variableType: VariableType | null;
 
   readonly value: Node;
 
   constructor(
     identifier: Token,
-    variableType: VariableType,
+    variableType: VariableType | null,
     value: Node,
     location: TokenLocation,
   ) {
@@ -35,14 +35,14 @@ export class FunctionDeclaration extends Node {
 
   readonly params: FunctionParam[];
 
-  readonly returnType: VariableType;
+  readonly returnType: VariableType | null;
 
   readonly body: Node[];
 
   constructor(
     identifier: Token,
     params: FunctionParam[],
-    returnType: VariableType,
+    returnType: VariableType | null,
     body: Node[],
     location: TokenLocation,
   ) {

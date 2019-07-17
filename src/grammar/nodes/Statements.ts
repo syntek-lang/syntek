@@ -61,7 +61,7 @@ export class SwitchStatement extends Node {
 export class ForStatement extends Node {
   readonly identifier: Token;
 
-  readonly variableType: VariableType
+  readonly variableType: VariableType | null;
 
   readonly object: Node;
 
@@ -69,7 +69,7 @@ export class ForStatement extends Node {
 
   constructor(
     identifier: Token,
-    variableType: VariableType,
+    variableType: VariableType | null,
     object: Node,
     body: Node[],
     location: TokenLocation,
@@ -114,14 +114,14 @@ export class TryStatement extends Node {
 
   readonly identifier: Token;
 
-  readonly variableType: VariableType;
+  readonly variableType: VariableType | null;
 
   readonly catchBody: Node[];
 
   constructor(
     tryBody: Node[],
     identifier: Token,
-    variableType: VariableType,
+    variableType: VariableType | null,
     catchBody: Node[],
     location: TokenLocation,
   ) {
