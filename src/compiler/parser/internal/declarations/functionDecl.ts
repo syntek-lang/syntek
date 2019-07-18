@@ -3,7 +3,7 @@ import {
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
-import { checkType, matchFunctionParams } from '../../ParseUtils';
+import { checkType, matchFunctionParams } from '../../parse-utils';
 
 export function functionDecl(parser: Parser): Node {
   const start = parser.previous().location.start;

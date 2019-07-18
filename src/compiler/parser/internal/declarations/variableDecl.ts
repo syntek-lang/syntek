@@ -1,7 +1,7 @@
 import { Node, LexicalToken, VariableDeclaration } from '../../../../grammar';
 
 import { Parser } from '../../..';
-import { VarDecl, skipVarSize } from '../../ParseUtils';
+import { VarDecl, skipVarSize } from '../../parse-utils';
 
 export function variableDecl(parser: Parser, varDecl: VarDecl): Node {
   skipVarSize(parser, varDecl);

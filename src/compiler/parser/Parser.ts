@@ -2,12 +2,12 @@ import {
   Node, Token, LexicalToken, Program,
 } from '../../grammar';
 
-import { checkVar } from './ParseUtils';
+import { checkVar } from './parse-utils';
 import { Precedence } from './Precedence';
 import {
   declarationRules, expressionRules, statementRules,
   ExpressionParseRule,
-} from './ParseRules';
+} from './parse-rules';
 
 import { variableDecl } from './internal/declarations/variableDecl';
 import { expressionStmt } from './internal/statements/expressionStmt';

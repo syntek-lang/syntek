@@ -1,7 +1,7 @@
 import { Node, LexicalToken, CallExpression } from '../../../../grammar';
 
 import { Parser } from '../../..';
-import { matchExpressionList } from '../../ParseUtils';
+import { matchExpressionList } from '../../parse-utils';
 
 export function callExpr(parser: Parser, left: Node): Node {
   parser.eatWhitespace();

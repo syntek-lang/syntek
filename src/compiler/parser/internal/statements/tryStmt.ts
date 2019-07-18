@@ -1,7 +1,7 @@
 import { Node, LexicalToken, TryStatement } from '../../../../grammar';
 
 import { Parser } from '../../..';
-import { checkVar, skipVarSize } from '../../ParseUtils';
+import { checkVar, skipVarSize } from '../../parse-utils';
 
 export function tryStmt(parser: Parser): Node {
   const start = parser.previous().location.start;

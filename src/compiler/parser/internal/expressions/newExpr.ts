@@ -4,7 +4,7 @@ import {
 
 import { Parser } from '../../..';
 import { Precedence } from '../../Precedence';
-import { matchExpressionList } from '../../ParseUtils';
+import { matchExpressionList } from '../../parse-utils';
 
 import { memberExpr } from './memberExpr';
 
