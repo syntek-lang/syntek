@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-
 import { join } from 'path';
 import { readFileSync, readdirSync, lstatSync } from 'fs';
 
@@ -41,6 +39,7 @@ export function parse(code: string): Program {
 export function loadTestsInDir(base: string, path: string): void {
   const fullPath = join(base, path);
 
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   readdirSync(fullPath)
     .filter(file => file.endsWith('.ts') || file.endsWith('.js'))
     .map(file => join(fullPath, file))

@@ -20,4 +20,7 @@ describe('parser', () => {
     getDirsFrom(__dirname, './literals')
       .forEach(dir => loadTestsInDir(__dirname, dir));
   });
+
+  // Remaining tests
+  loadTestsInDir(__dirname, '.');
 });
