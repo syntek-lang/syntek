@@ -25,7 +25,7 @@ export function ifStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
   parser.eatWhitespace();
 
-  const condition = parser.expression();
+  const condition = parser.expression('Expected expression after "if"');
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after if');
 
   parser.syncIndentation();

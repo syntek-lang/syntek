@@ -18,7 +18,7 @@ export function forStmt(parser: Parser): Node {
   parser.consume(LexicalToken.IN, 'Expected "in" after identifier');
 
   parser.eatWhitespace();
-  const object = parser.expression();
+  const object = parser.expression('Expected expression after "in"');
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after for statement');
 
   parser.syncIndentation();

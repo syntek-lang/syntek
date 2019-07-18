@@ -6,7 +6,7 @@ export function repeatStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
   parser.eatWhitespace();
 
-  const amount = parser.expression();
+  const amount = parser.expression('Expected expression after "repeat"');
   parser.eatWhitespace();
 
   parser.consume(LexicalToken.TIMES, 'Expected "times" after repeat');

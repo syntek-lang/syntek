@@ -6,7 +6,7 @@ export function whileStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
   parser.eatWhitespace();
 
-  const condition = parser.expression();
+  const condition = parser.expression('Expected expression after "while"');
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after while');
 
   parser.syncIndentation();

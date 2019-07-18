@@ -83,11 +83,11 @@ export class Parser {
     return expressionStmt(this);
   }
 
-  expression(): Node {
-    return this.parsePrecedence(Precedence.OP2);
+  expression(message?: string): Node {
+    return this.parsePrecedence(Precedence.OP2, message);
   }
 
-  parsePrecedence(precedence: Precedence): Node {
+  parsePrecedence(precedence: Precedence, message?: string): Node {
     const prefixToken = this.advance();
 
     const prefixFn = this.getRule(prefixToken.type).prefix;
@@ -97,7 +97,7 @@ export class Parser {
         // This prevents error reports in the wrong places
         throw new Error('Invalid outdent in error mode');
       } else {
-        throw this.error(this.previous(), `Expected an expression, instead got "${this.previous().lexeme}"`);
+        throw this.error(this.previous(), message || `Expected a declaration, expression, or statement. Instead got "${this.previous().lexeme}"`);
       }
     }
 

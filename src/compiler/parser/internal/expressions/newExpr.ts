@@ -12,7 +12,7 @@ export function newExpr(parser: Parser, prefix: Token): Node {
   const start = prefix.location.start;
   parser.eatWhitespace();
 
-  let object = parser.parsePrecedence(Precedence.OP12);
+  let object = parser.parsePrecedence(Precedence.OP12, 'Expected expression after "new"');
   parser.eatWhitespace();
 
   while (parser.match(LexicalToken.DOT)) {

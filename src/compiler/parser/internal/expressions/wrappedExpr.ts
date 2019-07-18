@@ -8,7 +8,7 @@ export function wrappedExpr(parser: Parser, prefix: Token): Node {
   const start = prefix.location.start;
   parser.eatWhitespace();
 
-  const expr = parser.expression();
+  const expr = parser.expression('Expected expression after "("');
   parser.eatWhitespace();
 
   parser.consume(LexicalToken.RPAR, 'Expected ")" after expression.');

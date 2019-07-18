@@ -6,7 +6,7 @@ export function instanceofExpr(parser: Parser, left: Node, operator: Token): Nod
   parser.eatWhitespace();
 
   const rule = parser.getRule(operator.type);
-  const right = parser.parsePrecedence(rule.precedence + 1);
+  const right = parser.parsePrecedence(rule.precedence + 1, 'Expected expression after "instanceof"');
 
   return new InstanceofExpression(left, right, {
     start: left.location.start,

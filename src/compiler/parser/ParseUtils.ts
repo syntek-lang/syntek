@@ -99,7 +99,7 @@ export function matchExpressionList(parser: Parser, closingToken: LexicalToken):
   parser.eatWhitespace();
 
   while (!parser.match(closingToken)) {
-    expressions.push(parser.expression());
+    expressions.push(parser.expression('Expected list of expressions'));
     parser.eatWhitespace();
 
     if (!parser.check(closingToken)) {

@@ -5,7 +5,7 @@ import { Parser } from '../../..';
 export function throwStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
 
-  const expression = parser.expression();
+  const expression = parser.expression('Expected expression after "throw"');
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after throw statement');
 
   parser.syncIndentation();

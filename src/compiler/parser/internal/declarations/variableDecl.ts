@@ -11,7 +11,7 @@ export function variableDecl(parser: Parser, varDecl: VarDecl): Node {
   parser.advance();
 
   parser.eatWhitespace();
-  const expr = parser.expression();
+  const expr = parser.expression('Expected expression after "="');
   parser.consume(LexicalToken.NEWLINE, 'Expected newline after variable declaration');
 
   parser.syncIndentation();

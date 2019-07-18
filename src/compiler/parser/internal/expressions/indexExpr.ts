@@ -4,7 +4,7 @@ import { Parser } from '../../..';
 
 export function indexExpr(parser: Parser, left: Node): Node {
   parser.eatWhitespace();
-  const expr = parser.expression();
+  const expr = parser.expression('Expected expression after "["');
 
   parser.eatWhitespace();
   parser.consume(LexicalToken.RSQB, 'Expected "]"');
