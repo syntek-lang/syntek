@@ -10,7 +10,7 @@ export interface VarDecl {
 }
 
 export function checkType(parser: Parser): VariableType | null {
-  if (!parser.check(LexicalToken.IDENTIFIER)) {
+  if (!parser.check(LexicalToken.IDENTIFIER) && !parser.check(LexicalToken.ANY)) {
     return null;
   }
 
@@ -30,10 +30,6 @@ export function checkType(parser: Parser): VariableType | null {
 }
 
 export function checkVar(parser: Parser): VarDecl | null {
-  if (!parser.check(LexicalToken.IDENTIFIER)) {
-    return null;
-  }
-
   const typeDecl = checkType(parser);
   if (!typeDecl) {
     return null;
