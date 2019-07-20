@@ -22,5 +22,5 @@ describe('parser', () => {
   });
 
   // Remaining tests
-  loadTestsInDir(__dirname, '.');
+  loadTestsInDir(__dirname, './other');
 });

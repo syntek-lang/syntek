@@ -1,10 +1,10 @@
 import 'mocha';
 import { expect } from 'chai';
 
-import { parse } from '../../test-utils';
+import { parse } from '../../../test-utils';
 
-import { Program } from '../../../src/grammar/nodes/Other';
-import { SyntacticToken } from '../../../src/grammar/SyntacticToken';
+import { Program } from '../../../../src/grammar/nodes/Other';
+import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 
 describe('program', () => {
   it('works when empty', () => {
