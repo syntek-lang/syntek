@@ -124,15 +124,7 @@ export class Tokenizer {
             colIndex += this.matchWord(wordMatch, remainingChars, lineIndex, colIndex);
           } else {
             // Unexpected character
-            this.errors.push({
-              string: char,
-              loc: {
-                start: [lineIndex, colIndex],
-                end: [lineIndex, colIndex + 1],
-              },
-            });
-
-            colIndex += 1;
+            colIndex += this.error(char, lineIndex, colIndex);
           }
         }
       }
@@ -218,15 +210,7 @@ export class Tokenizer {
     // If 'less', 'greater', or 'than' is matched as a lexeme the line
     // did not include 'is' and is therefore incorrect
     if (lexeme === 'less' || lexeme === 'greater' || lexeme === 'than') {
-      this.errors.push({
-        string: lexeme, // TODO: Improve error message
-        loc: {
-          start: [lineIndex, colIndex],
-          end: [lineIndex, colIndex + lexeme.length],
-        },
-      });
-
-      return lexeme.length;
+      return this.error(lexeme, lineIndex, colIndex);
     }
 
     if (wordMatch[0] === 'is') {
@@ -255,5 +239,17 @@ export class Tokenizer {
     }));
 
     return lexeme.length;
+  }
+
+  private error(chars: string, lineIndex: number, colIndex: number): number {
+    this.errors.push({
+      string: chars,
+      loc: {
+        start: [lineIndex, colIndex],
+        end: [lineIndex, colIndex + chars.length],
+      },
+    });
+
+    return chars.length;
   }
 }
