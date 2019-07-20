@@ -1,2 +1,2 @@
-export * from './parser/tokenizer';
+export * from './parser/Tokenizer';
 export * from './parser/Parser';

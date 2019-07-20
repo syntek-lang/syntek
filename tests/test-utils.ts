@@ -2,7 +2,8 @@ import { join } from 'path';
 import { readFileSync, readdirSync, lstatSync } from 'fs';
 
 import { Program } from '../src/grammar/nodes/Other';
-import { tokenize } from '../src/compiler/parser/tokenizer';
+
+import { Tokenizer } from '../src/compiler/parser/Tokenizer';
 import { Parser } from '../src/compiler/parser/Parser';
 
 export function loadRaw(base: string, path: string): string {
@@ -12,7 +13,8 @@ export function loadRaw(base: string, path: string): string {
 }
 
 export function parse(code: string): Program {
-  const tokens = tokenize(code);
+  const tokenizer = new Tokenizer(code);
+  const tokens = tokenizer.tokenize();
 
   if (tokens.errors.length) {
     tokens.errors.forEach((token) => {
