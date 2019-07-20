@@ -6,7 +6,7 @@ import { Precedence } from '../../Precedence';
 export function unaryExpr(parser: Parser, operator: Token): Node {
   parser.eatWhitespace();
 
-  const right = parser.parsePrecedence(Precedence.OP10, `Expected expression after "${operator.lexeme}"`);
+  const right = parser.parsePrecedence(Precedence.OP10, 'expr.unary.expression_after_operator');
 
   return new UnaryExpression(operator, right, {
     start: operator.location.start,

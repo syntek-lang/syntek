@@ -12,7 +12,7 @@ export function newExpr(parser: Parser, prefix: Token): Node {
   const start = prefix.location.start;
   parser.eatWhitespace();
 
-  let object = parser.parsePrecedence(Precedence.OP12, 'Expected expression after "new"');
+  let object = parser.parsePrecedence(Precedence.OP12, 'expr.new.expression_after_new');
   parser.eatWhitespace();
 
   while (parser.match(LexicalToken.DOT)) {
@@ -20,7 +20,7 @@ export function newExpr(parser: Parser, prefix: Token): Node {
   }
 
   parser.eatWhitespace();
-  parser.consume(LexicalToken.LPAR, 'Expected "("');
+  parser.consume(LexicalToken.LPAR, 'expr.new.lpar_after_class');
   const params = matchExpressionList(parser, LexicalToken.RPAR);
 
   return new NewExpression(object, params, {

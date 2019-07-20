@@ -39,7 +39,7 @@ export function parse(code: string): Program {
 
   if (parsed.errors.length) {
     parsed.errors.forEach((error) => {
-      console.error(error.message, error.token);
+      console.error(messages.parse(error.key, { lexeme: error.token.lexeme }));
     });
 
     process.exit(1);

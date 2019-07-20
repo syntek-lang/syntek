@@ -12,7 +12,7 @@ import {
 import { variableDecl } from './internal/declarations/variableDecl';
 import { expressionStmt } from './internal/statements/expressionStmt';
 
-type UnexpectedTokens = { token: Token; message: string }[];
+type UnexpectedTokens = { key: string; token: Token }[];
 
 export class Parser {
   private current = 0;
@@ -83,11 +83,11 @@ export class Parser {
     return expressionStmt(this);
   }
 
-  expression(message?: string): Node {
-    return this.parsePrecedence(Precedence.OP2, message);
+  expression(errorKey?: string): Node {
+    return this.parsePrecedence(Precedence.OP2, errorKey);
   }
 
-  parsePrecedence(precedence: Precedence, message?: string): Node {
+  parsePrecedence(precedence: Precedence, errorKey?: string): Node {
     const prefixToken = this.advance();
 
     const prefixFn = this.getRule(prefixToken.type).prefix;
@@ -97,7 +97,7 @@ export class Parser {
         // This prevents error reports in the wrong places
         throw new Error('Invalid outdent in error mode');
       } else {
-        throw this.error(this.previous(), message || `Expected a declaration, expression, or statement. Instead got "${this.previous().lexeme}"`);
+        throw this.error(this.previous(), errorKey || 'expected_decl_expr_stmt');
       }
     }
 
@@ -139,7 +139,7 @@ export class Parser {
       if (infixRule.infix) {
         left = infixRule.infix(this, left, infixToken);
       } else {
-        throw this.error(this.peek(), `Unexpected token ${infixToken}`);
+        throw this.error(this.peek(), 'unexpected_token');
       }
     }
 
@@ -191,12 +191,12 @@ export class Parser {
     }
   }
 
-  consume(type: LexicalToken, message: string): Token {
+  consume(type: LexicalToken, errorKey: string): Token {
     if (this.check(type)) {
       return this.advance();
     }
 
-    throw this.error(this.peek(), message);
+    throw this.error(this.peek(), errorKey);
   }
 
   match(...types: LexicalToken[]): boolean {
@@ -252,10 +252,13 @@ export class Parser {
     this.current += amount;
   }
 
-  error(token: Token, message: string): Error {
+  error(token: Token, key: string): Error {
     this.hasError = true;
-    this.errors.push({ token, message });
-    return new Error(message);
+    this.errors.push({
+      key: `compiler.parser.${key}`,
+      token,
+    });
+    return new Error(key);
   }
 
   sync(): void {

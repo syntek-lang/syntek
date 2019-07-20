@@ -3,3 +3,70 @@ compiler:
     unexpected_token: "Unexpected token '{{ lexeme }}'."
     than_after_is: "'{{ lexeme }}' must come after 'is less' or 'is greater'. Make sure it's on the same line."
     less_greater_after_is: "'{{ lexeme }}' must come after 'is'. Make sure it's on the same line."
+
+  parser:
+    expected_decl_expr_stmt: "Expected a declaration, expression, or statement, but instead got '{{ lexeme }}'"
+    unexpected_token: "Unexpected token '{{ lexeme }}'"
+
+    decl:
+      class:
+        identifier_after_class: "Expected an identifier after 'class', but instead got '{{ lexeme }}'"
+        identifier_after_extends: "Expected an identifier after 'extends', but instead got '{{ lexeme }}'"
+        newline_after_class_signature: "Expected a newline after the class signature, but instead got '{{ lexeme }}'"
+        indent_after_class_signature: "Expected an indent after the class signature, but instead got '{{ lexeme }}'"
+
+      function:
+        identifier_after_function: "Expected an identifier after 'function', but instead got '{{ lexeme }}'"
+        lpar_after_function_name: "Expected '(' after the function name, but instead got '{{ lexeme }}'"
+        type_after_returns: "Expected a type after 'returns', but instead got '{{ lexeme }}'"
+        newline_after_function_signature: "Expected a newline after the function signature, but instead got '{{ lexeme }}'"
+        indent_after_function_signature: "Expected an indent after the function signature, but instead got '{{ lexeme }}'"
+
+      import:
+        identifier_after_as: "Expected an identifier after 'as', but instead got '{{ lexeme }}'"
+        source_after_import: "Expected an identifier or string after 'import', but instead got '{{ lexeme }}'"
+        as_after_import: "Importing a file must always be followed with 'as', but instead got '{{ lexeme }}'"
+        newline_after_import_decl: "Expected a newline after the import declaration, but instead got '{{ lexeme }}'"
+
+      variable:
+        expression_after_equal: "Expected an expression after '=', but instead got '{{ lexeme }}'"
+        newline_after_variable_decl: "Expected a newline after the variable declaration, but instead got '{{ lexeme }}'"
+
+    expr:
+      # array: null
+
+      assignment:
+        expression_after_equal: "Expected an expression after '=', but instead got '{{ lexeme }}'"
+
+      async:
+        expression_after_async: "Expected an expression after 'async', but instead got '{{ lexeme }}'"
+
+      binary:
+        expression_after_operator: "Expected an expression after '{{ operator }}', but instead got '{{ lexeme }}'"
+
+      # call: null
+
+      index:
+        expression_after_lsqb: "Expected an expression after '[', but instead got '{{ lexeme }}'"
+        rsqb_after_expression: "Expected ']' after the expression, but instead got '{{ lexeme }}'"
+
+      instanceof:
+        expression_after_instanceof: "Expected an expression after 'instanceof', but instead got '{{ lexeme }}'"
+
+      member:
+        identifier_super_after_dot: "Expected an identifier or 'super' after '.', but instead got '{{ lexeme }}'"
+
+      new:
+        expression_after_new: "Expected an expression after 'new', but instead got '{{ lexeme }}'"
+        lpar_after_class: "Expected '(' after the class name, but instead got '{{ lexeme }}'"
+
+      object:
+        newline_indent_after_lbrace: "Expected a newline and indent after '{', but instead got '{{ lexeme }}'"
+        rbrace_after_outdent: "Expected '}' at the end of object, but instead got '{{ lexeme }}'"
+
+      unary:
+        expression_after_operator: "Expected an expression after '{{ operator }}', but instead got '{{ lexeme }}'"
+
+      wrapped:
+        expression_after_lpar: "Expected an expression after '(', but instead got '{{ lexeme }}'"
+        rpar_after_expression: "Expected ')' after expression, but instead got '{{ lexeme }}'"

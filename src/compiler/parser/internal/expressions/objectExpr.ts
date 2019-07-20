@@ -12,14 +12,14 @@ export function objectExpr(parser: Parser, prefix: Token): Node {
     parser.eatWhitespace();
     parser.advance();
   } else {
-    parser.consume(LexicalToken.NEWLINE, 'Expected newline after "{"');
-    parser.consume(LexicalToken.INDENT, 'Expected indent after "{"');
+    parser.consume(LexicalToken.NEWLINE, 'expr.object.newline_indent_after_lbrace');
+    parser.consume(LexicalToken.INDENT, 'expr.object.newline_indent_after_lbrace');
 
     while (!parser.match(LexicalToken.OUTDENT)) {
       props.push(parser.declaration());
     }
 
-    parser.consume(LexicalToken.RBRACE, 'Expected after outdent');
+    parser.consume(LexicalToken.RBRACE, 'expr.object.rbrace_after_outdent');
   }
 
   return new ObjectExpression(props, {

@@ -8,7 +8,7 @@ export function classDecl(parser: Parser): Node {
   const start = parser.previous().location.start;
   parser.eatWhitespace();
 
-  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after "class"');
+  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'decl.class.identifier_after_class');
 
   const extend: Token[] = [];
   if (parser.peekIgnoreWhitespace().type === LexicalToken.EXTENDS) {
@@ -17,7 +17,7 @@ export function classDecl(parser: Parser): Node {
 
     do {
       parser.eatWhitespace();
-      extend.push(parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after extends'));
+      extend.push(parser.consume(LexicalToken.IDENTIFIER, 'decl.class.identifier_after_extends'));
 
       if (parser.peekIgnoreWhitespace().type === LexicalToken.COMMA) {
         parser.eatWhitespace();
@@ -25,9 +25,9 @@ export function classDecl(parser: Parser): Node {
     } while (parser.match(LexicalToken.COMMA));
   }
 
-  parser.consume(LexicalToken.NEWLINE, 'Expected newline after class declaration');
+  parser.consume(LexicalToken.NEWLINE, 'decl.class.newline_after_class_signature');
   parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, 'Expected indent after class declaration');
+  parser.consume(LexicalToken.INDENT, 'decl.class.indent_after_class_signature');
 
   const body: ClassProp[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {

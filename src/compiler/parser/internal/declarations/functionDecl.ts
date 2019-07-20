@@ -9,10 +9,10 @@ export function functionDecl(parser: Parser): Node {
   const start = parser.previous().location.start;
   parser.eatWhitespace();
 
-  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after function keyword');
+  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'decl.function.identifier_after_function');
   parser.eatWhitespace();
 
-  parser.consume(LexicalToken.LPAR, 'Expected "(" after function name');
+  parser.consume(LexicalToken.LPAR, 'decl.function.lpar_after_function_name');
   const params = matchFunctionParams(parser);
 
   let returnType: VariableType | null = null;
@@ -23,15 +23,15 @@ export function functionDecl(parser: Parser): Node {
     returnType = checkType(parser);
 
     if (!returnType) {
-      throw parser.error(parser.peek(), 'Expected type after returns');
+      throw parser.error(parser.peek(), 'decl.function.type_after_returns');
     }
 
     parser.skip(returnType.arrayDepth * 2 + 1);
   }
 
-  parser.consume(LexicalToken.NEWLINE, 'Expected newline after function signature');
+  parser.consume(LexicalToken.NEWLINE, 'decl.function.newline_after_function_signature');
   parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, 'Expected indent after function signature');
+  parser.consume(LexicalToken.INDENT, 'decl.function.indent_after_function_signature');
 
   const body: Node[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {

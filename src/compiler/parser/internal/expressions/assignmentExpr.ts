@@ -4,7 +4,7 @@ import { Parser } from '../../..';
 
 export function assignmentExpr(parser: Parser, left: Node): Node {
   parser.eatWhitespace();
-  const value = parser.expression('Expected expression after "="');
+  const value = parser.expression('expr.assignment.expression_after_equal');
 
   return new AssignmentExpression(left, value, {
     start: left.location.start,
