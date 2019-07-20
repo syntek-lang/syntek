@@ -1,7 +1,12 @@
 import { Tokenizer, Parser } from './compiler';
 
+import messages from './i18n/messages.yaml';
+import { YamlHandler } from './i18n/YamlHandler';
+
 // import program from '../tests/syntek/programs/fizzbuzz.tek';
 import program from './dev.tek';
+
+export const yaml = new YamlHandler(messages);
 
 console.log(program);
 

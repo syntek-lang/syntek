@@ -5,6 +5,8 @@ import { Program } from '../src/grammar/nodes/Other';
 
 import { Tokenizer } from '../src/compiler/parser/Tokenizer';
 import { Parser } from '../src/compiler/parser/Parser';
+import { YamlHandler } from '../src/i18n/YamlHandler';
+import { Token } from '../src/grammar/Token';
 
 export function loadRaw(base: string, path: string): string {
   const fullPath = join(base, path);
@@ -12,19 +14,27 @@ export function loadRaw(base: string, path: string): string {
   return content.toString();
 }
 
-export function parse(code: string): Program {
-  const tokenizer = new Tokenizer(code);
-  const tokens = tokenizer.tokenize();
+const messages = new YamlHandler(loadRaw(__dirname, '../src/i18n/messages.yaml'));
 
-  if (tokens.errors.length) {
-    tokens.errors.forEach((token) => {
-      console.error(`Unexpected token "${token.string}" at ${token.loc.start.join(':')}-${token.loc.end.join(':')}`);
+export function tokenize(code: string): Token[] {
+  const tokenizer = new Tokenizer(code);
+  const result = tokenizer.tokenize();
+
+  if (result.errors.length) {
+    result.errors.forEach((error) => {
+      console.error(messages.parse(error.key, { lexeme: error.lexeme }));
     });
 
     process.exit(1);
   }
 
-  const parser = new Parser(tokens.tokens);
+  return result.tokens;
+}
+
+export function parse(code: string): Program {
+  const tokens = tokenize(code);
+
+  const parser = new Parser(tokens);
   const parsed = parser.parse();
 
   if (parsed.errors.length) {

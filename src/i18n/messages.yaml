@@ -1,0 +1,5 @@
+compiler:
+  tokenizer:
+    unexpected_token: "Unexpected token '{{ lexeme }}'."
+    than_after_is: "'{{ lexeme }}' must come after 'is less' or 'is greater'. Make sure it's on the same line."
+    less_greater_after_is: "'{{ lexeme }}' must come after 'is'. Make sure it's on the same line."

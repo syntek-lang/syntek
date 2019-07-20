@@ -3,7 +3,7 @@ import {
   CHAR_TOKENS, WORD_TOKENS,
 } from '../../grammar';
 
-type UnexpectedTokens = { string: string; loc: TokenLocation }[];
+type UnexpectedTokens = { key: string; lexeme: string; loc: TokenLocation }[];
 
 export class Tokenizer {
   private readonly lines: string[];
@@ -123,8 +123,8 @@ export class Tokenizer {
           if (wordMatch) {
             colIndex += this.matchWord(wordMatch, remainingChars, lineIndex, colIndex);
           } else {
-            // Unexpected character
-            colIndex += this.error(char, lineIndex, colIndex);
+            // Unexpected token
+            colIndex += this.error('unexpected_token', char, lineIndex, colIndex);
           }
         }
       }
@@ -210,7 +210,14 @@ export class Tokenizer {
     // If 'less', 'greater', or 'than' is matched as a lexeme the line
     // did not include 'is' and is therefore incorrect
     if (lexeme === 'less' || lexeme === 'greater' || lexeme === 'than') {
-      return this.error(lexeme, lineIndex, colIndex);
+      return this.error(
+        lexeme === 'than'
+          ? 'than_after_is'
+          : 'less_greater_after_is',
+        lexeme,
+        lineIndex,
+        colIndex,
+      );
     }
 
     if (wordMatch[0] === 'is') {
@@ -241,15 +248,16 @@ export class Tokenizer {
     return lexeme.length;
   }
 
-  private error(chars: string, lineIndex: number, colIndex: number): number {
+  private error(key: string, lexeme: string, lineIndex: number, colIndex: number): number {
     this.errors.push({
-      string: chars,
+      key: `compiler.tokenizer.${key}`,
+      lexeme,
       loc: {
         start: [lineIndex, colIndex],
-        end: [lineIndex, colIndex + chars.length],
+        end: [lineIndex, colIndex + lexeme.length],
       },
     });
 
-    return chars.length;
+    return lexeme.length;
   }
 }
