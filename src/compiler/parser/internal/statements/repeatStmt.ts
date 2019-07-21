@@ -6,14 +6,14 @@ export function repeatStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
   parser.eatWhitespace();
 
-  const amount = parser.expression('Expected expression after "repeat"');
+  const amount = parser.expression('stmt.repeat.expression_after_repeat');
   parser.eatWhitespace();
 
-  parser.consume(LexicalToken.TIMES, 'Expected "times" after repeat');
-  parser.consume(LexicalToken.NEWLINE, 'Expected newline after times');
+  parser.consume(LexicalToken.TIMES, 'stmt.repeat.times_after_expression');
+  parser.consume(LexicalToken.NEWLINE, 'stmt.repeat.newline_indent_after_times');
 
   parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, 'Expected indent after times');
+  parser.consume(LexicalToken.INDENT, 'stmt.repeat.newline_indent_after_times');
 
   const body: Node[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {

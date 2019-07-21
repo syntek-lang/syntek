@@ -7,8 +7,8 @@ import { Parser } from '../../..';
 function elseStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
 
-  parser.consume(LexicalToken.NEWLINE, 'Expected newline after else');
-  parser.consume(LexicalToken.INDENT, 'Expected indent after else');
+  parser.consume(LexicalToken.NEWLINE, 'stmt.if.newline_indent_after_else');
+  parser.consume(LexicalToken.INDENT, 'stmt.if.newline_indent_after_else');
 
   const body: Node[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {
@@ -25,11 +25,11 @@ export function ifStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
   parser.eatWhitespace();
 
-  const condition = parser.expression('Expected expression after "if"');
-  parser.consume(LexicalToken.NEWLINE, 'Expected newline after if');
+  const condition = parser.expression('stmt.if.expression_after_if');
+  parser.consume(LexicalToken.NEWLINE, 'stmt.if.newline_indent_after_if_stmt');
 
   parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, 'Expected indent after if');
+  parser.consume(LexicalToken.INDENT, 'stmt.if.newline_indent_after_if_stmt');
 
   const body: Node[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {

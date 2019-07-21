@@ -12,15 +12,13 @@ compiler:
       class:
         identifier_after_class: "Expected an identifier after 'class', but instead got '{{ lexeme }}'"
         identifier_after_extends: "Expected an identifier after 'extends', but instead got '{{ lexeme }}'"
-        newline_after_class_signature: "Expected a newline after the class signature, but instead got '{{ lexeme }}'"
-        indent_after_class_signature: "Expected an indent after the class signature, but instead got '{{ lexeme }}'"
+        newline_indent_after_class_signature: "Expected a newline and indent after the class signature, but instead got '{{ lexeme }}'"
 
       function:
         identifier_after_function: "Expected an identifier after 'function', but instead got '{{ lexeme }}'"
         lpar_after_function_name: "Expected '(' after the function name, but instead got '{{ lexeme }}'"
         type_after_returns: "Expected a type after 'returns', but instead got '{{ lexeme }}'"
-        newline_after_function_signature: "Expected a newline after the function signature, but instead got '{{ lexeme }}'"
-        indent_after_function_signature: "Expected an indent after the function signature, but instead got '{{ lexeme }}'"
+        newline_indent_after_function_signature: "Expected a newline and indent after the function signature, but instead got '{{ lexeme }}'"
 
       import:
         identifier_after_as: "Expected an identifier after 'as', but instead got '{{ lexeme }}'"
@@ -70,3 +68,57 @@ compiler:
       wrapped:
         expression_after_lpar: "Expected an expression after '(', but instead got '{{ lexeme }}'"
         rpar_after_expression: "Expected ')' after expression, but instead got '{{ lexeme }}'"
+
+    stmt:
+      break:
+        newline_after_break: "Expected a newline after 'break', but instead got '{{ lexeme }}'"
+
+      continue:
+        newline_after_continue: "Expectd a newline after 'continue', but instead got '{{ lexeme }}'"
+
+      expression:
+        newline_after_expression: "Expected a newline after the expression, but instead got '{{ lexeme }}'"
+
+      fallthrough:
+        newline_after_fallthrough: "Expected a newline after 'fallthrough', but instead got '{{ lexeme }}'"
+
+      for:
+        variable_after_for: "Expected a variable after 'for', but instead got '{{ lexeme }}'"
+        in_after_variable: "Expected 'in' after the variable, but instead got '{{ lexeme }}'"
+        expression_after_in: "Expected an expression after 'in', but instead got '{{ lexeme }}'"
+        newline_indent_after_for_stmt: "Expected a newline and indent after the for statement, but instead got '{{ lexeme }}'"
+
+      if:
+        expression_after_if: "Expected an expression after 'if', but instead got '{{ lexeme }}'"
+        newline_indent_after_if_stmt: "Expected a newline and indent after the if statement, but instead got '{{ lexeme }}'"
+        newline_indent_after_else: "Expected a newline and indent after 'else', but instead got '{{ lexeme }}'"
+
+      repeat:
+        expression_after_repeat: "Expected an expression after 'repeat', but instead got '{{ lexeme }}'"
+        times_after_expression: "Expected 'times' after the expression, but instead got '{{ lexeme }}'"
+        newline_indent_after_times: "Expected a newline and indent after 'times', but instead got '{{ lexeme }}'"
+
+      return:
+        newline_expression_after_return: "Expected a newline or an expression after 'return', but instead got '{{ lexeme }}'"
+        newline_after_return_stmt: "Expected a newline after the return statement, but instead got '{{ lexeme }}'"
+
+      switch:
+        expression_after_switch: "Expected an expression after 'switch', but instead got '{{ lexeme }}'"
+        newline_indent_after_switch: "Expected a newline and indent after the switch statement, but instead got '{{ lexeme }}'"
+        expected_case: "Expected 'case', but instead got '{{ lexeme }}'"
+        expression_list_after_case: "Expected a list of expressions after 'case', but instead got '{{ lexeme }}'"
+        newline_indent_after_case: "Expected a newline and indent after the switch case, but instead got '{{ lexeme }}'"
+
+      throw:
+        expression_after_throw: "Expected an expression after 'throw', but instead got '{{ lexeme }}'"
+        newline_after_throw_stmt: "Expected a newline after the throw statement, but instead got '{{ lexeme }}'"
+
+      try:
+        newline_indent_after_try: "Expected a newline and indent after 'try', but instead got '{{ lexeme }}'"
+        catch_after_try_block: "Expected 'catch' after the try block, but instead got '{{ lexeme }}'"
+        variable_after_catch: "Expected a variable after 'catch', but instead got '{{ lexeme }}'"
+        newline_indent_after_catch: "Expected a newline and indent after 'catch', but instead got '{{ lexeme }}'"
+
+      while:
+        expression_after_while: "Expected an expression after 'while', but instead got '{{ lexeme }}'"
+        newline_indent_after_while_stmt: "Expected a newline and indent after the while statement, but instead got '{{ lexeme }}'"

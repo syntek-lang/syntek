@@ -29,9 +29,9 @@ export function functionDecl(parser: Parser): Node {
     parser.skip(returnType.arrayDepth * 2 + 1);
   }
 
-  parser.consume(LexicalToken.NEWLINE, 'decl.function.newline_after_function_signature');
+  parser.consume(LexicalToken.NEWLINE, 'decl.function.newline_indent_after_function_signature');
   parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, 'decl.function.indent_after_function_signature');
+  parser.consume(LexicalToken.INDENT, 'decl.function.newline_indent_after_function_signature');
 
   const body: Node[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {

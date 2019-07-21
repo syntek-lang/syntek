@@ -4,7 +4,7 @@ import { Parser } from '../../..';
 
 export function expressionStmt(parser: Parser): Node {
   const expr = parser.expression();
-  parser.consume(LexicalToken.NEWLINE, 'Expected newline after expression');
+  parser.consume(LexicalToken.NEWLINE, 'stmt.expression.newline_after_expression');
 
   parser.syncIndentation();
 

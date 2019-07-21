@@ -6,11 +6,11 @@ export function whileStmt(parser: Parser): Node {
   const start = parser.previous().location.start;
   parser.eatWhitespace();
 
-  const condition = parser.expression('Expected expression after "while"');
-  parser.consume(LexicalToken.NEWLINE, 'Expected newline after while');
+  const condition = parser.expression('stmt.while.expression_after_while"');
 
+  parser.consume(LexicalToken.NEWLINE, 'stmt.while.newline_indent_after_while_stmt');
   parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, 'Expected indent after while');
+  parser.consume(LexicalToken.INDENT, 'stmt.while.newline_indent_after_while_stmt');
 
   const body: Node[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {

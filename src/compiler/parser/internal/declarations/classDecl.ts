@@ -25,9 +25,9 @@ export function classDecl(parser: Parser): Node {
     } while (parser.match(LexicalToken.COMMA));
   }
 
-  parser.consume(LexicalToken.NEWLINE, 'decl.class.newline_after_class_signature');
+  parser.consume(LexicalToken.NEWLINE, 'decl.class.newline_indent_after_class_signature');
   parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, 'decl.class.indent_after_class_signature');
+  parser.consume(LexicalToken.INDENT, 'decl.class.newline_indent_after_class_signature');
 
   const body: ClassProp[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {

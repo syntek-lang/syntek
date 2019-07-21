@@ -7,8 +7,8 @@ export function returnStmt(parser: Parser): Node {
 
   let expression: Node | null = null;
   if (!parser.match(LexicalToken.NEWLINE)) {
-    expression = parser.expression('Expected expression or newline after "return"');
-    parser.consume(LexicalToken.NEWLINE, 'Expected newline after return statement');
+    expression = parser.expression('stmt.return.newline_expression_after_return');
+    parser.consume(LexicalToken.NEWLINE, 'stmt.return.newline_after_return_stmt');
   }
 
   parser.syncIndentation();

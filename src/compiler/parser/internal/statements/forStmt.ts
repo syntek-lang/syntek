@@ -9,20 +9,20 @@ export function forStmt(parser: Parser): Node {
 
   const varDecl = checkVar(parser);
   if (!varDecl) {
-    throw parser.error(parser.peek(), 'Expected variable after for');
+    throw parser.error(parser.peek(), 'stmt.for.variable_after_for');
   }
 
   skipVarSize(parser, varDecl);
 
   parser.eatWhitespace();
-  parser.consume(LexicalToken.IN, 'Expected "in" after identifier');
+  parser.consume(LexicalToken.IN, 'stmt.for.in_after_variable');
 
   parser.eatWhitespace();
-  const object = parser.expression('Expected expression after "in"');
-  parser.consume(LexicalToken.NEWLINE, 'Expected newline after for statement');
+  const object = parser.expression('stmt.for.expression_after_in');
+  parser.consume(LexicalToken.NEWLINE, 'stmt.for.newline_indent_after_for_stmt');
 
   parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, 'Expected indent after for statement');
+  parser.consume(LexicalToken.INDENT, 'stmt.for.newline_indent_after_for_stmt');
 
   const body: Node[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {
