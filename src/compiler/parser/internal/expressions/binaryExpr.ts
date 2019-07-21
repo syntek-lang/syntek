@@ -3,6 +3,7 @@ import {
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 
 export function binaryExpr(parser: Parser, left: Node, operator: Token): Node {
   parser.eatWhitespace();
@@ -16,8 +17,5 @@ export function binaryExpr(parser: Parser, left: Node, operator: Token): Node {
     'expr.binary.expression_after_operator',
   );
 
-  return new BinaryExpression(left, operator, right, {
-    start: left.location.start,
-    end: right.location.end,
-  });
+  return new BinaryExpression(left, operator, right, new Span(left.span.start, right.span.end));
 }

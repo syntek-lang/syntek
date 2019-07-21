@@ -1,6 +1,8 @@
 import {
-  Node, Token, SyntacticToken, TokenLocation, SwitchCase, VariableType,
+  Node, Token, SyntacticToken, SwitchCase, VariableType,
 } from '..';
+
+import { Span } from '../../position';
 
 export function isStatement(node: Node): boolean {
   return node.type === SyntacticToken.IF_STMT
@@ -26,8 +28,8 @@ export class IfStatement extends Node {
 
   readonly elseClause: Node | null;
 
-  constructor(condition: Node, body: Node[], elseClause: Node | null, location: TokenLocation) {
-    super(SyntacticToken.IF_STMT, location);
+  constructor(condition: Node, body: Node[], elseClause: Node | null, span: Span) {
+    super(SyntacticToken.IF_STMT, span);
 
     this.condition = condition;
     this.body = body;
@@ -38,8 +40,8 @@ export class IfStatement extends Node {
 export class ElseStatement extends Node {
   readonly body: Node[];
 
-  constructor(body: Node[], location: TokenLocation) {
-    super(SyntacticToken.ELSE_STMT, location);
+  constructor(body: Node[], span: Span) {
+    super(SyntacticToken.ELSE_STMT, span);
 
     this.body = body;
   }
@@ -50,8 +52,8 @@ export class SwitchStatement extends Node {
 
   readonly cases: SwitchCase[];
 
-  constructor(expression: Node, cases: SwitchCase[], location: TokenLocation) {
-    super(SyntacticToken.SWITCH_STMT, location);
+  constructor(expression: Node, cases: SwitchCase[], span: Span) {
+    super(SyntacticToken.SWITCH_STMT, span);
 
     this.expression = expression;
     this.cases = cases;
@@ -72,9 +74,9 @@ export class ForStatement extends Node {
     variableType: VariableType | null,
     object: Node,
     body: Node[],
-    location: TokenLocation,
+    span: Span,
   ) {
-    super(SyntacticToken.FOR_STMT, location);
+    super(SyntacticToken.FOR_STMT, span);
 
     this.identifier = identifier;
     this.variableType = variableType;
@@ -88,8 +90,8 @@ export class RepeatStatement extends Node {
 
   readonly body: Node[];
 
-  constructor(amount: Node, body: Node[], location: TokenLocation) {
-    super(SyntacticToken.REPEAT_STMT, location);
+  constructor(amount: Node, body: Node[], span: Span) {
+    super(SyntacticToken.REPEAT_STMT, span);
 
     this.amount = amount;
     this.body = body;
@@ -101,8 +103,8 @@ export class WhileStatement extends Node {
 
   readonly body: Node[];
 
-  constructor(condition: Node, body: Node[], location: TokenLocation) {
-    super(SyntacticToken.WHILE_STMT, location);
+  constructor(condition: Node, body: Node[], span: Span) {
+    super(SyntacticToken.WHILE_STMT, span);
 
     this.condition = condition;
     this.body = body;
@@ -123,9 +125,9 @@ export class TryStatement extends Node {
     identifier: Token,
     variableType: VariableType | null,
     catchBody: Node[],
-    location: TokenLocation,
+    span: Span,
   ) {
-    super(SyntacticToken.TRY_STMT, location);
+    super(SyntacticToken.TRY_STMT, span);
 
     this.tryBody = tryBody;
     this.identifier = identifier;
@@ -137,8 +139,8 @@ export class TryStatement extends Node {
 export class ThrowStatement extends Node {
   readonly expression: Node;
 
-  constructor(expression: Node, location: TokenLocation) {
-    super(SyntacticToken.THROW_STMT, location);
+  constructor(expression: Node, span: Span) {
+    super(SyntacticToken.THROW_STMT, span);
 
     this.expression = expression;
   }
@@ -147,8 +149,8 @@ export class ThrowStatement extends Node {
 export class ReturnStatement extends Node {
   readonly expression: Node | null;
 
-  constructor(expression: Node | null, location: TokenLocation) {
-    super(SyntacticToken.RETURN_STMT, location);
+  constructor(expression: Node | null, span: Span) {
+    super(SyntacticToken.RETURN_STMT, span);
 
     this.expression = expression;
   }
@@ -157,27 +159,27 @@ export class ReturnStatement extends Node {
 export class ExpressionStatement extends Node {
   readonly expression: Node;
 
-  constructor(expression: Node, location: TokenLocation) {
-    super(SyntacticToken.EXPRESSION_STMT, location);
+  constructor(expression: Node, span: Span) {
+    super(SyntacticToken.EXPRESSION_STMT, span);
 
     this.expression = expression;
   }
 }
 
 export class BreakStatement extends Node {
-  constructor(location: TokenLocation) {
-    super(SyntacticToken.BREAK_STMT, location);
+  constructor(span: Span) {
+    super(SyntacticToken.BREAK_STMT, span);
   }
 }
 
 export class ContinueStatement extends Node {
-  constructor(location: TokenLocation) {
-    super(SyntacticToken.CONTINUE_STMT, location);
+  constructor(span: Span) {
+    super(SyntacticToken.CONTINUE_STMT, span);
   }
 }
 
 export class FallthroughStatement extends Node {
-  constructor(location: TokenLocation) {
-    super(SyntacticToken.FALLTHROUGH_STMT, location);
+  constructor(span: Span) {
+    super(SyntacticToken.FALLTHROUGH_STMT, span);
   }
 }

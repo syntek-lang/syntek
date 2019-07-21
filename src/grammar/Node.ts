@@ -1,12 +1,13 @@
-import { SyntacticToken, TokenLocation } from '.';
+import { SyntacticToken } from '.';
+import { Span } from '../position';
 
 export class Node {
   readonly type: SyntacticToken;
 
-  readonly location: TokenLocation;
+  readonly span: Span;
 
-  constructor(type: SyntacticToken, location: TokenLocation) {
+  constructor(type: SyntacticToken, span: Span) {
     this.type = type;
-    this.location = location;
+    this.span = span;
   }
 }

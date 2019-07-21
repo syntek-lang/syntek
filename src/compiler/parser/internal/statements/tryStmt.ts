@@ -1,10 +1,11 @@
 import { Node, LexicalToken, TryStatement } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 import { checkVar, skipVarSize } from '../../parse-utils';
 
 export function tryStmt(parser: Parser): Node {
-  const start = parser.previous().location.start;
+  const start = parser.previous().span.start;
   parser.consume(LexicalToken.NEWLINE, 'stmt.try.newline_indent_after_try');
   parser.consume(LexicalToken.INDENT, 'stmt.try.newline_indent_after_try');
 
@@ -18,7 +19,7 @@ export function tryStmt(parser: Parser): Node {
 
   const varDecl = checkVar(parser);
   if (!varDecl) {
-    throw parser.error('stmt.try.variable_after_catch', parser.peek().location);
+    throw parser.error('stmt.try.variable_after_catch', parser.peek().span);
   }
 
   skipVarSize(parser, varDecl);
@@ -37,9 +38,6 @@ export function tryStmt(parser: Parser): Node {
     varDecl.identifier,
     varDecl.variableType,
     catchBody,
-    {
-      start,
-      end: parser.previous().location.end,
-    },
+    new Span(start, parser.previous().span.end),
   );
 }

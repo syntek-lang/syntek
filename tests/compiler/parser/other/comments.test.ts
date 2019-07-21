@@ -17,7 +17,7 @@ describe('comments', () => {
 
     expect(comments[0].lexeme).to.equal('# this is a comment');
     expect(comments[0].type).to.equal(LexicalToken.COMMENT);
-    expect(comments[0].location).to.deep.equal({
+    expect(comments[0].span).to.deep.equal({
       start: [0, 0],
       end: [0, 19],
     });
@@ -29,14 +29,14 @@ describe('comments', () => {
 
     expect(comments[0].lexeme).to.equal('# this is a comment');
     expect(comments[0].type).to.equal(LexicalToken.COMMENT);
-    expect(comments[0].location).to.deep.equal({
+    expect(comments[0].span).to.deep.equal({
       start: [0, 0],
       end: [0, 19],
     });
 
     expect(comments[1].lexeme).to.equal('#this is another comment');
     expect(comments[1].type).to.equal(LexicalToken.COMMENT);
-    expect(comments[1].location).to.deep.equal({
+    expect(comments[1].span).to.deep.equal({
       start: [2, 0],
       end: [2, 24],
     });
@@ -48,7 +48,7 @@ describe('comments', () => {
 
     expect(comments[0].lexeme).to.equal('# loop forever');
     expect(comments[0].type).to.equal(LexicalToken.COMMENT);
-    expect(comments[0].location).to.deep.equal({
+    expect(comments[0].span).to.deep.equal({
       start: [0, 11],
       end: [0, 25],
     });

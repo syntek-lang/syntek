@@ -3,9 +3,10 @@ import {
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 
 function elseStmt(parser: Parser): Node {
-  const start = parser.previous().location.start;
+  const start = parser.previous().span.start;
 
   parser.consume(LexicalToken.NEWLINE, 'stmt.if.newline_indent_after_else');
   parser.consume(LexicalToken.INDENT, 'stmt.if.newline_indent_after_else');
@@ -17,12 +18,12 @@ function elseStmt(parser: Parser): Node {
 
   return new ElseStatement(body, {
     start,
-    end: parser.previous().location.end,
+    end: parser.previous().span.end,
   });
 }
 
 export function ifStmt(parser: Parser): Node {
-  const start = parser.previous().location.start;
+  const start = parser.previous().span.start;
   parser.eatWhitespace();
 
   const condition = parser.expression('stmt.if.expression_after_if');
@@ -45,8 +46,5 @@ export function ifStmt(parser: Parser): Node {
     }
   }
 
-  return new IfStatement(condition, body, elseClause, {
-    start,
-    end: parser.previous().location.end,
-  });
+  return new IfStatement(condition, body, elseClause, new Span(start, parser.previous().span.end));
 }

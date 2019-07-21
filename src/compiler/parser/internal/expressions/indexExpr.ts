@@ -1,6 +1,7 @@
 import { Node, LexicalToken, IndexExpression } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 
 export function indexExpr(parser: Parser, left: Node): Node {
   parser.eatWhitespace();
@@ -9,8 +10,5 @@ export function indexExpr(parser: Parser, left: Node): Node {
   parser.eatWhitespace();
   parser.consume(LexicalToken.RSQB, 'expr.index.rsqb_after_expression');
 
-  return new IndexExpression(left, expr, {
-    start: left.location.start,
-    end: parser.previous().location.end,
-  });
+  return new IndexExpression(left, expr, new Span(left.span.start, parser.previous().span.end));
 }

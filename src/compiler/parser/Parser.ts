@@ -1,8 +1,9 @@
 import {
-  Node, Token, LexicalToken, Program, TokenLocation,
+  Node, Token, LexicalToken, Program,
 } from '../../grammar';
 
-import { Diagnostic, Level } from '..';
+import { Diagnostic, Level } from '../../diagnostic';
+import { Span } from '../../position';
 
 import { checkVar } from './parse-utils';
 import { Precedence } from './Precedence';
@@ -45,8 +46,8 @@ export class Parser {
 
     return {
       ast: new Program(body, {
-        start: body.length ? body[0].location.start : [0, 0],
-        end: body.length ? body[body.length - 1].location.end : [0, 0],
+        start: body.length ? body[0].span.start : [0, 0],
+        end: body.length ? body[body.length - 1].span.end : [0, 0],
       }),
       diagnostics: this.diagnostics,
     };
@@ -97,7 +98,7 @@ export class Parser {
         // This prevents error reports in the wrong places
         throw new Error('Invalid outdent in error mode');
       } else {
-        throw this.error(errorKey || 'expected_decl_expr_stmt', this.previous().location);
+        throw this.error(errorKey || 'expected_decl_expr_stmt', this.previous().span);
       }
     }
 
@@ -139,7 +140,7 @@ export class Parser {
       if (infixRule.infix) {
         left = infixRule.infix(this, left, infixToken);
       } else {
-        throw this.error('unexpected_token', this.peek().location);
+        throw this.error('unexpected_token', this.peek().span);
       }
     }
 
@@ -196,7 +197,7 @@ export class Parser {
       return this.advance();
     }
 
-    throw this.error(errorKey, this.peek().location);
+    throw this.error(errorKey, this.peek().span);
   }
 
   match(...types: LexicalToken[]): boolean {
@@ -252,9 +253,9 @@ export class Parser {
     this.current += amount;
   }
 
-  error(key: string, location: TokenLocation): Error {
+  error(key: string, span: Span): Error {
     this.hasError = true;
-    this.diagnostics.push(new Diagnostic(Level.ERROR, `compiler.parser.${key}`, location));
+    this.diagnostics.push(new Diagnostic(Level.ERROR, `compiler.parser.${key}`, span));
     return new Error(key);
   }
 

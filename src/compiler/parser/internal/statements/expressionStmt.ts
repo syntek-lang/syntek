@@ -1,6 +1,7 @@
 import { Node, LexicalToken, ExpressionStatement } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 
 export function expressionStmt(parser: Parser): Node {
   const expr = parser.expression();
@@ -8,8 +9,5 @@ export function expressionStmt(parser: Parser): Node {
 
   parser.syncIndentation();
 
-  return new ExpressionStatement(expr, {
-    start: expr.location.start,
-    end: parser.previous().location.end,
-  });
+  return new ExpressionStatement(expr, new Span(expr.span.start, parser.previous().span.end));
 }

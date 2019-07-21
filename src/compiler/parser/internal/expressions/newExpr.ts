@@ -3,13 +3,14 @@ import {
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 import { Precedence } from '../../Precedence';
 import { matchExpressionList } from '../../parse-utils';
 
 import { memberExpr } from './memberExpr';
 
 export function newExpr(parser: Parser, prefix: Token): Node {
-  const start = prefix.location.start;
+  const start = prefix.span.start;
   parser.eatWhitespace();
 
   let object = parser.parsePrecedence(Precedence.OP12, 'expr.new.expression_after_new');
@@ -23,8 +24,5 @@ export function newExpr(parser: Parser, prefix: Token): Node {
   parser.consume(LexicalToken.LPAR, 'expr.new.lpar_after_class');
   const params = matchExpressionList(parser, LexicalToken.RPAR);
 
-  return new NewExpression(object, params, {
-    start,
-    end: parser.previous().location.end,
-  });
+  return new NewExpression(object, params, new Span(start, parser.previous().span.end));
 }

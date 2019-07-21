@@ -1,6 +1,7 @@
 import { Node, LexicalToken, VariableDeclaration } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 import { VarDecl, skipVarSize } from '../../parse-utils';
 
 export function variableDecl(parser: Parser, varDecl: VarDecl): Node {
@@ -20,9 +21,6 @@ export function variableDecl(parser: Parser, varDecl: VarDecl): Node {
     varDecl.identifier,
     varDecl.variableType,
     expr,
-    {
-      start: expr.location.start,
-      end: parser.previous().location.end,
-    },
+    new Span(expr.span.start, parser.previous().span.end),
   );
 }

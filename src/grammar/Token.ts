@@ -1,15 +1,16 @@
-import { LexicalToken, TokenLocation } from '.';
+import { LexicalToken } from '.';
+import { Span } from '../position';
 
 export class Token {
   readonly type: LexicalToken;
 
   readonly lexeme: string;
 
-  readonly location: TokenLocation;
+  readonly span: Span;
 
-  constructor(type: LexicalToken, lexeme: string, location: TokenLocation) {
+  constructor(type: LexicalToken, lexeme: string, span: Span) {
     this.type = type;
     this.lexeme = lexeme;
-    this.location = location;
+    this.span = span;
   }
 }

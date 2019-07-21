@@ -3,10 +3,11 @@ import {
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 import { checkType, matchFunctionParams } from '../../parse-utils';
 
 export function functionDecl(parser: Parser): Node {
-  const start = parser.previous().location.start;
+  const start = parser.previous().span.start;
   parser.eatWhitespace();
 
   const identifier = parser.consume(LexicalToken.IDENTIFIER, 'decl.function.identifier_after_function');
@@ -23,7 +24,7 @@ export function functionDecl(parser: Parser): Node {
     returnType = checkType(parser);
 
     if (!returnType) {
-      throw parser.error('decl.function.type_after_returns', parser.peek().location);
+      throw parser.error('decl.function.type_after_returns', parser.peek().span);
     }
 
     parser.skip(returnType.arrayDepth * 2 + 1);
@@ -43,9 +44,6 @@ export function functionDecl(parser: Parser): Node {
     params,
     returnType,
     body,
-    {
-      start,
-      end: parser.previous().location.end,
-    },
+    new Span(start, parser.previous().span.end),
   );
 }

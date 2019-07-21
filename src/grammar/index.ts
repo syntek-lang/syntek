@@ -1,4 +1,3 @@
-export * from './TokenLocation';
 export * from './Token';
 export * from './Node';
 

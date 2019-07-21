@@ -3,9 +3,10 @@ import {
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 
 export function objectExpr(parser: Parser, prefix: Token): Node {
-  const start = prefix.location.start;
+  const start = prefix.span.start;
   const props: Node[] = [];
 
   if (parser.peekIgnoreWhitespace().type === LexicalToken.RBRACE) {
@@ -22,8 +23,5 @@ export function objectExpr(parser: Parser, prefix: Token): Node {
     parser.consume(LexicalToken.RBRACE, 'expr.object.rbrace_after_outdent');
   }
 
-  return new ObjectExpression(props, {
-    start,
-    end: parser.previous().location.end,
-  });
+  return new ObjectExpression(props, new Span(start, parser.previous().span.end));
 }

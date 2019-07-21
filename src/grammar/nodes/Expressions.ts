@@ -1,6 +1,5 @@
-import {
-  Token, Node, SyntacticToken, TokenLocation,
-} from '..';
+import { Token, Node, SyntacticToken } from '..';
+import { Span } from '../../position';
 
 export function isExpression(node: Node): boolean {
   return node.type === SyntacticToken.WRAPPED_EXPR
@@ -25,8 +24,8 @@ export function isExpression(node: Node): boolean {
 export class WrappedExpression extends Node {
   readonly expression: Node;
 
-  constructor(expression: Node, location: TokenLocation) {
-    super(SyntacticToken.WRAPPED_EXPR, location);
+  constructor(expression: Node, span: Span) {
+    super(SyntacticToken.WRAPPED_EXPR, span);
 
     this.expression = expression;
   }
@@ -37,8 +36,8 @@ export class UnaryExpression extends Node {
 
   readonly right: Node;
 
-  constructor(operator: Token, right: Node, location: TokenLocation) {
-    super(SyntacticToken.UNARY_EXPR, location);
+  constructor(operator: Token, right: Node, span: Span) {
+    super(SyntacticToken.UNARY_EXPR, span);
 
     this.operator = operator;
     this.right = right;
@@ -52,8 +51,8 @@ export class BinaryExpression extends Node {
 
   readonly right: Node;
 
-  constructor(left: Node, operator: Token, right: Node, location: TokenLocation) {
-    super(SyntacticToken.BINARY_EXPR, location);
+  constructor(left: Node, operator: Token, right: Node, span: Span) {
+    super(SyntacticToken.BINARY_EXPR, span);
 
     this.left = left;
     this.operator = operator;
@@ -66,8 +65,8 @@ export class CallExpression extends Node {
 
   readonly params: Node[];
 
-  constructor(object: Node, params: Node[], location: TokenLocation) {
-    super(SyntacticToken.CALL_EXPR, location);
+  constructor(object: Node, params: Node[], span: Span) {
+    super(SyntacticToken.CALL_EXPR, span);
 
     this.object = object;
     this.params = params;
@@ -79,8 +78,8 @@ export class IndexExpression extends Node {
 
   readonly index: Node;
 
-  constructor(object: Node, index: Node, location: TokenLocation) {
-    super(SyntacticToken.INDEX_EXPR, location);
+  constructor(object: Node, index: Node, span: Span) {
+    super(SyntacticToken.INDEX_EXPR, span);
 
     this.object = object;
     this.index = index;
@@ -92,8 +91,8 @@ export class MemberExpression extends Node {
 
   readonly property: Token;
 
-  constructor(object: Node, property: Token, location: TokenLocation) {
-    super(SyntacticToken.MEMBER_EXPR, location);
+  constructor(object: Node, property: Token, span: Span) {
+    super(SyntacticToken.MEMBER_EXPR, span);
 
     this.object = object;
     this.property = property;
@@ -105,8 +104,8 @@ export class NewExpression extends Node {
 
   readonly params: Node[];
 
-  constructor(object: Node, params: Node[], location: TokenLocation) {
-    super(SyntacticToken.NEW_EXPR, location);
+  constructor(object: Node, params: Node[], span: Span) {
+    super(SyntacticToken.NEW_EXPR, span);
 
     this.object = object;
     this.params = params;
@@ -118,8 +117,8 @@ export class InstanceofExpression extends Node {
 
   readonly right: Node;
 
-  constructor(left: Node, right: Node, location: TokenLocation) {
-    super(SyntacticToken.INSTANCEOF_EXPR, location);
+  constructor(left: Node, right: Node, span: Span) {
+    super(SyntacticToken.INSTANCEOF_EXPR, span);
 
     this.left = left;
     this.right = right;
@@ -129,8 +128,8 @@ export class InstanceofExpression extends Node {
 export class AsyncExpression extends Node {
   readonly expression: Node;
 
-  constructor(expression: Node, location: TokenLocation) {
-    super(SyntacticToken.ASYNC_EXPR, location);
+  constructor(expression: Node, span: Span) {
+    super(SyntacticToken.ASYNC_EXPR, span);
 
     this.expression = expression;
   }
@@ -139,8 +138,8 @@ export class AsyncExpression extends Node {
 export class ArrayExpression extends Node {
   readonly content: Node[];
 
-  constructor(content: Node[], location: TokenLocation) {
-    super(SyntacticToken.ARRAY_EXPR, location);
+  constructor(content: Node[], span: Span) {
+    super(SyntacticToken.ARRAY_EXPR, span);
 
     this.content = content;
   }
@@ -149,8 +148,8 @@ export class ArrayExpression extends Node {
 export class ObjectExpression extends Node {
   readonly props: Node[];
 
-  constructor(props: Node[], location: TokenLocation) {
-    super(SyntacticToken.OBJECT_EXPR, location);
+  constructor(props: Node[], span: Span) {
+    super(SyntacticToken.OBJECT_EXPR, span);
 
     this.props = props;
   }
@@ -161,8 +160,8 @@ export class AssignmentExpression extends Node {
 
   readonly value: Node;
 
-  constructor(left: Node, value: Node, location: TokenLocation) {
-    super(SyntacticToken.ASSIGNMENT_EXPR, location);
+  constructor(left: Node, value: Node, span: Span) {
+    super(SyntacticToken.ASSIGNMENT_EXPR, span);
 
     this.left = left;
     this.value = value;
@@ -172,8 +171,8 @@ export class AssignmentExpression extends Node {
 export class Identifier extends Node {
   readonly identifier: Token;
 
-  constructor(identifier: Token, location: TokenLocation) {
-    super(SyntacticToken.IDENTIFIER, location);
+  constructor(identifier: Token, span: Span) {
+    super(SyntacticToken.IDENTIFIER, span);
 
     this.identifier = identifier;
   }
@@ -182,21 +181,21 @@ export class Identifier extends Node {
 export class Literal extends Node {
   readonly value: Token;
 
-  constructor(value: Token, location: TokenLocation) {
-    super(SyntacticToken.LITERAL, location);
+  constructor(value: Token, span: Span) {
+    super(SyntacticToken.LITERAL, span);
 
     this.value = value;
   }
 }
 
 export class Super extends Node {
-  constructor(location: TokenLocation) {
-    super(SyntacticToken.SUPER, location);
+  constructor(span: Span) {
+    super(SyntacticToken.SUPER, span);
   }
 }
 
 export class This extends Node {
-  constructor(location: TokenLocation) {
-    super(SyntacticToken.THIS, location);
+  constructor(span: Span) {
+    super(SyntacticToken.THIS, span);
   }
 }

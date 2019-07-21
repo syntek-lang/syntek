@@ -71,7 +71,7 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
       // Number[] x
       typeDecl = checkType(parser);
       if (!typeDecl) {
-        throw parser.error('Expected type', parser.peek().location);
+        throw parser.error('Expected type', parser.peek().span);
       }
 
       parser.skip(typeDecl.arrayDepth * 2 + 1);

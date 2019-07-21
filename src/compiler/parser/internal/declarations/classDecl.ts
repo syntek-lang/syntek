@@ -3,9 +3,10 @@ import {
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 
 export function classDecl(parser: Parser): Node {
-  const start = parser.previous().location.start;
+  const start = parser.previous().span.start;
   parser.eatWhitespace();
 
   const identifier = parser.consume(LexicalToken.IDENTIFIER, 'decl.class.identifier_after_class');
@@ -47,9 +48,6 @@ export function classDecl(parser: Parser): Node {
     identifier,
     extend,
     body,
-    {
-      start,
-      end: parser.previous().location.end,
-    },
+    new Span(start, parser.previous().span.end),
   );
 }

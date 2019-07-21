@@ -1,6 +1,8 @@
 import {
-  Node, Token, SyntacticToken, TokenLocation, VariableType, FunctionParam, ClassProp,
+  Node, Token, SyntacticToken, VariableType, FunctionParam, ClassProp,
 } from '..';
+
+import { Span } from '../../position';
 
 export function isDeclaration(node: Node): boolean {
   return node.type === SyntacticToken.VARIABLE_DECL
@@ -20,9 +22,9 @@ export class VariableDeclaration extends Node {
     identifier: Token,
     variableType: VariableType | null,
     value: Node,
-    location: TokenLocation,
+    span: Span,
   ) {
-    super(SyntacticToken.VARIABLE_DECL, location);
+    super(SyntacticToken.VARIABLE_DECL, span);
 
     this.identifier = identifier;
     this.variableType = variableType;
@@ -44,9 +46,9 @@ export class FunctionDeclaration extends Node {
     params: FunctionParam[],
     returnType: VariableType | null,
     body: Node[],
-    location: TokenLocation,
+    span: Span,
   ) {
-    super(SyntacticToken.FUNCTION_DECL, location);
+    super(SyntacticToken.FUNCTION_DECL, span);
 
     this.identifier = identifier;
     this.params = params;
@@ -66,9 +68,9 @@ export class ClassDeclaration extends Node {
     identifier: Token,
     extend: Token[],
     body: ClassProp[],
-    location: TokenLocation,
+    span: Span,
   ) {
-    super(SyntacticToken.CLASS_DECL, location);
+    super(SyntacticToken.CLASS_DECL, span);
 
     this.identifer = identifier;
     this.extends = extend;
@@ -81,8 +83,8 @@ export class ImportDeclaration extends Node {
 
   readonly identifier: Token | null;
 
-  constructor(source: Token, identifier: Token | null, location: TokenLocation) {
-    super(SyntacticToken.IMPORT_DECL, location);
+  constructor(source: Token, identifier: Token | null, span: Span) {
+    super(SyntacticToken.IMPORT_DECL, span);
 
     this.source = source;
     this.identifier = identifier;

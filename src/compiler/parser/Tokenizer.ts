@@ -3,7 +3,7 @@ import {
   CHAR_TOKENS, WORD_TOKENS,
 } from '../../grammar';
 
-import { Diagnostic, Level } from '..';
+import { Diagnostic, Level } from '../../diagnostic';
 
 export class Tokenizer {
   private readonly lines: string[];

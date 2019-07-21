@@ -1,15 +1,16 @@
 import { Node, LexicalToken, ForStatement } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 import { checkVar, skipVarSize } from '../../parse-utils';
 
 export function forStmt(parser: Parser): Node {
-  const start = parser.previous().location.start;
+  const start = parser.previous().span.start;
   parser.eatWhitespace();
 
   const varDecl = checkVar(parser);
   if (!varDecl) {
-    throw parser.error('stmt.for.variable_after_for', parser.peek().location);
+    throw parser.error('stmt.for.variable_after_for', parser.peek().span);
   }
 
   skipVarSize(parser, varDecl);
@@ -34,9 +35,6 @@ export function forStmt(parser: Parser): Node {
     varDecl.variableType,
     object,
     body,
-    {
-      start,
-      end: parser.previous().location.end,
-    },
+    new Span(start, parser.previous().span.end),
   );
 }

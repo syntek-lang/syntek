@@ -3,9 +3,10 @@ import {
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 
 export function importDecl(parser: Parser): Node {
-  const start = parser.previous().location.start;
+  const start = parser.previous().span.start;
   parser.eatWhitespace();
 
   let source: Token;
@@ -34,8 +35,5 @@ export function importDecl(parser: Parser): Node {
   parser.consume(LexicalToken.NEWLINE, 'decl.import.newline_after_import_decl');
   parser.syncIndentation();
 
-  return new ImportDeclaration(source, identifier, {
-    start,
-    end: parser.previous().location.end,
-  });
+  return new ImportDeclaration(source, identifier, new Span(start, parser.previous().span.end));
 }

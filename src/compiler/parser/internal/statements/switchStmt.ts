@@ -3,9 +3,10 @@ import {
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 
 export function switchStmt(parser: Parser): Node {
-  const start = parser.previous().location.start;
+  const start = parser.previous().span.start;
   parser.eatWhitespace();
 
   const expression = parser.expression('stmt.switch.expression_after_switch"');
@@ -36,14 +37,12 @@ export function switchStmt(parser: Parser): Node {
       body.push(parser.declaration());
     }
 
-    cases.push(new SwitchCase(conditions, body, {
-      start: caseKeyword.location.start,
-      end: parser.previous().location.end,
-    }));
+    cases.push(new SwitchCase(
+      conditions,
+      body,
+      new Span(caseKeyword.span.start, parser.previous().span.end),
+    ));
   }
 
-  return new SwitchStatement(expression, cases, {
-    start,
-    end: parser.previous().location.end,
-  });
+  return new SwitchStatement(expression, cases, new Span(start, parser.previous().span.end));
 }

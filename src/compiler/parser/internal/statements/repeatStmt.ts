@@ -1,9 +1,10 @@
 import { Node, LexicalToken, RepeatStatement } from '../../../../grammar';
 
 import { Parser } from '../../..';
+import { Span } from '../../../../position';
 
 export function repeatStmt(parser: Parser): Node {
-  const start = parser.previous().location.start;
+  const start = parser.previous().span.start;
   parser.eatWhitespace();
 
   const amount = parser.expression('stmt.repeat.expression_after_repeat');
@@ -20,8 +21,5 @@ export function repeatStmt(parser: Parser): Node {
     body.push(parser.declaration());
   }
 
-  return new RepeatStatement(amount, body, {
-    start,
-    end: parser.previous().location.end,
-  });
+  return new RepeatStatement(amount, body, new Span(start, parser.previous().span.end));
 }

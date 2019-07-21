@@ -13,7 +13,7 @@ describe('program', () => {
     expect(program).to.be.an.instanceof(Program);
     expect(program.body.length).to.equal(0);
 
-    expect(program.location).to.deep.equal({
+    expect(program.span).to.deep.equal({
       start: [0, 0],
       end: [0, 0],
     });
@@ -25,7 +25,7 @@ describe('program', () => {
     expect(program).to.be.an.instanceof(Program);
     expect(program.body.length).to.equal(1);
 
-    expect(program.location).to.deep.equal({
+    expect(program.span).to.deep.equal({
       start: [0, 0],
       end: [0, 2],
     });
