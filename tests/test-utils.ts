@@ -20,9 +20,9 @@ export function tokenize(code: string): Token[] {
   const tokenizer = new Tokenizer(code);
   const result = tokenizer.tokenize();
 
-  if (result.errors.length) {
-    result.errors.forEach((error) => {
-      console.error(messages.parse(error.key, { lexeme: error.lexeme }));
+  if (result.diagnostics.length) {
+    result.diagnostics.forEach((diagnostic) => {
+      console.error(messages.parse(diagnostic.msgKey, {}));
     });
 
     process.exit(1);
@@ -37,9 +37,9 @@ export function parse(code: string): Program {
   const parser = new Parser(tokens);
   const parsed = parser.parse();
 
-  if (parsed.errors.length) {
-    parsed.errors.forEach((error) => {
-      console.error(messages.parse(error.key, { lexeme: error.token.lexeme }));
+  if (parsed.diagnostics.length) {
+    parsed.diagnostics.forEach((diagnostic) => {
+      console.error(messages.parse(diagnostic.msgKey, {}));
     });
 
     process.exit(1);

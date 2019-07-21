@@ -18,7 +18,7 @@ export function tryStmt(parser: Parser): Node {
 
   const varDecl = checkVar(parser);
   if (!varDecl) {
-    throw parser.error(parser.peek(), 'stmt.try.variable_after_catch');
+    throw parser.error('stmt.try.variable_after_catch', parser.peek().location);
   }
 
   skipVarSize(parser, varDecl);

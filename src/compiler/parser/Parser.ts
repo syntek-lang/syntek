@@ -1,6 +1,8 @@
 import {
-  Node, Token, LexicalToken, Program,
+  Node, Token, LexicalToken, Program, TokenLocation,
 } from '../../grammar';
+
+import { Diagnostic, Level } from '..';
 
 import { checkVar } from './parse-utils';
 import { Precedence } from './Precedence';
@@ -12,8 +14,6 @@ import {
 import { variableDecl } from './internal/declarations/variableDecl';
 import { expressionStmt } from './internal/statements/expressionStmt';
 
-type UnexpectedTokens = { key: string; token: Token }[];
-
 export class Parser {
   private current = 0;
 
@@ -21,7 +21,7 @@ export class Parser {
 
   private hasError = false;
 
-  private errors: UnexpectedTokens = [];
+  private diagnostics: Diagnostic[] = [];
 
   private tokens: Token[];
 
@@ -31,7 +31,7 @@ export class Parser {
 
   parse(): {
     ast: Program;
-    errors: UnexpectedTokens;
+    diagnostics: Diagnostic[];
   } {
     const body: Node[] = [];
 
@@ -48,7 +48,7 @@ export class Parser {
         start: body.length ? body[0].location.start : [0, 0],
         end: body.length ? body[body.length - 1].location.end : [0, 0],
       }),
-      errors: this.errors,
+      diagnostics: this.diagnostics,
     };
   }
 
@@ -97,7 +97,7 @@ export class Parser {
         // This prevents error reports in the wrong places
         throw new Error('Invalid outdent in error mode');
       } else {
-        throw this.error(this.previous(), errorKey || 'expected_decl_expr_stmt');
+        throw this.error(errorKey || 'expected_decl_expr_stmt', this.previous().location);
       }
     }
 
@@ -139,7 +139,7 @@ export class Parser {
       if (infixRule.infix) {
         left = infixRule.infix(this, left, infixToken);
       } else {
-        throw this.error(this.peek(), 'unexpected_token');
+        throw this.error('unexpected_token', this.peek().location);
       }
     }
 
@@ -196,7 +196,7 @@ export class Parser {
       return this.advance();
     }
 
-    throw this.error(this.peek(), errorKey);
+    throw this.error(errorKey, this.peek().location);
   }
 
   match(...types: LexicalToken[]): boolean {
@@ -252,12 +252,9 @@ export class Parser {
     this.current += amount;
   }
 
-  error(token: Token, key: string): Error {
+  error(key: string, location: TokenLocation): Error {
     this.hasError = true;
-    this.errors.push({
-      key: `compiler.parser.${key}`,
-      token,
-    });
+    this.diagnostics.push(new Diagnostic(Level.ERROR, `compiler.parser.${key}`, location));
     return new Error(key);
   }
 

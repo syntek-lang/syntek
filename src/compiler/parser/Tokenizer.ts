@@ -1,18 +1,18 @@
 import {
-  Token, LexicalToken, TokenLocation,
+  Token, LexicalToken,
   CHAR_TOKENS, WORD_TOKENS,
 } from '../../grammar';
 
-type UnexpectedTokens = { key: string; lexeme: string; loc: TokenLocation }[];
+import { Diagnostic, Level } from '..';
 
 export class Tokenizer {
   private readonly lines: string[];
 
   private readonly tokens: Token[] = [];
 
-  private readonly errors: UnexpectedTokens = [];
-
   private readonly comments: Token[] = [];
+
+  private readonly diagnostics: Diagnostic[] = [];
 
   private indent = 0;
 
@@ -22,8 +22,8 @@ export class Tokenizer {
 
   tokenize(): {
     tokens: Token[];
-    errors: UnexpectedTokens;
     comments: Token[];
+    diagnostics: Diagnostic[];
   } {
     for (let i = 0; i < this.lines.length; i += 1) {
       this.scanLine(i);
@@ -43,8 +43,8 @@ export class Tokenizer {
 
     return {
       tokens: this.tokens,
-      errors: this.errors,
       comments: this.comments,
+      diagnostics: this.diagnostics,
     };
   }
 
@@ -249,14 +249,10 @@ export class Tokenizer {
   }
 
   private error(key: string, lexeme: string, lineIndex: number, colIndex: number): number {
-    this.errors.push({
-      key: `compiler.tokenizer.${key}`,
-      lexeme,
-      loc: {
-        start: [lineIndex, colIndex],
-        end: [lineIndex, colIndex + lexeme.length],
-      },
-    });
+    this.diagnostics.push(new Diagnostic(Level.ERROR, `compiler.tokenizer.${key}`, {
+      start: [lineIndex, colIndex],
+      end: [lineIndex, colIndex + lexeme.length],
+    }));
 
     return lexeme.length;
   }

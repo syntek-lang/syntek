@@ -7,7 +7,7 @@ export function memberExpr(parser: Parser, left: Node): Node {
   const property = parser.match(LexicalToken.IDENTIFIER, LexicalToken.SUPER);
 
   if (!property) {
-    throw parser.error(parser.peek(), 'expr.member.identifier_super_after_dot');
+    throw parser.error('expr.member.identifier_super_after_dot', parser.peek().location);
   }
 
   return new MemberExpression(left, parser.previous(), {
