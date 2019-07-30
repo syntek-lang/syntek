@@ -15,10 +15,6 @@ module.exports = {
         test: /\.tek$/,
         loader: 'raw-loader',
       },
-      {
-        test: /\.yaml$/,
-        loader: 'raw-loader',
-      },
     ],
   },
   resolve: {
