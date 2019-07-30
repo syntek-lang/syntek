@@ -9,11 +9,16 @@ export function variableDecl(parser: Parser, varDecl: VarDecl): Node {
 
   // Equals
   parser.eatWhitespace();
-  parser.advance();
-
+  const equalSpan = parser.advance().span;
   parser.eatWhitespace();
-  const expr = parser.expression('decl.variable.expression_after_equal');
-  parser.consume(LexicalToken.NEWLINE, 'decl.variable.newline_after_variable_decl');
+
+  const expr = parser.expression("Expected an expression after '='", (error) => {
+    error.info('Add an expression after this =', equalSpan);
+  });
+
+  parser.consume(LexicalToken.NEWLINE, 'Expected a newline after the variable declaration', (error) => {
+    error.info('Add a newline after this expression', expr.span);
+  });
 
   parser.syncIndentation();
 

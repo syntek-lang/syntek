@@ -14,7 +14,10 @@ export function binaryExpr(parser: Parser, left: Node, operator: Token): Node {
   // Exponentation is right-associative
   const right = parser.parsePrecedence(
     rule.precedence + (exponentation ? 0 : 1),
-    'expr.binary.expression_after_operator',
+    `Expected an expression after '${operator.lexeme}'`,
+    (error) => {
+      error.info('Add an expression after this operator', operator.span);
+    },
   );
 
   return new BinaryExpression(left, operator, right, new Span(left.span.start, right.span.end));

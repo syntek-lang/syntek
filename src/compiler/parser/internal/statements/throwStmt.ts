@@ -4,12 +4,16 @@ import { Parser } from '../../..';
 import { Span } from '../../../../position';
 
 export function throwStmt(parser: Parser): Node {
-  const start = parser.previous().span.start;
+  const throwSpan = parser.previous().span;
 
-  const expression = parser.expression('stmt.throw.expression_after_throw');
-  parser.consume(LexicalToken.NEWLINE, 'stmt.throw.newline_after_throw_stmt');
+  const expression = parser.expression("Expected an expression after 'throw'", (error) => {
+    error.info('Add an expression after this throw', throwSpan);
+  });
+  parser.consume(LexicalToken.NEWLINE, 'Expected a newline after the throw statement', (error) => {
+    error.info('Add a newline after this expression', expression.span);
+  });
 
   parser.syncIndentation();
 
-  return new ThrowStatement(expression, new Span(start, parser.previous().span.end));
+  return new ThrowStatement(expression, new Span(throwSpan.start, parser.previous().span.end));
 }

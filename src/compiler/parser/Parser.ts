@@ -15,6 +15,8 @@ import {
 import { variableDecl } from './internal/declarations/variableDecl';
 import { expressionStmt } from './internal/statements/expressionStmt';
 
+type ErrorHandler = (error: Diagnostic) => void;
+
 export class Parser {
   private current = 0;
 
@@ -84,11 +86,11 @@ export class Parser {
     return expressionStmt(this);
   }
 
-  expression(errorKey?: string): Node {
-    return this.parsePrecedence(Precedence.OP2, errorKey);
+  expression(msg?: string, errorHandler?: ErrorHandler): Node {
+    return this.parsePrecedence(Precedence.OP2, msg, errorHandler);
   }
 
-  parsePrecedence(precedence: Precedence, errorKey?: string): Node {
+  parsePrecedence(precedence: Precedence, msg?: string, errorHandler?: ErrorHandler): Node {
     const prefixToken = this.advance();
 
     const prefixFn = this.getRule(prefixToken.type).prefix;
@@ -98,7 +100,7 @@ export class Parser {
         // This prevents error reports in the wrong places
         throw new Error('Invalid outdent in error mode');
       } else {
-        throw this.error(errorKey || 'expected_decl_expr_stmt', this.previous().span);
+        throw this.error(msg || 'Expected a declaration, expression, or statement', this.previous().span, errorHandler);
       }
     }
 
@@ -140,7 +142,7 @@ export class Parser {
       if (infixRule.infix) {
         left = infixRule.infix(this, left, infixToken);
       } else {
-        throw this.error('unexpected_token', this.peek().span);
+        throw this.error(`Unexpected token '${this.peek().lexeme}'`, this.peek().span, errorHandler);
       }
     }
 
@@ -192,12 +194,12 @@ export class Parser {
     }
   }
 
-  consume(type: LexicalToken, errorKey: string): Token {
+  consume(type: LexicalToken, msg: string, errorHandler?: ErrorHandler): Token {
     if (this.check(type)) {
       return this.advance();
     }
 
-    throw this.error(errorKey, this.peek().span);
+    throw this.error(msg, this.peek().span, errorHandler);
   }
 
   match(...types: LexicalToken[]): boolean {
@@ -253,10 +255,17 @@ export class Parser {
     this.current += amount;
   }
 
-  error(key: string, span: Span): Error {
+  error(msg: string, span: Span, errorHandler?: ErrorHandler): Error {
     this.hasError = true;
-    this.diagnostics.push(new Diagnostic(Level.ERROR, `compiler.parser.${key}`, span));
-    return new Error(key);
+
+    const diagnostic = new Diagnostic(Level.ERROR, msg, span);
+    this.diagnostics.push(diagnostic);
+
+    if (errorHandler) {
+      errorHandler(diagnostic);
+    }
+
+    return new Error(msg);
   }
 
   sync(): void {

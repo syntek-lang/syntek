@@ -3,10 +3,12 @@ import {
 } from '../../grammar';
 
 import { Parser } from '..';
+import { Span } from '../../position';
 
 export interface VarDecl {
   variableType: VariableType | null;
   identifier: Token;
+  span: Span;
 }
 
 export function checkType(parser: Parser): VariableType | null {
@@ -26,6 +28,10 @@ export function checkType(parser: Parser): VariableType | null {
   return {
     type: parser.peek(),
     arrayDepth: (offset - 1) / 2,
+    span: new Span(
+      parser.peek().span.start,
+      [parser.peek().span.end[0], parser.peek().span.end[1] + (offset - 1)],
+    ),
   };
 }
 
@@ -38,17 +44,16 @@ export function checkVar(parser: Parser): VarDecl | null {
   const offset = typeDecl.arrayDepth * 2 + 1;
   if (parser.check(LexicalToken.IDENTIFIER, offset)) {
     return {
-      variableType: {
-        type: typeDecl.type,
-        arrayDepth: typeDecl.arrayDepth,
-      },
+      variableType: typeDecl,
       identifier: parser.peek(offset),
+      span: new Span(typeDecl.span.start, parser.peek(offset).span.end),
     };
   }
 
   return {
     variableType: null,
     identifier: parser.peek(),
+    span: parser.peek().span,
   };
 }
 

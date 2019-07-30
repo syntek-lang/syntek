@@ -44,9 +44,9 @@
     // Types can be converted on the original AST so it also updates in console
     typeToName(syntek.parseResult.ast);
 
-    // Create a copy and remove the location properties from that
+    // Create a copy and remove the span properties from that
     const ast = JSON.parse(JSON.stringify(syntek.parseResult.ast));
-    remove(ast, 'location');
+    remove(ast, 'span');
     document.getElementById('tree').innerHTML = treeify.asTree(ast, true);
 
   </script>

@@ -1,11 +1,13 @@
-import { Node, AssignmentExpression } from '../../../../grammar';
+import { Node, Token, AssignmentExpression } from '../../../../grammar';
 
 import { Parser } from '../../..';
 import { Span } from '../../../../position';
 
-export function assignmentExpr(parser: Parser, left: Node): Node {
+export function assignmentExpr(parser: Parser, left: Node, operator: Token): Node {
   parser.eatWhitespace();
-  const value = parser.expression('expr.assignment.expression_after_equal');
+  const value = parser.expression("Expected an expression after '='", (error) => {
+    error.info('Add an expression after this =', operator.span);
+  });
 
   return new AssignmentExpression(left, value, new Span(left.span.start, value.span.end));
 }

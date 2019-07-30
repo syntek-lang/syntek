@@ -5,7 +5,6 @@ import { Program } from '../src/grammar/nodes/Other';
 
 import { Tokenizer } from '../src/compiler/parser/Tokenizer';
 import { Parser } from '../src/compiler/parser/Parser';
-import { YamlHandler } from '../src/i18n/YamlHandler';
 import { Token } from '../src/grammar/Token';
 
 export function loadRaw(base: string, path: string): string {
@@ -14,15 +13,13 @@ export function loadRaw(base: string, path: string): string {
   return content.toString();
 }
 
-const messages = new YamlHandler(loadRaw(__dirname, '../src/i18n/messages.yaml'));
-
 export function tokenize(code: string): Token[] {
   const tokenizer = new Tokenizer(code);
   const result = tokenizer.tokenize();
 
   if (result.diagnostics.length) {
     result.diagnostics.forEach((diagnostic) => {
-      console.error(messages.parse(diagnostic.msgKey, {}));
+      console.error(diagnostic.msg);
     });
 
     process.exit(1);
@@ -39,7 +36,7 @@ export function parse(code: string): Program {
 
   if (parsed.diagnostics.length) {
     parsed.diagnostics.forEach((diagnostic) => {
-      console.error(messages.parse(diagnostic.msgKey, {}));
+      console.error(diagnostic.msg);
     });
 
     process.exit(1);

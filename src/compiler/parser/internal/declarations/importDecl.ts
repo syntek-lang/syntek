@@ -6,7 +6,7 @@ import { Parser } from '../../..';
 import { Span } from '../../../../position';
 
 export function importDecl(parser: Parser): Node {
-  const start = parser.previous().span.start;
+  const importSpan = parser.previous().span;
   parser.eatWhitespace();
 
   let source: Token;
@@ -17,23 +17,35 @@ export function importDecl(parser: Parser): Node {
 
     if (parser.peekIgnoreWhitespace().type === LexicalToken.AS) {
       parser.eatWhitespace();
-      parser.advance();
+      const asSpan = parser.advance().span;
       parser.eatWhitespace();
 
-      identifier = parser.consume(LexicalToken.IDENTIFIER, 'decl.import.identifier_after_as');
+      identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'as'", (error) => {
+        error.info('Add an identifier after this as', asSpan);
+      });
     }
   } else {
-    source = parser.consume(LexicalToken.STRING, 'decl.import.source_after_import');
+    source = parser.consume(LexicalToken.STRING, "Expected an identifier or string after 'import'", (error) => {
+      error.info('Add an identifier or string after this import', importSpan);
+    });
 
     parser.eatWhitespace();
-    parser.consume(LexicalToken.AS, 'decl.import.as_after_import');
+    const asSpan = parser.consume(LexicalToken.AS, "Importing a file must always be followed with 'as'", (error) => {
+      error.info("Add 'as' after the source", source.span);
+    }).span;
     parser.eatWhitespace();
 
-    identifier = parser.consume(LexicalToken.IDENTIFIER, 'decl.import.identifier_after_as');
+    identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'as'", (error) => {
+      error.info('Add an identifier after this as', asSpan);
+    });
   }
 
-  parser.consume(LexicalToken.NEWLINE, 'decl.import.newline_after_import_decl');
+  parser.consume(LexicalToken.NEWLINE, 'Expected a newline after the import declaration');
   parser.syncIndentation();
 
-  return new ImportDeclaration(source, identifier, new Span(start, parser.previous().span.end));
+  return new ImportDeclaration(
+    source,
+    identifier,
+    new Span(importSpan.start, parser.previous().span.end),
+  );
 }

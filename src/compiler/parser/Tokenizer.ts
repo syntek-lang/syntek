@@ -124,7 +124,7 @@ export class Tokenizer {
             colIndex += this.matchWord(wordMatch, remainingChars, lineIndex, colIndex);
           } else {
             // Unexpected token
-            colIndex += this.error('unexpected_token', char, lineIndex, colIndex);
+            colIndex += this.error(`Unexpected token '${char}'`, char, lineIndex, colIndex);
           }
         }
       }
@@ -212,8 +212,8 @@ export class Tokenizer {
     if (lexeme === 'less' || lexeme === 'greater' || lexeme === 'than') {
       return this.error(
         lexeme === 'than'
-          ? 'than_after_is'
-          : 'less_greater_after_is',
+          ? "'than' must come after 'is less' or 'is greater'. Make sure it's on the same line"
+          : `'${lexeme}' must come after 'is'. Make sure it's on the same line`,
         lexeme,
         lineIndex,
         colIndex,
@@ -248,8 +248,8 @@ export class Tokenizer {
     return lexeme.length;
   }
 
-  private error(key: string, lexeme: string, lineIndex: number, colIndex: number): number {
-    this.diagnostics.push(new Diagnostic(Level.ERROR, `compiler.tokenizer.${key}`, {
+  private error(msg: string, lexeme: string, lineIndex: number, colIndex: number): number {
+    this.diagnostics.push(new Diagnostic(Level.ERROR, msg, {
       start: [lineIndex, colIndex],
       end: [lineIndex, colIndex + lexeme.length],
     }));
