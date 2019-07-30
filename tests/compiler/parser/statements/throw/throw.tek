@@ -1,0 +1,10 @@
+throw 5
+
+throw
+5
+
+throw
+	5
+
+throw
+		5
