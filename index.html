@@ -16,7 +16,7 @@
 
   <script>
     function remove(obj, name) {
-      for (prop in obj) {
+      for (const prop in obj) {
         if (prop === name) {
           delete obj[prop];
         } else if (typeof obj[prop] === 'object') {
@@ -26,7 +26,7 @@
     }
 
     function typeToName(obj) {
-      for (prop in obj) {
+      for (const prop in obj) {
         if (prop === 'type') {
           if (obj instanceof syntek.Node) {
             obj[prop] = syntek.SyntacticToken[obj[prop]];
@@ -41,13 +41,26 @@
       }
     }
 
-    // Types can be converted on the original AST so it also updates in console
-    typeToName(syntek.parseResult.ast);
+    function deepClone(obj) {
+      const clone = Object.assign(Object.create(Object.getPrototypeOf(obj)), obj);
 
-    // Create a copy and remove the span properties from that
-    const ast = JSON.parse(JSON.stringify(syntek.parseResult.ast));
-    remove(ast, 'span');
-    document.getElementById('tree').innerHTML = treeify.asTree(ast, true);
+      for (const prop in clone) {
+        if (clone[prop] && typeof clone[prop] === 'object') {
+          clone[prop] = deepClone(clone[prop]);
+        }
+      }
+
+      return clone;
+    }
+
+    // Shorthand to the AST variable
+    const ast = syntek.parseResult.ast;
+
+    // Clone and display the AST
+    const clone = deepClone(ast);
+    typeToName(clone);
+    remove(clone, 'span');
+    document.getElementById('tree').innerHTML = treeify.asTree(clone, true);
 
   </script>
 </body>

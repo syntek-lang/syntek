@@ -15,3 +15,4 @@ export * from './compiler';
 export * from './diagnostic';
 export * from './grammar';
 export * from './position';
+export * from './walker';
