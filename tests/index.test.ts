@@ -1,3 +1,6 @@
-import { loadTestsInDir } from './test-utils';
+import 'mocha';
 
-loadTestsInDir(__dirname, './compiler');
+import { loadIndexInDir } from './test-utils';
+
+loadIndexInDir(__dirname, './compiler');
+loadIndexInDir(__dirname, './walker');

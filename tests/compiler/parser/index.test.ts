@@ -1,3 +1,5 @@
+import 'mocha';
+
 import { loadTestsInDir, getDirsFrom } from '../../test-utils';
 
 describe('parser', () => {

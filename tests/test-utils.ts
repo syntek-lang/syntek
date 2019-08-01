@@ -1,3 +1,5 @@
+/* eslint-disable eslint-comments/no-unlimited-disable */
+
 import { join } from 'path';
 import { readFileSync, readdirSync, lstatSync } from 'fs';
 
@@ -45,21 +47,32 @@ export function parse(code: string): Program {
   return parsed.ast;
 }
 
-export function loadTestsInDir(base: string, path: string): void {
-  const fullPath = join(base, path);
+export function loadIndexInDir(base: string, dir: string): void {
+  const path = join(base, dir);
+
+  const index = readdirSync(path).find(file => /index(?:\.test)?\.(?:ts|js)/.test(file));
+  if (index) {
+    require(join(path, index)); // eslint-disable-line
+  } else {
+    throw new Error('No index file found');
+  }
+}
+
+export function loadTestsInDir(base: string, dir: string): void {
+  const path = join(base, dir);
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  readdirSync(fullPath)
+  readdirSync(path)
     .filter(file => file.endsWith('.ts') || file.endsWith('.js'))
-    .map(file => join(fullPath, file))
+    .map(file => join(path, file))
     .filter(file => lstatSync(file).isFile())
     .forEach(require);
 }
 
-export function getDirsFrom(base: string, path: string): string[] {
-  const fullPath = join(base, path);
+export function getDirsFrom(base: string, dir: string): string[] {
+  const path = join(base, dir);
 
-  return readdirSync(fullPath)
-    .filter(file => lstatSync(join(fullPath, file)).isDirectory())
-    .map(file => join(path, file));
+  return readdirSync(path)
+    .filter(file => lstatSync(join(path, file)).isDirectory())
+    .map(file => join(dir, file));
 }

@@ -1,5 +1,7 @@
-import { loadTestsInDir } from '../test-utils';
+import 'mocha';
+
+import { loadIndexInDir } from '../test-utils';
 
 describe('compiler', () => {
-  loadTestsInDir(__dirname, './parser');
+  loadIndexInDir(__dirname, './parser');
 });
