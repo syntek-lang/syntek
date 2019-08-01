@@ -1,6 +1,10 @@
 import { loadTestsInDir, getDirsFrom } from '../../test-utils';
 
 describe('parser', () => {
+  describe('tokenizer', () => {
+    loadTestsInDir(__dirname, './tokenizer');
+  });
+
   describe('declarations', () => {
     getDirsFrom(__dirname, './declarations')
       .forEach(dir => loadTestsInDir(__dirname, dir));

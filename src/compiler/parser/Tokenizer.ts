@@ -106,26 +106,31 @@ export class Tokenizer {
       } else {
         // Get the remaining characters on this line
         const remainingChars = line.slice(colIndex);
+        let toAdd = 0;
 
         if (char >= '0' && char <= '9') {
           // Current character is start of number
-          colIndex += this.matchNumber(remainingChars, lineIndex, colIndex);
+          toAdd += this.matchNumber(remainingChars, lineIndex, colIndex);
         } else if (char === '\'') {
           // Current character is start of string
-          colIndex += this.matchString(remainingChars, lineIndex, colIndex);
+          toAdd += this.matchString(remainingChars, lineIndex, colIndex);
         } else if (char === '#') {
           // Current character is the start of a comment
-          colIndex += this.matchComment(remainingChars, lineIndex, colIndex);
+          toAdd += this.matchComment(remainingChars, lineIndex, colIndex);
         } else {
           // Remaining characters should be a word
           const wordMatch = remainingChars.match(/^[a-z_]\w*/i);
 
           if (wordMatch) {
-            colIndex += this.matchWord(wordMatch, remainingChars, lineIndex, colIndex);
-          } else {
-            // Unexpected token
-            colIndex += this.error(`Unexpected token '${char}'`, char, lineIndex, colIndex);
+            toAdd += this.matchWord(wordMatch, remainingChars, lineIndex, colIndex);
           }
+        }
+
+        if (toAdd > 0) {
+          colIndex += toAdd;
+        } else {
+          // Unexpected token
+          colIndex += this.error(`Unexpected token '${char}'`, char, lineIndex, colIndex);
         }
       }
     }
