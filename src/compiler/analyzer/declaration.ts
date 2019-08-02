@@ -9,19 +9,19 @@ export function findDeclarations(ast: grammar.Node): FileScope {
 
   // Handle declarations
   walker
-    .onEnter(grammar.SyntacticToken.IMPORT_DECL, (node) => {
+    .onEnter(grammar.ImportDeclaration, (node) => {
       currentScope.imports.push(node);
     })
-    .onEnter(grammar.SyntacticToken.CLASS_DECL, (node) => {
+    .onEnter(grammar.ClassDeclaration, (node) => {
       currentScope.classes.push(node);
     })
-    .onEnter(grammar.SyntacticToken.VARIABLE_DECL, (node) => {
+    .onEnter(grammar.VariableDeclaration, (node) => {
       currentScope.variables.push(node);
     })
-    .onEnter(grammar.SyntacticToken.ASSIGNMENT_EXPR, (node) => {
+    .onEnter(grammar.AssignmentExpression, (node) => {
       currentScope.variables.push(node);
     })
-    .onEnter(grammar.SyntacticToken.FUNCTION_DECL, (node) => {
+    .onEnter(grammar.FunctionDeclaration, (node) => {
       currentScope.functions.push(node);
     });
 

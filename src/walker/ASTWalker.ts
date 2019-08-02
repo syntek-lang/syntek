@@ -15,17 +15,36 @@ export class ASTWalker {
     this.ast = ast;
   }
 
-  onEnter(type: grammar.SyntacticToken, callback: WalkerCallback): ASTWalker {
+  onEnter<T extends grammar.Node>(
+    node: new (...args: any[]) => T,
+    callback: (node: T, parents: grammar.Node[]) => void,
+  ): ASTWalker {
+    const type = grammar.NODE_TYPE.get(node);
+    if (!type) {
+      throw new Error('Unable to listen for node');
+    }
+
     const callbacks = this.enterCallbacks.get(type) || [];
-    callbacks.push(callback);
+    // Cast to WalkerCallback to prevent errors, as the compiler can't guarantee
+    // the type of node matches T when calling the callback
+    callbacks.push(callback as WalkerCallback);
 
     this.enterCallbacks.set(type, callbacks);
     return this;
   }
 
-  onLeave(type: grammar.SyntacticToken, callback: WalkerCallback): ASTWalker {
+  onLeave<T extends grammar.Node>(
+    node: new (...args: any[]) => T,
+    callback: (node: T, parents: grammar.Node[]) => void,
+  ): ASTWalker {
+    const type = grammar.NODE_TYPE.get(node);
+    if (!type) {
+      throw new Error('Unable to listen for node');
+    }
+
     const callbacks = this.leaveCallbacks.get(type) || [];
-    callbacks.push(callback);
+    // Reason for casting in onEnter method
+    callbacks.push(callback as WalkerCallback);
 
     this.leaveCallbacks.set(type, callbacks);
     return this;

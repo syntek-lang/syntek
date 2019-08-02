@@ -1,82 +1,129 @@
-import { LexicalToken } from '.';
+import * as grammar from '.';
 
-// Tokens that consist of a single character
-export const CHAR_TOKENS: { [key: string]: LexicalToken } = {
+/** Tokens that consist of a single character */
+export const CHAR_TOKENS: { [key: string]: grammar.LexicalToken } = {
   // Whitespace
-  '\t': LexicalToken.WHITESPACE,
-  ' ': LexicalToken.WHITESPACE,
+  '\t': grammar.LexicalToken.WHITESPACE,
+  ' ': grammar.LexicalToken.WHITESPACE,
 
   // Operators
-  '+': LexicalToken.PLUS,
-  '-': LexicalToken.MINUS,
-  '*': LexicalToken.STAR,
-  '/': LexicalToken.SLASH,
-  '%': LexicalToken.PERCENT,
-  '^': LexicalToken.CARET,
-  '=': LexicalToken.EQUAL,
+  '+': grammar.LexicalToken.PLUS,
+  '-': grammar.LexicalToken.MINUS,
+  '*': grammar.LexicalToken.STAR,
+  '/': grammar.LexicalToken.SLASH,
+  '%': grammar.LexicalToken.PERCENT,
+  '^': grammar.LexicalToken.CARET,
+  '=': grammar.LexicalToken.EQUAL,
 
   // Punctuation
-  '.': LexicalToken.DOT,
-  ',': LexicalToken.COMMA,
-  '[': LexicalToken.LSQB,
-  ']': LexicalToken.RSQB,
-  '(': LexicalToken.LPAR,
-  ')': LexicalToken.RPAR,
-  '{': LexicalToken.LBRACE,
-  '}': LexicalToken.RBRACE,
+  '.': grammar.LexicalToken.DOT,
+  ',': grammar.LexicalToken.COMMA,
+  '[': grammar.LexicalToken.LSQB,
+  ']': grammar.LexicalToken.RSQB,
+  '(': grammar.LexicalToken.LPAR,
+  ')': grammar.LexicalToken.RPAR,
+  '{': grammar.LexicalToken.LBRACE,
+  '}': grammar.LexicalToken.RBRACE,
 };
 
-// Tokens that are a single word
-export const WORD_TOKENS: { [key: string]: LexicalToken } = {
+/** Tokens that are a single word */
+export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
   // Boolean
-  true: LexicalToken.BOOLEAN,
-  false: LexicalToken.BOOLEAN,
+  true: grammar.LexicalToken.BOOLEAN,
+  false: grammar.LexicalToken.BOOLEAN,
 
   // Null
-  null: LexicalToken.NULL,
+  null: grammar.LexicalToken.NULL,
 
   // Keywords
-  class: LexicalToken.CLASS,
-  new: LexicalToken.NEW,
-  static: LexicalToken.STATIC,
-  this: LexicalToken.THIS,
-  super: LexicalToken.SUPER,
-  extends: LexicalToken.EXTENDS,
-  instanceof: LexicalToken.INSTANCEOF,
+  class: grammar.LexicalToken.CLASS,
+  new: grammar.LexicalToken.NEW,
+  static: grammar.LexicalToken.STATIC,
+  this: grammar.LexicalToken.THIS,
+  super: grammar.LexicalToken.SUPER,
+  extends: grammar.LexicalToken.EXTENDS,
+  instanceof: grammar.LexicalToken.INSTANCEOF,
 
-  if: LexicalToken.IF,
-  else: LexicalToken.ELSE,
+  if: grammar.LexicalToken.IF,
+  else: grammar.LexicalToken.ELSE,
 
-  switch: LexicalToken.SWITCH,
-  case: LexicalToken.CASE,
-  fallthrough: LexicalToken.FALLTHROUGH,
+  switch: grammar.LexicalToken.SWITCH,
+  case: grammar.LexicalToken.CASE,
+  fallthrough: grammar.LexicalToken.FALLTHROUGH,
 
-  function: LexicalToken.FUNCTION,
-  return: LexicalToken.RETURN,
-  returns: LexicalToken.RETURNS,
+  function: grammar.LexicalToken.FUNCTION,
+  return: grammar.LexicalToken.RETURN,
+  returns: grammar.LexicalToken.RETURNS,
 
-  async: LexicalToken.ASYNC,
+  async: grammar.LexicalToken.ASYNC,
 
-  try: LexicalToken.TRY,
-  catch: LexicalToken.CATCH,
-  throw: LexicalToken.THROW,
+  try: grammar.LexicalToken.TRY,
+  catch: grammar.LexicalToken.CATCH,
+  throw: grammar.LexicalToken.THROW,
 
-  import: LexicalToken.IMPORT,
-  as: LexicalToken.AS,
+  import: grammar.LexicalToken.IMPORT,
+  as: grammar.LexicalToken.AS,
 
-  for: LexicalToken.FOR,
-  in: LexicalToken.IN,
-  repeat: LexicalToken.REPEAT,
-  times: LexicalToken.TIMES,
-  while: LexicalToken.WHILE,
-  continue: LexicalToken.CONTINUE,
-  break: LexicalToken.BREAK,
+  for: grammar.LexicalToken.FOR,
+  in: grammar.LexicalToken.IN,
+  repeat: grammar.LexicalToken.REPEAT,
+  times: grammar.LexicalToken.TIMES,
+  while: grammar.LexicalToken.WHILE,
+  continue: grammar.LexicalToken.CONTINUE,
+  break: grammar.LexicalToken.BREAK,
 
-  and: LexicalToken.AND,
-  or: LexicalToken.OR,
-  not: LexicalToken.NOT,
+  and: grammar.LexicalToken.AND,
+  or: grammar.LexicalToken.OR,
+  not: grammar.LexicalToken.NOT,
 
-  is: LexicalToken.IS,
+  is: grammar.LexicalToken.IS,
 
-  any: LexicalToken.ANY,
+  any: grammar.LexicalToken.ANY,
 };
+
+/** Node class mapped to SyntacticToken */
+export const NODE_TYPE: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
+  // Declarations
+  .set(grammar.VariableDeclaration, grammar.SyntacticToken.VARIABLE_DECL)
+  .set(grammar.FunctionDeclaration, grammar.SyntacticToken.FUNCTION_DECL)
+  .set(grammar.ClassDeclaration, grammar.SyntacticToken.CLASS_DECL)
+  .set(grammar.ImportDeclaration, grammar.SyntacticToken.IMPORT_DECL)
+
+  // Expressions
+  .set(grammar.WrappedExpression, grammar.SyntacticToken.WRAPPED_EXPR)
+  .set(grammar.UnaryExpression, grammar.SyntacticToken.UNARY_EXPR)
+  .set(grammar.BinaryExpression, grammar.SyntacticToken.BINARY_EXPR)
+  .set(grammar.CallExpression, grammar.SyntacticToken.CALL_EXPR)
+  .set(grammar.IndexExpression, grammar.SyntacticToken.INDEX_EXPR)
+  .set(grammar.MemberExpression, grammar.SyntacticToken.MEMBER_EXPR)
+  .set(grammar.NewExpression, grammar.SyntacticToken.NEW_EXPR)
+  .set(grammar.InstanceofExpression, grammar.SyntacticToken.INSTANCEOF_EXPR)
+  .set(grammar.AsyncExpression, grammar.SyntacticToken.ASYNC_EXPR)
+  .set(grammar.ArrayExpression, grammar.SyntacticToken.ARRAY_EXPR)
+  .set(grammar.ObjectExpression, grammar.SyntacticToken.OBJECT_EXPR)
+  .set(grammar.AssignmentExpression, grammar.SyntacticToken.ASSIGNMENT_EXPR)
+
+  .set(grammar.Identifier, grammar.SyntacticToken.IDENTIFIER)
+  .set(grammar.Literal, grammar.SyntacticToken.LITERAL)
+  .set(grammar.Super, grammar.SyntacticToken.SUPER)
+  .set(grammar.This, grammar.SyntacticToken.THIS)
+
+  // Statements
+  .set(grammar.IfStatement, grammar.SyntacticToken.IF_STMT)
+  .set(grammar.ElseStatement, grammar.SyntacticToken.ELSE_STMT)
+  .set(grammar.SwitchStatement, grammar.SyntacticToken.SWITCH_STMT)
+  .set(grammar.ForStatement, grammar.SyntacticToken.FOR_STMT)
+  .set(grammar.RepeatStatement, grammar.SyntacticToken.REPEAT_STMT)
+  .set(grammar.WhileStatement, grammar.SyntacticToken.WHILE_STMT)
+  .set(grammar.TryStatement, grammar.SyntacticToken.TRY_STMT)
+  .set(grammar.ThrowStatement, grammar.SyntacticToken.THROW_STMT)
+  .set(grammar.ReturnStatement, grammar.SyntacticToken.RETURN_STMT)
+  .set(grammar.ExpressionStatement, grammar.SyntacticToken.EXPRESSION_STMT)
+
+  .set(grammar.BreakStatement, grammar.SyntacticToken.BREAK_STMT)
+  .set(grammar.ContinueStatement, grammar.SyntacticToken.CONTINUE_STMT)
+  .set(grammar.FallthroughStatement, grammar.SyntacticToken.FALLTHROUGH_STMT)
+
+  // Other
+  .set(grammar.Program, grammar.SyntacticToken.PROGRAM)
+  .set(grammar.SwitchCase, grammar.SyntacticToken.SWITCH_CASE);

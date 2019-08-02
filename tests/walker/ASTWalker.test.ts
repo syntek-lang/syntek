@@ -5,8 +5,8 @@ import { parse } from '../test-utils';
 
 import { ASTWalker } from '../../src/walker/ASTWalker';
 
+import * as grammar from '../../src/grammar';
 import { Node } from '../../src/grammar/Node';
-import { SyntacticToken } from '../../src/grammar/SyntacticToken';
 
 describe('ASTWalker', () => {
   const program = parse('10 + 2 * 5');
@@ -23,9 +23,9 @@ describe('ASTWalker', () => {
     }
 
     new ASTWalker(program)
-      .onEnter(SyntacticToken.PROGRAM, walkerCallback)
-      .onEnter(SyntacticToken.EXPRESSION_STMT, walkerCallback)
-      .onEnter(SyntacticToken.BINARY_EXPR, walkerCallback)
+      .onEnter(grammar.Program, walkerCallback)
+      .onEnter(grammar.ExpressionStatement, walkerCallback)
+      .onEnter(grammar.BinaryExpression, walkerCallback)
       .walk();
 
     expect(parentCount).to.equal(4);
@@ -50,9 +50,9 @@ describe('ASTWalker', () => {
     }
 
     new ASTWalker(program)
-      .onLeave(SyntacticToken.PROGRAM, walkerCallback)
-      .onLeave(SyntacticToken.EXPRESSION_STMT, walkerCallback)
-      .onLeave(SyntacticToken.BINARY_EXPR, walkerCallback)
+      .onLeave(grammar.Program, walkerCallback)
+      .onLeave(grammar.ExpressionStatement, walkerCallback)
+      .onLeave(grammar.BinaryExpression, walkerCallback)
       .walk();
 
     expect(parentCount).to.equal(-1);
@@ -87,12 +87,12 @@ describe('ASTWalker', () => {
     const onLeave = (node: Node, parents: Node[]): void => walkerCallback(node, parents, false);
 
     new ASTWalker(program)
-      .onEnter(SyntacticToken.PROGRAM, onEnter)
-      .onLeave(SyntacticToken.PROGRAM, onLeave)
-      .onEnter(SyntacticToken.EXPRESSION_STMT, onEnter)
-      .onLeave(SyntacticToken.EXPRESSION_STMT, onLeave)
-      .onEnter(SyntacticToken.BINARY_EXPR, onEnter)
-      .onLeave(SyntacticToken.BINARY_EXPR, onLeave)
+      .onEnter(grammar.Program, onEnter)
+      .onLeave(grammar.Program, onLeave)
+      .onEnter(grammar.ExpressionStatement, onEnter)
+      .onLeave(grammar.ExpressionStatement, onLeave)
+      .onEnter(grammar.BinaryExpression, onEnter)
+      .onLeave(grammar.BinaryExpression, onLeave)
       .walk();
 
     expect(parentCount).to.equal(0);
