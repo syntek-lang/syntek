@@ -1,5 +1,5 @@
 import { Tokenizer, Parser } from './compiler';
-import { findDeclarations } from './compiler/analyzer/declaration';
+import { DeclarationFinder } from './compiler/analyzer/DeclarationFinder';
 
 // import program from '../tests/syntek/programs/fizzbuzz.tek';
 import program from './dev.tek';
@@ -12,6 +12,7 @@ console.log(tokenResult);
 export const parseResult = new Parser(tokenResult.tokens).parse();
 console.log(parseResult);
 
+export const code = program;
 export * from './compiler';
 export * from './diagnostic';
 export * from './grammar';
@@ -19,5 +20,5 @@ export * from './position';
 export * from './walker';
 
 // Semantic analysis
-const fileScope = findDeclarations(parseResult.ast);
+export const fileScope = new DeclarationFinder(parseResult.ast).search();
 console.log(fileScope);

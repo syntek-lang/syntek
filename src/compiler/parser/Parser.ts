@@ -47,10 +47,10 @@ export class Parser {
     }
 
     return {
-      ast: new Program(body, {
-        start: body.length ? body[0].span.start : [0, 0],
-        end: body.length ? body[body.length - 1].span.end : [0, 0],
-      }),
+      ast: new Program(body, new Span(
+        body.length ? body[0].span.start : [0, 0],
+        body.length ? body[body.length - 1].span.end : [0, 0],
+      )),
       diagnostics: this.diagnostics,
     };
   }
@@ -178,7 +178,7 @@ export class Parser {
         if (this.check(LexicalToken.OUTDENT)) {
           this.advance();
         } else {
-          this.tokens.splice(this.current, 0, new Token(LexicalToken.INDENT, '\t', { start: [0, 0], end: [0, 0] }));
+          this.tokens.splice(this.current, 0, new Token(LexicalToken.INDENT, '\t', new Span([0, 0], [0, 0])));
         }
 
         this.indent -= 1;
@@ -186,7 +186,7 @@ export class Parser {
         if (this.check(LexicalToken.INDENT)) {
           this.advance();
         } else {
-          this.tokens.splice(this.current, 0, new Token(LexicalToken.OUTDENT, '', { start: [0, 0], end: [0, 0] }));
+          this.tokens.splice(this.current, 0, new Token(LexicalToken.OUTDENT, '', new Span([0, 0], [0, 0])));
         }
 
         this.indent += 1;

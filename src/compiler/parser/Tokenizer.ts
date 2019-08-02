@@ -3,6 +3,7 @@ import {
   CHAR_TOKENS, WORD_TOKENS,
 } from '../../grammar';
 
+import { Span } from '../../position';
 import { Diagnostic, Level } from '../../diagnostic';
 
 export class Tokenizer {
@@ -30,16 +31,16 @@ export class Tokenizer {
     }
 
     // Add outdent tokens
-    this.tokens.push(...new Array(this.indent).fill(null).map(() => new Token(LexicalToken.OUTDENT, '', {
-      start: [this.lines.length - 1, 0],
-      end: [this.lines.length - 1, this.indent],
-    })));
+    this.tokens.push(...new Array(this.indent).fill(null).map(() => new Token(LexicalToken.OUTDENT, '', new Span(
+      [this.lines.length - 1, 0],
+      [this.lines.length - 1, this.indent],
+    ))));
 
     // Add EOF token after all tokens are scanned
-    this.tokens.push(new Token(LexicalToken.EOF, '', {
-      start: [this.lines.length - 1, this.lines[this.lines.length - 1].length],
-      end: [this.lines.length - 1, this.lines[this.lines.length - 1].length + 1],
-    }));
+    this.tokens.push(new Token(LexicalToken.EOF, '', new Span(
+      [this.lines.length - 1, this.lines[this.lines.length - 1].length],
+      [this.lines.length - 1, this.lines[this.lines.length - 1].length + 1],
+    )));
 
     return {
       tokens: this.tokens,
@@ -64,10 +65,10 @@ export class Tokenizer {
 
     // Add a comment if there is one
     if (trimmed.charAt(0) === '#') {
-      this.comments.push(new Token(LexicalToken.COMMENT, trimmed, {
-        start: [lineIndex, line.length - trimmed.length],
-        end: [lineIndex, line.length],
-      }));
+      this.comments.push(new Token(LexicalToken.COMMENT, trimmed, new Span(
+        [lineIndex, line.length - trimmed.length],
+        [lineIndex, line.length],
+      )));
 
       // Comments last till the end of the line
       return;
@@ -97,10 +98,10 @@ export class Tokenizer {
 
       // If it is a single char type add it to the tokens
       if (singleCharType) {
-        this.tokens.push(new Token(singleCharType, char, {
-          start: [lineIndex, colIndex],
-          end: [lineIndex, colIndex + 1],
-        }));
+        this.tokens.push(new Token(singleCharType, char, new Span(
+          [lineIndex, colIndex],
+          [lineIndex, colIndex + 1],
+        )));
 
         colIndex += 1;
       } else {
@@ -136,25 +137,25 @@ export class Tokenizer {
     }
 
     // Every line ends with a newline
-    this.tokens.push(new Token(LexicalToken.NEWLINE, '\n', {
-      start: [lineIndex, line.length],
-      end: [lineIndex, line.length + 1],
-    }));
+    this.tokens.push(new Token(LexicalToken.NEWLINE, '\n', new Span(
+      [lineIndex, line.length],
+      [lineIndex, line.length + 1],
+    )));
   }
 
   private addIndentTokens(lineIndex: number, indent: number): void {
     if (indent > this.indent) {
       const diff = indent - this.indent;
 
-      this.tokens.push(...new Array(diff).fill(null).map(() => new Token(LexicalToken.INDENT, '\t', {
-        start: [lineIndex, 0],
-        end: [lineIndex, diff],
-      })));
+      this.tokens.push(...new Array(diff).fill(null).map(() => new Token(LexicalToken.INDENT, '\t', new Span(
+        [lineIndex, 0],
+        [lineIndex, diff],
+      ))));
     } else if (indent < this.indent) {
-      this.tokens.push(...new Array(this.indent - indent).fill(null).map(() => new Token(LexicalToken.OUTDENT, '', {
-        start: [lineIndex, 0],
-        end: [lineIndex, indent],
-      })));
+      this.tokens.push(...new Array(this.indent - indent).fill(null).map(() => new Token(LexicalToken.OUTDENT, '', new Span(
+        [lineIndex, 0],
+        [lineIndex, indent],
+      ))));
     }
   }
 
@@ -162,10 +163,10 @@ export class Tokenizer {
     const numberMatch = chars.match(/^\d(?:\d|_)*(?:\.\d(?:\d|_)*)?/);
 
     if (numberMatch) {
-      this.tokens.push(new Token(LexicalToken.NUMBER, numberMatch[0], {
-        start: [lineIndex, colIndex],
-        end: [lineIndex, colIndex + numberMatch[0].length],
-      }));
+      this.tokens.push(new Token(LexicalToken.NUMBER, numberMatch[0], new Span(
+        [lineIndex, colIndex],
+        [lineIndex, colIndex + numberMatch[0].length],
+      )));
 
       return numberMatch[0].length;
     }
@@ -177,10 +178,10 @@ export class Tokenizer {
     const stringMatch = chars.match(/^'(?:[^'\\]|\\.)*'/);
 
     if (stringMatch) {
-      this.tokens.push(new Token(LexicalToken.STRING, stringMatch[0], {
-        start: [lineIndex, colIndex],
-        end: [lineIndex, colIndex + stringMatch[0].length],
-      }));
+      this.tokens.push(new Token(LexicalToken.STRING, stringMatch[0], new Span(
+        [lineIndex, colIndex],
+        [lineIndex, colIndex + stringMatch[0].length],
+      )));
 
       return stringMatch[0].length;
     }
@@ -190,10 +191,10 @@ export class Tokenizer {
 
   private matchComment(chars: string, lineIndex: number, colIndex: number): number {
     // Comments last until the end of the current line
-    this.comments.push(new Token(LexicalToken.COMMENT, chars, {
-      start: [lineIndex, colIndex],
-      end: [lineIndex, colIndex + chars.length],
-    }));
+    this.comments.push(new Token(LexicalToken.COMMENT, chars, new Span(
+      [lineIndex, colIndex],
+      [lineIndex, colIndex + chars.length],
+    )));
 
     return chars.length;
   }
@@ -245,19 +246,19 @@ export class Tokenizer {
       }
     }
 
-    this.tokens.push(new Token(type, lexeme, {
-      start: [lineIndex, colIndex],
-      end: [lineIndex, colIndex + lexeme.length],
-    }));
+    this.tokens.push(new Token(type, lexeme, new Span(
+      [lineIndex, colIndex],
+      [lineIndex, colIndex + lexeme.length],
+    )));
 
     return lexeme.length;
   }
 
   private error(msg: string, lexeme: string, lineIndex: number, colIndex: number): number {
-    this.diagnostics.push(new Diagnostic(Level.ERROR, msg, {
-      start: [lineIndex, colIndex],
-      end: [lineIndex, colIndex + lexeme.length],
-    }));
+    this.diagnostics.push(new Diagnostic(Level.ERROR, msg, new Span(
+      [lineIndex, colIndex],
+      [lineIndex, colIndex + lexeme.length],
+    )));
 
     return lexeme.length;
   }

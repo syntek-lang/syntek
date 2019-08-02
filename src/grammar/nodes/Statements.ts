@@ -28,12 +28,16 @@ export class IfStatement extends Node {
 
   readonly elseClause: Node | null;
 
+  readonly ifSpan: Span;
+
   constructor(condition: Node, body: Node[], elseClause: Node | null, span: Span) {
     super(SyntacticToken.IF_STMT, span);
 
     this.condition = condition;
     this.body = body;
     this.elseClause = elseClause;
+
+    this.ifSpan = new Span(span.start, body[body.length - 1].span.end);
   }
 }
 

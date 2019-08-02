@@ -15,12 +15,12 @@
   <pre id="tree"></pre>
 
   <script>
-    function remove(obj, name) {
+    function removeSpans(obj) {
       for (const prop in obj) {
-        if (prop === name) {
+        if (obj[prop] instanceof syntek.Span) {
           delete obj[prop];
         } else if (typeof obj[prop] === 'object') {
-          remove(obj[prop], name);
+          removeSpans(obj[prop]);
         }
       }
     }
@@ -59,7 +59,7 @@
     // Clone and display the AST
     const clone = deepClone(ast);
     typeToName(clone);
-    remove(clone, 'span');
+    removeSpans(clone);
     document.getElementById('tree').innerHTML = treeify.asTree(clone, true);
 
   </script>

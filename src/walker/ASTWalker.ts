@@ -20,7 +20,7 @@ export class ASTWalker {
     callback: (node: T, parents: grammar.Node[]) => void,
   ): ASTWalker {
     const type = grammar.NODE_TYPE.get(node);
-    if (!type) {
+    if (type === undefined) {
       throw new Error('Unable to listen for node');
     }
 
@@ -38,7 +38,7 @@ export class ASTWalker {
     callback: (node: T, parents: grammar.Node[]) => void,
   ): ASTWalker {
     const type = grammar.NODE_TYPE.get(node);
-    if (!type) {
+    if (type === undefined) {
       throw new Error('Unable to listen for node');
     }
 
