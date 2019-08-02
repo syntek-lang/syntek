@@ -59,19 +59,27 @@ export class DeclarationFinder {
       this.currentScope = this.currentScope.getParent();
     };
 
+    // Scope of the parents of else and catch statements
+    const parentScopes: Scope[] = [];
+
     // Assign listeners
     this.walker
       .onEnter(grammar.IfStatement, node => addBlock(node.ifSpan))
       .onLeave(grammar.IfStatement, leaveBlock)
 
       .onEnter(grammar.ElseStatement, (node) => {
-        const newScope = new BlockScope(this.currentScope, node.span);
         // Else statements have their if statement as a parent, but the scope should behave
         // as if it's a branch of the scope outside the if statement
+        const newScope = new BlockScope(this.currentScope.getParent(), node.span);
         this.currentScope.getParent().branches.push(newScope);
+
+        parentScopes.push(this.currentScope);
         this.currentScope = newScope;
       })
-      .onLeave(grammar.ElseStatement, leaveBlock)
+      .onLeave(grammar.ElseStatement, () => {
+        // The last scope is the scope of the if this else belongs to
+        this.currentScope = parentScopes.pop() as Scope;
+      })
 
       // Switch statements don't have a scope, switch cases do
       .onEnter(grammar.SwitchCase, enterBlock)
@@ -86,8 +94,20 @@ export class DeclarationFinder {
       .onEnter(grammar.WhileStatement, enterBlock)
       .onLeave(grammar.WhileStatement, leaveBlock)
 
-      // TODO: Give catch it's own scope
       .onEnter(grammar.TryStatement, enterBlock)
-      .onLeave(grammar.TryStatement, leaveBlock);
+      .onLeave(grammar.TryStatement, leaveBlock)
+
+      .onEnter(grammar.CatchStatement, (node) => {
+        // Same as with else statements. Catch is a child of try, but has a separate branch
+        const newScope = new BlockScope(this.currentScope.getParent(), node.span);
+        this.currentScope.getParent().branches.push(newScope);
+
+        parentScopes.push(this.currentScope);
+        this.currentScope = newScope;
+      })
+      .onLeave(grammar.CatchStatement, () => {
+        // The last scope is the scope of the try statement this catch belong to
+        this.currentScope = parentScopes.pop() as Scope;
+      });
   }
 }

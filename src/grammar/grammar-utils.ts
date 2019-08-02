@@ -116,6 +116,7 @@ export const NODE_TYPE: Map<typeof grammar.Node, grammar.SyntacticToken> = new M
   .set(grammar.RepeatStatement, grammar.SyntacticToken.REPEAT_STMT)
   .set(grammar.WhileStatement, grammar.SyntacticToken.WHILE_STMT)
   .set(grammar.TryStatement, grammar.SyntacticToken.TRY_STMT)
+  .set(grammar.CatchStatement, grammar.SyntacticToken.CATCH_STMT)
   .set(grammar.ThrowStatement, grammar.SyntacticToken.THROW_STMT)
   .set(grammar.ReturnStatement, grammar.SyntacticToken.RETURN_STMT)
   .set(grammar.ExpressionStatement, grammar.SyntacticToken.EXPRESSION_STMT)

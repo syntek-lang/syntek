@@ -222,6 +222,7 @@ export class ASTWalker {
       case grammar.SyntacticToken.TRY_STMT: {
         const stmt = node as grammar.TryStatement;
         stmt.body.forEach(child => this.walkNode(child));
+        this.walkNode(stmt.catchStmt);
         break;
       }
 
