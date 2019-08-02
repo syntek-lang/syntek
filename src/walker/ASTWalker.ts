@@ -221,8 +221,13 @@ export class ASTWalker {
 
       case grammar.SyntacticToken.TRY_STMT: {
         const stmt = node as grammar.TryStatement;
-        stmt.tryBody.forEach(child => this.walkNode(child));
-        stmt.catchBody.forEach(child => this.walkNode(child));
+        stmt.body.forEach(child => this.walkNode(child));
+        break;
+      }
+
+      case grammar.SyntacticToken.CATCH_STMT: {
+        const stmt = node as grammar.CatchStatement;
+        stmt.body.forEach(child => this.walkNode(child));
         break;
       }
 

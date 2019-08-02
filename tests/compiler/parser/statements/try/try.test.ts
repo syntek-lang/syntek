@@ -34,12 +34,12 @@ describe('try', () => {
       expect(stmt.type).to.equal(SyntacticToken.TRY_STMT);
       expect(stmt).to.be.an.instanceof(TryStatement);
 
-      checkBody(stmt.tryBody);
+      checkBody(stmt.body);
 
-      expect(stmt.identifier.lexeme).to.equal('error');
-      expect(stmt.variableType).to.be.null;
+      expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
+      expect(stmt.catchStmt.variableType).to.be.null;
 
-      checkBody(stmt.catchBody);
+      checkBody(stmt.catchStmt.body);
     }
 
     program.body.forEach(check);
@@ -53,15 +53,15 @@ describe('try', () => {
       expect(stmt.type).to.equal(SyntacticToken.TRY_STMT);
       expect(stmt).to.be.an.instanceof(TryStatement);
 
-      checkBody(stmt.tryBody);
+      checkBody(stmt.body);
 
-      expect(stmt.identifier.lexeme).to.equal('error');
+      expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
 
-      expect(stmt.variableType).to.not.be.null;
-      expect(stmt.variableType!.type.lexeme).to.equal('Error');
-      expect(stmt.variableType!.arrayDepth).to.equal(0);
+      expect(stmt.catchStmt.variableType).to.not.be.null;
+      expect(stmt.catchStmt.variableType!.type.lexeme).to.equal('Error');
+      expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(0);
 
-      checkBody(stmt.catchBody);
+      checkBody(stmt.catchStmt.body);
     }
 
     program.body.forEach(check);
@@ -75,15 +75,15 @@ describe('try', () => {
       expect(stmt.type).to.equal(SyntacticToken.TRY_STMT);
       expect(stmt).to.be.an.instanceof(TryStatement);
 
-      checkBody(stmt.tryBody);
+      checkBody(stmt.body);
 
-      expect(stmt.identifier.lexeme).to.equal('error');
+      expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
 
-      expect(stmt.variableType).to.not.be.null;
-      expect(stmt.variableType!.type.lexeme).to.equal('Error');
-      expect(stmt.variableType!.arrayDepth).to.equal(1);
+      expect(stmt.catchStmt.variableType).to.not.be.null;
+      expect(stmt.catchStmt.variableType!.type.lexeme).to.equal('Error');
+      expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(1);
 
-      checkBody(stmt.catchBody);
+      checkBody(stmt.catchStmt.body);
     }
 
     program.body.forEach(check);
@@ -97,15 +97,15 @@ describe('try', () => {
       expect(stmt.type).to.equal(SyntacticToken.TRY_STMT);
       expect(stmt).to.be.an.instanceof(TryStatement);
 
-      checkBody(stmt.tryBody);
+      checkBody(stmt.body);
 
-      expect(stmt.identifier.lexeme).to.equal('error');
+      expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
 
-      expect(stmt.variableType).to.not.be.null;
-      expect(stmt.variableType!.type.lexeme).to.equal('Error');
-      expect(stmt.variableType!.arrayDepth).to.equal(2);
+      expect(stmt.catchStmt.variableType).to.not.be.null;
+      expect(stmt.catchStmt.variableType!.type.lexeme).to.equal('Error');
+      expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(2);
 
-      checkBody(stmt.catchBody);
+      checkBody(stmt.catchStmt.body);
     }
 
     program.body.forEach(check);

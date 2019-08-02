@@ -1,4 +1,6 @@
-import { Node, LexicalToken, TryStatement } from '../../../../grammar';
+import {
+  Node, LexicalToken, TryStatement, CatchStatement,
+} from '../../../../grammar';
 
 import { Parser } from '../../..';
 import { Span } from '../../../../position';
@@ -14,11 +16,20 @@ export function tryStmt(parser: Parser): Node {
     error.info('Add an indent after this try', trySpan);
   });
 
-  const tryBody: Node[] = [];
+  const body: Node[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {
-    tryBody.push(parser.declaration());
+    body.push(parser.declaration());
   }
 
+  const span = new Span(trySpan.start, parser.previous().span.end);
+
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  const catchStatement = catchStmt(parser);
+
+  return new TryStatement(body, catchStatement, span);
+}
+
+function catchStmt(parser: Parser): CatchStatement {
   const catchSpan = parser.consume(LexicalToken.CATCH, "Expected 'catch' after the try block", (error) => {
     error.info('Add catch of the try block', parser.previous().span);
   }).span;
@@ -41,16 +52,15 @@ export function tryStmt(parser: Parser): Node {
     error.info('Add an indent after the variable', varDecl.span);
   });
 
-  const catchBody: Node[] = [];
+  const body: Node[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {
-    catchBody.push(parser.declaration());
+    body.push(parser.declaration());
   }
 
-  return new TryStatement(
-    tryBody,
+  return new CatchStatement(
     varDecl.identifier,
     varDecl.variableType,
-    catchBody,
-    new Span(trySpan.start, parser.previous().span.end),
+    body,
+    new Span(catchSpan.start, parser.previous().span.end),
   );
 }

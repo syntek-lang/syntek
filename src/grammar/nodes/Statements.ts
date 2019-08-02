@@ -116,27 +116,31 @@ export class WhileStatement extends Node {
 }
 
 export class TryStatement extends Node {
-  readonly tryBody: Node[];
+  readonly body: Node[];
 
+  readonly catchStmt: CatchStatement;
+
+  constructor(body: Node[], catchStmt: CatchStatement, span: Span) {
+    super(SyntacticToken.TRY_STMT, span);
+
+    this.body = body;
+    this.catchStmt = catchStmt;
+  }
+}
+
+export class CatchStatement extends Node {
   readonly identifier: Token;
 
   readonly variableType: VariableType | null;
 
-  readonly catchBody: Node[];
+  readonly body: Node[];
 
-  constructor(
-    tryBody: Node[],
-    identifier: Token,
-    variableType: VariableType | null,
-    catchBody: Node[],
-    span: Span,
-  ) {
-    super(SyntacticToken.TRY_STMT, span);
+  constructor(identifier: Token, variableType: VariableType | null, body: Node[], span: Span) {
+    super(SyntacticToken.CATCH_STMT, span);
 
-    this.tryBody = tryBody;
     this.identifier = identifier;
     this.variableType = variableType;
-    this.catchBody = catchBody;
+    this.body = body;
   }
 }
 
