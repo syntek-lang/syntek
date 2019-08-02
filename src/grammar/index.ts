@@ -12,3 +12,5 @@ export * from './nodes/Declarations';
 export * from './nodes/Expressions';
 export * from './nodes/Statements';
 export * from './nodes/Other';
+
+export * from './grammar-utils';
