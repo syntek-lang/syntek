@@ -1,12 +1,15 @@
 import { Scope } from './Scope';
-import { Span } from '../../../position';
+import { ClassDeclaration } from '../../../grammar';
 
 export class ClassScope extends Scope {
+  readonly node: ClassDeclaration;
+
   readonly parent: Scope;
 
-  constructor(parent: Scope, span: Span) {
-    super(span);
+  constructor(node: ClassDeclaration, parent: Scope) {
+    super(node.span);
 
+    this.node = node;
     this.parent = parent;
   }
 

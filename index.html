@@ -15,17 +15,29 @@
   <pre id="tree"></pre>
 
   <script>
-    function removeSpans(obj) {
+    function removeSpans(obj, seen = []) {
+      if (seen.includes(obj)) {
+        return;
+      }
+
+      seen.push(obj);
+
       for (const prop in obj) {
         if (obj[prop] instanceof syntek.Span) {
           delete obj[prop];
         } else if (typeof obj[prop] === 'object') {
-          removeSpans(obj[prop]);
+          removeSpans(obj[prop], seen);
         }
       }
     }
 
-    function typeToName(obj) {
+    function typeToName(obj, seen = []) {
+      if (seen.includes(obj)) {
+        return;
+      }
+
+      seen.push(obj);
+
       for (const prop in obj) {
         if (prop === 'type') {
           if (obj instanceof syntek.Node) {
@@ -36,7 +48,7 @@
         }
 
         if (typeof obj[prop] === 'object') {
-          typeToName(obj[prop]);
+          typeToName(obj[prop], seen);
         }
       }
     }

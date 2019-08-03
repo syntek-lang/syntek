@@ -1,12 +1,16 @@
 import { Scope } from './Scope';
+import { Node } from '../../../grammar';
 import { Span } from '../../../position';
 
 export class BlockScope extends Scope {
+  readonly node: Node;
+
   readonly parent: Scope;
 
-  constructor(parent: Scope, span: Span) {
+  constructor(node: Node, parent: Scope, span: Span) {
     super(span);
 
+    this.node = node;
     this.parent = parent;
   }
 

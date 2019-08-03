@@ -5,6 +5,8 @@ import { Span } from '../../position';
 import { Scope } from './scopes/Scope';
 import { FileScope } from './scopes/FileScope';
 import { BlockScope } from './scopes/BlockScope';
+import { ClassScope } from './scopes/ClassScope';
+import { FunctionScope } from './scopes/FunctionScope';
 
 export class DeclarationFinder {
   readonly fileScope: FileScope;
@@ -13,8 +15,8 @@ export class DeclarationFinder {
 
   private currentScope: Scope;
 
-  constructor(ast: grammar.Node) {
-    this.fileScope = new FileScope(ast.span);
+  constructor(ast: grammar.Program) {
+    this.fileScope = new FileScope(ast);
     this.walker = new ASTWalker(ast);
     this.currentScope = this.fileScope;
 
@@ -33,7 +35,9 @@ export class DeclarationFinder {
         this.currentScope.imports.push(node);
       })
       .onEnter(grammar.ClassDeclaration, (node) => {
-        this.currentScope.classes.push(node);
+        const newScope = new ClassScope(node, this.currentScope);
+        this.currentScope.classes.push(newScope);
+        this.currentScope = newScope;
       })
       .onEnter(grammar.VariableDeclaration, (node) => {
         this.currentScope.variables.push(node);
@@ -42,19 +46,21 @@ export class DeclarationFinder {
         this.currentScope.variables.push(node);
       })
       .onEnter(grammar.FunctionDeclaration, (node) => {
-        this.currentScope.functions.push(node);
+        const newScope = new FunctionScope(node, this.currentScope);
+        this.currentScope.functions.push(newScope);
+        this.currentScope = newScope;
       });
   }
 
   private handleBlockScope(): void {
     // Shorthand functions to handle scope changes
-    const addBlock = (span: Span): void => {
-      const newScope = new BlockScope(this.currentScope, span);
+    const addBlock = (node: grammar.Node, span: Span): void => {
+      const newScope = new BlockScope(node, this.currentScope, span);
       this.currentScope.branches.push(newScope);
       this.currentScope = newScope;
     };
 
-    const enterBlock = (node: grammar.Node): void => addBlock(node.span);
+    const enterBlock = (node: grammar.Node): void => addBlock(node, node.span);
     const leaveBlock = (): void => {
       this.currentScope = this.currentScope.getParent();
     };
@@ -64,13 +70,13 @@ export class DeclarationFinder {
 
     // Assign listeners
     this.walker
-      .onEnter(grammar.IfStatement, node => addBlock(node.ifSpan))
+      .onEnter(grammar.IfStatement, node => addBlock(node, node.ifSpan))
       .onLeave(grammar.IfStatement, leaveBlock)
 
       .onEnter(grammar.ElseStatement, (node) => {
         // Else statements have their if statement as a parent, but the scope should behave
         // as if it's a branch of the scope outside the if statement
-        const newScope = new BlockScope(this.currentScope.getParent(), node.span);
+        const newScope = new BlockScope(node, this.currentScope.getParent(), node.span);
         this.currentScope.getParent().branches.push(newScope);
 
         parentScopes.push(this.currentScope);
@@ -99,7 +105,7 @@ export class DeclarationFinder {
 
       .onEnter(grammar.CatchStatement, (node) => {
         // Same as with else statements. Catch is a child of try, but has a separate branch
-        const newScope = new BlockScope(this.currentScope.getParent(), node.span);
+        const newScope = new BlockScope(node, this.currentScope.getParent(), node.span);
         this.currentScope.getParent().branches.push(newScope);
 
         parentScopes.push(this.currentScope);
