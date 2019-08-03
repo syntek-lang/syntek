@@ -30,26 +30,37 @@ export class DeclarationFinder {
   }
 
   private handleDeclarations(): void {
+    // Shorthand function for leaving a block
+    const leaveBlock = (): void => {
+      this.currentScope = this.currentScope.getParent();
+    };
+
+    // Assign listeners
     this.walker
       .onEnter(grammar.ImportDeclaration, (node) => {
         this.currentScope.imports.push(node);
       })
+
       .onEnter(grammar.ClassDeclaration, (node) => {
         const newScope = new ClassScope(node, this.currentScope);
         this.currentScope.classes.push(newScope);
         this.currentScope = newScope;
       })
+      .onLeave(grammar.ClassDeclaration, leaveBlock)
+
       .onEnter(grammar.VariableDeclaration, (node) => {
         this.currentScope.variables.push(node);
       })
       .onEnter(grammar.AssignmentExpression, (node) => {
         this.currentScope.variables.push(node);
       })
+
       .onEnter(grammar.FunctionDeclaration, (node) => {
         const newScope = new FunctionScope(node, this.currentScope);
         this.currentScope.functions.push(newScope);
         this.currentScope = newScope;
-      });
+      })
+      .onLeave(grammar.FunctionDeclaration, leaveBlock);
   }
 
   private handleBlockScope(): void {
