@@ -43,12 +43,10 @@ describe('class', () => {
       expect(decl.identifer.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
-      expect(decl.body.length).to.equal(1);
+      expect(decl.staticBody.length).to.equal(0);
+      expect(decl.instanceBody.length).to.equal(1);
 
-      const prop = decl.body[0];
-      expect(prop.static).to.be.false;
-
-      const value = prop.value as VariableDeclaration;
+      const value = decl.instanceBody[0] as VariableDeclaration;
       expect(value.type).to.equal(SyntacticToken.VARIABLE_DECL);
       expect(value).to.be.an.instanceof(VariableDeclaration);
       expect(value.variableType).to.be.null;
@@ -70,12 +68,10 @@ describe('class', () => {
       expect(decl.identifer.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
-      expect(decl.body.length).to.equal(2);
+      expect(decl.staticBody.length).to.equal(0);
+      expect(decl.instanceBody.length).to.equal(2);
 
-      const firstProp = decl.body[0];
-      expect(firstProp.static).to.be.false;
-
-      const firstValue = firstProp.value as VariableDeclaration;
+      const firstValue = decl.instanceBody[0] as VariableDeclaration;
       expect(firstValue.type).to.equal(SyntacticToken.VARIABLE_DECL);
       expect(firstValue).to.be.an.instanceof(VariableDeclaration);
       expect(firstValue.variableType).to.be.null;
@@ -83,10 +79,7 @@ describe('class', () => {
 
       checkIdentifier(firstValue.value, 'y');
 
-      const secondProp = decl.body[1];
-      expect(secondProp.static).to.be.false;
-
-      const secondValue = secondProp.value as VariableDeclaration;
+      const secondValue = decl.instanceBody[1] as VariableDeclaration;
       expect(secondValue.type).to.equal(SyntacticToken.VARIABLE_DECL);
       expect(secondValue).to.be.an.instanceof(VariableDeclaration);
       expect(secondValue.variableType).to.be.null;
@@ -108,12 +101,10 @@ describe('class', () => {
       expect(decl.identifer.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
-      expect(decl.body.length).to.equal(1);
+      expect(decl.staticBody.length).to.equal(1);
+      expect(decl.instanceBody.length).to.equal(0);
 
-      const prop = decl.body[0];
-      expect(prop.static).to.be.true;
-
-      const value = prop.value as VariableDeclaration;
+      const value = decl.staticBody[0] as VariableDeclaration;
       expect(value.type).to.equal(SyntacticToken.VARIABLE_DECL);
       expect(value).to.be.an.instanceof(VariableDeclaration);
       expect(value.variableType).to.be.null;
@@ -135,12 +126,10 @@ describe('class', () => {
       expect(decl.identifer.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
-      expect(decl.body.length).to.equal(2);
+      expect(decl.staticBody.length).to.equal(2);
+      expect(decl.instanceBody.length).to.equal(0);
 
-      const firstProp = decl.body[0];
-      expect(firstProp.static).to.be.true;
-
-      const firstValue = firstProp.value as VariableDeclaration;
+      const firstValue = decl.staticBody[0] as VariableDeclaration;
       expect(firstValue.type).to.equal(SyntacticToken.VARIABLE_DECL);
       expect(firstValue).to.be.an.instanceof(VariableDeclaration);
       expect(firstValue.variableType).to.be.null;
@@ -148,10 +137,7 @@ describe('class', () => {
 
       checkIdentifier(firstValue.value, 'y');
 
-      const secondProp = decl.body[1];
-      expect(secondProp.static).to.be.true;
-
-      const secondValue = secondProp.value as VariableDeclaration;
+      const secondValue = decl.staticBody[1] as VariableDeclaration;
       expect(secondValue.type).to.equal(SyntacticToken.VARIABLE_DECL);
       expect(secondValue).to.be.an.instanceof(VariableDeclaration);
       expect(secondValue.variableType).to.be.null;
@@ -173,12 +159,10 @@ describe('class', () => {
       expect(decl.identifer.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
-      expect(decl.body.length).to.equal(1);
+      expect(decl.staticBody.length).to.equal(0);
+      expect(decl.instanceBody.length).to.equal(1);
 
-      const prop = decl.body[0];
-      expect(prop.static).to.be.false;
-
-      const value = prop.value as FunctionDeclaration;
+      const value = decl.instanceBody[0] as FunctionDeclaration;
       expect(value.type).to.equal(SyntacticToken.FUNCTION_DECL);
       expect(value).to.be.an.instanceof(FunctionDeclaration);
       expect(value.identifier.lexeme).to.equal('x');
@@ -200,12 +184,10 @@ describe('class', () => {
       expect(decl.identifer.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
-      expect(decl.body.length).to.equal(1);
+      expect(decl.staticBody.length).to.equal(1);
+      expect(decl.instanceBody.length).to.equal(0);
 
-      const prop = decl.body[0];
-      expect(prop.static).to.be.true;
-
-      const value = prop.value as FunctionDeclaration;
+      const value = decl.staticBody[0] as FunctionDeclaration;
       expect(value.type).to.equal(SyntacticToken.FUNCTION_DECL);
       expect(value).to.be.an.instanceof(FunctionDeclaration);
       expect(value.identifier.lexeme).to.equal('x');
@@ -229,12 +211,10 @@ describe('class', () => {
       expect(decl.extends.length).to.equal(1);
       expect(decl.extends[0].lexeme).to.equal('Object');
 
-      expect(decl.body.length).to.equal(1);
+      expect(decl.staticBody.length).to.equal(0);
+      expect(decl.instanceBody.length).to.equal(1);
 
-      const prop = decl.body[0];
-      expect(prop.static).to.be.false;
-
-      const value = prop.value as VariableDeclaration;
+      const value = decl.instanceBody[0] as VariableDeclaration;
       expect(value.type).to.equal(SyntacticToken.VARIABLE_DECL);
       expect(value).to.be.an.instanceof(VariableDeclaration);
       expect(value.variableType).to.be.null;
@@ -259,12 +239,10 @@ describe('class', () => {
       expect(decl.extends[0].lexeme).to.equal('Object');
       expect(decl.extends[1].lexeme).to.equal('Other');
 
-      expect(decl.body.length).to.equal(1);
+      expect(decl.staticBody.length).to.equal(0);
+      expect(decl.instanceBody.length).to.equal(1);
 
-      const prop = decl.body[0];
-      expect(prop.static).to.be.false;
-
-      const value = prop.value as VariableDeclaration;
+      const value = decl.instanceBody[0] as VariableDeclaration;
       expect(value.type).to.equal(SyntacticToken.VARIABLE_DECL);
       expect(value).to.be.an.instanceof(VariableDeclaration);
       expect(value.variableType).to.be.null;

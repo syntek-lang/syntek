@@ -1,5 +1,5 @@
 import {
-  Node, Token, SyntacticToken, VariableType, FunctionParam, ClassProp,
+  Node, Token, SyntacticToken, VariableType, FunctionParam,
 } from '..';
 
 import { Span } from '../../position';
@@ -62,19 +62,23 @@ export class ClassDeclaration extends Node {
 
   readonly extends: Token[];
 
-  readonly body: ClassProp[];
+  readonly staticBody: Node[];
+
+  readonly instanceBody: Node[];
 
   constructor(
     identifier: Token,
     extend: Token[],
-    body: ClassProp[],
+    staticBody: Node[],
+    instanceBody: Node[],
     span: Span,
   ) {
     super(SyntacticToken.CLASS_DECL, span);
 
     this.identifer = identifier;
     this.extends = extend;
-    this.body = body;
+    this.staticBody = staticBody;
+    this.instanceBody = instanceBody;
   }
 }
 

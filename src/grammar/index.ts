@@ -1,7 +1,6 @@
 export * from './Token';
 export * from './Node';
 
-export * from './ClassProp';
 export * from './VariableType';
 export * from './FunctionParam';
 

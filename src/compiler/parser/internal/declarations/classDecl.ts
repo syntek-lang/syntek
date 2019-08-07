@@ -1,5 +1,5 @@
 import {
-  Node, Token, LexicalToken, ClassDeclaration, ClassProp,
+  Node, Token, LexicalToken, ClassDeclaration,
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
@@ -34,24 +34,24 @@ export function classDecl(parser: Parser): Node {
   parser.syncIndentation();
   parser.consume(LexicalToken.INDENT, 'Expected a newline and indent after the class signature');
 
-  const body: ClassProp[] = [];
+  const staticBody: Node[] = [];
+  const instanceBody: Node[] = [];
   while (!parser.match(LexicalToken.OUTDENT)) {
     const isStatic = parser.match(LexicalToken.STATIC);
 
     if (isStatic) {
       parser.eatWhitespace();
+      staticBody.push(parser.declaration());
+    } else {
+      instanceBody.push(parser.declaration());
     }
-
-    body.push({
-      static: isStatic,
-      value: parser.declaration(),
-    });
   }
 
   return new ClassDeclaration(
     identifier,
     extend,
-    body,
+    staticBody,
+    instanceBody,
     new Span(classSpan.start, parser.previous().span.end),
   );
 }
