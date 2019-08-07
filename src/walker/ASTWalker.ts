@@ -86,6 +86,13 @@ export class ASTWalker {
         break;
       }
 
+      case grammar.SyntacticToken.CLASS_DECL: {
+        const decl = node as grammar.ClassDeclaration;
+        decl.staticBody.forEach(child => this.walkNode(child));
+        decl.instanceBody.forEach(child => this.walkNode(child));
+        break;
+      }
+
       // Expressions
       case grammar.SyntacticToken.WRAPPED_EXPR: {
         const expr = node as grammar.WrappedExpression;
