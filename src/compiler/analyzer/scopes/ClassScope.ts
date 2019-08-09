@@ -4,13 +4,9 @@ import {
 } from '../..';
 import * as grammar from '../../../grammar';
 
-export class ClassScope extends Scope {
-  readonly node: grammar.ClassDeclaration;
-
+export class ClassScope extends Scope<grammar.ClassDeclaration> {
   constructor(node: grammar.ClassDeclaration, parent?: Scope) {
     super(node, parent, new SymbolTable());
-
-    this.node = node;
   }
 
   handleNode(node: grammar.Node): void {

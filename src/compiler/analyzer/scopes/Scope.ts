@@ -5,8 +5,8 @@ import {
   SymbolTable, SymbolEntry,
 } from '../..';
 
-export abstract class Scope {
-  readonly node: grammar.Node;
+export abstract class Scope<T extends grammar.Node = grammar.Node> {
+  readonly node: T;
 
   readonly parent?: Scope;
 
@@ -14,7 +14,7 @@ export abstract class Scope {
 
   readonly scopes = new Map<grammar.Node, Scope>();
 
-  constructor(node: grammar.Node, parent?: Scope, table?: SymbolTable) {
+  constructor(node: T, parent?: Scope, table?: SymbolTable) {
     this.node = node;
     this.parent = parent;
 
