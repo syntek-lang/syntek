@@ -1,4 +1,4 @@
-import { SymbolEntry } from './SymbolEntry';
+import { SymbolEntry } from '../..';
 
 export class SymbolTable {
   private readonly symbols = new Map<string, SymbolEntry>();
