@@ -58,7 +58,7 @@ export class FunctionDeclaration extends Node {
 }
 
 export class ClassDeclaration extends Node {
-  readonly identifer: Token;
+  readonly identifier: Token;
 
   readonly extends: Token[];
 
@@ -75,7 +75,7 @@ export class ClassDeclaration extends Node {
   ) {
     super(SyntacticToken.CLASS_DECL, span);
 
-    this.identifer = identifier;
+    this.identifier = identifier;
     this.extends = extend;
     this.staticBody = staticBody;
     this.instanceBody = instanceBody;

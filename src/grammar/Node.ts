@@ -1,7 +1,7 @@
 import { SyntacticToken } from '.';
 import { Span } from '../position';
 
-export class Node {
+export abstract class Node {
   readonly type: SyntacticToken;
 
   readonly span: Span;

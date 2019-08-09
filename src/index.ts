@@ -1,5 +1,4 @@
-import { Tokenizer, Parser } from './compiler';
-import { DeclarationFinder } from './compiler/analyzer/DeclarationFinder';
+import { Tokenizer, Parser, BlockScope } from './compiler';
 
 // import program from '../tests/syntek/programs/fizzbuzz.tek';
 import program from './dev.tek';
@@ -20,5 +19,6 @@ export * from './position';
 export * from './walker';
 
 // Semantic analysis
-export const fileScope = new DeclarationFinder(parseResult.ast).search();
-console.log(fileScope);
+export const programScope = new BlockScope(parseResult.ast);
+programScope.build();
+console.log(programScope);

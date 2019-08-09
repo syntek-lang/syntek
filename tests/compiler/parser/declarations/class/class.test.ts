@@ -40,7 +40,7 @@ describe('class', () => {
       const decl = node as ClassDeclaration;
       expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
       expect(decl).to.be.an.instanceof(ClassDeclaration);
-      expect(decl.identifer.lexeme).to.equal('MyClass');
+      expect(decl.identifier.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
       expect(decl.staticBody.length).to.equal(0);
@@ -65,7 +65,7 @@ describe('class', () => {
       const decl = node as ClassDeclaration;
       expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
       expect(decl).to.be.an.instanceof(ClassDeclaration);
-      expect(decl.identifer.lexeme).to.equal('MyClass');
+      expect(decl.identifier.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
       expect(decl.staticBody.length).to.equal(0);
@@ -98,7 +98,7 @@ describe('class', () => {
       const decl = node as ClassDeclaration;
       expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
       expect(decl).to.be.an.instanceof(ClassDeclaration);
-      expect(decl.identifer.lexeme).to.equal('MyClass');
+      expect(decl.identifier.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
       expect(decl.staticBody.length).to.equal(1);
@@ -123,7 +123,7 @@ describe('class', () => {
       const decl = node as ClassDeclaration;
       expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
       expect(decl).to.be.an.instanceof(ClassDeclaration);
-      expect(decl.identifer.lexeme).to.equal('MyClass');
+      expect(decl.identifier.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
       expect(decl.staticBody.length).to.equal(2);
@@ -156,7 +156,7 @@ describe('class', () => {
       const decl = node as ClassDeclaration;
       expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
       expect(decl).to.be.an.instanceof(ClassDeclaration);
-      expect(decl.identifer.lexeme).to.equal('MyClass');
+      expect(decl.identifier.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
       expect(decl.staticBody.length).to.equal(0);
@@ -181,7 +181,7 @@ describe('class', () => {
       const decl = node as ClassDeclaration;
       expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
       expect(decl).to.be.an.instanceof(ClassDeclaration);
-      expect(decl.identifer.lexeme).to.equal('MyClass');
+      expect(decl.identifier.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(0);
       expect(decl.staticBody.length).to.equal(1);
@@ -206,7 +206,7 @@ describe('class', () => {
       const decl = node as ClassDeclaration;
       expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
       expect(decl).to.be.an.instanceof(ClassDeclaration);
-      expect(decl.identifer.lexeme).to.equal('MyClass');
+      expect(decl.identifier.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(1);
       expect(decl.extends[0].lexeme).to.equal('Object');
@@ -233,7 +233,7 @@ describe('class', () => {
       const decl = node as ClassDeclaration;
       expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
       expect(decl).to.be.an.instanceof(ClassDeclaration);
-      expect(decl.identifer.lexeme).to.equal('MyClass');
+      expect(decl.identifier.lexeme).to.equal('MyClass');
 
       expect(decl.extends.length).to.equal(2);
       expect(decl.extends[0].lexeme).to.equal('Object');
