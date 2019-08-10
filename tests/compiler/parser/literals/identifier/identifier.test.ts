@@ -19,7 +19,7 @@ describe('identifier', () => {
       const expr = (node as ExpressionStatement).expression as Identifier;
       expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(expr).to.be.an.instanceof(Identifier);
-      expect(expr.identifier.lexeme).to.equal(identifiers[i]);
+      expect(expr.lexeme).to.equal(identifiers[i]);
     });
   });
 });

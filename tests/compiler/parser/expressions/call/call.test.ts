@@ -26,7 +26,7 @@ describe('call', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('fn');
+      expect(object.lexeme).to.equal('fn');
     }
 
     program.body.forEach(check);
@@ -54,7 +54,7 @@ describe('call', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('fn');
+      expect(object.lexeme).to.equal('fn');
     }
 
     program.body.forEach(check);
@@ -87,7 +87,7 @@ describe('call', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('fn');
+      expect(object.lexeme).to.equal('fn');
     }
 
     program.body.forEach(check);

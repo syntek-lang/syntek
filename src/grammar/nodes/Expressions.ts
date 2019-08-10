@@ -169,12 +169,12 @@ export class AssignmentExpression extends Node {
 }
 
 export class Identifier extends Node {
-  readonly identifier: Token;
+  readonly lexeme: string;
 
-  constructor(identifier: Token, span: Span) {
-    super(SyntacticToken.IDENTIFIER, span);
+  constructor(identifier: Token, span?: Span) {
+    super(SyntacticToken.IDENTIFIER, span || identifier.span);
 
-    this.identifier = identifier;
+    this.lexeme = identifier.lexeme;
   }
 }
 

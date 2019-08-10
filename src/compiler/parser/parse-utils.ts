@@ -1,5 +1,5 @@
 import {
-  Node, Token, LexicalToken, VariableType, FunctionParam,
+  Node, Identifier, LexicalToken, VariableType, FunctionParam,
 } from '../../grammar';
 
 import { Parser } from '..';
@@ -7,7 +7,7 @@ import { Span } from '../../position';
 
 export interface VarDecl {
   variableType: VariableType | null;
-  identifier: Token;
+  identifier: Identifier;
   span: Span;
 }
 
@@ -26,7 +26,7 @@ export function checkType(parser: Parser): VariableType | null {
   }
 
   return {
-    type: parser.peek(),
+    type: new Identifier(parser.peek()),
     arrayDepth: (offset - 1) / 2,
     span: new Span(
       parser.peek().span.start,
@@ -45,14 +45,14 @@ export function checkVar(parser: Parser): VarDecl | null {
   if (parser.check(LexicalToken.IDENTIFIER, offset)) {
     return {
       variableType: typeDecl,
-      identifier: parser.peek(offset),
+      identifier: new Identifier(parser.peek(offset)),
       span: new Span(typeDecl.span.start, parser.peek(offset).span.end),
     };
   }
 
   return {
     variableType: null,
-    identifier: parser.peek(),
+    identifier: new Identifier(parser.peek()),
     span: parser.peek().span,
   };
 }
@@ -83,7 +83,10 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
     }
 
     const name = parser.consume(LexicalToken.IDENTIFIER, 'Expected param name');
-    params.push({ name, variableType: typeDecl });
+    params.push({
+      name: new Identifier(name),
+      variableType: typeDecl,
+    });
 
     parser.eatWhitespace();
     if (parser.peek().type !== LexicalToken.RPAR) {

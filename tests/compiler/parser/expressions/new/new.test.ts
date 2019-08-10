@@ -28,7 +28,7 @@ describe('new', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('Class');
+      expect(object.lexeme).to.equal('Class');
     }
 
     program.body.forEach(check);
@@ -56,7 +56,7 @@ describe('new', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('Class');
+      expect(object.lexeme).to.equal('Class');
     }
 
     program.body.forEach(check);
@@ -89,7 +89,7 @@ describe('new', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('Class');
+      expect(object.lexeme).to.equal('Class');
     }
 
     program.body.forEach(check);
@@ -116,7 +116,7 @@ describe('new', () => {
       const object = memberExpr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('obj');
+      expect(object.lexeme).to.equal('obj');
 
       const property = memberExpr.property;
       expect(property.lexeme).to.equal('Class');

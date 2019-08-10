@@ -7,7 +7,7 @@ export class FunctionScope extends Scope<FunctionDeclaration> {
       if (this.table.has(param.name.lexeme)) {
         throw new Error(`Parameter name "${param.name.lexeme}" of ${this.node.identifier.lexeme} already used`);
       } else {
-        this.table.set(param.name.lexeme, new SymbolEntry(this.node, this));
+        this.table.set(param.name.lexeme, new SymbolEntry(param.name, this));
       }
     });
 

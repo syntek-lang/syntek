@@ -21,7 +21,7 @@ function checkBody(nodes: Node[]): void {
     const expr = stmt.expression as Identifier;
     expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
     expect(expr).to.be.an.instanceof(Identifier);
-    expect(expr.identifier.lexeme).to.equal(names[i]);
+    expect(expr.lexeme).to.equal(names[i]);
   }
 }
 
@@ -37,7 +37,7 @@ describe('switch', () => {
       const expr = stmt.expression as Identifier;
       expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(expr).to.be.an.instanceof(Identifier);
-      expect(expr.identifier.lexeme).to.equal('x');
+      expect(expr.lexeme).to.equal('x');
 
       expect(stmt.cases.length).to.equal(1);
 
@@ -47,7 +47,7 @@ describe('switch', () => {
       const firstCondition = firstCase.conditions[0] as Identifier;
       expect(firstCondition.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(firstCondition).to.be.an.instanceof(Identifier);
-      expect(firstCondition.identifier.lexeme).to.equal('y');
+      expect(firstCondition.lexeme).to.equal('y');
 
       checkBody(firstCase.body);
     }
@@ -66,7 +66,7 @@ describe('switch', () => {
       const expr = stmt.expression as Identifier;
       expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(expr).to.be.an.instanceof(Identifier);
-      expect(expr.identifier.lexeme).to.equal('x');
+      expect(expr.lexeme).to.equal('x');
 
       expect(stmt.cases.length).to.equal(2);
 
@@ -76,7 +76,7 @@ describe('switch', () => {
       const firstCondition = firstCase.conditions[0] as Identifier;
       expect(firstCondition.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(firstCondition).to.be.an.instanceof(Identifier);
-      expect(firstCondition.identifier.lexeme).to.equal('y');
+      expect(firstCondition.lexeme).to.equal('y');
 
       checkBody(firstCase.body);
 
@@ -86,7 +86,7 @@ describe('switch', () => {
       const secondCondition = secondCase.conditions[0] as Identifier;
       expect(secondCondition.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(secondCondition).to.be.an.instanceof(Identifier);
-      expect(secondCondition.identifier.lexeme).to.equal('z');
+      expect(secondCondition.lexeme).to.equal('z');
 
       checkBody(secondCase.body);
     }
@@ -105,7 +105,7 @@ describe('switch', () => {
       const expr = stmt.expression as Identifier;
       expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(expr).to.be.an.instanceof(Identifier);
-      expect(expr.identifier.lexeme).to.equal('x');
+      expect(expr.lexeme).to.equal('x');
 
       expect(stmt.cases.length).to.equal(1);
 
@@ -115,12 +115,12 @@ describe('switch', () => {
       const firstCondition = firstCase.conditions[0] as Identifier;
       expect(firstCondition.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(firstCondition).to.be.an.instanceof(Identifier);
-      expect(firstCondition.identifier.lexeme).to.equal('y');
+      expect(firstCondition.lexeme).to.equal('y');
 
       const secondCondition = firstCase.conditions[1] as Identifier;
       expect(secondCondition.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(secondCondition).to.be.an.instanceof(Identifier);
-      expect(secondCondition.identifier.lexeme).to.equal('z');
+      expect(secondCondition.lexeme).to.equal('z');
 
       checkBody(firstCase.body);
     }
@@ -139,7 +139,7 @@ describe('switch', () => {
       const expr = stmt.expression as Identifier;
       expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(expr).to.be.an.instanceof(Identifier);
-      expect(expr.identifier.lexeme).to.equal('x');
+      expect(expr.lexeme).to.equal('x');
 
       expect(stmt.cases.length).to.equal(2);
 
@@ -149,12 +149,12 @@ describe('switch', () => {
       const firstCondition = firstCase.conditions[0] as Identifier;
       expect(firstCondition.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(firstCondition).to.be.an.instanceof(Identifier);
-      expect(firstCondition.identifier.lexeme).to.equal('y');
+      expect(firstCondition.lexeme).to.equal('y');
 
       const secondCondition = firstCase.conditions[1] as Identifier;
       expect(secondCondition.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(secondCondition).to.be.an.instanceof(Identifier);
-      expect(secondCondition.identifier.lexeme).to.equal('z');
+      expect(secondCondition.lexeme).to.equal('z');
 
       checkBody(firstCase.body);
 
@@ -164,12 +164,12 @@ describe('switch', () => {
       const thirdCondition = secondCase.conditions[0] as Identifier;
       expect(thirdCondition.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(thirdCondition).to.be.an.instanceof(Identifier);
-      expect(thirdCondition.identifier.lexeme).to.equal('a');
+      expect(thirdCondition.lexeme).to.equal('a');
 
       const fourthCondition = secondCase.conditions[1] as Identifier;
       expect(fourthCondition.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(fourthCondition).to.be.an.instanceof(Identifier);
-      expect(fourthCondition.identifier.lexeme).to.equal('b');
+      expect(fourthCondition.lexeme).to.equal('b');
 
       checkBody(secondCase.body);
     }

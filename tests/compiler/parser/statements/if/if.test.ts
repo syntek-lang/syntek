@@ -21,7 +21,7 @@ function checkBody(nodes: Node[]): void {
     const expr = stmt.expression as Identifier;
     expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
     expect(expr).to.be.an.instanceof(Identifier);
-    expect(expr.identifier.lexeme).to.equal(names[i]);
+    expect(expr.lexeme).to.equal(names[i]);
   }
 }
 

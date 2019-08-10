@@ -1,5 +1,5 @@
 import {
-  Node, Token, LexicalToken, ClassDeclaration,
+  Node, Identifier, LexicalToken, ClassDeclaration,
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
@@ -13,16 +13,18 @@ export function classDecl(parser: Parser): Node {
     error.info('Add an identifier after this class', classSpan);
   });
 
-  const extend: Token[] = [];
+  const extend: Identifier[] = [];
   if (parser.peekIgnoreWhitespace().type === LexicalToken.EXTENDS) {
     parser.eatWhitespace();
     const extendSpan = parser.advance().span;
 
     do {
       parser.eatWhitespace();
-      extend.push(parser.consume(LexicalToken.IDENTIFIER, "Expected a list of identifiers after 'extends'", (error) => {
+
+      const extendToken = parser.consume(LexicalToken.IDENTIFIER, "Expected a list of identifiers after 'extends'", (error) => {
         error.info('Add one or more identifiers after this extends', extendSpan);
-      }));
+      });
+      extend.push(new Identifier(extendToken, extendToken.span));
 
       if (parser.peekIgnoreWhitespace().type === LexicalToken.COMMA) {
         parser.eatWhitespace();
@@ -48,7 +50,7 @@ export function classDecl(parser: Parser): Node {
   }
 
   return new ClassDeclaration(
-    identifier,
+    new Identifier(identifier),
     extend,
     staticBody,
     instanceBody,

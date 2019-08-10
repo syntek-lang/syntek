@@ -3,6 +3,8 @@ export * from './parser/Tokenizer';
 export * from './parser/Parser';
 
 // analyzer
+export * from './analyzer/linting';
+
 export * from './analyzer/scopes/Scope';
 export * from './analyzer/scopes/BlockScope';
 export * from './analyzer/scopes/ClassScope';

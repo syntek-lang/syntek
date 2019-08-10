@@ -28,17 +28,17 @@ describe('assignment', () => {
       const object = left.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('x');
+      expect(object.lexeme).to.equal('x');
 
       const index = left.index as Identifier;
       expect(index.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(index).to.be.an.instanceof(Identifier);
-      expect(index.identifier.lexeme).to.equal('y');
+      expect(index.lexeme).to.equal('y');
 
       const value = expr.value as Identifier;
       expect(value.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(value).to.be.an.instanceof(Identifier);
-      expect(value.identifier.lexeme).to.equal('z');
+      expect(value.lexeme).to.equal('z');
     }
 
     program.body.forEach(check);

@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { parse, loadRaw } from '../../../../test-utils';
 
 import { Node } from '../../../../../src/grammar/Node';
-import { LexicalToken } from '../../../../../src/grammar/LexicalToken';
 import { Identifier } from '../../../../../src/grammar/nodes/Expressions';
 import { SyntacticToken } from '../../../../../src/grammar/SyntacticToken';
 import { VariableDeclaration } from '../../../../../src/grammar/nodes/Declarations';
@@ -24,7 +23,7 @@ describe('variable', () => {
       const value = decl.value as Identifier;
       expect(value.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(value).to.be.an.instanceof(Identifier);
-      expect(value.identifier.lexeme).to.equal('y');
+      expect(value.lexeme).to.equal('y');
     }
 
     program.body.forEach(check);
@@ -47,7 +46,7 @@ describe('variable', () => {
       const value = decl.value as Identifier;
       expect(value.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(value).to.be.an.instanceof(Identifier);
-      expect(value.identifier.lexeme).to.equal('y');
+      expect(value.lexeme).to.equal('y');
     }
 
     program.body.forEach(check);
@@ -70,7 +69,7 @@ describe('variable', () => {
       const value = decl.value as Identifier;
       expect(value.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(value).to.be.an.instanceof(Identifier);
-      expect(value.identifier.lexeme).to.equal('y');
+      expect(value.lexeme).to.equal('y');
     }
 
     program.body.forEach(check);
@@ -93,7 +92,7 @@ describe('variable', () => {
       const value = decl.value as Identifier;
       expect(value.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(value).to.be.an.instanceof(Identifier);
-      expect(value.identifier.lexeme).to.equal('y');
+      expect(value.lexeme).to.equal('y');
     }
 
     program.body.forEach(check);
@@ -110,14 +109,14 @@ describe('variable', () => {
       expect(decl.identifier.lexeme).to.equal('x');
 
       expect(decl.variableType).to.not.be.null;
-      expect(decl.variableType!.type.type).to.equal(LexicalToken.ANY);
+      expect(decl.variableType!.type.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(decl.variableType!.type.lexeme).to.equal('any');
       expect(decl.variableType!.arrayDepth).to.equal(0);
 
       const value = decl.value as Identifier;
       expect(value.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(value).to.be.an.instanceof(Identifier);
-      expect(value.identifier.lexeme).to.equal('y');
+      expect(value.lexeme).to.equal('y');
     }
 
     program.body.forEach(check);

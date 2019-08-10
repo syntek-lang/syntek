@@ -6,6 +6,8 @@ export class SymbolEntry {
 
   readonly scope: Scope;
 
+  readonly references: Node[] = [];
+
   constructor(node: Node, scope: Scope) {
     this.node = node;
     this.scope = scope;

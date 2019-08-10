@@ -29,7 +29,7 @@ describe('instanceof', () => {
       const right = expr.right as Identifier;
       expect(right.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(right).to.be.an.instanceof(Identifier);
-      expect(right.identifier.lexeme).to.equal('Boolean');
+      expect(right.lexeme).to.equal('Boolean');
     }
 
     program.body.forEach(check);

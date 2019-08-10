@@ -21,7 +21,7 @@ function checkBody(nodes: Node[]): void {
     const expr = stmt.expression as Identifier;
     expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
     expect(expr).to.be.an.instanceof(Identifier);
-    expect(expr.identifier.lexeme).to.equal(names[i]);
+    expect(expr.lexeme).to.equal(names[i]);
   }
 }
 
@@ -40,7 +40,7 @@ describe('for', () => {
       const object = stmt.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('y');
+      expect(object.lexeme).to.equal('y');
 
       checkBody(stmt.body);
     }
@@ -65,7 +65,7 @@ describe('for', () => {
       const object = stmt.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('y');
+      expect(object.lexeme).to.equal('y');
 
       checkBody(stmt.body);
     }
@@ -90,7 +90,7 @@ describe('for', () => {
       const object = stmt.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('y');
+      expect(object.lexeme).to.equal('y');
 
       checkBody(stmt.body);
     }
@@ -115,7 +115,7 @@ describe('for', () => {
       const object = stmt.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('y');
+      expect(object.lexeme).to.equal('y');
 
       checkBody(stmt.body);
     }

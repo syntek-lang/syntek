@@ -1,9 +1,12 @@
 import * as grammar from '../grammar';
+import { Scope } from '../compiler';
 
-type WalkerCallback = (node: grammar.Node, parents: grammar.Node[]) => void;
+type WalkerCallback = (node: grammar.Node, scope: Scope, parents: grammar.Node[]) => void;
 
 export class ASTWalker {
   private readonly ast: grammar.Node;
+
+  private scope: Scope;
 
   private readonly parents: grammar.Node[] = [];
 
@@ -11,13 +14,14 @@ export class ASTWalker {
 
   private readonly leaveCallbacks = new Map<grammar.SyntacticToken, WalkerCallback[]>();
 
-  constructor(ast: grammar.Node) {
+  constructor(ast: grammar.Node, scope: Scope) {
     this.ast = ast;
+    this.scope = scope;
   }
 
   onEnter<T extends grammar.Node>(
     node: new (...args: any[]) => T,
-    callback: (node: T, parents: grammar.Node[]) => void,
+    callback: (node: T, scope: Scope, parents: grammar.Node[]) => void,
   ): ASTWalker {
     const type = grammar.NODE_TYPE.get(node);
     if (type === undefined) {
@@ -35,7 +39,7 @@ export class ASTWalker {
 
   onLeave<T extends grammar.Node>(
     node: new (...args: any[]) => T,
-    callback: (node: T, parents: grammar.Node[]) => void,
+    callback: (node: T, scope: Scope, parents: grammar.Node[]) => void,
   ): ASTWalker {
     const type = grammar.NODE_TYPE.get(node);
     if (type === undefined) {
@@ -59,11 +63,18 @@ export class ASTWalker {
     // Enter the node
     const enterCallbacks = this.enterCallbacks.get(node.type);
     if (enterCallbacks) {
-      enterCallbacks.forEach(callback => callback(node, this.parents));
+      enterCallbacks.forEach(callback => callback(node, this.scope, this.parents));
     }
 
     // The node is a parent of the nodes that are going to be walked
     this.parents.push(node);
+
+    // Change the current scope if necessary
+    const scope = this.scope;
+    if (this.scope.hasOwnScope(node)) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this.scope = this.scope.getOwnScope(node)!;
+    }
 
     switch (node.type) {
       // Program
@@ -268,10 +279,13 @@ export class ASTWalker {
     // The node is longer a parent
     this.parents.pop();
 
+    // Put the scope back
+    this.scope = scope;
+
     // Leave the node
     const leaveCallbacks = this.leaveCallbacks.get(node.type);
     if (leaveCallbacks) {
-      leaveCallbacks.forEach(callback => callback(node, this.parents));
+      leaveCallbacks.forEach(callback => callback(node, this.scope, this.parents));
     }
   }
 }

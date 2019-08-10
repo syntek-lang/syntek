@@ -27,6 +27,30 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
     }
   }
 
+  getScope(node: grammar.Node): Scope | undefined {
+    if (this.scopes.has(node)) {
+      return this.getOwnScope(node);
+    }
+
+    if (this.parent) {
+      return this.parent.getScope(node);
+    }
+
+    if (this.node === node) {
+      return this;
+    }
+
+    return undefined;
+  }
+
+  getOwnScope(node: grammar.Node): Scope | undefined {
+    return this.scopes.get(node);
+  }
+
+  hasOwnScope(node: grammar.Node): boolean {
+    return this.scopes.has(node);
+  }
+
   handleNode(node: grammar.Node): void {
     switch (node.type) {
       case grammar.SyntacticToken.VARIABLE_DECL: {
@@ -45,7 +69,7 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
         if (this.table.has(decl.identifier.lexeme)) {
           throw new Error('Name of function already used');
         } else {
-          this.table.set(decl.identifier.lexeme, new SymbolEntry(node, this));
+          this.table.set(decl.identifier.lexeme, new SymbolEntry(decl.identifier, this));
           this.scopes.set(node, new FunctionScope(decl, this));
         }
 
@@ -58,7 +82,7 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
         if (this.table.has(decl.identifier.lexeme)) {
           throw new Error('Name of class already used');
         } else {
-          this.table.set(decl.identifier.lexeme, new SymbolEntry(node, this));
+          this.table.set(decl.identifier.lexeme, new SymbolEntry(decl.identifier, this));
           this.scopes.set(node, new ClassScope(decl, this));
         }
 
@@ -67,12 +91,11 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
 
       case grammar.SyntacticToken.IMPORT_DECL: {
         const decl = node as grammar.ImportDeclaration;
-        const identifier = decl.identifier || decl.source;
 
-        if (this.table.has(identifier.lexeme)) {
+        if (this.table.has(decl.identifier.lexeme)) {
           throw new Error('Name of import already used');
         } else {
-          this.table.set(identifier.lexeme, new SymbolEntry(node, this));
+          this.table.set(decl.identifier.lexeme, new SymbolEntry(decl.identifier, this));
         }
 
         break;

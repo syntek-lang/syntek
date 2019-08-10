@@ -1,5 +1,5 @@
 import {
-  Node, Token, SyntacticToken, VariableType, FunctionParam,
+  Node, Token, Identifier, SyntacticToken, VariableType, FunctionParam,
 } from '..';
 
 import { Span } from '../../position';
@@ -12,14 +12,14 @@ export function isDeclaration(node: Node): boolean {
 }
 
 export class VariableDeclaration extends Node {
-  readonly identifier: Token;
+  readonly identifier: Identifier;
 
   readonly variableType: VariableType | null;
 
   readonly value: Node;
 
   constructor(
-    identifier: Token,
+    identifier: Identifier,
     variableType: VariableType | null,
     value: Node,
     span: Span,
@@ -33,7 +33,7 @@ export class VariableDeclaration extends Node {
 }
 
 export class FunctionDeclaration extends Node {
-  readonly identifier: Token;
+  readonly identifier: Identifier;
 
   readonly params: FunctionParam[];
 
@@ -42,7 +42,7 @@ export class FunctionDeclaration extends Node {
   readonly body: Node[];
 
   constructor(
-    identifier: Token,
+    identifier: Identifier,
     params: FunctionParam[],
     returnType: VariableType | null,
     body: Node[],
@@ -58,17 +58,17 @@ export class FunctionDeclaration extends Node {
 }
 
 export class ClassDeclaration extends Node {
-  readonly identifier: Token;
+  readonly identifier: Identifier;
 
-  readonly extends: Token[];
+  readonly extends: Identifier[];
 
   readonly staticBody: Node[];
 
   readonly instanceBody: Node[];
 
   constructor(
-    identifier: Token,
-    extend: Token[],
+    identifier: Identifier,
+    extend: Identifier[],
     staticBody: Node[],
     instanceBody: Node[],
     span: Span,
@@ -85,9 +85,9 @@ export class ClassDeclaration extends Node {
 export class ImportDeclaration extends Node {
   readonly source: Token;
 
-  readonly identifier: Token | null;
+  readonly identifier: Identifier;
 
-  constructor(source: Token, identifier: Token | null, span: Span) {
+  constructor(source: Token, identifier: Identifier, span: Span) {
     super(SyntacticToken.IMPORT_DECL, span);
 
     this.source = source;

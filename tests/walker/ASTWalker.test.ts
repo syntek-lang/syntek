@@ -7,6 +7,7 @@ import { ASTWalker } from '../../src/walker/ASTWalker';
 
 import * as grammar from '../../src/grammar';
 import { Node } from '../../src/grammar/Node';
+import { BlockScope } from '../../src/compiler';
 
 describe('ASTWalker', () => {
   const program = parse('10 + 2 * 5');
@@ -15,17 +16,17 @@ describe('ASTWalker', () => {
     const array: Node[] = [];
     let parentCount = 0;
 
-    function walkerCallback(node: Node, parents: Node[]): void {
+    function walkerCB(node: Node, _: any, parents: Node[]): void {
       array.push(node);
 
       expect(parents.length).to.equal(parentCount);
       parentCount += 1;
     }
 
-    new ASTWalker(program)
-      .onEnter(grammar.Program, walkerCallback)
-      .onEnter(grammar.ExpressionStatement, walkerCallback)
-      .onEnter(grammar.BinaryExpression, walkerCallback)
+    new ASTWalker(program, new BlockScope(program))
+      .onEnter(grammar.Program, walkerCB)
+      .onEnter(grammar.ExpressionStatement, walkerCB)
+      .onEnter(grammar.BinaryExpression, walkerCB)
       .walk();
 
     expect(parentCount).to.equal(4);
@@ -42,17 +43,17 @@ describe('ASTWalker', () => {
     const array: Node[] = [];
     let parentCount = 3;
 
-    function walkerCallback(node: Node, parents: Node[]): void {
+    function walkerCB(node: Node, _: any, parents: Node[]): void {
       array.push(node);
 
       expect(parents.length).to.equal(parentCount);
       parentCount -= 1;
     }
 
-    new ASTWalker(program)
-      .onLeave(grammar.Program, walkerCallback)
-      .onLeave(grammar.ExpressionStatement, walkerCallback)
-      .onLeave(grammar.BinaryExpression, walkerCallback)
+    new ASTWalker(program, new BlockScope(program))
+      .onLeave(grammar.Program, walkerCB)
+      .onLeave(grammar.ExpressionStatement, walkerCB)
+      .onLeave(grammar.BinaryExpression, walkerCB)
       .walk();
 
     expect(parentCount).to.equal(-1);
@@ -69,7 +70,7 @@ describe('ASTWalker', () => {
     const array: Node[] = [];
     let parentCount = 0;
 
-    function walkerCallback(node: Node, parents: Node[], enter: boolean): void {
+    function walkerCB(node: Node, parents: Node[], enter: boolean): void {
       array.push(node);
 
       if (!enter) {
@@ -83,10 +84,10 @@ describe('ASTWalker', () => {
       }
     }
 
-    const onEnter = (node: Node, parents: Node[]): void => walkerCallback(node, parents, true);
-    const onLeave = (node: Node, parents: Node[]): void => walkerCallback(node, parents, false);
+    const onEnter = (node: Node, _: any, parents: Node[]): void => walkerCB(node, parents, true);
+    const onLeave = (node: Node, _: any, parents: Node[]): void => walkerCB(node, parents, false);
 
-    new ASTWalker(program)
+    new ASTWalker(program, new BlockScope(program))
       .onEnter(grammar.Program, onEnter)
       .onLeave(grammar.Program, onLeave)
       .onEnter(grammar.ExpressionStatement, onEnter)
@@ -108,4 +109,6 @@ describe('ASTWalker', () => {
       program,
     ]);
   });
+
+  it('provides the correct scope');
 });

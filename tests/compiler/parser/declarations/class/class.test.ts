@@ -12,7 +12,7 @@ import { ClassDeclaration, VariableDeclaration, FunctionDeclaration } from '../.
 function checkIdentifier(node: Node, name: string): void {
   expect(node.type).to.equal(SyntacticToken.IDENTIFIER);
   expect(node).to.be.an.instanceof(Identifier);
-  expect((node as Identifier).identifier.lexeme).to.equal(name);
+  expect((node as Identifier).lexeme).to.equal(name);
 }
 
 function checkBody(nodes: Node[]): void {
@@ -28,7 +28,7 @@ function checkBody(nodes: Node[]): void {
     const expr = stmt.expression as Identifier;
     expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
     expect(expr).to.be.an.instanceof(Identifier);
-    expect(expr.identifier.lexeme).to.equal(names[i]);
+    expect(expr.lexeme).to.equal(names[i]);
   }
 }
 

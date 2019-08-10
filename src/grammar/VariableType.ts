@@ -1,8 +1,9 @@
-import { Token } from '.';
+import { Identifier } from '.';
 import { Span } from '../position';
 
 export interface VariableType {
-  type: Token;
+  // TODO: possibly work something out for 'any' ending up as an identifier now
+  type: Identifier;
   arrayDepth: number;
   span: Span;
 }

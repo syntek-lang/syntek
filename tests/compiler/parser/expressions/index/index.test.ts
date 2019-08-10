@@ -24,7 +24,7 @@ describe('index', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.identifier.lexeme).to.equal('array');
+      expect(object.lexeme).to.equal('array');
 
       const index = expr.index as Literal;
       expect(index.type).to.equal(SyntacticToken.LITERAL);

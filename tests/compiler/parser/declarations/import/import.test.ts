@@ -17,7 +17,7 @@ describe('import', () => {
       expect(decl).to.be.an.instanceof(ImportDeclaration);
 
       expect(decl.source.lexeme).to.equal('foo');
-      expect(decl.identifier).to.be.null;
+      expect(decl.identifier.lexeme).to.equal('foo');
     }
 
     program.body.forEach(check);
@@ -32,9 +32,7 @@ describe('import', () => {
       expect(decl).to.be.an.instanceof(ImportDeclaration);
 
       expect(decl.source.lexeme).to.equal('foo');
-
-      expect(decl.identifier).to.not.be.null;
-      expect(decl.identifier!.lexeme).to.equal('bar');
+      expect(decl.identifier.lexeme).to.equal('bar');
     }
 
     program.body.forEach(check);
@@ -49,9 +47,7 @@ describe('import', () => {
       expect(decl).to.be.an.instanceof(ImportDeclaration);
 
       expect(decl.source.lexeme).to.equal("'./foo'");
-
-      expect(decl.identifier).to.not.be.null;
-      expect(decl.identifier!.lexeme).to.equal('bar');
+      expect(decl.identifier.lexeme).to.equal('bar');
     }
 
     program.body.forEach(check);
