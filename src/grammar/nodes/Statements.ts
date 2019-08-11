@@ -1,5 +1,5 @@
 import {
-  Node, Identifier, SyntacticToken, SwitchCase, VariableType,
+  Node, Token, SyntacticToken, SwitchCase, VariableType,
 } from '..';
 
 import { Span } from '../../position';
@@ -65,7 +65,7 @@ export class SwitchStatement extends Node {
 }
 
 export class ForStatement extends Node {
-  readonly identifier: Identifier;
+  readonly identifier: Token;
 
   readonly variableType: VariableType | null;
 
@@ -74,7 +74,7 @@ export class ForStatement extends Node {
   readonly body: Node[];
 
   constructor(
-    identifier: Identifier,
+    identifier: Token,
     variableType: VariableType | null,
     object: Node,
     body: Node[],
@@ -129,13 +129,13 @@ export class TryStatement extends Node {
 }
 
 export class CatchStatement extends Node {
-  readonly identifier: Identifier;
+  readonly identifier: Token;
 
   readonly variableType: VariableType | null;
 
   readonly body: Node[];
 
-  constructor(identifier: Identifier, variableType: VariableType | null, body: Node[], span: Span) {
+  constructor(identifier: Token, variableType: VariableType | null, body: Node[], span: Span) {
     super(SyntacticToken.CATCH_STMT, span);
 
     this.identifier = identifier;

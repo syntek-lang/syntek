@@ -1,5 +1,5 @@
 import {
-  Node, Identifier, LexicalToken, FunctionDeclaration, VariableType,
+  Node, LexicalToken, FunctionDeclaration, VariableType,
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
@@ -46,7 +46,7 @@ export function functionDecl(parser: Parser): Node {
   }
 
   return new FunctionDeclaration(
-    new Identifier(identifier),
+    identifier,
     params,
     returnType,
     body,

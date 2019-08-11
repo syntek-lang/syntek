@@ -29,7 +29,7 @@ export class BlockScope extends Scope {
         if (this.table.has(node.identifier.lexeme)) {
           throw new Error('Identifier of for already in use');
         } else {
-          this.table.set(node.identifier.lexeme, new SymbolEntry(node.identifier, this));
+          this.table.set(node.identifier.lexeme, new SymbolEntry(node, this));
         }
 
         node.body.forEach(child => this.handleNode(child));
@@ -60,7 +60,7 @@ export class BlockScope extends Scope {
         if (this.table.has(node.identifier.lexeme)) {
           throw new Error('Identifier of catch already in use');
         } else {
-          this.table.set(node.identifier.lexeme, new SymbolEntry(node.identifier, this));
+          this.table.set(node.identifier.lexeme, new SymbolEntry(node, this));
         }
 
         node.body.forEach(child => this.handleNode(child));

@@ -69,7 +69,7 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
         if (this.table.has(decl.identifier.lexeme)) {
           throw new Error('Name of function already used');
         } else {
-          this.table.set(decl.identifier.lexeme, new SymbolEntry(decl.identifier, this));
+          this.table.set(decl.identifier.lexeme, new SymbolEntry(decl, this));
           this.scopes.set(node, new FunctionScope(decl, this));
         }
 
@@ -82,7 +82,7 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
         if (this.table.has(decl.identifier.lexeme)) {
           throw new Error('Name of class already used');
         } else {
-          this.table.set(decl.identifier.lexeme, new SymbolEntry(decl.identifier, this));
+          this.table.set(decl.identifier.lexeme, new SymbolEntry(decl, this));
           this.scopes.set(node, new ClassScope(decl, this));
         }
 
@@ -95,7 +95,7 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
         if (this.table.has(decl.identifier.lexeme)) {
           throw new Error('Name of import already used');
         } else {
-          this.table.set(decl.identifier.lexeme, new SymbolEntry(decl.identifier, this));
+          this.table.set(decl.identifier.lexeme, new SymbolEntry(decl, this));
         }
 
         break;

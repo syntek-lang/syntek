@@ -1,6 +1,6 @@
-import { Identifier, VariableType } from '.';
+import { Token, VariableType } from '.';
 
 export interface FunctionParam {
-  name: Identifier;
+  name: Token;
   variableType: VariableType | null;
 }

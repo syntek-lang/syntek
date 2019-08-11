@@ -1,5 +1,5 @@
 import {
-  Node, Token, Identifier, LexicalToken, ImportDeclaration,
+  Node, Token, LexicalToken, ImportDeclaration,
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
@@ -10,7 +10,7 @@ export function importDecl(parser: Parser): Node {
   parser.eatWhitespace();
 
   let source: Token;
-  let name: Token | null = null;
+  let identifier: Token | null = null;
 
   if (parser.check(LexicalToken.IDENTIFIER)) {
     source = parser.advance();
@@ -20,7 +20,7 @@ export function importDecl(parser: Parser): Node {
       const asSpan = parser.advance().span;
       parser.eatWhitespace();
 
-      name = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'as'", (error) => {
+      identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'as'", (error) => {
         error.info('Add an identifier after this as', asSpan);
       });
     }
@@ -35,17 +35,13 @@ export function importDecl(parser: Parser): Node {
     }).span;
     parser.eatWhitespace();
 
-    name = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'as'", (error) => {
+    identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'as'", (error) => {
       error.info('Add an identifier after this as', asSpan);
     });
   }
 
   parser.consume(LexicalToken.NEWLINE, 'Expected a newline after the import declaration');
   parser.syncIndentation();
-
-  const identifier = name
-    ? new Identifier(name)
-    : new Identifier(source);
 
   return new ImportDeclaration(
     source,
