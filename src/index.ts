@@ -2,6 +2,7 @@ import { Tokenizer, Parser, BlockScope } from './compiler';
 
 // import program from '../tests/syntek/programs/fizzbuzz.tek';
 import program from './dev.tek';
+import { Linter } from './compiler/analyzer/linting/Linter';
 
 console.log(program);
 
@@ -22,3 +23,5 @@ export * from './walker';
 export const programScope = new BlockScope(parseResult.ast);
 programScope.build();
 console.log(programScope);
+
+console.log(new Linter(parseResult.ast).lint());
