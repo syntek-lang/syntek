@@ -5,6 +5,8 @@ import { Span } from '../../../../position';
 import { VarDecl, skipVarSize } from '../../parse-utils';
 
 export function variableDecl(parser: Parser, varDecl: VarDecl): Node {
+  const start = parser.peek().span.start;
+
   skipVarSize(parser, varDecl);
 
   // Equals
@@ -26,6 +28,6 @@ export function variableDecl(parser: Parser, varDecl: VarDecl): Node {
     varDecl.identifier,
     varDecl.variableType,
     expr,
-    new Span(expr.span.start, parser.previous().span.end),
+    new Span(start, parser.previous().span.end),
   );
 }
