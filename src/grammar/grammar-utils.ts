@@ -128,3 +128,9 @@ export const NODE_TYPE: Map<typeof grammar.Node, grammar.SyntacticToken> = new M
   // Other
   .set(grammar.Program, grammar.SyntacticToken.PROGRAM)
   .set(grammar.SwitchCase, grammar.SyntacticToken.SWITCH_CASE);
+
+export function isLoop(node: grammar.Node): boolean {
+  return node.type === grammar.SyntacticToken.FOR_STMT
+    || node.type === grammar.SyntacticToken.REPEAT_STMT
+    || node.type === grammar.SyntacticToken.WHILE_STMT;
+}
