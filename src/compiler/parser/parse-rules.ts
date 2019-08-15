@@ -69,7 +69,9 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: identifier, infix: null, precedence: Precedence.OP1 }, // IDENTIFIER
 
   // Operators
-  { prefix: unaryExpr, infix: binaryExpr, precedence: Precedence.OP7 }, // PLUS
+  {
+    prefix: null, infix: binaryExpr, precedence: Precedence.OP7, ignoreWhiteSpace: true,
+  }, // PLUS
   { prefix: unaryExpr, infix: binaryExpr, precedence: Precedence.OP7 }, // MINUS
   {
     prefix: null, infix: binaryExpr, precedence: Precedence.OP8, ignoreWhiteSpace: true,
