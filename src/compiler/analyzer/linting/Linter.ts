@@ -24,8 +24,14 @@ export class Linter {
     const walker = new ASTWalker(this.ast, this.scope);
 
     rulesArray.forEach((rule) => {
-      rule.create(walker, (span, msg) => {
-        this.diagnostics.push(new Diagnostic(rule.level, msg, span));
+      rule.create(walker, (msg, span, errorHandler) => {
+        const error = new Diagnostic(rule.level, msg, span);
+
+        if (errorHandler) {
+          errorHandler(error);
+        }
+
+        this.diagnostics.push(error);
       });
     });
 

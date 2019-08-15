@@ -15,7 +15,7 @@ export const variableCasing: LintingRule = {
         return;
       }
 
-      report(node.span, 'Variable names should be camelCase or all caps');
+      report('Variable names should be camelCase or all caps', node.span);
     });
   },
 };
