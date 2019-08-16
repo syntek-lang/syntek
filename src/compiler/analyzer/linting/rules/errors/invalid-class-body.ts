@@ -8,13 +8,13 @@ export const invalidClassBody: LintingRule = {
   description: 'Report invalid class bodies',
   level: Level.ERROR,
   create(walker, report) {
-    walker.onEnter(grammar.ClassDeclaration, (classNode) => {
-      function checkNode(node: grammar.Node): void {
-        if (!grammar.isDeclaration(node)) {
-          report('You can only put declarations in a class body', node.span);
-        }
+    function checkNode(node: grammar.Node): void {
+      if (!grammar.isDeclaration(node)) {
+        report('You can only put declarations in a class body', node.span);
       }
+    }
 
+    walker.onEnter(grammar.ClassDeclaration, (classNode) => {
       classNode.staticBody.forEach(checkNode);
       classNode.instanceBody.forEach(checkNode);
     });

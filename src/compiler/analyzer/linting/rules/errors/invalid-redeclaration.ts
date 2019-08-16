@@ -1,6 +1,7 @@
 import * as grammar from '../../../../../grammar';
 
 import { LintingRule } from '../..';
+import { Scope } from '../../../..';
 import { Level } from '../../../../../diagnostic';
 
 export const invalidRedeclaration: LintingRule = {
@@ -8,9 +9,23 @@ export const invalidRedeclaration: LintingRule = {
   description: 'Report invalid redeclarations',
   level: Level.ERROR,
   create(walker, report) {
+    function checkNode(
+      node: grammar.Node,
+      scope: Scope,
+      identifier: grammar.Token,
+      type: string,
+    ): void {
+      const symbol = scope.table.get(identifier.lexeme);
+
+      if (symbol && symbol.node !== node) {
+        report(`The name '${identifier.lexeme}' is already used`, node.span, (error) => {
+          error.info(`Change the name of the ${type}`, identifier.span);
+        });
+      }
+    }
+
     walker.onEnter(grammar.VariableDeclaration, (node, scope) => {
       const symbol = scope.table.get(node.identifier.lexeme);
-
       if (!symbol) {
         return;
       }
@@ -46,6 +61,26 @@ export const invalidRedeclaration: LintingRule = {
           error.info('Change the name of the variable', node.identifier.span);
         });
       }
+    });
+
+    walker.onEnter(grammar.FunctionDeclaration, (node, scope) => {
+      checkNode(node, scope, node.identifier, 'function');
+    });
+
+    walker.onEnter(grammar.ClassDeclaration, (node, scope) => {
+      checkNode(node, scope, node.identifier, 'class');
+    });
+
+    walker.onEnter(grammar.ImportDeclaration, (node, scope) => {
+      checkNode(node, scope, node.identifier, 'import');
+    });
+
+    walker.onEnter(grammar.ForStatement, (node, scope) => {
+      checkNode(node, scope, node.identifier, 'variable');
+    });
+
+    walker.onEnter(grammar.CatchStatement, (node, scope) => {
+      checkNode(node, scope, node.identifier, 'variable');
     });
   },
 };

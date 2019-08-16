@@ -66,9 +66,7 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
       case grammar.SyntacticToken.FUNCTION_DECL: {
         const decl = node as grammar.FunctionDeclaration;
 
-        if (this.table.has(decl.identifier.lexeme)) {
-          throw new Error('Name of function already used');
-        } else {
+        if (!this.table.has(decl.identifier.lexeme)) {
           this.table.set(decl.identifier.lexeme, new SymbolEntry(decl, this));
           this.scopes.set(node, new FunctionScope(decl, this));
         }
@@ -79,9 +77,7 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
       case grammar.SyntacticToken.CLASS_DECL: {
         const decl = node as grammar.ClassDeclaration;
 
-        if (this.table.has(decl.identifier.lexeme)) {
-          throw new Error('Name of class already used');
-        } else {
+        if (!this.table.has(decl.identifier.lexeme)) {
           this.table.set(decl.identifier.lexeme, new SymbolEntry(decl, this));
           this.scopes.set(node, new ClassScope(decl, this));
         }
@@ -93,8 +89,6 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
         const decl = node as grammar.ImportDeclaration;
 
         if (this.table.has(decl.identifier.lexeme)) {
-          throw new Error('Name of import already used');
-        } else {
           this.table.set(decl.identifier.lexeme, new SymbolEntry(decl, this));
         }
 

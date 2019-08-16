@@ -26,9 +26,7 @@ export class BlockScope extends Scope {
       case grammar.SyntacticToken.FOR_STMT: {
         const node = this.node as grammar.ForStatement;
 
-        if (this.table.has(node.identifier.lexeme)) {
-          throw new Error('Identifier of for already in use');
-        } else {
+        if (!this.table.has(node.identifier.lexeme)) {
           this.table.set(node.identifier.lexeme, new SymbolEntry(node, this));
         }
 
@@ -57,9 +55,7 @@ export class BlockScope extends Scope {
       case grammar.SyntacticToken.CATCH_STMT: {
         const node = this.node as grammar.CatchStatement;
 
-        if (this.table.has(node.identifier.lexeme)) {
-          throw new Error('Identifier of catch already in use');
-        } else {
+        if (!this.table.has(node.identifier.lexeme)) {
           this.table.set(node.identifier.lexeme, new SymbolEntry(node, this));
         }
 
