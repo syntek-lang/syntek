@@ -1,79 +1,79 @@
 class MyClass
-	x = y
+	var x = y
 
 class MyClass
-	x =
+	var x =
 y
 
 class MyClass
-	x =
+	var x =
 	y
 
 class MyClass
-	x =
+	var x =
 		y
 
 class MyClass
-	x
+	var x
 = y
 
 class MyClass
-	x
+	var x
 	= y
 
 class MyClass
-	x
+	var x
 		= y
 
 class MyClass
-	x
+	var x
 =
 y
 
 class MyClass
-	x
+	var x
 	=
 y
 
 class MyClass
-	x
+	var x
 		=
 y
 
 class MyClass
-	x
+	var x
 =
 	y
 
 class MyClass
-	x
+	var x
 =
 		y
 
 class MyClass
-	x
+	var x
 	=
 	y
 
 class MyClass
-	x
+	var x
 		=
 		y
 
 class
 MyClass
-	x = y
+	var x = y
 
 class
 	MyClass
-	x = y
+	var x = y
 
 class
 		MyClass
-	x = y
+	var x = y
 
 class
 		MyClass
-	x
+	var x
 		=
 		y

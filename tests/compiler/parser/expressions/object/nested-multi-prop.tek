@@ -1,7 +1,7 @@
 {
-	x = 5
-	y = {
-		x = 10
-		y = 15
+	var x = 5
+	var y = {
+		var x = 10
+		var y = 15
 	}
 }

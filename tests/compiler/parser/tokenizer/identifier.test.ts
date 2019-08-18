@@ -13,6 +13,7 @@ const valid = [
   'abc',
   'ABC',
   '___',
+  'any',
   '_05ab',
   'test',
   'HelloWorld',
@@ -21,7 +22,7 @@ const valid = [
 const invalid = [
   '0_',
   'function',
-  'any',
+  'var',
   'for',
   'repeat',
   'class',

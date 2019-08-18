@@ -20,6 +20,8 @@ export function tokenize(code: string): Token[] {
   const result = tokenizer.tokenize();
 
   if (result.diagnostics.length) {
+    console.error(`Error tokenizing:\n${code}`);
+
     result.diagnostics.forEach((diagnostic) => {
       console.error(diagnostic.msg);
     });
@@ -37,6 +39,8 @@ export function parse(code: string): Program {
   const parsed = parser.parse();
 
   if (parsed.diagnostics.length) {
+    console.error(`Error parsing:\n${code}`);
+
     parsed.diagnostics.forEach((diagnostic) => {
       console.error(diagnostic.msg);
     });

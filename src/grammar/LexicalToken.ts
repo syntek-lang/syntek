@@ -53,6 +53,7 @@ export enum LexicalToken {
   FUNCTION,
   RETURN,
   RETURNS,
+  VOID,
 
   ASYNC,
 
@@ -80,7 +81,7 @@ export enum LexicalToken {
   IS_LESS_THAN,
   IS_GREATER_THAN,
 
-  ANY,
+  VAR,
 
   // End of file
   EOF,

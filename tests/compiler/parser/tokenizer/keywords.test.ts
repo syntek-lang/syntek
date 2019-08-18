@@ -32,6 +32,7 @@ const map = {
   function: LexicalToken.FUNCTION,
   return: LexicalToken.RETURN,
   returns: LexicalToken.RETURNS,
+  void: LexicalToken.VOID,
 
   async: LexicalToken.ASYNC,
 
@@ -56,7 +57,7 @@ const map = {
 
   is: LexicalToken.IS,
 
-  any: LexicalToken.ANY,
+  var: LexicalToken.VAR,
 };
 
 describe('keywords', () => {

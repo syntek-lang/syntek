@@ -1,128 +1,128 @@
 class MyClass
-	x = y
-	a = b
+	var x = y
+	var a = b
 
 class MyClass
-	x =
+	var x =
 y
-	a =
+	var a =
 b
 
 class MyClass
-	x =
+	var x =
 	y
-	a =
+	var a =
 	b
 
 class MyClass
-	x =
+	var x =
 		y
-	a =
+	var a =
 		b
 
 class MyClass
-	x
+	var x
 = y
-	a
+	var a
 = b
 
 class MyClass
-	x
+	var x
 	= y
-	a
+	var a
 	= b
 
 class MyClass
-	x
+	var x
 		= y
-	a
+	var a
 		= b
 
 class MyClass
-	x
+	var x
 =
 y
-	a
+	var a
 =
 b
 
 class MyClass
-	x
+	var x
 	=
 y
-	a
+	var a
 	=
 b
 
 class MyClass
-	x
+	var x
 		=
 y
-	a
+	var a
 		=
 b
 
 class MyClass
-	x
+	var x
 =
 	y
-	a
+	var a
 =
 	b
 
 class MyClass
-	x
+	var x
 =
 		y
-	a
+	var a
 =
 		b
 
 class MyClass
-	x
+	var x
 	=
 	y
-	a
+	var a
 	=
 	b
 
 class MyClass
-	x
+	var x
 		=
 		y
-	a
+	var a
 		=
 		b
 
 class
 MyClass
-	x = y
-	a = b
+	var x = y
+	var a = b
 
 class
 	MyClass
-	x = y
-	a = b
+	var x = y
+	var a = b
 
 class
 		MyClass
-	x = y
-	a = b
+	var x = y
+	var a = b
 
 class
 MyClass
-	x
+	var x
 =
 y
-	a
+	var a
 =
 b
 
 class
 		MyClass
-	x
+	var x
 		=
 		y
-	a
+	var a
 		=
 		b

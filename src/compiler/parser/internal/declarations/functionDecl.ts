@@ -4,7 +4,7 @@ import {
 
 import { Parser } from '../../..';
 import { Span } from '../../../../position';
-import { checkType, matchFunctionParams } from '../../parse-utils';
+import { checkTypeDecl, matchFunctionParams } from '../../parse-utils';
 
 export function functionDecl(parser: Parser): Node {
   const functionSpan = parser.previous().span;
@@ -25,7 +25,7 @@ export function functionDecl(parser: Parser): Node {
     parser.eatWhitespace();
     const returnsSpan = parser.advance().span;
 
-    returnType = checkType(parser);
+    returnType = checkTypeDecl(parser);
 
     if (!returnType) {
       throw parser.error("Expected a type after 'returns'", parser.peek().span, (error) => {

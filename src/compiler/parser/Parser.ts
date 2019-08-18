@@ -5,7 +5,7 @@ import {
 import { Diagnostic, Level } from '../../diagnostic';
 import { Span } from '../../position';
 
-import { checkVar } from './parse-utils';
+import { checkVarDecl } from './parse-utils';
 import { Precedence } from './Precedence';
 import {
   declarationRules, expressionRules, statementRules,
@@ -56,12 +56,10 @@ export class Parser {
   }
 
   declaration(): Node {
-    const varDecl = checkVar(this);
+    const varDecl = checkVarDecl(this, true);
 
     if (varDecl) {
-      const equalOffset = varDecl.variableType ? varDecl.variableType.arrayDepth * 2 + 2 : 1;
-
-      if (this.peekIgnoreWhitespace(equalOffset).type === LexicalToken.EQUAL) {
+      if (this.peekIgnoreWhitespace(varDecl.size).type === LexicalToken.EQUAL) {
         return variableDecl(this, varDecl);
       }
     }
@@ -269,7 +267,6 @@ export class Parser {
   }
 
   sync(): void {
-    this.current -= 1;
     this.indent = 0;
 
     while (!this.isAtEnd()) {

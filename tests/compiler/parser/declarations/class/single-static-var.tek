@@ -1,113 +1,113 @@
 class MyClass
-	static x = y
+	static var x = y
 
 class MyClass
-	static x =
+	static var x =
 y
 
 class MyClass
-	static x =
+	static var x =
 	y
 
 class MyClass
-	static x =
+	static var x =
 		y
 
 class MyClass
-	static x
+	static var x
 = y
 
 class MyClass
-	static x
+	static var x
 	= y
 
 class MyClass
-	static x
+	static var x
 		= y
 
 class MyClass
-	static x
+	static var x
 =
 y
 
 class MyClass
-	static x
+	static var x
 	=
 y
 
 class MyClass
-	static x
+	static var x
 		=
 y
 
 class MyClass
-	static x
+	static var x
 =
 	y
 
 class MyClass
-	static x
+	static var x
 =
 		y
 
 class MyClass
-	static x
+	static var x
 	=
 	y
 
 class MyClass
-	static x
+	static var x
 		=
 		y
 
 class MyClass
 	static
-x = y
+var x = y
 
 class MyClass
 	static
-	x = y
+	var x = y
 
 class MyClass
 	static
-		x = y
+		var x = y
 
 class MyClass
 	static
-x
+var x
 =
 y
 
 class MyClass
 	static
-	x
+	var x
 	=
 	y
 
 class MyClass
 	static
-		x
+		var x
 		=
 		y
 
 class
 MyClass
 	static
-x = y
+var x = y
 
 class
 	MyClass
 	static
-x = y
+var x = y
 
 class
 		MyClass
 	static
-		x = y
+		var x = y
 
 class
 		MyClass
 	static
-		x
+		var x
 		=
 		y

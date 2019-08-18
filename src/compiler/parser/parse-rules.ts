@@ -128,6 +128,7 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // FUNCTION
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RETURN
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RETURNS
+  { prefix: null, infix: null, precedence: Precedence.OP1 }, // VOID
 
   { prefix: asyncExpr, infix: null, precedence: Precedence.OP1 }, // ASYNC
 
@@ -167,7 +168,7 @@ export const expressionRules: ExpressionParseRule[] = [
     prefix: null, infix: binaryExpr, precedence: Precedence.OP6, ignoreWhiteSpace: true,
   }, // IS_GREATER_THAN
 
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // ANY
+  { prefix: null, infix: null, precedence: Precedence.OP1 }, // VAR
 
   // End of file
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // EOF

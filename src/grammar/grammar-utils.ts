@@ -1,6 +1,8 @@
 import * as grammar from '.';
 
-/** Tokens that consist of a single character */
+/**
+ * Tokens that consist of a single character
+ */
 export const CHAR_TOKENS: { [key: string]: grammar.LexicalToken } = {
   // Whitespace
   '\t': grammar.LexicalToken.WHITESPACE,
@@ -26,7 +28,9 @@ export const CHAR_TOKENS: { [key: string]: grammar.LexicalToken } = {
   '}': grammar.LexicalToken.RBRACE,
 };
 
-/** Tokens that are a single word */
+/**
+ * Tokens that are a single word
+ */
 export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
   // Boolean
   true: grammar.LexicalToken.BOOLEAN,
@@ -54,6 +58,7 @@ export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
   function: grammar.LexicalToken.FUNCTION,
   return: grammar.LexicalToken.RETURN,
   returns: grammar.LexicalToken.RETURNS,
+  void: grammar.LexicalToken.VOID,
 
   async: grammar.LexicalToken.ASYNC,
 
@@ -78,10 +83,12 @@ export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
 
   is: grammar.LexicalToken.IS,
 
-  any: grammar.LexicalToken.ANY,
+  var: grammar.LexicalToken.VAR,
 };
 
-/** Node class mapped to SyntacticToken */
+/**
+ * Node class mapped to SyntacticToken
+ */
 export const NODE_TYPE: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   // Declarations
   .set(grammar.VariableDeclaration, grammar.SyntacticToken.VARIABLE_DECL)
@@ -129,6 +136,12 @@ export const NODE_TYPE: Map<typeof grammar.Node, grammar.SyntacticToken> = new M
   .set(grammar.Program, grammar.SyntacticToken.PROGRAM)
   .set(grammar.SwitchCase, grammar.SyntacticToken.SWITCH_CASE);
 
+/**
+ * Check if a node is a loop
+ *
+ * @param node - The node to check
+ * @returns Whether the node is a loop
+ */
 export function isLoop(node: grammar.Node): boolean {
   return node.type === grammar.SyntacticToken.FOR_STMT
     || node.type === grammar.SyntacticToken.REPEAT_STMT

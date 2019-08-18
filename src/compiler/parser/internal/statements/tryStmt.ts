@@ -4,7 +4,7 @@ import {
 
 import { Parser } from '../../..';
 import { Span } from '../../../../position';
-import { checkVar, skipVarSize } from '../../parse-utils';
+import { checkVarDecl } from '../../parse-utils';
 
 export function tryStmt(parser: Parser): Node {
   const trySpan = parser.previous().span;
@@ -35,14 +35,14 @@ function catchStmt(parser: Parser): CatchStatement {
   }).span;
   parser.eatWhitespace();
 
-  const varDecl = checkVar(parser);
+  const varDecl = checkVarDecl(parser);
   if (!varDecl) {
     throw parser.error("Expected a variable after 'catch'", parser.peek().span, (error) => {
       error.info('Add a variable after this catch', catchSpan);
     });
   }
 
-  skipVarSize(parser, varDecl);
+  parser.skip(varDecl.size);
 
   parser.consume(LexicalToken.NEWLINE, "Expected a newline and indent after 'catch'", (error) => {
     error.info('Add a newline after the variable', varDecl.span);

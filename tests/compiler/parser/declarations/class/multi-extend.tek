@@ -1,116 +1,116 @@
 class MyClass extends Object, Other
-	x = y
+	var x = y
 
 class
 MyClass extends Object, Other
-	x = y
+	var x = y
 
 class
 	MyClass extends Object, Other
-	x = y
+	var x = y
 
 class
 		MyClass extends Object, Other
-	x = y
+	var x = y
 
 class MyClass
 extends Object, Other
-	x = y
+	var x = y
 
 class MyClass
 	extends Object, Other
-	x = y
+	var x = y
 
 class MyClass
 		extends Object, Other
-	x = y
+	var x = y
 
 class MyClass extends
 Object, Other
-	x = y
+	var x = y
 
 class MyClass extends
 	Object, Other
-	x = y
+	var x = y
 
 class MyClass extends
 		Object, Other
-	x = y
+	var x = y
 
 class
 MyClass extends
 Object, Other
-	x = y
+	var x = y
 
 class
 	MyClass extends
 Object, Other
-	x = y
+	var x = y
 
 class
 MyClass
 extends
 Object, Other
-	x = y
+	var x = y
 
 class
 	MyClass
 extends
 	Object, Other
-	x = y
+	var x = y
 
 class
 		MyClass
 		extends
 		Object, Other
-	x = y
+	var x = y
 
 class MyClass extends Object,
 Other
-	x = y
+	var x = y
 
 class MyClass extends Object,
 	Other
-	x = y
+	var x = y
 
 class MyClass extends Object,
 		Other
-	x = y
+	var x = y
 
 class MyClass extends Object
 , Other
-	x = y
+	var x = y
 
 class MyClass extends Object
 	, Other
-	x = y
+	var x = y
 
 class MyClass extends Object
 		, Other
-	x = y
+	var x = y
 
 class MyClass
 extends Object,
 Other
-	x = y
+	var x = y
 
 class MyClass
 extends Object
 , Other
-	x = y
+	var x = y
 
 class MyClass
 extends
 Object,
 Other
-	x = y
+	var x = y
 
 class MyClass
 	extends
 	Object
 	,
 	Other
-	x = y
+	var x = y
 
 class
 MyClass
@@ -118,7 +118,7 @@ extends
 Object
 ,
 Other
-	x = y
+	var x = y
 
 class
 	MyClass
@@ -126,7 +126,7 @@ class
 	Object
 	,
 	Other
-	x = y
+	var x = y
 
 class
 		MyClass
@@ -134,4 +134,4 @@ class
 		Object
 		,
 		Other
-	x = y
+	var x = y

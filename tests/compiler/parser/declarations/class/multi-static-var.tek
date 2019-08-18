@@ -1,180 +1,180 @@
 class MyClass
-	static x = y
-	static a = b
+	static var x = y
+	static var a = b
 
 class MyClass
-	static x =
+	static var x =
 y
-	static a =
+	static var a =
 b
 
 class MyClass
-	static x =
+	static var x =
 	y
-	static a =
+	static var a =
 	b
 
 class MyClass
-	static x =
+	static var x =
 		y
-	static a =
+	static var a =
 		b
 
 class MyClass
-	static x
+	static var x
 = y
-	static a
+	static var a
 = b
 
 class MyClass
-	static x
+	static var x
 	= y
-	static a
+	static var a
 	= b
 
 class MyClass
-	static x
+	static var x
 		= y
-	static a
+	static var a
 		= b
 
 class MyClass
-	static x
+	static var x
 =
 y
-	static a
+	static var a
 =
 b
 
 class MyClass
-	static x
+	static var x
 	=
 y
-	static a
+	static var a
 	=
 b
 
 class MyClass
-	static x
+	static var x
 		=
 y
-	static a
+	static var a
 		=
 b
 
 class MyClass
-	static x
+	static var x
 =
 	y
-	static a
+	static var a
 =
 	b
 
 class MyClass
-	static x
+	static var x
 =
 		y
-	static a
+	static var a
 =
 		b
 
 class MyClass
-	static x
+	static var x
 	=
 	y
-	static a
+	static var a
 	=
 	b
 
 class MyClass
-	static x
+	static var x
 		=
 		y
-	static a
+	static var a
 		=
 		b
 
 class MyClass
 	static
-x = y
+var x = y
 	static
-a = b
+var a = b
 
 class MyClass
 	static
-	x = y
+	var x = y
 	static
-	a = b
+	var a = b
 
 class MyClass
 	static
-		x = y
+		var x = y
 	static
-		a = b
+		var a = b
 
 class MyClass
 	static
-x
+var x
 =
 y
 	static
-a
+var a
 =
 b
 
 class MyClass
 	static
-	x
+	var x
 	=
 	y
 	static
-	a
+	var a
 	=
 	b
 
 class MyClass
 	static
-		x
+		var x
 		=
 		y
 	static
-		a
+		var a
 		=
 		b
 
 class
 MyClass
-	static x = y
-	static a = b
+	static var x = y
+	static var a = b
 
 class
 	MyClass
-	static x = y
-	static a = b
+	static var x = y
+	static var a = b
 
 class
 		MyClass
-	static x = y
-	static a = b
+	static var x = y
+	static var a = b
 
 class
 MyClass
 	static
-x
+var x
 =
 y
 	static
-a
+var a
 =
 b
 
 class
 		MyClass
 	static
-		x
+		var x
 		=
 		y
 	static
-		a
+		var a
 		=
 		b

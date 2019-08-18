@@ -2,20 +2,20 @@ import { Node, LexicalToken, ForStatement } from '../../../../grammar';
 
 import { Parser } from '../../..';
 import { Span } from '../../../../position';
-import { checkVar, skipVarSize } from '../../parse-utils';
+import { checkVarDecl } from '../../parse-utils';
 
 export function forStmt(parser: Parser): Node {
   const forSpan = parser.previous().span;
   parser.eatWhitespace();
 
-  const varDecl = checkVar(parser);
+  const varDecl = checkVarDecl(parser);
   if (!varDecl) {
     throw parser.error("Expected a variable after 'for'", parser.peek().span, (error) => {
       error.info('Add a variable after this for', forSpan);
     });
   }
 
-  skipVarSize(parser, varDecl);
+  parser.skip(varDecl.size);
 
   parser.eatWhitespace();
   const inSpan = parser.consume(LexicalToken.IN, "Expected 'in' after the variable", (error) => {

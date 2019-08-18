@@ -2,12 +2,12 @@ import { Node, LexicalToken, VariableDeclaration } from '../../../../grammar';
 
 import { Parser } from '../../..';
 import { Span } from '../../../../position';
-import { VarDecl, skipVarSize } from '../../parse-utils';
+import { VarDecl } from '../../parse-utils';
 
 export function variableDecl(parser: Parser, varDecl: VarDecl): Node {
   const start = parser.peek().span.start;
 
-  skipVarSize(parser, varDecl);
+  parser.skip(varDecl.size);
 
   // Equals
   parser.eatWhitespace();
