@@ -20,7 +20,7 @@ describe('variable', () => {
       expect(decl.identifier.lexeme).to.equal('x');
 
       expect(decl.variableType).to.not.be.null;
-      expect(decl.variableType!.type.lexeme).to.equal('Number');
+      expect((decl.variableType!.type as Identifier).lexeme).to.equal('Number');
       expect(decl.variableType!.arrayDepth).to.equal(0);
 
       const value = decl.value as Identifier;
@@ -43,7 +43,7 @@ describe('variable', () => {
       expect(decl.identifier.lexeme).to.equal('x');
 
       expect(decl.variableType).to.not.be.null;
-      expect(decl.variableType!.type.lexeme).to.equal('Number');
+      expect((decl.variableType!.type as Identifier).lexeme).to.equal('Number');
       expect(decl.variableType!.arrayDepth).to.equal(1);
 
       const value = decl.value as Identifier;
@@ -66,7 +66,7 @@ describe('variable', () => {
       expect(decl.identifier.lexeme).to.equal('x');
 
       expect(decl.variableType).to.not.be.null;
-      expect(decl.variableType!.type.lexeme).to.equal('Number');
+      expect((decl.variableType!.type as Identifier).lexeme).to.equal('Number');
       expect(decl.variableType!.arrayDepth).to.equal(2);
 
       const value = decl.value as Identifier;

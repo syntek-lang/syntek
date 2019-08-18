@@ -87,18 +87,37 @@ export class ASTWalker {
       // Declarations
       case grammar.SyntacticToken.VARIABLE_DECL: {
         const decl = node as grammar.VariableDeclaration;
+
+        if (decl.variableType) {
+          this.walkNode(decl.variableType.type);
+        }
+
         this.walkNode(decl.value);
         break;
       }
 
       case grammar.SyntacticToken.FUNCTION_DECL: {
         const decl = node as grammar.FunctionDeclaration;
+
+        decl.params.forEach((param) => {
+          if (param.variableType) {
+            this.walkNode(param.variableType.type);
+          }
+        });
+
+        if (decl.returnType) {
+          this.walkNode(decl.returnType.type);
+        }
+
         decl.body.forEach(child => this.walkNode(child));
         break;
       }
 
       case grammar.SyntacticToken.CLASS_DECL: {
         const decl = node as grammar.ClassDeclaration;
+
+        // TODO: Walk extends
+
         decl.staticBody.forEach(child => this.walkNode(child));
         decl.instanceBody.forEach(child => this.walkNode(child));
         break;
@@ -218,6 +237,11 @@ export class ASTWalker {
 
       case grammar.SyntacticToken.FOR_STMT: {
         const stmt = node as grammar.ForStatement;
+
+        if (stmt.variableType) {
+          this.walkNode(stmt.variableType.type);
+        }
+
         this.walkNode(stmt.object);
         stmt.body.forEach(child => this.walkNode(child));
         break;
@@ -246,6 +270,11 @@ export class ASTWalker {
 
       case grammar.SyntacticToken.CATCH_STMT: {
         const stmt = node as grammar.CatchStatement;
+
+        if (stmt.variableType) {
+          this.walkNode(stmt.variableType.type);
+        }
+
         stmt.body.forEach(child => this.walkNode(child));
         break;
       }

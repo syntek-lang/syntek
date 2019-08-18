@@ -59,7 +59,7 @@ describe('for', () => {
       expect(stmt.identifier.lexeme).to.equal('x');
 
       expect(stmt.variableType).to.not.be.null;
-      expect(stmt.variableType!.type.lexeme).to.equal('Number');
+      expect((stmt.variableType!.type as Identifier).lexeme).to.equal('Number');
       expect(stmt.variableType!.arrayDepth).to.equal(0);
 
       const object = stmt.object as Identifier;
@@ -84,7 +84,7 @@ describe('for', () => {
       expect(stmt.identifier.lexeme).to.equal('x');
 
       expect(stmt.variableType).to.not.be.null;
-      expect(stmt.variableType!.type.lexeme).to.equal('Number');
+      expect((stmt.variableType!.type as Identifier).lexeme).to.equal('Number');
       expect(stmt.variableType!.arrayDepth).to.equal(1);
 
       const object = stmt.object as Identifier;
@@ -109,7 +109,7 @@ describe('for', () => {
       expect(stmt.identifier.lexeme).to.equal('x');
 
       expect(stmt.variableType).to.not.be.null;
-      expect(stmt.variableType!.type.lexeme).to.equal('Number');
+      expect((stmt.variableType!.type as Identifier).lexeme).to.equal('Number');
       expect(stmt.variableType!.arrayDepth).to.equal(2);
 
       const object = stmt.object as Identifier;

@@ -1,9 +1,20 @@
 import {
   Node, Token, LexicalToken, VariableType, FunctionParam,
+  Identifier, MemberExpression,
 } from '../../grammar';
 
 import { Parser } from '..';
 import { Span } from '../../position';
+
+export interface VarLoc {
+  node: Identifier | MemberExpression;
+  size: number;
+}
+
+export interface TypeDecl {
+  variableType: VariableType;
+  size: number;
+}
 
 export interface VarDecl {
   variableType: VariableType | null;
@@ -13,19 +24,51 @@ export interface VarDecl {
 }
 
 /**
- * Check for a type declaration
+ * Check for a variable location
+ *
+ * @see https://docs.syntek.dev/spec/grammar/syntactic/#variable-location
  *
  * @param parser - The parser object
- * @returns Information about the type declaration, or null
+ * @returns Information about the variable location, or null
  */
-export function checkTypeDecl(parser: Parser): VariableType | null {
-  // Types must start with an identifier
+export function checkVarLoc(parser: Parser): VarLoc | null {
   if (!parser.check(LexicalToken.IDENTIFIER)) {
     return null;
   }
 
-  // Check for array brackets
+  const identifier = parser.peek();
+  let node: Identifier | MemberExpression = new Identifier(identifier);
+
   let offset = 1;
+  while (parser.check(LexicalToken.DOT, offset)) {
+    if (!parser.check(LexicalToken.IDENTIFIER, offset + 1)) {
+      return null;
+    }
+
+    const prop = parser.peek(offset + 1);
+    node = new MemberExpression(node, prop, new Span(identifier.span.start, prop.span.end));
+    offset += 2;
+  }
+
+  return { node, size: offset };
+}
+
+/**
+ * Check for a type declaration
+ *
+ * @see https://docs.syntek.dev/spec/grammar/syntactic/#type
+ *
+ * @param parser - The parser object
+ * @returns Information about the type declaration, or null
+ */
+export function checkTypeDecl(parser: Parser): TypeDecl | null {
+  const varLoc = checkVarLoc(parser);
+  if (!varLoc) {
+    return null;
+  }
+
+  // Check for array brackets
+  let offset = varLoc.size;
   while (parser.check(LexicalToken.LSQB, offset)) {
     // Return if there is no closing bracket after the opening bracket
     if (!parser.check(LexicalToken.RSQB, offset + 1)) {
@@ -36,12 +79,12 @@ export function checkTypeDecl(parser: Parser): VariableType | null {
   }
 
   return {
-    type: parser.peek(),
-    arrayDepth: (offset - 1) / 2,
-    span: new Span(
-      parser.peek().span.start,
-      [parser.peek().span.end[0], parser.peek().span.end[1] + (offset - 1)],
-    ),
+    variableType: {
+      type: varLoc.node,
+      arrayDepth: (offset - varLoc.size) / 2,
+      span: new Span(parser.peek().span.start, parser.peek(offset - 1).span.end),
+    },
+    size: offset,
   };
 }
 
@@ -76,13 +119,13 @@ export function checkVarDecl(parser: Parser, requirePrefix = false): VarDecl | n
   }
 
   // Check if the type is followed by an identifier
-  const offset = typeDecl.arrayDepth * 2 + 1;
+  const offset = typeDecl.size;
   if (parser.check(LexicalToken.IDENTIFIER, offset)) {
     return {
-      variableType: typeDecl,
+      variableType: typeDecl.variableType,
       identifier: parser.peek(offset),
       size: offset + 1,
-      span: new Span(typeDecl.span.start, parser.peek(offset).span.end),
+      span: new Span(typeDecl.variableType.span.start, parser.peek(offset).span.end),
     };
   }
 
@@ -104,20 +147,21 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
   parser.eatWhitespace();
 
   while (!parser.match(LexicalToken.RPAR)) {
-    let typeDecl: VariableType | null = null;
+    let variableType: VariableType | null = null;
 
     if (parser.check(LexicalToken.LSQB, 1) || parser.check(LexicalToken.IDENTIFIER, 1)) {
       // Number[] x
-      typeDecl = checkTypeDecl(parser);
+      const typeDecl = checkTypeDecl(parser);
       if (!typeDecl) {
         throw parser.error('Expected type', parser.peek().span);
       }
 
-      parser.skip(typeDecl.arrayDepth * 2 + 1);
+      parser.skip(typeDecl.size);
+      variableType = typeDecl.variableType;
     }
 
     const name = parser.consume(LexicalToken.IDENTIFIER, 'Expected param name');
-    params.push({ name, variableType: typeDecl });
+    params.push({ name, variableType });
 
     parser.eatWhitespace();
     if (parser.peek().type !== LexicalToken.RPAR) {

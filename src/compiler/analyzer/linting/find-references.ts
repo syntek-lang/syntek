@@ -22,28 +22,9 @@ function addReference(node: grammar.Node, scope: Scope, name: string): void {
 export function findReferences(ast: grammar.Node, programScope: Scope): void {
   new ASTWalker(ast, programScope)
     // Declarations
-    .onEnter(grammar.VariableDeclaration, (node, scope) => {
-      addReference(node, scope, node.identifier.lexeme);
-
-      if (node.variableType) {
-        addReference(node, scope, node.variableType.type.lexeme);
-      }
-    })
-
-    .onEnter(grammar.FunctionDeclaration, (node, scope) => {
-      node.params.forEach((param) => {
-        if (param.variableType) {
-          addReference(node, scope, param.variableType.type.lexeme);
-        }
-      });
-
-      if (node.returnType) {
-        addReference(node, scope, node.returnType.type.lexeme);
-      }
-    })
-
     .onEnter(grammar.ClassDeclaration, (node, scope) => {
       node.extends.forEach((extend) => {
+        // TODO: Walk extends in ASTWalker
         addReference(node, scope, extend.lexeme);
       });
     })
@@ -51,19 +32,6 @@ export function findReferences(ast: grammar.Node, programScope: Scope): void {
     // Expressions
     .onEnter(grammar.Identifier, (node, scope) => {
       addReference(node, scope, node.lexeme);
-    })
-
-    // Statements
-    .onEnter(grammar.ForStatement, (node, scope) => {
-      if (node.variableType) {
-        addReference(node, scope, node.variableType.type.lexeme);
-      }
-    })
-
-    .onEnter(grammar.CatchStatement, (node, scope) => {
-      if (node.variableType) {
-        addReference(node, scope, node.variableType.type.lexeme);
-      }
     })
 
     .walk();

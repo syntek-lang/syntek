@@ -58,7 +58,7 @@ describe('try', () => {
       expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
 
       expect(stmt.catchStmt.variableType).to.not.be.null;
-      expect(stmt.catchStmt.variableType!.type.lexeme).to.equal('Error');
+      expect((stmt.catchStmt.variableType!.type as Identifier).lexeme).to.equal('Error');
       expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(0);
 
       checkBody(stmt.catchStmt.body);
@@ -80,7 +80,7 @@ describe('try', () => {
       expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
 
       expect(stmt.catchStmt.variableType).to.not.be.null;
-      expect(stmt.catchStmt.variableType!.type.lexeme).to.equal('Error');
+      expect((stmt.catchStmt.variableType!.type as Identifier).lexeme).to.equal('Error');
       expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(1);
 
       checkBody(stmt.catchStmt.body);
@@ -102,7 +102,7 @@ describe('try', () => {
       expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
 
       expect(stmt.catchStmt.variableType).to.not.be.null;
-      expect(stmt.catchStmt.variableType!.type.lexeme).to.equal('Error');
+      expect((stmt.catchStmt.variableType!.type as Identifier).lexeme).to.equal('Error');
       expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(2);
 
       checkBody(stmt.catchStmt.body);

@@ -25,15 +25,15 @@ export function functionDecl(parser: Parser): Node {
     parser.eatWhitespace();
     const returnsSpan = parser.advance().span;
 
-    returnType = checkTypeDecl(parser);
-
-    if (!returnType) {
+    const typeDecl = checkTypeDecl(parser);
+    if (!typeDecl) {
       throw parser.error("Expected a type after 'returns'", parser.peek().span, (error) => {
         error.info('Add a type after this returns', returnsSpan);
       });
     }
 
-    parser.skip(returnType.arrayDepth * 2 + 1);
+    parser.skip(typeDecl.size);
+    returnType = typeDecl.variableType;
   }
 
   parser.consume(LexicalToken.NEWLINE, 'Expected a newline and indent after the function signature');
