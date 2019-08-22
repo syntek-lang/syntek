@@ -1,10 +1,10 @@
 import {
-  Node, LexicalToken, TryStatement, CatchStatement,
+  Node, LexicalToken, TryStatement, CatchStatement, VariableType,
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
 import { Span } from '../../../../position';
-import { checkVarDecl } from '../../parse-utils';
+import { matchTypeDecl } from '../../parse-utils';
 
 export function tryStmt(parser: Parser): Node {
   const trySpan = parser.previous().span;
@@ -35,21 +35,21 @@ function catchStmt(parser: Parser): CatchStatement {
   }).span;
   parser.eatWhitespace();
 
-  const varDecl = checkVarDecl(parser);
-  if (!varDecl) {
-    throw parser.error("Expected a variable after 'catch'", parser.peek().span, (error) => {
-      error.info('Add a variable after this catch', catchSpan);
-    });
+  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier after "catch"')
+
+  let variableType: VariableType | null = null;
+  if (parser.match(LexicalToken.COLON)) {
+    variableType = matchTypeDecl(parser);
   }
 
-  parser.skip(varDecl.size);
-
-  parser.consume(LexicalToken.NEWLINE, "Expected a newline and indent after 'catch'", (error) => {
-    error.info('Add a newline after the variable', varDecl.span);
+  parser.consume(LexicalToken.NEWLINE, "Expected a newline and indent after 'catch'", (/*error*/) => {
+    // TODO: Add this back
+    // error.info('Add a newline after the variable', varDecl.span);
   });
   parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, "Expected a newline and indent after 'catch'", (error) => {
-    error.info('Add an indent after the variable', varDecl.span);
+  parser.consume(LexicalToken.INDENT, "Expected a newline and indent after 'catch'", (/*error*/) => {
+    // TODO: Add this back
+    // error.info('Add an indent after the variable', varDecl.span);
   });
 
   const body: Node[] = [];
@@ -58,8 +58,8 @@ function catchStmt(parser: Parser): CatchStatement {
   }
 
   return new CatchStatement(
-    varDecl.identifier,
-    varDecl.variableType,
+    identifier,
+    variableType,
     body,
     new Span(catchSpan.start, parser.previous().span.end),
   );

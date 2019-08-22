@@ -5,14 +5,12 @@ import {
 import { Diagnostic, Level } from '../../diagnostic';
 import { Span } from '../../position';
 
-import { checkVarDecl } from './parse-utils';
 import { Precedence } from './Precedence';
 import {
   declarationRules, expressionRules, statementRules,
   ExpressionParseRule,
 } from './parse-rules';
 
-import { variableDecl } from './internal/declarations/variableDecl';
 import { expressionStmt } from './internal/statements/expressionStmt';
 
 type ErrorHandler = (error: Diagnostic) => void;
@@ -56,14 +54,6 @@ export class Parser {
   }
 
   declaration(): Node {
-    const varDecl = checkVarDecl(this, true);
-
-    if (varDecl) {
-      if (this.peekIgnoreWhitespace(varDecl.size).type === LexicalToken.EQUAL) {
-        return variableDecl(this, varDecl);
-      }
-    }
-
     const handler = declarationRules[this.peek().type];
     if (handler) {
       this.advance();

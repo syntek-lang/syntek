@@ -1,7 +1,7 @@
 try
 	one
 	two
-catch Error[][] error
+catch error: Error[][]
 	one
 	two
 
@@ -9,7 +9,7 @@ try
 	one
 	two
 catch
-Error[][] error
+error: Error[][]
 	one
 	two
 
@@ -17,7 +17,7 @@ try
 	one
 	two
 catch
-	Error[][] error
+	error: Error[][]
 	one
 	two
 
@@ -25,6 +25,6 @@ try
 	one
 	two
 catch
-		Error[][] error
+		error: Error[][]
 	one
 	two

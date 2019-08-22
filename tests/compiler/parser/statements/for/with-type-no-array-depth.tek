@@ -1,68 +1,68 @@
-for Number x in y
+for x: Number in y
 	one
 	two
 
 for
-Number x in y
+x: Number in y
 	one
 	two
 
 for
-	Number x in y
+	x: Number in y
 	one
 	two
 
 for
-		Number x in y
+		x: Number in y
 	one
 	two
 
-for Number x
+for x: Number
 in y
 	one
 	two
 
-for Number x
+for x: Number
 	in y
 	one
 	two
 
-for Number x
+for x: Number
 		in y
 	one
 	two
 
-for Number x in
+for x: Number in
 y
 	one
 	two
 
-for Number x in
+for x: Number in
 	y
 	one
 	two
 
-for Number x in
+for x: Number in
 		y
 	one
 	two
 
 for
-Number x
+x: Number
 in
 y
 	one
 	two
 
 for
-	Number x
+	x: Number
 	in
 	y
 	one
 	two
 
 for
-		Number x
+		x: Number
 		in
 		y
 	one

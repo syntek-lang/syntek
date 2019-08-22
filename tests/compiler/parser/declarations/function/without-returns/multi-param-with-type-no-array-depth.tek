@@ -1,98 +1,98 @@
-function foo(Number x, String y)
+function foo(x: Number, y: String)
 	one
 	two
 
 function
-foo(Number x, String y)
+foo(x: Number, y: String)
 	one
 	two
 
 function
-	foo(Number x, String y)
+	foo(x: Number, y: String)
 	one
 	two
 
 function
-		foo(Number x, String y)
+		foo(x: Number, y: String)
 	one
 	two
 
 function foo
-(Number x, String y)
+(x: Number, y: String)
 	one
 	two
 
 function foo
-	(Number x, String y)
+	(x: Number, y: String)
 	one
 	two
 
 function foo
-		(Number x, String y)
+		(x: Number, y: String)
 	one
 	two
 
 function
 foo
-(Number x, String y)
+(x: Number, y: String)
 	one
 	two
 
 function
 	foo
-(Number x, String y)
+(x: Number, y: String)
 	one
 	two
 
 function
 		foo
-(Number x, String y)
+(x: Number, y: String)
 	one
 	two
 
 function
 foo
-	(Number x, String y)
+	(x: Number, y: String)
 	one
 	two
 
 function
 foo
-		(Number x, String y)
+		(x: Number, y: String)
 	one
 	two
 
 function
 	foo
-	(Number x, String y)
+	(x: Number, y: String)
 	one
 	two
 
 function
 		foo
-		(Number x, String y)
+		(x: Number, y: String)
 	one
 	two
 
-function foo(Number x,
-String y)
-	one
-	two
-
-function foo(
-Number x, String y)
+function foo(x: Number,
+y: String)
 	one
 	two
 
 function foo(
-Number x, String y,
+x: Number, y: String)
+	one
+	two
+
+function foo(
+x: Number, y: String,
 )
 	one
 	two
 
 function foo(
-	Number x,
-	String y,
+	x: Number,
+	y: String,
 )
 	one
 	two
@@ -100,39 +100,39 @@ function foo(
 function
 foo
 (
-	Number x,
-	String y,
+	x: Number,
+	y: String,
 )
 	one
 	two
 
 function
 	foo
-	(Number x, String y,)
+	(x: Number, y: String,)
 	one
 	two
 
 function
 		foo
 		(
-			Number x,
-			String y,
+			x: Number,
+			y: String,
 		)
 	one
 	two
 
 function foo
 		(
-		Number x,
-		String y,
+		x: Number,
+		y: String,
 		)
 	one
 	two
 
 function foo
 		(
-Number x,
-String y
+x: Number,
+y: String
 		)
 	one
 	two

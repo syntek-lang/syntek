@@ -20,13 +20,13 @@ export function tokenize(code: string): Token[] {
   const result = tokenizer.tokenize();
 
   if (result.diagnostics.length) {
-    console.error(`Error tokenizing:\n${code}`);
+    let msg = `Error tokenizing:\n${code}\nInfo:`;
 
     result.diagnostics.forEach((diagnostic) => {
-      console.error(diagnostic.msg);
+      msg += `\n- ${diagnostic.msg}`;
     });
 
-    process.exit(1);
+    throw new Error(msg);
   }
 
   return result.tokens;
@@ -36,19 +36,19 @@ export function parse(code: string): Program {
   const tokens = tokenize(code);
 
   const parser = new Parser(tokens);
-  const parsed = parser.parse();
+  const result = parser.parse();
 
-  if (parsed.diagnostics.length) {
-    console.error(`Error parsing:\n${code}`);
+  if (result.diagnostics.length) {
+    let msg = `Error tokenizing:\n${code}\nInfo:`;
 
-    parsed.diagnostics.forEach((diagnostic) => {
-      console.error(diagnostic.msg);
+    result.diagnostics.forEach((diagnostic) => {
+      msg += `\n- ${diagnostic.msg}`;
     });
 
-    process.exit(1);
+    throw new Error(msg);
   }
 
-  return parsed.ast;
+  return result.ast;
 }
 
 export function loadIndexInDir(base: string, dir: string): void {

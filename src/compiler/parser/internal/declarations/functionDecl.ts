@@ -4,7 +4,7 @@ import {
 
 import { Parser } from '../../..';
 import { Span } from '../../../../position';
-import { checkTypeDecl, matchFunctionParams } from '../../parse-utils';
+import { matchTypeDecl, matchFunctionParams } from '../../parse-utils';
 
 export function functionDecl(parser: Parser): Node {
   const functionSpan = parser.previous().span;
@@ -21,19 +21,11 @@ export function functionDecl(parser: Parser): Node {
   const params = matchFunctionParams(parser);
 
   let returnType: VariableType | null = null;
-  if (parser.peekIgnoreWhitespace().type === LexicalToken.RETURNS) {
+  if (parser.peekIgnoreWhitespace().type === LexicalToken.COLON) {
     parser.eatWhitespace();
-    const returnsSpan = parser.advance().span;
-
-    const typeDecl = checkTypeDecl(parser);
-    if (!typeDecl) {
-      throw parser.error("Expected a type after 'returns'", parser.peek().span, (error) => {
-        error.info('Add a type after this returns', returnsSpan);
-      });
-    }
-
-    parser.skip(typeDecl.size);
-    returnType = typeDecl.variableType;
+    parser.advance();
+    parser.eatWhitespace();
+    returnType = matchTypeDecl(parser);
   }
 
   parser.consume(LexicalToken.NEWLINE, 'Expected a newline and indent after the function signature');

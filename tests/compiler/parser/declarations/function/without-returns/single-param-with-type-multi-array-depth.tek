@@ -1,98 +1,98 @@
-function foo(Number[][] x)
+function foo(x: Number[][])
 	one
 	two
 
 function
-foo(Number[][] x)
+foo(x: Number[][])
 	one
 	two
 
 function
-	foo(Number[][] x)
+	foo(x: Number[][])
 	one
 	two
 
 function
-		foo(Number[][] x)
+		foo(x: Number[][])
 	one
 	two
 
 function foo
-(Number[][] x)
+(x: Number[][])
 	one
 	two
 
 function foo
-	(Number[][] x)
+	(x: Number[][])
 	one
 	two
 
 function foo
-		(Number[][] x)
+		(x: Number[][])
 	one
 	two
 
 function
 foo
-(Number[][] x)
+(x: Number[][])
 	one
 	two
 
 function
 	foo
-(Number[][] x)
+(x: Number[][])
 	one
 	two
 
 function
 		foo
-(Number[][] x)
+(x: Number[][])
 	one
 	two
 
 function
 foo
-	(Number[][] x)
+	(x: Number[][])
 	one
 	two
 
 function
 foo
-		(Number[][] x)
+		(x: Number[][])
 	one
 	two
 
 function
 	foo
-	(Number[][] x)
+	(x: Number[][])
 	one
 	two
 
 function
 		foo
-		(Number[][] x)
+		(x: Number[][])
 	one
 	two
 
 function foo(
-Number[][] x)
+x: Number[][])
 	one
 	two
 
 function foo(
-Number[][] x
+x: Number[][]
 )
 	one
 	two
 
 function foo(
-	Number[][] x
+	x: Number[][]
 )
 	one
 	two
 
 function foo(
-	Number[][] x
+	x: Number[][]
 	)
 	one
 	two
@@ -100,7 +100,7 @@ function foo(
 function
 foo
 (
-Number[][] x
+x: Number[][]
 )
 	one
 	two
@@ -108,7 +108,7 @@ Number[][] x
 function
 foo
 (
-	Number[][] x
+	x: Number[][]
 )
 	one
 	two
@@ -116,6 +116,6 @@ foo
 function
 foo
 (
-	Number[][] x)
+	x: Number[][])
 	one
 	two

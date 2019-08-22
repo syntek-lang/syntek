@@ -1,13 +1,20 @@
-import { Node, LexicalToken, VariableDeclaration } from '../../../../grammar';
+import {
+  Node, LexicalToken, VariableDeclaration, VariableType,
+} from '../../../../grammar';
 
 import { Parser } from '../../..';
 import { Span } from '../../../../position';
-import { VarDecl } from '../../parse-utils';
+import { matchTypeDecl } from '../../parse-utils';
 
-export function variableDecl(parser: Parser, varDecl: VarDecl): Node {
+export function variableDecl(parser: Parser): Node {
   const start = parser.peek().span.start;
 
-  parser.skip(varDecl.size);
+  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier after "var"');
+
+  let variableType: VariableType | null = null;
+  if (parser.match(LexicalToken.COLON)) {
+    variableType = matchTypeDecl(parser);
+  }
 
   // Equals
   parser.eatWhitespace();
@@ -25,8 +32,8 @@ export function variableDecl(parser: Parser, varDecl: VarDecl): Node {
   parser.syncIndentation();
 
   return new VariableDeclaration(
-    varDecl.identifier,
-    varDecl.variableType,
+    identifier,
+    variableType,
     expr,
     new Span(start, parser.previous().span.end),
   );

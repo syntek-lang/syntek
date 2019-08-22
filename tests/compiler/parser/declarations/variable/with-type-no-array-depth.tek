@@ -1,29 +1,29 @@
-Number x = y
+var x: Number = y
 
-Number x =
+var x: Number =
 y
 
-Number x =
+var x: Number =
 	y
 
-Number x
+var x: Number
 = y
 
-Number x
+var x: Number
 	= y
 
-Number x
+var x: Number
 =
 y
 
-Number x
+var x: Number
 =
 	y
 
-Number x
+var x: Number
 	=
 y
 
-Number x
+var x: Number
 	=
 	y

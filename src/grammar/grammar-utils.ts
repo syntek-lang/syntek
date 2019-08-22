@@ -26,6 +26,9 @@ export const CHAR_TOKENS: { [key: string]: grammar.LexicalToken } = {
   ')': grammar.LexicalToken.RPAR,
   '{': grammar.LexicalToken.LBRACE,
   '}': grammar.LexicalToken.RBRACE,
+  '<': grammar.LexicalToken.LT,
+  '>': grammar.LexicalToken.GT,
+  ':': grammar.LexicalToken.COLON,
 };
 
 /**
@@ -57,7 +60,6 @@ export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
 
   function: grammar.LexicalToken.FUNCTION,
   return: grammar.LexicalToken.RETURN,
-  returns: grammar.LexicalToken.RETURNS,
   void: grammar.LexicalToken.VOID,
 
   async: grammar.LexicalToken.ASYNC,

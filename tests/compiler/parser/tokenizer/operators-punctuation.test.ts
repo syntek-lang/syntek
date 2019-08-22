@@ -24,6 +24,9 @@ const map = {
   ')': LexicalToken.RPAR,
   '{': LexicalToken.LBRACE,
   '}': LexicalToken.RBRACE,
+  '<': LexicalToken.LT,
+  '>': LexicalToken.GT,
+  ':': LexicalToken.COLON,
 };
 
 describe('operators and punctuation', () => {

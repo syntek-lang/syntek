@@ -27,6 +27,9 @@ export enum LexicalToken {
   RPAR,
   LBRACE,
   RBRACE,
+  LT,
+  GT,
+  COLON,
 
   // Literals
   NUMBER,
@@ -52,7 +55,6 @@ export enum LexicalToken {
 
   FUNCTION,
   RETURN,
-  RETURNS,
   VOID,
 
   ASYNC,

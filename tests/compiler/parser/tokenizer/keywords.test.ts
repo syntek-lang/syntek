@@ -31,7 +31,6 @@ const map = {
 
   function: LexicalToken.FUNCTION,
   return: LexicalToken.RETURN,
-  returns: LexicalToken.RETURNS,
   void: LexicalToken.VOID,
 
   async: LexicalToken.ASYNC,

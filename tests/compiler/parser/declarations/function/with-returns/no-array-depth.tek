@@ -1,132 +1,132 @@
-function foo() returns Boolean
+function foo(): Boolean
 	one
 	two
 
 function foo(
-) returns Boolean
+): Boolean
 	one
 	two
 
 function foo(
-	) returns Boolean
+	): Boolean
 	one
 	two
 
 function foo(
-		) returns Boolean
+		): Boolean
 	one
 	two
 
 function
-foo() returns Boolean
+foo(): Boolean
 	one
 	two
 
 function
-	foo() returns Boolean
+	foo(): Boolean
 	one
 	two
 
 function
-		foo() returns Boolean
+		foo(): Boolean
 	one
 	two
 
 function
 foo(
-) returns Boolean
+): Boolean
 	one
 	two
 
 function
 	foo(
-	) returns Boolean
+	): Boolean
 	one
 	two
 
 function
 		foo(
-		) returns Boolean
+		): Boolean
 	one
 	two
 
 function
 foo
-() returns Boolean
+(): Boolean
 	one
 	two
 
 function
 foo
-	() returns Boolean
+	(): Boolean
 	one
 	two
 
 function
 foo
-		() returns Boolean
+		(): Boolean
 	one
 	two
 
 function
 	foo
-() returns Boolean
+(): Boolean
 	one
 	two
 
 function
 		foo
-() returns Boolean
+(): Boolean
 	one
 	two
 
 function
 	foo
-	() returns Boolean
+	(): Boolean
 	one
 	two
 
 function
 		foo
-		() returns Boolean
+		(): Boolean
 	one
 	two
 
 function
 		foo
 		(
-		) returns Boolean
+		): Boolean
 	one
 	two
 
 function
 		foo
 		(
-) returns Boolean
+): Boolean
 	one
 	two
 
 function foo()
-returns Boolean
+: Boolean
 	one
 	two
 
 function
 foo
 ()
-returns Boolean
+: Boolean
 	one
 	two
 
 function
 	foo
 	()
-	returns Boolean
+	: Boolean
 	one
 	two
 
 function foo
 ()
-returns Boolean
+: Boolean
 	one
 	two

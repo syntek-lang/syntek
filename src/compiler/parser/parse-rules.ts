@@ -6,6 +6,7 @@ import { Parser } from '..';
 import { classDecl } from './internal/declarations/classDecl';
 import { functionDecl } from './internal/declarations/functionDecl';
 import { importDecl } from './internal/declarations/importDecl';
+import { variableDecl } from './internal/declarations/variableDecl';
 
 // Expressions
 import { arrayExpr } from './internal/expressions/arrayExpr';
@@ -55,6 +56,7 @@ export const declarationRules: { [key: number]: ParsingHandler } = {
   [LexicalToken.CLASS]: classDecl,
   [LexicalToken.FUNCTION]: functionDecl,
   [LexicalToken.IMPORT]: importDecl,
+  [LexicalToken.VAR]: variableDecl,
 };
 
 export const expressionRules: ExpressionParseRule[] = [
@@ -100,6 +102,9 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RPAR
   { prefix: objectExpr, infix: null, precedence: Precedence.OP1 }, // LBRACE
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RBRACE
+  { prefix: null, infix: null, precedence: Precedence.OP1 }, // LT
+  { prefix: null, infix: null, precedence: Precedence.OP1 }, // GT
+  { prefix: null, infix: null, precedence: Precedence.OP1 }, // COLON
 
   // Literals
   { prefix: literals, infix: null, precedence: Precedence.OP1 }, // NUMBER
@@ -127,7 +132,6 @@ export const expressionRules: ExpressionParseRule[] = [
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // FUNCTION
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RETURN
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // RETURNS
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // VOID
 
   { prefix: asyncExpr, infix: null, precedence: Precedence.OP1 }, // ASYNC
