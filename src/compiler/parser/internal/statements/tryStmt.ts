@@ -35,19 +35,19 @@ function catchStmt(parser: Parser): CatchStatement {
   }).span;
   parser.eatWhitespace();
 
-  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier after "catch"')
+  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier after "catch"');
 
   let variableType: VariableType | null = null;
   if (parser.match(LexicalToken.COLON)) {
     variableType = matchTypeDecl(parser);
   }
 
-  parser.consume(LexicalToken.NEWLINE, "Expected a newline and indent after 'catch'", (/*error*/) => {
+  parser.consume(LexicalToken.NEWLINE, "Expected a newline and indent after 'catch'", (/* error */) => {
     // TODO: Add this back
     // error.info('Add a newline after the variable', varDecl.span);
   });
   parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, "Expected a newline and indent after 'catch'", (/*error*/) => {
+  parser.consume(LexicalToken.INDENT, "Expected a newline and indent after 'catch'", (/* error */) => {
     // TODO: Add this back
     // error.info('Add an indent after the variable', varDecl.span);
   });

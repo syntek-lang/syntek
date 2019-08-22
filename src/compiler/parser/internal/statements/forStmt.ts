@@ -1,4 +1,6 @@
-import { Node, LexicalToken, ForStatement, VariableType } from '../../../../grammar';
+import {
+  Node, LexicalToken, ForStatement, VariableType,
+} from '../../../../grammar';
 
 import { Parser } from '../../..';
 import { Span } from '../../../../position';
@@ -8,7 +10,7 @@ export function forStmt(parser: Parser): Node {
   const forSpan = parser.previous().span;
   parser.eatWhitespace();
 
-  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after "for"')
+  const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after "for"');
 
   let variableType: VariableType | null = null;
   if (parser.match(LexicalToken.COLON)) {
@@ -16,7 +18,7 @@ export function forStmt(parser: Parser): Node {
   }
 
   parser.eatWhitespace();
-  const inSpan = parser.consume(LexicalToken.IN, "Expected 'in' after the variable", (/*error*/) => {
+  const inSpan = parser.consume(LexicalToken.IN, "Expected 'in' after the variable", (/* error */) => {
     // TODO: Add this back
     // error.info("Add 'in' after this variable", varDecl.span);
   }).span;
