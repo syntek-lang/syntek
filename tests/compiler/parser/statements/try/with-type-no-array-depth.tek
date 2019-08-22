@@ -28,3 +28,45 @@ catch
 		error: Error
 	one
 	two
+
+try
+	one
+	two
+catch error:
+Error
+	one
+	two
+
+try
+	one
+	two
+catch error:
+		Error
+	one
+	two
+
+try
+	one
+	two
+catch error
+: Error
+	one
+	two
+
+try
+	one
+	two
+catch error
+		: Error
+	one
+	two
+
+try
+	one
+	two
+catch
+		error
+		:
+		Error
+	one
+	two

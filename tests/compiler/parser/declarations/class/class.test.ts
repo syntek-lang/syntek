@@ -253,4 +253,6 @@ describe('class', () => {
 
     program.body.forEach(check);
   });
+
+  it('parses empty declarations correctly');
 });

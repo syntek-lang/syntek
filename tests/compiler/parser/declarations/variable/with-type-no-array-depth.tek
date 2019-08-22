@@ -27,3 +27,28 @@ y
 var x: Number
 	=
 	y
+
+var x:
+Number = y
+
+var x:
+	Number = y
+
+var x
+: Number = y
+
+var x
+	: Number = y
+
+var
+x: Number = y
+
+var
+	x: Number = y
+
+var
+	x
+	:
+	Number
+	=
+	y

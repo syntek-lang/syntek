@@ -67,3 +67,32 @@ for
 		y
 	one
 	two
+
+for x:
+Number[][] in y
+	one
+	two
+
+for x:
+	Number[][] in y
+	one
+	two
+
+for x
+: Number[][] in y
+	one
+	two
+
+for x
+	: Number[][] in y
+	one
+	two
+
+for
+		x
+		:
+		Number[][]
+		in
+		y
+	one
+	two

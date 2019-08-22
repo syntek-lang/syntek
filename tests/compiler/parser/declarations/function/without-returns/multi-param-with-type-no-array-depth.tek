@@ -136,3 +136,18 @@ y: String
 		)
 	one
 	two
+
+function
+		foo
+		(
+		x
+		:
+		Number
+		,
+		y
+		:
+		String
+		,
+		)
+	one
+	two

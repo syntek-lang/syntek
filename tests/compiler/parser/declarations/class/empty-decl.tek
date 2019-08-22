@@ -1,0 +1,55 @@
+class MyClass
+	var x
+	var y: Number
+
+class MyClass
+	var
+x
+	var
+y: Number
+
+class MyClass
+	var
+		x
+	var
+		y: Number
+
+class MyClass
+	var x
+	var y
+: Number
+
+class MyClass
+	var x
+	var y
+		: Number
+
+class MyClass
+	var x
+	var y:
+Number
+
+class MyClass
+	var x
+	var y:
+		Number
+
+class MyClass
+	var x
+	var y
+:
+Number
+
+class MyClass
+	var x
+	var y
+		:
+		Number
+
+class MyClass
+	var
+		x
+	var
+		y
+		:
+		Number

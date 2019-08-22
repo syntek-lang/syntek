@@ -61,7 +61,8 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
     const name = parser.consume(LexicalToken.IDENTIFIER, 'Expected param name');
 
     let variableType: VariableType | null = null;
-    if (parser.match(LexicalToken.COLON)) {
+    if (parser.matchIgnoreWhitespace(LexicalToken.COLON)) {
+      parser.eatWhitespace();
       variableType = matchTypeDecl(parser);
     }
 

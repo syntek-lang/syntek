@@ -119,3 +119,13 @@ foo
 	x: Number)
 	one
 	two
+
+function
+		foo
+		(
+		x
+		:
+		Number
+		)
+	one
+	two

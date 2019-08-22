@@ -136,3 +136,14 @@ y
 		)
 	one
 	two
+
+function
+		foo
+		(
+		x
+		,
+		y
+		,
+		)
+	one
+	two

@@ -38,7 +38,8 @@ function catchStmt(parser: Parser): CatchStatement {
   const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier after "catch"');
 
   let variableType: VariableType | null = null;
-  if (parser.match(LexicalToken.COLON)) {
+  if (parser.matchIgnoreWhitespace(LexicalToken.COLON)) {
+    parser.eatWhitespace();
     variableType = matchTypeDecl(parser);
   }
 

@@ -239,6 +239,18 @@ export class Parser {
     return this.peek(offset + whitespaceAmount);
   }
 
+  matchIgnoreWhitespace(...types: LexicalToken[]): boolean {
+    const token = this.peekIgnoreWhitespace();
+
+    if (types.includes(token.type)) {
+      this.eatWhitespace();
+      this.advance();
+      return true;
+    }
+
+    return false;
+  }
+
   skip(amount: number): void {
     this.current += amount;
   }
@@ -261,6 +273,7 @@ export class Parser {
 
     while (!this.isAtEnd()) {
       switch (this.peek().type) {
+        case LexicalToken.VAR:
         case LexicalToken.FUNCTION:
         case LexicalToken.CLASS:
         case LexicalToken.IMPORT:

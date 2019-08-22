@@ -130,3 +130,12 @@ function foo
 : Boolean[][]
 	one
 	two
+
+function
+		foo
+		(
+		)
+		:
+		Boolean[][]
+	one
+	two

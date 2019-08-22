@@ -27,3 +27,51 @@ var x
 var x
 	=
 	y
+
+var
+x = y
+
+var
+	x = y
+
+var
+x
+= y
+
+var
+	x
+= y
+
+var
+	x
+	= y
+
+var
+x
+=
+y
+
+var
+	x
+=
+y
+
+var
+	x
+	=
+y
+
+var
+	x
+	=
+	y
+
+var
+x
+	=
+y
+
+var
+x
+=
+	y

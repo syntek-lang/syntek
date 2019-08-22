@@ -8,11 +8,13 @@ import { matchTypeDecl } from '../../parse-utils';
 
 export function variableDecl(parser: Parser): Node {
   const start = parser.peek().span.start;
+  parser.eatWhitespace();
 
   const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier after "var"');
 
   let variableType: VariableType | null = null;
-  if (parser.match(LexicalToken.COLON)) {
+  if (parser.matchIgnoreWhitespace(LexicalToken.COLON)) {
+    parser.eatWhitespace();
     variableType = matchTypeDecl(parser);
   }
 
