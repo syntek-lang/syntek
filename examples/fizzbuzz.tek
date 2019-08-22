@@ -5,7 +5,7 @@
 
 # Loop from 1 to 100
 for i in range(1, 101)
-	String output = ''
+	var output: String = ''
 
 	if i % 3 is 0
 		output.append('Fizz')

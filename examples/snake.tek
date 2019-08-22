@@ -1,6 +1,6 @@
 # Snake
 
-direction = 1
+var direction = 1
 
 function arrowUp()
 	direction = 0

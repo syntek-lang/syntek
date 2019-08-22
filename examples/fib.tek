@@ -1,8 +1,8 @@
 # Fibonacci Sequence
 
 # The first x Fibonacci numbers
-function fib(Number x) returns Number[]
-	Number[] numbers = [0, 1]
+function fib(x: Number): Number[]
+	var numbers: Number[] = [0, 1]
 
 	for i in range(x)
 		numbers.add(numbers[x] + numbers[x + 1])
