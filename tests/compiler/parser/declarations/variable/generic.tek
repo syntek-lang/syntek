@@ -1,0 +1,45 @@
+var x: A<B> = y
+
+var x: A
+<B> = y
+
+var x: A<
+	B
+> = y
+
+var x:
+A<B> = y
+
+var x
+: A<B> = y
+
+var x:
+	A<
+		B
+	> = y
+
+var x:
+	A
+	<
+		B
+	> = y
+
+var x:
+	A
+	<B
+		> = y
+
+var x:
+	A
+	<
+		B> = y
+
+var
+	x
+	:
+	A
+	<
+	B
+	>
+	=
+	y

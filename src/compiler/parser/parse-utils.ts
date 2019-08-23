@@ -27,6 +27,38 @@ export function matchVarLoc(parser: Parser): Identifier | MemberExpression {
 }
 
 /**
+ * Match generic arguments. Assumes `<` is already consumed
+ *
+ * @see https://docs.syntek.dev/spec/grammar/syntactic/#generic-arguments
+ *
+ * @param parser - The parser object
+ * @returns A list of variable types that are in the generic
+ */
+export function matchGenericArgs(parser: Parser): VariableType[] {
+  const types: VariableType[] = [];
+
+  // Generics must contain atleast 1 type
+  parser.eatWhitespace();
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  types.push(matchTypeDecl(parser));
+  parser.eatWhitespace();
+
+  // Check for the close token `>`
+  while (!parser.match(LexicalToken.GT)) {
+    // Consume a `,` as the generic hasn't closed yet
+    parser.consume(LexicalToken.COMMA, 'Expected "," or ">"');
+    parser.eatWhitespace();
+
+    // Consume another type
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    types.push(matchTypeDecl(parser));
+    parser.eatWhitespace();
+  }
+
+  return types;
+}
+
+/**
  * Match a type declaration
  *
  * @see https://docs.syntek.dev/spec/grammar/syntactic/#type
@@ -37,7 +69,11 @@ export function matchVarLoc(parser: Parser): Identifier | MemberExpression {
 export function matchTypeDecl(parser: Parser): VariableType {
   const varLoc = matchVarLoc(parser);
 
-  // TODO: Check for generic arguments
+  // Parse generics
+  let generics: VariableType[] = [];
+  if (parser.matchIgnoreWhitespace(LexicalToken.LT)) {
+    generics = matchGenericArgs(parser);
+  }
 
   // Check for array brackets
   let arrayDepth = 0;
@@ -48,6 +84,7 @@ export function matchTypeDecl(parser: Parser): VariableType {
 
   return {
     type: varLoc,
+    generics,
     arrayDepth,
     span: new Span(varLoc.span.start, parser.previous().span.end),
   };
