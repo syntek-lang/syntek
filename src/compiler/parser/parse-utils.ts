@@ -1,5 +1,5 @@
 import {
-  Node, LexicalToken, VariableType, FunctionParam,
+  Node, Token, LexicalToken, VariableType, FunctionParam,
   Identifier, MemberExpression,
 } from '../../grammar';
 
@@ -20,10 +20,37 @@ export function matchVarLoc(parser: Parser): Identifier | MemberExpression {
 
   while (parser.match(LexicalToken.DOT)) {
     const prop = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier after the "."');
-    node = new MemberExpression(node, prop, new Span(identifier.span.start, prop.span.end));
+    node = new MemberExpression(node, prop, new Span(node.span.start, prop.span.end));
   }
 
   return node;
+}
+
+/**
+ * Match generic parameters. Assumes `<` is already consumed
+ *
+ * @see https://docs.syntek.dev/spec/grammar/syntactic/#generic-parameters
+ *
+ * @param parser - The parser object
+ * @returns A list of parameters in the generic
+ */
+export function matchGenericParams(parser: Parser): Token[] {
+  const params: Token[] = [];
+  parser.eatWhitespace();
+
+  do {
+    params.push(parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier'));
+    parser.eatWhitespace();
+
+    // If the next token is not `>` there should be a comma
+    // The comma can also be a trailing comma
+    if (!parser.check(LexicalToken.GT)) {
+      parser.consume(LexicalToken.COMMA, 'Expected "," or ">"');
+      parser.eatWhitespace();
+    }
+  } while (!parser.match(LexicalToken.GT));
+
+  return params;
 }
 
 /**
@@ -36,24 +63,20 @@ export function matchVarLoc(parser: Parser): Identifier | MemberExpression {
  */
 export function matchGenericArgs(parser: Parser): VariableType[] {
   const types: VariableType[] = [];
-
-  // Generics must contain atleast 1 type
-  parser.eatWhitespace();
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  types.push(matchTypeDecl(parser));
   parser.eatWhitespace();
 
-  // Check for the close token `>`
-  while (!parser.match(LexicalToken.GT)) {
-    // Consume a `,` as the generic hasn't closed yet
-    parser.consume(LexicalToken.COMMA, 'Expected "," or ">"');
-    parser.eatWhitespace();
-
-    // Consume another type
+  do {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     types.push(matchTypeDecl(parser));
     parser.eatWhitespace();
-  }
+
+    // If the next token is not `>` there should be a comma
+    // The comma can also be a trailing comma
+    if (!parser.check(LexicalToken.GT)) {
+      parser.consume(LexicalToken.COMMA, 'Expected "," or ">"');
+      parser.eatWhitespace();
+    }
+  } while (!parser.match(LexicalToken.GT));
 
   return types;
 }

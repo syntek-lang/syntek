@@ -27,6 +27,28 @@ function checkBody(nodes: Node[]): void {
 }
 
 describe('function', () => {
+  it('parses generic param correctly', () => {
+    const program = parse(loadRaw(__dirname, './generic-param.tek'));
+
+    function check(node: Node): void {
+      const decl = node as FunctionDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+      expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+      expect(decl.identifier.lexeme).to.equal('foo');
+
+      expect(decl.genericParams.length).to.equal(1);
+      expect(decl.genericParams[0].lexeme).to.equal('A');
+
+      expect(decl.params.length).to.equal(0);
+      expect(decl.returnType).to.be.null;
+
+      checkBody(decl.body);
+    }
+
+    program.body.forEach(check);
+  });
+
   describe('without returns', () => {
     it('parses without params', () => {
       const program = parse(loadRaw(__dirname, './without-returns/without-params.tek'));
@@ -37,6 +59,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
         expect(decl.params.length).to.equal(0);
         expect(decl.returnType).to.be.null;
 
@@ -55,6 +78,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
 
         expect(decl.params.length).to.equal(1);
 
@@ -79,6 +103,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
 
         expect(decl.params.length).to.equal(1);
 
@@ -106,6 +131,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
 
         expect(decl.params.length).to.equal(1);
 
@@ -133,6 +159,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
 
         expect(decl.params.length).to.equal(1);
 
@@ -160,6 +187,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
 
         expect(decl.params.length).to.equal(2);
 
@@ -188,6 +216,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
 
         expect(decl.params.length).to.equal(2);
 
@@ -222,6 +251,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
 
         expect(decl.params.length).to.equal(2);
 
@@ -256,6 +286,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
 
         expect(decl.params.length).to.equal(2);
 
@@ -290,6 +321,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
 
         expect(decl.params.length).to.equal(1);
 
@@ -325,6 +357,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
         expect(decl.params.length).to.equal(0);
 
         expect(decl.returnType).to.not.be.null;
@@ -347,6 +380,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
         expect(decl.params.length).to.equal(0);
 
         expect(decl.returnType).to.not.be.null;
@@ -369,6 +403,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
         expect(decl.params.length).to.equal(0);
 
         expect(decl.returnType).to.not.be.null;
@@ -391,6 +426,7 @@ describe('function', () => {
         expect(decl).to.be.an.instanceof(FunctionDeclaration);
 
         expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.genericParams.length).to.equal(0);
         expect(decl.params.length).to.equal(0);
 
         expect(decl.returnType).to.not.be.null;

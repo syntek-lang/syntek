@@ -1,14 +1,20 @@
 import {
-  Node, LexicalToken, FunctionDeclaration, VariableType,
+  Node, Token, LexicalToken, FunctionDeclaration, VariableType,
 } from '../../../../grammar';
 
 import { Parser } from '../../..';
 import { Span } from '../../../../position';
-import { matchTypeDecl, matchFunctionParams } from '../../parse-utils';
+import { matchGenericParams, matchTypeDecl, matchFunctionParams } from '../../parse-utils';
 
 export function functionDecl(parser: Parser): Node {
   const functionSpan = parser.previous().span;
   parser.eatWhitespace();
+
+  let genericParams: Token[] = [];
+  if (parser.match(LexicalToken.LT)) {
+    genericParams = matchGenericParams(parser);
+    parser.eatWhitespace();
+  }
 
   const identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'function'", (error) => {
     error.info('Add an identifier after this function', functionSpan);
@@ -39,6 +45,7 @@ export function functionDecl(parser: Parser): Node {
 
   return new FunctionDeclaration(
     identifier,
+    genericParams,
     params,
     returnType,
     body,

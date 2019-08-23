@@ -35,6 +35,8 @@ export class VariableDeclaration extends Node {
 export class FunctionDeclaration extends Node {
   readonly identifier: Token;
 
+  readonly genericParams: Token[];
+
   readonly params: FunctionParam[];
 
   readonly returnType: VariableType | null;
@@ -43,6 +45,7 @@ export class FunctionDeclaration extends Node {
 
   constructor(
     identifier: Token,
+    genericParams: Token[],
     params: FunctionParam[],
     returnType: VariableType | null,
     body: Node[],
@@ -51,6 +54,7 @@ export class FunctionDeclaration extends Node {
     super(SyntacticToken.FUNCTION_DECL, span);
 
     this.identifier = identifier;
+    this.genericParams = genericParams;
     this.params = params;
     this.returnType = returnType;
     this.body = body;

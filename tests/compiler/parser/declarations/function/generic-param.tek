@@ -1,0 +1,65 @@
+function <A> foo()
+	one
+	two
+
+function <A
+> foo()
+	one
+	two
+
+function <
+A> foo()
+	one
+	two
+
+function <
+	A
+> foo()
+	one
+	two
+
+function
+<A> foo()
+	one
+	two
+
+function
+	<A> foo()
+	one
+	two
+
+function
+		<A> foo()
+	one
+	two
+
+function <A>
+foo()
+	one
+	two
+
+function <A>
+	foo()
+	one
+	two
+
+function <A>
+		foo()
+	one
+	two
+
+function
+		<A>
+		foo()
+	one
+	two
+
+function
+		<
+		A
+		>
+		foo
+		(
+		)
+	one
+	two
