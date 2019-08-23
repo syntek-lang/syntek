@@ -1,0 +1,165 @@
+for x: A<B> in y
+	one
+	two
+
+for
+x: A<B> in y
+	one
+	two
+
+for
+	x: A<B> in y
+	one
+	two
+
+for
+		x: A<B> in y
+	one
+	two
+
+for x: A<B>
+in y
+	one
+	two
+
+for x: A<B>
+	in y
+	one
+	two
+
+for x: A<B>
+		in y
+	one
+	two
+
+for x: A<B> in
+y
+	one
+	two
+
+for x: A<B> in
+	y
+	one
+	two
+
+for x: A<B> in
+		y
+	one
+	two
+
+for
+x: A<B>
+in
+y
+	one
+	two
+
+for
+	x: A<B>
+	in
+	y
+	one
+	two
+
+for
+		x: A<B>
+		in
+		y
+	one
+	two
+
+for x:
+A<B> in y
+	one
+	two
+
+for x:
+	A<B> in y
+	one
+	two
+
+for x
+: A<B> in y
+	one
+	two
+
+for x
+	: A<B> in y
+	one
+	two
+
+for
+		x
+		:
+		A<B>
+		in
+		y
+	one
+	two
+
+for x: A
+<B> in y
+	one
+	two
+
+for x: A
+	<B> in y
+	one
+	two
+
+for x: A
+		<B> in y
+	one
+	two
+
+for x: A<
+	B
+> in y
+	one
+	two
+
+for x: A<B
+> in y
+	one
+	two
+
+for x:
+A<
+	B
+> in y
+	one
+	two
+
+for x
+: A<B> in y
+	one
+	two
+
+for x
+	: A<
+		B
+> in y
+	one
+	two
+
+for x:
+		A
+		<
+		B
+		>
+		in
+		y
+	one
+	two
+
+for
+		x
+		:
+		A
+		<
+		B
+		>
+		in
+		y
+	one
+	two

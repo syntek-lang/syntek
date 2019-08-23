@@ -1,0 +1,72 @@
+try
+	one
+	two
+catch error: A<B>
+	one
+	two
+
+try
+	one
+	two
+catch
+error: A<B>
+	one
+	two
+
+try
+	one
+	two
+catch
+	error: A<B>
+	one
+	two
+
+try
+	one
+	two
+catch
+		error: A<B>
+	one
+	two
+
+try
+	one
+	two
+catch error:
+A<B>
+	one
+	two
+
+try
+	one
+	two
+catch error:
+		A<B>
+	one
+	two
+
+try
+	one
+	two
+catch error
+: A<B>
+	one
+	two
+
+try
+	one
+	two
+catch error
+		: A<B>
+	one
+	two
+
+try
+	one
+	two
+catch
+		error
+		:
+		A<B>
+	one
+	two

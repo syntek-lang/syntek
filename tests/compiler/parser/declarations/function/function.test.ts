@@ -86,6 +86,7 @@ describe('function', () => {
         expect(param.name.lexeme).to.equal('x');
         expect(param.variableType).to.not.be.null;
         expect((param.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect(param.variableType!.generics.length).to.equal(0);
         expect(param.variableType!.arrayDepth).to.equal(0);
 
         expect(decl.returnType).to.be.null;
@@ -112,6 +113,7 @@ describe('function', () => {
         expect(param.name.lexeme).to.equal('x');
         expect(param.variableType).to.not.be.null;
         expect((param.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect(param.variableType!.generics.length).to.equal(0);
         expect(param.variableType!.arrayDepth).to.equal(1);
 
         expect(decl.returnType).to.be.null;
@@ -138,6 +140,7 @@ describe('function', () => {
         expect(param.name.lexeme).to.equal('x');
         expect(param.variableType).to.not.be.null;
         expect((param.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect(param.variableType!.generics.length).to.equal(0);
         expect(param.variableType!.arrayDepth).to.equal(2);
 
         expect(decl.returnType).to.be.null;
@@ -192,12 +195,14 @@ describe('function', () => {
         expect(firstParam.name.lexeme).to.equal('x');
         expect(firstParam.variableType).to.not.be.null;
         expect((firstParam.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect(firstParam.variableType!.generics.length).to.equal(0);
         expect(firstParam.variableType!.arrayDepth).to.equal(0);
 
         const secondParam = decl.params[1];
         expect(secondParam.name.lexeme).to.equal('y');
         expect(secondParam.variableType).to.not.be.null;
         expect((secondParam.variableType!.type as Identifier).lexeme).to.equal('String');
+        expect(secondParam.variableType!.generics.length).to.equal(0);
         expect(secondParam.variableType!.arrayDepth).to.equal(0);
 
         expect(decl.returnType).to.be.null;
@@ -224,12 +229,14 @@ describe('function', () => {
         expect(firstParam.name.lexeme).to.equal('x');
         expect(firstParam.variableType).to.not.be.null;
         expect((firstParam.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect(firstParam.variableType!.generics.length).to.equal(0);
         expect(firstParam.variableType!.arrayDepth).to.equal(1);
 
         const secondParam = decl.params[1];
         expect(secondParam.name.lexeme).to.equal('y');
         expect(secondParam.variableType).to.not.be.null;
         expect((secondParam.variableType!.type as Identifier).lexeme).to.equal('String');
+        expect(secondParam.variableType!.generics.length).to.equal(0);
         expect(secondParam.variableType!.arrayDepth).to.equal(1);
 
         expect(decl.returnType).to.be.null;
@@ -256,13 +263,48 @@ describe('function', () => {
         expect(firstParam.name.lexeme).to.equal('x');
         expect(firstParam.variableType).to.not.be.null;
         expect((firstParam.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect(firstParam.variableType!.generics.length).to.equal(0);
         expect(firstParam.variableType!.arrayDepth).to.equal(2);
 
         const secondParam = decl.params[1];
         expect(secondParam.name.lexeme).to.equal('y');
         expect(secondParam.variableType).to.not.be.null;
         expect((secondParam.variableType!.type as Identifier).lexeme).to.equal('String');
+        expect(secondParam.variableType!.generics.length).to.equal(0);
         expect(secondParam.variableType!.arrayDepth).to.equal(2);
+
+        expect(decl.returnType).to.be.null;
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses single generic param', () => {
+      const program = parse(loadRaw(__dirname, './without-returns/single-generic-param.tek'));
+
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+
+        expect(decl.params.length).to.equal(1);
+
+        const param = decl.params[0];
+        expect(param.name.lexeme).to.equal('x');
+        expect(param.variableType).to.not.be.null;
+        expect((param.variableType!.type as Identifier).lexeme).to.equal('A');
+
+        expect(param.variableType!.generics.length).to.equal(1);
+        const generic = param.variableType!.generics[0];
+        expect((generic.type as Identifier).lexeme).to.equal('B');
+        expect(generic.generics.length).to.equal(0);
+        expect(generic.arrayDepth).to.equal(0);
+
+        expect(param.variableType!.arrayDepth).to.equal(0);
 
         expect(decl.returnType).to.be.null;
 
@@ -287,6 +329,7 @@ describe('function', () => {
 
         expect(decl.returnType).to.not.be.null;
         expect((decl.returnType!.type as Identifier).lexeme).to.equal('Boolean');
+        expect(decl.returnType!.generics.length).to.equal(0);
         expect(decl.returnType!.arrayDepth).to.equal(0);
 
         checkBody(decl.body);
@@ -308,6 +351,7 @@ describe('function', () => {
 
         expect(decl.returnType).to.not.be.null;
         expect((decl.returnType!.type as Identifier).lexeme).to.equal('Boolean');
+        expect(decl.returnType!.generics.length).to.equal(0);
         expect(decl.returnType!.arrayDepth).to.equal(1);
 
         checkBody(decl.body);
@@ -329,7 +373,36 @@ describe('function', () => {
 
         expect(decl.returnType).to.not.be.null;
         expect((decl.returnType!.type as Identifier).lexeme).to.equal('Boolean');
+        expect(decl.returnType!.generics.length).to.equal(0);
         expect(decl.returnType!.arrayDepth).to.equal(2);
+
+        checkBody(decl.body);
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses generic correctly', () => {
+      const program = parse(loadRaw(__dirname, './with-returns/generic.tek'));
+
+      function check(node: Node): void {
+        const decl = node as FunctionDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
+        expect(decl).to.be.an.instanceof(FunctionDeclaration);
+
+        expect(decl.identifier.lexeme).to.equal('foo');
+        expect(decl.params.length).to.equal(0);
+
+        expect(decl.returnType).to.not.be.null;
+        expect((decl.returnType!.type as Identifier).lexeme).to.equal('A');
+
+        expect(decl.returnType!.generics.length).to.equal(1);
+        const generic = decl.returnType!.generics[0];
+        expect((generic.type as Identifier).lexeme).to.equal('B');
+        expect(generic.generics.length).to.equal(0);
+        expect(generic.arrayDepth).to.equal(0);
+
+        expect(decl.returnType!.arrayDepth).to.equal(0);
 
         checkBody(decl.body);
       }

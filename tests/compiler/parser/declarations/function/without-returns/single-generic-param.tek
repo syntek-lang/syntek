@@ -1,0 +1,94 @@
+function foo(x: A<B>)
+	one
+	two
+
+function foo(x: A
+<B>)
+	one
+	two
+
+function foo(x: A
+	<B>)
+	one
+	two
+
+function foo(x: A
+		<B>)
+	one
+	two
+
+function foo(x: A<
+B>)
+	one
+	two
+
+function foo(x: A<
+	B>)
+	one
+	two
+
+function foo(x: A<
+		B>)
+	one
+	two
+
+function foo(x:
+A<B>)
+	one
+	two
+
+function foo(x:
+	A<B>)
+	one
+	two
+
+function foo(x:
+		A<B>)
+	one
+	two
+
+function foo(x
+: A<B>)
+	one
+	two
+
+function foo(x
+	: A<B>)
+	one
+	two
+
+function foo(x
+		: A<B>)
+	one
+	two
+
+function foo(
+	x:
+	A<B>
+)
+	one
+	two
+
+function foo(
+	x
+	:
+	A
+	<
+	B
+	>
+)
+	one
+	two
+
+function
+		foo
+		(
+		x
+		:
+		A
+		<
+		B
+		>
+		)
+	one
+	two

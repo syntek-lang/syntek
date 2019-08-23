@@ -1,0 +1,77 @@
+function foo(): A<B>
+	one
+	two
+
+function foo():
+A<B>
+	one
+	two
+
+function foo():
+	A<B>
+	one
+	two
+
+function foo():
+		A<B>
+	one
+	two
+
+function foo()
+: A<B>
+	one
+	two
+
+function foo()
+	: A<B>
+	one
+	two
+
+function foo()
+		: A<B>
+	one
+	two
+
+function foo(): A<
+	B
+>
+	one
+	two
+
+function foo(): A
+<B>
+	one
+	two
+
+function foo(): A
+	<B
+	>
+	one
+	two
+
+function foo(): A
+		<
+		B
+		>
+	one
+	two
+
+function foo():
+		A
+		<
+		B
+		>
+	one
+	two
+
+function
+		foo
+		(
+		)
+		:
+		A
+		<
+		B
+		>
+	one
+	two

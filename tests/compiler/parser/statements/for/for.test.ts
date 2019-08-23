@@ -60,6 +60,7 @@ describe('for', () => {
 
       expect(stmt.variableType).to.not.be.null;
       expect((stmt.variableType!.type as Identifier).lexeme).to.equal('Number');
+      expect(stmt.variableType!.generics.length).to.equal(0);
       expect(stmt.variableType!.arrayDepth).to.equal(0);
 
       const object = stmt.object as Identifier;
@@ -85,6 +86,7 @@ describe('for', () => {
 
       expect(stmt.variableType).to.not.be.null;
       expect((stmt.variableType!.type as Identifier).lexeme).to.equal('Number');
+      expect(stmt.variableType!.generics.length).to.equal(0);
       expect(stmt.variableType!.arrayDepth).to.equal(1);
 
       const object = stmt.object as Identifier;
@@ -110,7 +112,40 @@ describe('for', () => {
 
       expect(stmt.variableType).to.not.be.null;
       expect((stmt.variableType!.type as Identifier).lexeme).to.equal('Number');
+      expect(stmt.variableType!.generics.length).to.equal(0);
       expect(stmt.variableType!.arrayDepth).to.equal(2);
+
+      const object = stmt.object as Identifier;
+      expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(object).to.be.an.instanceof(Identifier);
+      expect(object.lexeme).to.equal('y');
+
+      checkBody(stmt.body);
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses correctly with generic', () => {
+    const program = parse(loadRaw(__dirname, './generic.tek'));
+
+    function check(node: Node): void {
+      const stmt = node as ForStatement;
+      expect(stmt.type).to.equal(SyntacticToken.FOR_STMT);
+      expect(stmt).to.be.an.instanceof(ForStatement);
+
+      expect(stmt.identifier.lexeme).to.equal('x');
+
+      expect(stmt.variableType).to.not.be.null;
+      expect((stmt.variableType!.type as Identifier).lexeme).to.equal('A');
+
+      expect(stmt.variableType!.generics.length).to.equal(1);
+      const generic = stmt.variableType!.generics[0];
+      expect((generic.type as Identifier).lexeme).to.equal('B');
+      expect(generic.generics.length).to.equal(0);
+      expect(generic.arrayDepth).to.equal(0);
+
+      expect(stmt.variableType!.arrayDepth).to.equal(0);
 
       const object = stmt.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);

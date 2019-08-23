@@ -59,6 +59,7 @@ describe('try', () => {
 
       expect(stmt.catchStmt.variableType).to.not.be.null;
       expect((stmt.catchStmt.variableType!.type as Identifier).lexeme).to.equal('Error');
+      expect(stmt.catchStmt.variableType!.generics.length).to.equal(0);
       expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(0);
 
       checkBody(stmt.catchStmt.body);
@@ -81,6 +82,7 @@ describe('try', () => {
 
       expect(stmt.catchStmt.variableType).to.not.be.null;
       expect((stmt.catchStmt.variableType!.type as Identifier).lexeme).to.equal('Error');
+      expect(stmt.catchStmt.variableType!.generics.length).to.equal(0);
       expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(1);
 
       checkBody(stmt.catchStmt.body);
@@ -103,7 +105,37 @@ describe('try', () => {
 
       expect(stmt.catchStmt.variableType).to.not.be.null;
       expect((stmt.catchStmt.variableType!.type as Identifier).lexeme).to.equal('Error');
+      expect(stmt.catchStmt.variableType!.generics.length).to.equal(0);
       expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(2);
+
+      checkBody(stmt.catchStmt.body);
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses correctly with generic', () => {
+    const program = parse(loadRaw(__dirname, './generic.tek'));
+
+    function check(node: Node): void {
+      const stmt = node as TryStatement;
+      expect(stmt.type).to.equal(SyntacticToken.TRY_STMT);
+      expect(stmt).to.be.an.instanceof(TryStatement);
+
+      checkBody(stmt.body);
+
+      expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
+
+      expect(stmt.catchStmt.variableType).to.not.be.null;
+      expect((stmt.catchStmt.variableType!.type as Identifier).lexeme).to.equal('A');
+
+      expect(stmt.catchStmt.variableType!.generics.length).to.equal(1);
+      const generic = stmt.catchStmt.variableType!.generics[0];
+      expect((generic.type as Identifier).lexeme).to.equal('B');
+      expect(generic.generics.length).to.equal(0);
+      expect(generic.arrayDepth).to.equal(0);
+
+      expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(0);
 
       checkBody(stmt.catchStmt.body);
     }
