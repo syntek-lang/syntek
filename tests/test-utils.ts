@@ -5,8 +5,8 @@ import { readFileSync, readdirSync, lstatSync } from 'fs';
 
 import { Program } from '../src/grammar/nodes/Other';
 
-import { Tokenizer } from '../src/compiler/parser/Tokenizer';
-import { Parser } from '../src/compiler/parser/Parser';
+import { Tokenizer } from '../src/parser/Tokenizer';
+import { Parser } from '../src/parser/Parser';
 import { Token } from '../src/grammar/Token';
 
 export function loadRaw(base: string, path: string): string {

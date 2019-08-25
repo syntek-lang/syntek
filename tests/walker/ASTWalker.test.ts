@@ -7,7 +7,7 @@ import { ASTWalker } from '../../src/walker/ASTWalker';
 
 import * as grammar from '../../src/grammar';
 import { Node } from '../../src/grammar/Node';
-import { BlockScope } from '../../src/compiler';
+import { BlockScope } from '../../src/analyzer';
 
 describe('ASTWalker', () => {
   const program = parse('10 + 2 * 5');

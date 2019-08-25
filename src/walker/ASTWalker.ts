@@ -1,5 +1,5 @@
 import * as grammar from '../grammar';
-import { Scope } from '../compiler';
+import { Scope } from '../analyzer';
 
 type WalkerCallback = (node: grammar.Node, scope: Scope, parents: grammar.Node[]) => void;
 

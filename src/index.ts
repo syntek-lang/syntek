@@ -1,10 +1,8 @@
-import {
-  Tokenizer, Parser, BlockScope, findReferences,
-} from './compiler';
+import { BlockScope, findReferences, Linter } from './analyzer';
+import { Tokenizer, Parser } from './parser';
 
 // import program from '../tests/syntek/programs/fizzbuzz.tek';
 import program from './dev.tek';
-import { Linter } from './compiler/analyzer/linting/Linter';
 
 console.log(program);
 
@@ -15,9 +13,10 @@ export const parseResult = new Parser(tokenResult.tokens).parse();
 console.log(parseResult);
 
 export const code = program;
-export * from './compiler';
+export * from './analyzer';
 export * from './diagnostic';
 export * from './grammar';
+export * from './parser';
 export * from './position';
 export * from './walker';
 
