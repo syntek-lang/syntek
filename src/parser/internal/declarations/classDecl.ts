@@ -6,6 +6,8 @@ import { Parser } from '../..';
 import { Span } from '../../../position';
 import { matchGenericParams, matchTypeDecl } from '../../parse-utils';
 
+import { variableDecl } from './variableDecl';
+
 export function classDecl(parser: Parser): Node {
   const classSpan = parser.previous().span;
   parser.eatWhitespace();
@@ -40,11 +42,20 @@ export function classDecl(parser: Parser): Node {
   while (!parser.match(LexicalToken.OUTDENT)) {
     const isStatic = parser.match(LexicalToken.STATIC);
 
+    let body: Node[];
     if (isStatic) {
       parser.eatWhitespace();
-      staticBody.push(parser.declaration());
+      body = staticBody;
     } else {
-      instanceBody.push(parser.declaration());
+      body = instanceBody;
+    }
+
+    // Check if it's a variable declaration
+    // A class body can contain an empty declaration
+    if (parser.match(LexicalToken.VAR)) {
+      body.push(variableDecl(parser, true));
+    } else {
+      body.push(parser.declaration());
     }
   }
 

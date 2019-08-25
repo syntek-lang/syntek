@@ -1,5 +1,6 @@
 export enum SyntacticToken {
   // Declarations
+  EMPTY_VARIABLE_DECL,
   VARIABLE_DECL,
   FUNCTION_DECL,
   CLASS_DECL,

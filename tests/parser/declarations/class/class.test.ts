@@ -7,7 +7,10 @@ import { Node } from '../../../../src/grammar/Node';
 import { Identifier } from '../../../../src/grammar/nodes/Expressions';
 import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../src/grammar/nodes/Statements';
-import { ClassDeclaration, VariableDeclaration, FunctionDeclaration } from '../../../../src/grammar/nodes/Declarations';
+import {
+  EmptyVariableDeclaration, VariableDeclaration,
+  ClassDeclaration, FunctionDeclaration,
+} from '../../../../src/grammar/nodes/Declarations';
 
 function checkIdentifier(node: Node, name: string): void {
   expect(node.type).to.equal(SyntacticToken.IDENTIFIER);
@@ -343,5 +346,38 @@ describe('class', () => {
     program.body.forEach(check);
   });
 
-  it('parses empty declarations correctly');
+  it('parses empty declarations correctly', () => {
+    const program = parse(loadRaw(__dirname, './empty-decl.tek'));
+
+    function check(node: Node): void {
+      const decl = node as ClassDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
+      expect(decl).to.be.an.instanceof(ClassDeclaration);
+      expect(decl.identifier.lexeme).to.equal('MyClass');
+
+      expect(decl.genericParams.length).to.equal(0);
+      expect(decl.extends.length).to.equal(0);
+      expect(decl.staticBody.length).to.equal(0);
+      expect(decl.instanceBody.length).to.equal(2);
+
+      const firstValue = decl.instanceBody[0] as EmptyVariableDeclaration;
+      expect(firstValue.type).to.equal(SyntacticToken.EMPTY_VARIABLE_DECL);
+      expect(firstValue).to.be.an.instanceof(EmptyVariableDeclaration);
+      expect(firstValue.variableType).to.be.null;
+      expect(firstValue.identifier.lexeme).to.equal('x');
+
+      const secondValue = decl.instanceBody[1] as EmptyVariableDeclaration;
+      expect(secondValue.type).to.equal(SyntacticToken.EMPTY_VARIABLE_DECL);
+      expect(secondValue).to.be.an.instanceof(EmptyVariableDeclaration);
+
+      expect(secondValue.variableType).to.not.be.null;
+      expect((secondValue.variableType!.type as Identifier).lexeme).to.equal('Number');
+      expect(secondValue.variableType!.generics.length).to.equal(0);
+      expect(secondValue.variableType!.arrayDepth).to.equal(0);
+
+      expect(secondValue.identifier.lexeme).to.equal('y');
+    }
+
+    program.body.forEach(check);
+  });
 });
