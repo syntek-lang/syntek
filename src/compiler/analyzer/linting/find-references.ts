@@ -21,13 +21,14 @@ function addReference(node: grammar.Node, scope: Scope, name: string): void {
 
 export function findReferences(ast: grammar.Node, programScope: Scope): void {
   new ASTWalker(ast, programScope)
-    // Declarations
-    .onEnter(grammar.ClassDeclaration, (node, scope) => {
-      node.extends.forEach((extend) => {
-        // TODO: Walk extends in ASTWalker
-        addReference(node, scope, extend.lexeme);
-      });
-    })
+  // Declarations
+  // TODO: fix this
+  // .onEnter(grammar.ClassDeclaration, (node, scope) => {
+  //   node.extends.forEach((extend) => {
+  //     // TODO: Walk extends in ASTWalker
+  //     addReference(node, scope, (extend.type as grammar.Identifier).lexeme);
+  //   });
+  // })
 
     // Expressions
     .onEnter(grammar.Identifier, (node, scope) => {

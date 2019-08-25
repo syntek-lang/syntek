@@ -1,0 +1,64 @@
+class MyClass extends A<B>
+	var x = y
+
+class MyClass extends A
+<B>
+	var x = y
+
+class MyClass extends A
+	<B>
+	var x = y
+
+class MyClass extends A
+		<B>
+	var x = y
+
+class MyClass extends
+A<B>
+	var x = y
+
+class MyClass extends
+	A<B>
+	var x = y
+
+class MyClass extends
+		A<B>
+	var x = y
+
+class MyClass extends A<
+	B
+>
+	var x = y
+
+class MyClass
+extends A<B>
+	var x = y
+
+class MyClass
+	extends A<B>
+	var x = y
+
+class MyClass
+		extends A<B>
+	var x = y
+
+class
+MyClass
+extends
+A<B>
+	var x = y
+
+class
+		MyClass
+		extends
+		A<B>
+	var x = y
+
+class
+		MyClass
+		extends
+		A
+		<
+		B
+		>
+	var x = y

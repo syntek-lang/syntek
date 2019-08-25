@@ -1,0 +1,60 @@
+class MyClass<T>
+	var x = y
+
+class MyClass
+<T>
+	var x = y
+
+class MyClass
+	<T>
+	var x = y
+
+class MyClass
+		<T>
+	var x = y
+
+class MyClass<
+T>
+	var x = y
+
+class MyClass<
+	T>
+	var x = y
+
+class MyClass<
+		T>
+	var x = y
+
+class MyClass<T
+>
+	var x = y
+
+class MyClass<T
+	>
+	var x = y
+
+class MyClass<T
+		>
+	var x = y
+
+class
+MyClass
+<T>
+	var x = y
+
+class
+	MyClass
+	<T>
+	var x = y
+
+class
+		MyClass
+		<T>
+	var x = y
+
+class
+		MyClass
+		<
+		T
+		>
+	var x = y

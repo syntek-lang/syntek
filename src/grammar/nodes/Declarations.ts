@@ -64,7 +64,9 @@ export class FunctionDeclaration extends Node {
 export class ClassDeclaration extends Node {
   readonly identifier: Token;
 
-  readonly extends: Token[];
+  readonly genericParams: Token[];
+
+  readonly extends: VariableType[];
 
   readonly staticBody: Node[];
 
@@ -72,7 +74,8 @@ export class ClassDeclaration extends Node {
 
   constructor(
     identifier: Token,
-    extend: Token[],
+    genericParams: Token[],
+    extend: VariableType[],
     staticBody: Node[],
     instanceBody: Node[],
     span: Span,
@@ -80,6 +83,7 @@ export class ClassDeclaration extends Node {
     super(SyntacticToken.CLASS_DECL, span);
 
     this.identifier = identifier;
+    this.genericParams = genericParams;
     this.extends = extend;
     this.staticBody = staticBody;
     this.instanceBody = instanceBody;
