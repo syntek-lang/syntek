@@ -25,8 +25,6 @@ export enum LexicalToken {
   RSQB,
   LPAR,
   RPAR,
-  LBRACE,
-  RBRACE,
   LT,
   GT,
   COLON,

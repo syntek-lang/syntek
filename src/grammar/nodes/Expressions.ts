@@ -12,7 +12,6 @@ export function isExpression(node: Node): boolean {
     || node.type === SyntacticToken.INSTANCEOF_EXPR
     || node.type === SyntacticToken.ASYNC_EXPR
     || node.type === SyntacticToken.ARRAY_EXPR
-    || node.type === SyntacticToken.OBJECT_EXPR
     || node.type === SyntacticToken.ASSIGNMENT_EXPR
 
     || node.type === SyntacticToken.IDENTIFIER
@@ -142,16 +141,6 @@ export class ArrayExpression extends Node {
     super(SyntacticToken.ARRAY_EXPR, span);
 
     this.content = content;
-  }
-}
-
-export class ObjectExpression extends Node {
-  readonly props: Node[];
-
-  constructor(props: Node[], span: Span) {
-    super(SyntacticToken.OBJECT_EXPR, span);
-
-    this.props = props;
   }
 }
 

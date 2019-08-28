@@ -22,8 +22,6 @@ const map = {
   ']': LexicalToken.RSQB,
   '(': LexicalToken.LPAR,
   ')': LexicalToken.RPAR,
-  '{': LexicalToken.LBRACE,
-  '}': LexicalToken.RBRACE,
   '<': LexicalToken.LT,
   '>': LexicalToken.GT,
   ':': LexicalToken.COLON,

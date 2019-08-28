@@ -189,12 +189,6 @@ export class ASTWalker {
         break;
       }
 
-      case grammar.SyntacticToken.OBJECT_EXPR: {
-        const expr = node as grammar.ObjectExpression;
-        expr.props.forEach(child => this.walkNode(child));
-        break;
-      }
-
       case grammar.SyntacticToken.ASSIGNMENT_EXPR: {
         const expr = node as grammar.AssignmentExpression;
         this.walkNode(expr.left);

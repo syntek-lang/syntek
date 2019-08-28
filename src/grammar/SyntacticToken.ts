@@ -17,7 +17,6 @@ export enum SyntacticToken {
   INSTANCEOF_EXPR,
   ASYNC_EXPR,
   ARRAY_EXPR,
-  OBJECT_EXPR,
   ASSIGNMENT_EXPR,
 
   IDENTIFIER,

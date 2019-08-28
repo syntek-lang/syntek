@@ -24,8 +24,6 @@ export const CHAR_TOKENS: { [key: string]: grammar.LexicalToken } = {
   ']': grammar.LexicalToken.RSQB,
   '(': grammar.LexicalToken.LPAR,
   ')': grammar.LexicalToken.RPAR,
-  '{': grammar.LexicalToken.LBRACE,
-  '}': grammar.LexicalToken.RBRACE,
   '<': grammar.LexicalToken.LT,
   '>': grammar.LexicalToken.GT,
   ':': grammar.LexicalToken.COLON,
@@ -109,7 +107,6 @@ export const NODE_TYPE: Map<typeof grammar.Node, grammar.SyntacticToken> = new M
   .set(grammar.InstanceofExpression, grammar.SyntacticToken.INSTANCEOF_EXPR)
   .set(grammar.AsyncExpression, grammar.SyntacticToken.ASYNC_EXPR)
   .set(grammar.ArrayExpression, grammar.SyntacticToken.ARRAY_EXPR)
-  .set(grammar.ObjectExpression, grammar.SyntacticToken.OBJECT_EXPR)
   .set(grammar.AssignmentExpression, grammar.SyntacticToken.ASSIGNMENT_EXPR)
 
   .set(grammar.Identifier, grammar.SyntacticToken.IDENTIFIER)

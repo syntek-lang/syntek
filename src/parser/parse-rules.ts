@@ -18,7 +18,6 @@ import { indexExpr } from './internal/expressions/indexExpr';
 import { instanceofExpr } from './internal/expressions/instanceofExpr';
 import { memberExpr } from './internal/expressions/memberExpr';
 import { newExpr } from './internal/expressions/newExpr';
-import { objectExpr } from './internal/expressions/objectExpr';
 import { unaryExpr } from './internal/expressions/unaryExpr';
 import { wrappedExpr } from './internal/expressions/wrappedExpr';
 
@@ -100,8 +99,6 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RSQB
   { prefix: wrappedExpr, infix: callExpr, precedence: Precedence.OP11 }, // LPAR
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RPAR
-  { prefix: objectExpr, infix: null, precedence: Precedence.OP1 }, // LBRACE
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // RBRACE
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // LT
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // GT
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // COLON
