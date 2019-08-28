@@ -7,7 +7,7 @@ import { Parser } from '../..';
 import { Span } from '../../../position';
 import { matchTypeDecl } from '../../parse-utils';
 
-export function variableDecl(parser: Parser, allowEmptyDeclaration = false): Node {
+export function variableDecl(parser: Parser): Node {
   const start = parser.peek().span.start;
   parser.eatWhitespace();
 
@@ -43,23 +43,17 @@ export function variableDecl(parser: Parser, allowEmptyDeclaration = false): Nod
   }
 
   // The declaration is not followed with an assignment
-  // If it is allowed return an empty declaration
-  if (allowEmptyDeclaration) {
-    const declarationSpan = new Span(start, parser.previous().span.end);
+  const declarationSpan = new Span(start, parser.previous().span.end);
 
-    parser.consume(LexicalToken.NEWLINE, 'Expected a newline after the variable declaration', (error) => {
-      error.info('Add a newline after the declaration', declarationSpan);
-    });
+  parser.consume(LexicalToken.NEWLINE, 'Expected a newline after the variable declaration', (error) => {
+    error.info('Add a newline after the declaration', declarationSpan);
+  });
 
-    parser.syncIndentation();
+  parser.syncIndentation();
 
-    return new EmptyVariableDeclaration(
-      identifier,
-      variableType,
-      declarationSpan,
-    );
-  }
-
-  // Empty declarations are not allowed
-  throw parser.error("Expected '='", new Span(start, parser.previous().span.end));
+  return new EmptyVariableDeclaration(
+    identifier,
+    variableType,
+    declarationSpan,
+  );
 }

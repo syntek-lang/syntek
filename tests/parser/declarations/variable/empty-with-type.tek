@@ -1,0 +1,32 @@
+var x: Number
+
+var
+x: Number
+
+var
+	x: Number
+
+var x:
+Number
+
+var x:
+	Number
+
+var x
+: Number
+
+var x
+	: Number
+
+var x
+:
+Number
+
+var x
+	:
+	Number
+
+var
+	x
+	:
+	Number
