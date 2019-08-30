@@ -7,20 +7,46 @@ import { Span } from '../position';
 import { Diagnostic, Level } from '../diagnostic';
 
 export class Tokenizer {
+  /**
+   * A list of the lines in the code
+   */
   private readonly lines: string[];
 
+  /**
+   * The tokens collected during tokenizing the code
+   */
   private readonly tokens: Token[] = [];
 
+  /**
+   * The comments in the code
+   */
   private readonly comments: Token[] = [];
 
+  /**
+   * The diagnostics reported during tokenizing
+   */
   private readonly diagnostics: Diagnostic[] = [];
 
+  /**
+   * The indent counter to keep track of the amount of indent/outdent tokens
+   */
   private indent = 0;
 
+  /**
+   * Create a new tokenizer
+   *
+   * @param source - The code to tokenize
+   */
   constructor(source: string) {
     this.lines = source.split(/\r?\n/);
   }
 
+  /**
+   * Tokenize the code
+   *
+   * @returns The tokens and comments in the code, and zero or more diagnostics. If one
+   * or more diagnostics are returned the code is invalid.
+   */
   tokenize(): {
     tokens: Token[];
     comments: Token[];
@@ -49,11 +75,22 @@ export class Tokenizer {
     };
   }
 
+  /**
+   * Get the indentation (amount of tabs) of a line
+   *
+   * @param line - The line to get the indentation of
+   * @returns The indenation of the line
+   */
   private getIndent(line: string): number {
     const match = line.match(/^\t+/);
     return match ? match[0].length : 0;
   }
 
+  /**
+   * Scan the line at the given index
+   *
+   * @param lineIndex - The line to scan
+   */
   private scanLine(lineIndex: number): void {
     const line = this.lines[lineIndex];
 
@@ -143,6 +180,12 @@ export class Tokenizer {
     )));
   }
 
+  /**
+   * Add indent or outdent tokens at the line
+   *
+   * @param lineIndex - The line to add the tokens at
+   * @param indent - The indentation of the line
+   */
   private addIndentTokens(lineIndex: number, indent: number): void {
     if (indent > this.indent) {
       const diff = indent - this.indent;
@@ -159,6 +202,14 @@ export class Tokenizer {
     }
   }
 
+  /**
+   * Match a number
+   *
+   * @param chars - The chars left on the line
+   * @param lineIndex - The line the number is on
+   * @param colIndex - The column the number starts at
+   * @returns The length of the number
+   */
   private matchNumber(chars: string, lineIndex: number, colIndex: number): number {
     const numberMatch = chars.match(/^\d(?:\d|_)*(?:\.\d(?:\d|_)*)?/);
 
@@ -174,6 +225,14 @@ export class Tokenizer {
     return 0;
   }
 
+  /**
+   * Match a string
+   *
+   * @param chars - The chars left on the line
+   * @param lineIndex - The line the string is on
+   * @param colIndex - The column the string starts at
+   * @returns The length of the string
+   */
   private matchString(chars: string, lineIndex: number, colIndex: number): number {
     const stringMatch = chars.match(/^'(?:[^'\\]|\\.)*'/);
 
@@ -189,6 +248,14 @@ export class Tokenizer {
     return 0;
   }
 
+  /**
+   * Match a comment
+   *
+   * @param chars - The chars left on the line
+   * @param lineIndex - The line the comment is on
+   * @param colIndex - The column the comment starts at
+   * @returns The length of the comment
+   */
   private matchComment(chars: string, lineIndex: number, colIndex: number): number {
     // Comments last until the end of the current line
     this.comments.push(new Token(LexicalToken.COMMENT, chars, new Span(
@@ -199,6 +266,15 @@ export class Tokenizer {
     return chars.length;
   }
 
+  /**
+   * Match a word
+   *
+   * @param wordMatch - The match of the word
+   * @param chars - The chars left on the line
+   * @param lineIndex - The line the word is on
+   * @param colIndex - The column the word starts at
+   * @returns The length of the word
+   */
   private matchWord(
     wordMatch: RegExpMatchArray,
     chars: string,
@@ -254,6 +330,15 @@ export class Tokenizer {
     return lexeme.length;
   }
 
+  /**
+   * Report an error
+   *
+   * @param msg - The error message
+   * @param lexeme - The invalid chars
+   * @param lineIndex - The line the lexeme is on
+   * @param colIndex - The column the lexeme starts at
+   * @returns The amount of chars to skip
+   */
   private error(msg: string, lexeme: string, lineIndex: number, colIndex: number): number {
     this.diagnostics.push(new Diagnostic(Level.ERROR, msg, new Span(
       [lineIndex, colIndex],

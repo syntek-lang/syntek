@@ -113,6 +113,12 @@ export function matchTypeDecl(parser: Parser): VariableType {
   };
 }
 
+/**
+ * Match fuction params. Assumes `(` is already consumed
+ *
+ * @param parser - The parser object
+ * @returns An array of function params
+ */
 export function matchFunctionParams(parser: Parser): FunctionParam[] {
   const params: FunctionParam[] = [];
   parser.eatWhitespace();
@@ -138,6 +144,14 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
   return params;
 }
 
+/**
+ * Match a list of expressions, separated by `,`. Matches until the `closingToken` is reached.
+ * Assumes the opening token is already consumed
+ *
+ * @param parser - The parser object
+ * @param closingToken - The type of the closing token
+ * @returns An array of expressions
+ */
 export function matchExpressionList(parser: Parser, closingToken: LexicalToken): Node[] {
   const expressions: Node[] = [];
   parser.eatWhitespace();

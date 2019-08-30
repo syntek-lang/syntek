@@ -16,20 +16,47 @@ import { expressionStmt } from './internal/statements/expressionStmt';
 type ErrorHandler = (error: Diagnostic) => void;
 
 export class Parser {
+  /**
+   * The current index
+   */
   private current = 0;
 
+  /**
+   * The amount of indents consumed. Used for syncing
+   */
   private indent = 0;
 
+  /**
+   * Whether there has been an error
+   */
   private hasError = false;
 
-  private diagnostics: Diagnostic[] = [];
+  /**
+   * The diagnostics reported during parsing
+   */
+  private readonly diagnostics: Diagnostic[] = [];
 
-  private tokens: Token[];
+  /**
+   * The tokens that are being parsed
+   */
+  private readonly tokens: Token[];
 
+  /**
+   * Create a new parser
+   *
+   * @param tokens - The tokens that need to be parsed
+   */
   constructor(tokens: Token[]) {
+    // Filter out whitespace tokens
     this.tokens = tokens.filter(token => token.type !== LexicalToken.WHITESPACE);
   }
 
+  /**
+   * Parse the tokens
+   *
+   * @returns An AST and zero or more diagnostics. If one or more diagnostics are
+   * returned the AST is invalid.
+   */
   parse(): {
     ast: Program;
     diagnostics: Diagnostic[];
@@ -53,6 +80,11 @@ export class Parser {
     };
   }
 
+  /**
+   * Parse a declaration or statement
+   *
+   * @returns A new node
+   */
   declaration(): Node {
     const handler = declarationRules[this.peek().type];
     if (handler) {
@@ -63,6 +95,11 @@ export class Parser {
     return this.statement();
   }
 
+  /**
+   * Parse a statement
+   *
+   * @returns A new node
+   */
   statement(): Node {
     const handler = statementRules[this.peek().type];
 
@@ -74,10 +111,25 @@ export class Parser {
     return expressionStmt(this);
   }
 
+  /**
+   * Parse an expression
+   *
+   * @param msg - A message to display on error
+   * @param errorHandler - A handler to assign more info to the error
+   * @returns A new node
+   */
   expression(msg?: string, errorHandler?: ErrorHandler): Node {
     return this.parsePrecedence(Precedence.OP2, msg, errorHandler);
   }
 
+  /**
+   * Parse an expression with a precedence greater than the provided precedence
+   *
+   * @param precedence - The precedence wanted
+   * @param msg - A message to display on error
+   * @param errorHandler - A handler to assign more info to the error
+   * @returns A new node
+   */
   parsePrecedence(precedence: Precedence, msg?: string, errorHandler?: ErrorHandler): Node {
     const prefixToken = this.advance();
 
@@ -92,7 +144,7 @@ export class Parser {
       }
     }
 
-    let left: Node = prefixFn(this, prefixToken);
+    let left = prefixFn(this, prefixToken);
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -137,16 +189,31 @@ export class Parser {
     return left;
   }
 
+  /**
+   * Get the expression parsing rule for a given token type
+   *
+   * @param type - The token type
+   * @returns The expression parsing rule
+   */
   getRule(type: LexicalToken): ExpressionParseRule {
     return expressionRules[type];
   }
 
+  /**
+   * Whether the given token is whitespace
+   *
+   * @param token - The token to check
+   * @returns Whether the given token is whitespace
+   */
   isWhitespace(token: Token): boolean {
     return token.type === LexicalToken.NEWLINE
       || token.type === LexicalToken.INDENT
       || token.type === LexicalToken.OUTDENT;
   }
 
+  /**
+   * Eat whitespace whitespace if possible. Stores the indent count so it can be synced.
+   */
   eatWhitespace(): void {
     while (this.isWhitespace(this.peek())) {
       // Consume whitespace
@@ -160,7 +227,12 @@ export class Parser {
     }
   }
 
+  /**
+   * Sync the indentation, adding indent or outdent tokens
+   */
   syncIndentation(): void {
+    // TODO: This can probably be optimized by checking `indent` in parse methods
+    // instead of merging new tokens into the array
     while (this.indent !== 0) {
       if (this.indent > 0) {
         if (this.check(LexicalToken.OUTDENT)) {
@@ -182,6 +254,14 @@ export class Parser {
     }
   }
 
+  /**
+   * Consume a token of a given type. Throws an error if a different type is found.
+   *
+   * @param type - The token type
+   * @param msg - A message to display on error
+   * @param errorHandler - A handler to assign more info to the error
+   * @returns The consumed token
+   */
   consume(type: LexicalToken, msg: string, errorHandler?: ErrorHandler): Token {
     if (this.check(type)) {
       return this.advance();
@@ -190,6 +270,12 @@ export class Parser {
     throw this.error(msg, this.peek().span, errorHandler);
   }
 
+  /**
+   * Match a token of a given type. If the token matches it is consumed.
+   *
+   * @param types - The token types
+   * @returns Whether a token was matched
+   */
   match(...types: LexicalToken[]): boolean {
     for (const type of types) {
       if (this.check(type)) {
@@ -201,6 +287,11 @@ export class Parser {
     return false;
   }
 
+  /**
+   * Move to the next token and returns the previous token
+   *
+   * @returns The previous token
+   */
   advance(): Token {
     if (!this.isAtEnd()) {
       this.current += 1;
@@ -209,6 +300,13 @@ export class Parser {
     return this.previous();
   }
 
+  /**
+   * Check for a token with the given type at the given offset
+   *
+   * @param type - The token type
+   * @param offset - The offset to check at
+   * @returns Whether the token is at the given offset
+   */
   check(type: LexicalToken, offset = 0): boolean {
     if (this.isAtEnd()) {
       return false;
@@ -217,28 +315,55 @@ export class Parser {
     return this.peek(offset).type === type;
   }
 
+  /**
+   * Whether the parser is at the end of the tokens, indicated an `EOF` token
+   *
+   * @returns Whether the parser is at the end
+   */
   isAtEnd(): boolean {
     return this.peek().type === LexicalToken.EOF;
   }
 
+  /**
+   * Peek at the token at the provided offset
+   *
+   * @param offset - The offset to peek at
+   * @returns The token at the offset
+   */
   peek(offset = 0): Token {
     return this.tokens[this.current + offset];
   }
 
+  /**
+   * Get the previous token of the parser
+   *
+   * @returns The previous token
+   */
   previous(): Token {
     return this.peek(-1);
   }
 
-  peekIgnoreWhitespace(offset = 0): Token {
+  /**
+   * Peek at the next token, ignoring whitespace
+   *
+   * @returns The token
+   */
+  peekIgnoreWhitespace(): Token {
     let whitespaceAmount = 0;
 
-    while (this.isWhitespace(this.peek(offset + whitespaceAmount))) {
+    while (this.isWhitespace(this.peek(whitespaceAmount))) {
       whitespaceAmount += 1;
     }
 
-    return this.peek(offset + whitespaceAmount);
+    return this.peek(whitespaceAmount);
   }
 
+  /**
+   * Match a token of a given type. If the token matches it is consumed. Whitespace is ignored.
+   *
+   * @param types - The token types
+   * @returns Whether a token was matched
+   */
   matchIgnoreWhitespace(...types: LexicalToken[]): boolean {
     const token = this.peekIgnoreWhitespace();
 
@@ -251,10 +376,22 @@ export class Parser {
     return false;
   }
 
+  /**
+   * Skip over tokens
+   *
+   * @param amount - The amount of tokens to skip
+   */
   skip(amount: number): void {
     this.current += amount;
   }
 
+  /**
+   * Report an error
+   *
+   * @param msg - The error message
+   * @param span - The span of the error
+   * @param errorHandler - A handler to assign more info to the error
+   */
   error(msg: string, span: Span, errorHandler?: ErrorHandler): Error {
     this.hasError = true;
 
@@ -268,6 +405,10 @@ export class Parser {
     return new Error(msg);
   }
 
+  /**
+   * Sync the parser. This skips over tokens until a keyword is found that could
+   * safely be parsed again, without giving incorrect errors.
+   */
   sync(): void {
     this.indent = 0;
 

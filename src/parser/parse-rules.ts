@@ -51,6 +51,9 @@ export interface ExpressionParseRule {
   ignoreWhiteSpace?: boolean;
 }
 
+/**
+ * An object containing the start token of a declaration mapped to the handler
+ */
 export const declarationRules: { [key: number]: ParsingHandler } = {
   [LexicalToken.CLASS]: classDecl,
   [LexicalToken.FUNCTION]: functionDecl,
@@ -58,6 +61,10 @@ export const declarationRules: { [key: number]: ParsingHandler } = {
   [LexicalToken.VAR]: variableDecl,
 };
 
+/**
+ * An array containing the prefix handler, infix handler, precedence, and whitespace
+ * information about a token type. The array is ordered the same as LexicalToken
+ */
 export const expressionRules: ExpressionParseRule[] = [
   // Whitespace
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // NEWLINE
@@ -175,6 +182,9 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // EOF
 ];
 
+/**
+ * An object containing the start token of a statement mapped to the handler
+ */
 export const statementRules: { [key: number]: ParsingHandler } = {
   [LexicalToken.BREAK]: breakStmt,
   [LexicalToken.CONTINUE]: continueStmt,
