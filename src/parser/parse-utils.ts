@@ -18,7 +18,9 @@ export function matchVarLoc(parser: Parser): Identifier | MemberExpression {
   const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier');
   let node: Identifier | MemberExpression = new Identifier(identifier);
 
-  while (parser.match(LexicalToken.DOT)) {
+  while (parser.matchIgnoreWhitespace(LexicalToken.DOT)) {
+    parser.eatWhitespace();
+
     const prop = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier after the "."');
     node = new MemberExpression(node, prop, new Span(node.span.start, prop.span.end));
   }
@@ -101,6 +103,8 @@ export function matchTypeDecl(parser: Parser): VariableType {
   // Check for array brackets
   let arrayDepth = 0;
   while (parser.match(LexicalToken.LSQB)) {
+    parser.eatWhitespace();
+
     parser.consume(LexicalToken.RSQB, 'Expected "]" after "["');
     arrayDepth += 1;
   }
