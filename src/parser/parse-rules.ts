@@ -128,6 +128,7 @@ export const expressionRules: ExpressionParseRule[] = [
   }, // INSTANCEOF
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // IF
+  { prefix: null, infix: null, precedence: Precedence.OP1 }, // THEN
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // ELSE
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // SWITCH

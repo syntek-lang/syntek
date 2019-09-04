@@ -23,6 +23,7 @@ const map = {
   instanceof: LexicalToken.INSTANCEOF,
 
   if: LexicalToken.IF,
+  then: LexicalToken.THEN,
   else: LexicalToken.ELSE,
 
   switch: LexicalToken.SWITCH,

@@ -50,6 +50,7 @@ export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
   instanceof: grammar.LexicalToken.INSTANCEOF,
 
   if: grammar.LexicalToken.IF,
+  then: grammar.LexicalToken.THEN,
   else: grammar.LexicalToken.ELSE,
 
   switch: grammar.LexicalToken.SWITCH,

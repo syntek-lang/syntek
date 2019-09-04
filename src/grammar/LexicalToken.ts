@@ -45,6 +45,7 @@ export enum LexicalToken {
   INSTANCEOF,
 
   IF,
+  THEN,
   ELSE,
 
   SWITCH,
