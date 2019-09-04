@@ -1,0 +1,46 @@
+var _ = if x then y else z
+
+var _ = if
+x then y else z
+
+var _ = if
+	x then y else z
+
+var _ = if x
+then y else z
+
+var _ = if x
+	then y else z
+
+var _ = if x then
+y else z
+
+var _ = if x then
+	y else z
+
+var _ = if x then y
+else z
+
+var _ = if x then y
+	else z
+
+var _ = if x then y else
+z
+
+var _ = if x then y else
+	z
+
+var _ = if x
+then y
+else z
+
+var _ = if x
+	then y
+	else z
+
+var _ = if
+	x
+	then
+	y
+	else
+	z

@@ -14,6 +14,7 @@ import { assignmentExpr } from './internal/expressions/assignmentExpr';
 import { asyncExpr } from './internal/expressions/asyncExpr';
 import { binaryExpr } from './internal/expressions/binaryExpr';
 import { callExpr } from './internal/expressions/callExpr';
+import { conditionalExpr } from './internal/expressions/conditionalExpr';
 import { indexExpr } from './internal/expressions/indexExpr';
 import { instanceofExpr } from './internal/expressions/instanceofExpr';
 import { memberExpr } from './internal/expressions/memberExpr';
@@ -78,20 +79,20 @@ export const expressionRules: ExpressionParseRule[] = [
 
   // Operators
   {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP7, ignoreWhiteSpace: true,
+    prefix: null, infix: binaryExpr, precedence: Precedence.OP8, ignoreWhiteSpace: true,
   }, // PLUS
-  { prefix: unaryExpr, infix: binaryExpr, precedence: Precedence.OP7 }, // MINUS
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP8, ignoreWhiteSpace: true,
-  }, // STAR
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP8, ignoreWhiteSpace: true,
-  }, // SLASH
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP8, ignoreWhiteSpace: true,
-  }, // PERCENT
+  { prefix: unaryExpr, infix: binaryExpr, precedence: Precedence.OP8 }, // MINUS
   {
     prefix: null, infix: binaryExpr, precedence: Precedence.OP9, ignoreWhiteSpace: true,
+  }, // STAR
+  {
+    prefix: null, infix: binaryExpr, precedence: Precedence.OP9, ignoreWhiteSpace: true,
+  }, // SLASH
+  {
+    prefix: null, infix: binaryExpr, precedence: Precedence.OP9, ignoreWhiteSpace: true,
+  }, // PERCENT
+  {
+    prefix: null, infix: binaryExpr, precedence: Precedence.OP10, ignoreWhiteSpace: true,
   }, // CARET
   {
     prefix: null, infix: assignmentExpr, precedence: Precedence.OP2, ignoreWhiteSpace: true,
@@ -99,12 +100,12 @@ export const expressionRules: ExpressionParseRule[] = [
 
   // Punctuation
   {
-    prefix: null, infix: memberExpr, precedence: Precedence.OP11, ignoreWhiteSpace: true,
+    prefix: null, infix: memberExpr, precedence: Precedence.OP12, ignoreWhiteSpace: true,
   }, // DOT
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // COMMA
-  { prefix: arrayExpr, infix: indexExpr, precedence: Precedence.OP11 }, // LSQB
+  { prefix: arrayExpr, infix: indexExpr, precedence: Precedence.OP12 }, // LSQB
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RSQB
-  { prefix: wrappedExpr, infix: callExpr, precedence: Precedence.OP11 }, // LPAR
+  { prefix: wrappedExpr, infix: callExpr, precedence: Precedence.OP12 }, // LPAR
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RPAR
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // LT
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // GT
@@ -118,16 +119,16 @@ export const expressionRules: ExpressionParseRule[] = [
 
   // Keywords
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // CLASS
-  { prefix: newExpr, infix: null, precedence: Precedence.OP1 }, // NEW
+  { prefix: newExpr, infix: null, precedence: Precedence.OP12 }, // NEW
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // STATIC
   { prefix: thisLiteral, infix: null, precedence: Precedence.OP1 }, // THIS
   { prefix: superLiteral, infix: null, precedence: Precedence.OP1 }, // SUPER
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // EXTENDS
   {
-    prefix: null, infix: instanceofExpr, precedence: Precedence.OP6, ignoreWhiteSpace: true,
+    prefix: null, infix: instanceofExpr, precedence: Precedence.OP7, ignoreWhiteSpace: true,
   }, // INSTANCEOF
 
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // IF
+  { prefix: conditionalExpr, infix: null, precedence: Precedence.OP3 }, // IF
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // THEN
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // ELSE
 
@@ -139,7 +140,7 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RETURN
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // VOID
 
-  { prefix: asyncExpr, infix: null, precedence: Precedence.OP1 }, // ASYNC
+  { prefix: asyncExpr, infix: null, precedence: Precedence.OP11 }, // ASYNC
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // TRY
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // CATCH
@@ -157,24 +158,24 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // BREAK
 
   {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP4, ignoreWhiteSpace: true,
+    prefix: null, infix: binaryExpr, precedence: Precedence.OP5, ignoreWhiteSpace: true,
   }, // AND
   {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP3, ignoreWhiteSpace: true,
+    prefix: null, infix: binaryExpr, precedence: Precedence.OP4, ignoreWhiteSpace: true,
   }, // OR
-  { prefix: unaryExpr, infix: null, precedence: Precedence.OP1 }, // NOT
+  { prefix: unaryExpr, infix: null, precedence: Precedence.OP11 }, // NOT
 
   {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP5, ignoreWhiteSpace: true,
+    prefix: null, infix: binaryExpr, precedence: Precedence.OP6, ignoreWhiteSpace: true,
   }, // IS
   {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP5, ignoreWhiteSpace: true,
+    prefix: null, infix: binaryExpr, precedence: Precedence.OP6, ignoreWhiteSpace: true,
   }, // IS_NOT
   {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP6, ignoreWhiteSpace: true,
+    prefix: null, infix: binaryExpr, precedence: Precedence.OP7, ignoreWhiteSpace: true,
   }, // IS_LESS_THAN
   {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP6, ignoreWhiteSpace: true,
+    prefix: null, infix: binaryExpr, precedence: Precedence.OP7, ignoreWhiteSpace: true,
   }, // IS_GREATER_THAN
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // VAR

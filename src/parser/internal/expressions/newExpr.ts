@@ -13,7 +13,7 @@ export function newExpr(parser: Parser, prefix: Token): Node {
   const start = prefix.span.start;
   parser.eatWhitespace();
 
-  let object = parser.parsePrecedence(Precedence.OP12, "Expected an expression after 'new'", (error) => {
+  let object = parser.parsePrecedence(Precedence.OP13, "Expected an expression after 'new'", (error) => {
     error.info('Add an expression after this new', prefix.span);
   });
   parser.eatWhitespace();

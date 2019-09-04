@@ -7,6 +7,7 @@ export enum SyntacticToken {
   IMPORT_DECL,
 
   // Expressions
+  ASSIGNMENT_EXPR,
   WRAPPED_EXPR,
   UNARY_EXPR,
   BINARY_EXPR,
@@ -16,8 +17,8 @@ export enum SyntacticToken {
   NEW_EXPR,
   INSTANCEOF_EXPR,
   ASYNC_EXPR,
+  CONDITIONAL_EXPR,
   ARRAY_EXPR,
-  ASSIGNMENT_EXPR,
 
   IDENTIFIER,
   LITERAL,

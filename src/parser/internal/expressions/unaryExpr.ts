@@ -2,13 +2,12 @@ import { Node, Token, UnaryExpression } from '../../../grammar';
 
 import { Parser } from '../..';
 import { Span } from '../../../position';
-import { Precedence } from '../../Precedence';
 
 export function unaryExpr(parser: Parser, operator: Token): Node {
   parser.eatWhitespace();
 
   const right = parser.parsePrecedence(
-    Precedence.OP10,
+    parser.getRule(operator.type).precedence + 1,
     `Expected an expression after '${operator.lexeme}'`,
     (error) => {
       error.info('Add an expression after this operator', operator.span);

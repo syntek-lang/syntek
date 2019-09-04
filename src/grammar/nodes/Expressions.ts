@@ -134,6 +134,22 @@ export class AsyncExpression extends Node {
   }
 }
 
+export class ConditionalExpression extends Node {
+  readonly condition: Node;
+
+  readonly whenTrue: Node;
+
+  readonly whenFalse: Node;
+
+  constructor(condition: Node, whenTrue: Node, whenFalse: Node, span: Span) {
+    super(SyntacticToken.CONDITIONAL_EXPR, span);
+
+    this.condition = condition;
+    this.whenTrue = whenTrue;
+    this.whenFalse = whenFalse;
+  }
+}
+
 export class ArrayExpression extends Node {
   readonly content: Node[];
 
