@@ -2,7 +2,7 @@ import {
   Node, Token, LexicalToken, Program,
 } from '../grammar';
 
-import { Diagnostic, Level } from '../diagnostic';
+import { Diagnostic, Level, ErrorHandler } from '../diagnostic';
 import { Span } from '../position';
 
 import { Precedence } from './Precedence';
@@ -12,8 +12,6 @@ import {
 } from './parse-rules';
 
 import { expressionStmt } from './internal/statements/expressionStmt';
-
-type ErrorHandler = (error: Diagnostic) => void;
 
 export class Parser {
   /**

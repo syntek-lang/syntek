@@ -1,12 +1,5 @@
-import { Span } from '../position';
 import { ASTWalker } from '../walker';
-import { Level, Diagnostic } from '../diagnostic';
-
-export type ReportFunction = (
-  msg: string,
-  span: Span,
-  errorHandler?: (error: Diagnostic) => void
-) => void;
+import { Level, ReportFunction } from '../diagnostic';
 
 export interface LinterRule {
   name: string;
