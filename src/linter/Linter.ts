@@ -1,21 +1,22 @@
-import { BlockScope } from '..';
-import { Program } from '../../grammar';
-import { ASTWalker } from '../../walker';
-import { Diagnostic } from '../../diagnostic';
-
-import * as rules from './rules';
-
-const rulesArray = Object.values(rules);
+import { LinterRule } from '.';
+import { Program } from '../grammar';
+import { ASTWalker } from '../walker';
+import { BlockScope } from '../analyzer';
+import { Diagnostic } from '../diagnostic';
 
 export class Linter {
-  readonly ast: Program;
+  private readonly ast: Program;
 
-  readonly scope: BlockScope;
+  private readonly rules: LinterRule[];
 
-  readonly diagnostics: Diagnostic[] = [];
+  private readonly scope: BlockScope;
 
-  constructor(ast: Program) {
+  private readonly diagnostics: Diagnostic[] = [];
+
+  constructor(ast: Program, rules: LinterRule[]) {
     this.ast = ast;
+    this.rules = rules;
+
     this.scope = new BlockScope(ast);
   }
 
@@ -23,7 +24,7 @@ export class Linter {
     this.scope.build();
     const walker = new ASTWalker(this.ast, this.scope);
 
-    rulesArray.forEach((rule) => {
+    this.rules.forEach((rule) => {
       rule.create(walker, (msg, span, errorHandler) => {
         const error = new Diagnostic(rule.level, msg, span);
 

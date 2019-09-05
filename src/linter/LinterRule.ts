@@ -1,6 +1,6 @@
-import { Span } from '../../position';
-import { ASTWalker } from '../../walker';
-import { Level, Diagnostic } from '../../diagnostic';
+import { Span } from '../position';
+import { ASTWalker } from '../walker';
+import { Level, Diagnostic } from '../diagnostic';
 
 export type ReportFunction = (
   msg: string,
@@ -8,7 +8,7 @@ export type ReportFunction = (
   errorHandler?: (error: Diagnostic) => void
 ) => void;
 
-export interface LintingRule {
+export interface LinterRule {
   name: string;
   description: string;
   level: Level;

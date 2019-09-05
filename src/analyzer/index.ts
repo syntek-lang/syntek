@@ -1,5 +1,3 @@
-export * from './linting';
-
 export * from './scopes/Scope';
 export * from './scopes/BlockScope';
 export * from './scopes/ClassScope';
