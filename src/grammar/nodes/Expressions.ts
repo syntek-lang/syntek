@@ -2,7 +2,8 @@ import { Token, Node, SyntacticToken } from '..';
 import { Span } from '../../position';
 
 export function isExpression(node: Node): boolean {
-  return node.type === SyntacticToken.WRAPPED_EXPR
+  return node.type === SyntacticToken.ASSIGNMENT_EXPR
+    || node.type === SyntacticToken.WRAPPED_EXPR
     || node.type === SyntacticToken.UNARY_EXPR
     || node.type === SyntacticToken.BINARY_EXPR
     || node.type === SyntacticToken.CALL_EXPR
@@ -11,8 +12,8 @@ export function isExpression(node: Node): boolean {
     || node.type === SyntacticToken.NEW_EXPR
     || node.type === SyntacticToken.INSTANCEOF_EXPR
     || node.type === SyntacticToken.ASYNC_EXPR
+    || node.type === SyntacticToken.CONDITIONAL_EXPR
     || node.type === SyntacticToken.ARRAY_EXPR
-    || node.type === SyntacticToken.ASSIGNMENT_EXPR
 
     || node.type === SyntacticToken.IDENTIFIER
     || node.type === SyntacticToken.LITERAL

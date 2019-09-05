@@ -124,6 +124,13 @@ export class ASTWalker {
       }
 
       // Expressions
+      case grammar.SyntacticToken.ASSIGNMENT_EXPR: {
+        const expr = node as grammar.AssignmentExpression;
+        this.walkNode(expr.left);
+        this.walkNode(expr.value);
+        break;
+      }
+
       case grammar.SyntacticToken.WRAPPED_EXPR: {
         const expr = node as grammar.WrappedExpression;
         this.walkNode(expr.expression);
@@ -183,16 +190,17 @@ export class ASTWalker {
         break;
       }
 
-      case grammar.SyntacticToken.ARRAY_EXPR: {
-        const expr = node as grammar.ArrayExpression;
-        expr.content.forEach(child => this.walkNode(child));
+      case grammar.SyntacticToken.CONDITIONAL_EXPR: {
+        const expr = node as grammar.ConditionalExpression;
+        this.walkNode(expr.condition);
+        this.walkNode(expr.whenTrue);
+        this.walkNode(expr.whenFalse);
         break;
       }
 
-      case grammar.SyntacticToken.ASSIGNMENT_EXPR: {
-        const expr = node as grammar.AssignmentExpression;
-        this.walkNode(expr.left);
-        this.walkNode(expr.value);
+      case grammar.SyntacticToken.ARRAY_EXPR: {
+        const expr = node as grammar.ArrayExpression;
+        expr.content.forEach(child => this.walkNode(child));
         break;
       }
 
