@@ -80,3 +80,9 @@ export function getDirsFrom(base: string, dir: string): string[] {
     .filter(file => lstatSync(join(path, file)).isDirectory())
     .map(file => join(dir, file));
 }
+
+export function sanitize(text: string): string {
+  return text
+    .replace(/\n/g, '\\n')
+    .replace(/\t/g, '\\t');
+}
