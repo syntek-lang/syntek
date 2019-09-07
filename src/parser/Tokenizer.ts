@@ -340,7 +340,7 @@ export class Tokenizer {
    * @returns The amount of chars to skip
    */
   private error(msg: string, lexeme: string, lineIndex: number, colIndex: number): number {
-    this.diagnostics.push(new Diagnostic(Level.ERROR, msg, new Span(
+    this.diagnostics.push(new Diagnostic(Level.ERROR, 'tokenizer', msg, new Span(
       [lineIndex, colIndex],
       [lineIndex, colIndex + lexeme.length],
     )));

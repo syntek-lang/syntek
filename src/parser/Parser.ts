@@ -393,7 +393,7 @@ export class Parser {
   error(msg: string, span: Span, errorHandler?: ErrorHandler): Error {
     this.hasError = true;
 
-    const diagnostic = new Diagnostic(Level.ERROR, msg, span);
+    const diagnostic = new Diagnostic(Level.ERROR, 'parser', msg, span);
     this.diagnostics.push(diagnostic);
 
     if (errorHandler) {

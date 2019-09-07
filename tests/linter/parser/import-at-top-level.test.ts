@@ -3,7 +3,7 @@ import { testRule } from '../rule-tester';
 import { importAtTopLevel } from '../../../src/linter/rules/parser/import-at-top-level';
 
 const IMPORT = 'import myImport';
-const ERROR = 'importAtTopLevel: An import can only be at the top level';
+const ERROR = 'An import can only be at the top level';
 
 testRule('importAtTopLevel', importAtTopLevel, {
   valid: [IMPORT],

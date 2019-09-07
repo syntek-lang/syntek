@@ -30,7 +30,7 @@ export class Linter {
 
     Object.entries(this.rules).forEach(([name, rule]) => {
       rule.create(walker, (msg, span, errorHandler) => {
-        const error = new Diagnostic(rule.level, `${name}: ${msg}`, span);
+        const error = new Diagnostic(rule.level, name, msg, span);
 
         if (errorHandler) {
           errorHandler(error);

@@ -2,7 +2,7 @@ import { testRule } from '../rule-tester';
 
 import { declarationsInClass } from '../../../src/linter/rules/parser/declarations-in-class';
 
-const ERROR = 'declarationsInClass: You can only put declarations in a class body';
+const ERROR = 'You can only put declarations in a class body';
 
 testRule('declarationsInClass', declarationsInClass, {
   valid: [
