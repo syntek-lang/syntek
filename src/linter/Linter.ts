@@ -4,16 +4,20 @@ import { ASTWalker } from '../walker';
 import { BlockScope } from '../analyzer';
 import { Diagnostic } from '../diagnostic';
 
+interface LinterRules {
+  [name: string]: LinterRule;
+}
+
 export class Linter {
   private readonly ast: Program;
 
-  private readonly rules: LinterRule[];
+  private readonly rules: LinterRules;
 
   private readonly scope: BlockScope;
 
   private readonly diagnostics: Diagnostic[] = [];
 
-  constructor(ast: Program, rules: LinterRule[]) {
+  constructor(ast: Program, rules: LinterRules) {
     this.ast = ast;
     this.rules = rules;
 
@@ -24,9 +28,9 @@ export class Linter {
     this.scope.build();
     const walker = new ASTWalker(this.ast, this.scope);
 
-    this.rules.forEach((rule) => {
+    Object.entries(this.rules).forEach(([name, rule]) => {
       rule.create(walker, (msg, span, errorHandler) => {
-        const error = new Diagnostic(rule.level, msg, span);
+        const error = new Diagnostic(rule.level, `${name}: ${msg}`, span);
 
         if (errorHandler) {
           errorHandler(error);
