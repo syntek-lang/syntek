@@ -83,6 +83,7 @@ export function getDirsFrom(base: string, dir: string): string[] {
 
 export function sanitize(text: string): string {
   return text
+    .replace(/\\/g, '\\\\')
     .replace(/\n/g, '\\n')
     .replace(/\t/g, '\\t');
 }
