@@ -13,9 +13,9 @@ export const declarationsInClass: LinterRule = {
       }
     }
 
-    walker.onEnter(grammar.ClassDeclaration, (classNode) => {
-      classNode.staticBody.forEach(checkNode);
-      classNode.instanceBody.forEach(checkNode);
+    walker.onEnter(grammar.ClassDeclaration, (node) => {
+      node.staticBody.forEach(checkNode);
+      node.instanceBody.forEach(checkNode);
     });
   },
 };
