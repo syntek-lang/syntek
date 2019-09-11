@@ -28,7 +28,7 @@ export function testRule(name: string, rule: LinterRule, testCases: TestCases): 
           lintCode(valid)
             .forEach((error) => {
               // Any error throws as the code should be valid
-              throw error;
+              throw new Error(error);
             });
         });
       });
