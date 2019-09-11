@@ -11,6 +11,9 @@ testRule('invalidSuperThis', invalidSuperThis, {
     'class C \n\t var x = super.x',
     'class C \n\t function x() \n\t\t super',
 
+    'class C \n\t var x = C.super',
+    'class C \n\t function x() \n\t\t C.super',
+
     // This
     'class C \n\t var x = this.x',
     'class C \n\t function x() \n\t\t this',
@@ -21,6 +24,11 @@ testRule('invalidSuperThis', invalidSuperThis, {
     { code: 'if x \n\t super', errors: [SUPER_ERROR] },
     { code: 'function x() \n\t super', errors: [SUPER_ERROR] },
     { code: 'switch x \n\t case y \n\t\t super', errors: [SUPER_ERROR] },
+
+    { code: 'C.super', errors: [SUPER_ERROR] },
+    { code: 'if x \n\t C.super', errors: [SUPER_ERROR] },
+    { code: 'function x() \n\t C.super', errors: [SUPER_ERROR] },
+    { code: 'switch x \n\t case y \n\t\t C.super', errors: [SUPER_ERROR] },
 
     // This
     { code: 'this', errors: [THIS_ERROR] },

@@ -17,6 +17,12 @@ export const invalidSuperThis: LinterRule = {
       }
     });
 
+    walker.onEnter(grammar.MemberExpression, (node, _, parents) => {
+      if (node.property.type === grammar.LexicalToken.SUPER && !inClass(parents)) {
+        report('You can only use super inside a class', node.span);
+      }
+    });
+
     walker.onEnter(grammar.This, (node, _, parents) => {
       if (!inClass(parents)) {
         report('You can only use this inside a class', node.span);
