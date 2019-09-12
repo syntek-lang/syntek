@@ -1,13 +1,13 @@
 import { testRule } from '../rule-tester';
 
-import { invalidControlStatement } from '../../../src/linter/rules/parser/invalid-control-statement';
+import { illegalControlStatement } from '../../../src/linter/rules/parser/illegal-control-statement';
 
 const RETURN_ERROR = 'You can only place return inside a function';
 const BREAK_ERROR = 'You can only place break inside a loop or switch case';
 const CONTINUE_ERROR = 'You can only place continue inside a loop';
 const FALLTHROUGH_ERROR = 'You can only place fallthrough inside a switch case';
 
-testRule('invalidControlStatement', invalidControlStatement, {
+testRule('illegalControlStatement', illegalControlStatement, {
   valid: [
     // Return
     'function x() \n\t return',

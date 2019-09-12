@@ -3,7 +3,7 @@ import * as grammar from '../../../grammar';
 import { LinterRule } from '../..';
 import { Level } from '../../../diagnostic';
 
-export const invalidSuperThis: LinterRule = {
+export const illegalSuperThis: LinterRule = {
   description: 'Report this and super usage outside of a class',
   level: Level.ERROR,
   create(walker, report) {

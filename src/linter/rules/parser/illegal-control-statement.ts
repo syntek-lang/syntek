@@ -3,7 +3,7 @@ import * as grammar from '../../../grammar';
 import { LinterRule } from '../..';
 import { Level } from '../../../diagnostic';
 
-export const invalidControlStatement: LinterRule = {
+export const illegalControlStatement: LinterRule = {
   description: 'Report illegal control statements',
   level: Level.ERROR,
   create(walker, report) {
