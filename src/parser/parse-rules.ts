@@ -49,7 +49,6 @@ export interface ExpressionParseRule {
   prefix: PrefixFunction | null;
   infix: InfixFunction | null;
   precedence: Precedence;
-  ignoreWhiteSpace?: boolean;
 }
 
 /**
@@ -78,30 +77,16 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: identifier, infix: null, precedence: Precedence.OP1 }, // IDENTIFIER
 
   // Operators
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP8, ignoreWhiteSpace: true,
-  }, // PLUS
+  { prefix: null, infix: binaryExpr, precedence: Precedence.OP8 }, // PLUS
   { prefix: unaryExpr, infix: binaryExpr, precedence: Precedence.OP8 }, // MINUS
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP9, ignoreWhiteSpace: true,
-  }, // STAR
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP9, ignoreWhiteSpace: true,
-  }, // SLASH
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP9, ignoreWhiteSpace: true,
-  }, // PERCENT
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP10, ignoreWhiteSpace: true,
-  }, // CARET
-  {
-    prefix: null, infix: assignmentExpr, precedence: Precedence.OP2, ignoreWhiteSpace: true,
-  }, // EQUAL
+  { prefix: null, infix: binaryExpr, precedence: Precedence.OP9 }, // STAR
+  { prefix: null, infix: binaryExpr, precedence: Precedence.OP9 }, // SLASH
+  { prefix: null, infix: binaryExpr, precedence: Precedence.OP9 }, // PERCENT
+  { prefix: null, infix: binaryExpr, precedence: Precedence.OP10 }, // CARET
+  { prefix: null, infix: assignmentExpr, precedence: Precedence.OP2 }, // EQUAL
 
   // Punctuation
-  {
-    prefix: null, infix: memberExpr, precedence: Precedence.OP12, ignoreWhiteSpace: true,
-  }, // DOT
+  { prefix: null, infix: memberExpr, precedence: Precedence.OP12 }, // DOT
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // COMMA
   { prefix: arrayExpr, infix: indexExpr, precedence: Precedence.OP12 }, // LSQB
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RSQB
@@ -124,9 +109,7 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: thisLiteral, infix: null, precedence: Precedence.OP1 }, // THIS
   { prefix: superLiteral, infix: null, precedence: Precedence.OP1 }, // SUPER
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // EXTENDS
-  {
-    prefix: null, infix: instanceofExpr, precedence: Precedence.OP7, ignoreWhiteSpace: true,
-  }, // INSTANCEOF
+  { prefix: null, infix: instanceofExpr, precedence: Precedence.OP7 }, // INSTANCEOF
 
   { prefix: conditionalExpr, infix: null, precedence: Precedence.OP3 }, // IF
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // THEN
@@ -157,26 +140,14 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // CONTINUE
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // BREAK
 
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP5, ignoreWhiteSpace: true,
-  }, // AND
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP4, ignoreWhiteSpace: true,
-  }, // OR
+  { prefix: null, infix: binaryExpr, precedence: Precedence.OP5 }, // AND
+  { prefix: null, infix: binaryExpr, precedence: Precedence.OP4 }, // OR
   { prefix: unaryExpr, infix: null, precedence: Precedence.OP11 }, // NOT
 
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP6, ignoreWhiteSpace: true,
-  }, // IS
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP6, ignoreWhiteSpace: true,
-  }, // IS_NOT
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP7, ignoreWhiteSpace: true,
-  }, // IS_LESS_THAN
-  {
-    prefix: null, infix: binaryExpr, precedence: Precedence.OP7, ignoreWhiteSpace: true,
-  }, // IS_GREATER_THAN
+  { prefix: null, infix: binaryExpr, precedence: Precedence.OP6 }, // IS
+  { prefix: null, infix: binaryExpr, precedence: Precedence.OP6 }, // IS_NOT
+  { prefix: null, infix: binaryExpr, precedence: Precedence.OP7 }, // IS_LESS_THAN
+  { prefix: null, infix: binaryExpr, precedence: Precedence.OP7 }, // IS_GREATER_THAN
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // VAR
 

@@ -120,14 +120,6 @@ export class Parser {
     return this.parsePrecedence(Precedence.OP2, msg, errorHandler);
   }
 
-  /**
-   * Parse an expression with a precedence greater than the provided precedence
-   *
-   * @param precedence - The precedence wanted
-   * @param msg - A message to display on error
-   * @param errorHandler - A handler to assign more info to the error
-   * @returns A new node
-   */
   parsePrecedence(precedence: Precedence, msg?: string, errorHandler?: ErrorHandler): Node {
     const prefixToken = this.advance();
 
@@ -142,7 +134,17 @@ export class Parser {
       }
     }
 
-    let left = prefixFn(this, prefixToken);
+    const prefixNode = prefixFn(this, prefixToken);
+    return this.parseInfix(precedence, prefixNode, msg, errorHandler);
+  }
+
+  parseInfix(
+    precedence: Precedence,
+    prefixNode: Node,
+    msg?: string,
+    errorHandler?: ErrorHandler,
+  ): Node {
+    let left = prefixNode;
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -166,7 +168,8 @@ export class Parser {
       if (ignoredWhitespaceToken) {
         infixRule = this.getRule(ignoredWhitespaceToken.type);
 
-        if (infixRule.ignoreWhiteSpace) {
+        // If the token does not have a prefix rule whitespace can be ignored
+        if (!infixRule.prefix) {
           this.eatWhitespace();
           infixToken = this.advance();
         } else {
@@ -180,7 +183,7 @@ export class Parser {
       if (infixRule.infix) {
         left = infixRule.infix(this, left, infixToken);
       } else {
-        throw this.error(`Unexpected token '${this.peek().lexeme}'`, this.peek().span, errorHandler);
+        throw this.error(msg || `Unexpected token '${this.peek().lexeme}'`, this.peek().span, errorHandler);
       }
     }
 
