@@ -10,7 +10,7 @@ jobs:
     - stage: Test
       script: npm run build
       name: "Build"
-    - script: npm run lint
-      name: "Lint"
     - script: npm run unit
       name: "Unit"
+    - script: npm run lint
+      name: "Lint"
