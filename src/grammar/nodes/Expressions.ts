@@ -1,4 +1,6 @@
-import { Token, Node, SyntacticToken } from '..';
+import {
+  Token, Node, SyntacticToken, VariableType,
+} from '..';
 import { Span } from '../../position';
 
 export function isExpression(node: Node): boolean {
@@ -102,12 +104,15 @@ export class MemberExpression extends Node {
 export class NewExpression extends Node {
   readonly object: Node;
 
+  readonly genericArgs: VariableType[];
+
   readonly params: Node[];
 
-  constructor(object: Node, params: Node[], span: Span) {
+  constructor(object: Node, genericArgs: VariableType[], params: Node[], span: Span) {
     super(SyntacticToken.NEW_EXPR, span);
 
     this.object = object;
+    this.genericArgs = genericArgs;
     this.params = params;
   }
 }

@@ -1,11 +1,11 @@
 import {
-  Node, Token, LexicalToken, NewExpression,
+  Node, Token, LexicalToken, VariableType, NewExpression,
 } from '../../../grammar';
 
 import { Parser } from '../..';
 import { Span } from '../../../position';
 import { Precedence } from '../../Precedence';
-import { matchExpressionList } from '../../parse-utils';
+import { matchGenericArgs, matchExpressionList } from '../../parse-utils';
 
 import { memberExpr } from './memberExpr';
 
@@ -21,12 +21,23 @@ export function newExpr(parser: Parser, prefix: Token): Node {
   while (parser.match(LexicalToken.DOT)) {
     object = memberExpr(parser, object, parser.previous());
   }
-
   parser.eatWhitespace();
+
+  let genericArgs: VariableType[] = [];
+  if (parser.match(LexicalToken.LT)) {
+    genericArgs = matchGenericArgs(parser);
+    parser.eatWhitespace();
+  }
+
   parser.consume(LexicalToken.LPAR, "Expected '(' after the class", (error) => {
     error.info("Add a '(' after this class", object.span);
   });
   const params = matchExpressionList(parser, LexicalToken.RPAR);
 
-  return new NewExpression(object, params, new Span(start, parser.previous().span.end));
+  return new NewExpression(
+    object,
+    genericArgs,
+    params,
+    new Span(start, parser.previous().span.end),
+  );
 }

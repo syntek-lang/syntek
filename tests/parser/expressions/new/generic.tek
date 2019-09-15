@@ -1,0 +1,33 @@
+new Class<T>()
+
+new Class<
+T>()
+
+new Class<T
+>()
+
+new Class<T>
+()
+
+new
+Class<T>()
+
+new
+Class<
+	T
+>()
+
+new
+	Class<
+		T
+	>
+(
+)
+
+new
+	Class
+	<
+	T
+	>
+	(
+	)
