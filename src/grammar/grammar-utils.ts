@@ -92,12 +92,14 @@ export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
  */
 export const NODE_TYPE: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   // Declarations
+  .set(grammar.EmptyVariableDeclaration, grammar.SyntacticToken.EMPTY_VARIABLE_DECL)
   .set(grammar.VariableDeclaration, grammar.SyntacticToken.VARIABLE_DECL)
   .set(grammar.FunctionDeclaration, grammar.SyntacticToken.FUNCTION_DECL)
   .set(grammar.ClassDeclaration, grammar.SyntacticToken.CLASS_DECL)
   .set(grammar.ImportDeclaration, grammar.SyntacticToken.IMPORT_DECL)
 
   // Expressions
+  .set(grammar.AssignmentExpression, grammar.SyntacticToken.ASSIGNMENT_EXPR)
   .set(grammar.WrappedExpression, grammar.SyntacticToken.WRAPPED_EXPR)
   .set(grammar.UnaryExpression, grammar.SyntacticToken.UNARY_EXPR)
   .set(grammar.BinaryExpression, grammar.SyntacticToken.BINARY_EXPR)
@@ -107,8 +109,8 @@ export const NODE_TYPE: Map<typeof grammar.Node, grammar.SyntacticToken> = new M
   .set(grammar.NewExpression, grammar.SyntacticToken.NEW_EXPR)
   .set(grammar.InstanceofExpression, grammar.SyntacticToken.INSTANCEOF_EXPR)
   .set(grammar.AsyncExpression, grammar.SyntacticToken.ASYNC_EXPR)
+  .set(grammar.ConditionalExpression, grammar.SyntacticToken.CONDITIONAL_EXPR)
   .set(grammar.ArrayExpression, grammar.SyntacticToken.ARRAY_EXPR)
-  .set(grammar.AssignmentExpression, grammar.SyntacticToken.ASSIGNMENT_EXPR)
 
   .set(grammar.Identifier, grammar.SyntacticToken.IDENTIFIER)
   .set(grammar.Literal, grammar.SyntacticToken.LITERAL)
@@ -134,7 +136,9 @@ export const NODE_TYPE: Map<typeof grammar.Node, grammar.SyntacticToken> = new M
 
   // Other
   .set(grammar.Program, grammar.SyntacticToken.PROGRAM)
-  .set(grammar.SwitchCase, grammar.SyntacticToken.SWITCH_CASE);
+  .set(grammar.SwitchCase, grammar.SyntacticToken.SWITCH_CASE)
+  .set(grammar.VariableType, grammar.SyntacticToken.VARIABLE_TYPE)
+  .set(grammar.FunctionParam, grammar.SyntacticToken.FUNCTION_PARAM);
 
 /**
  * Check if a node is a loop

@@ -23,6 +23,19 @@ export function isExpression(node: Node): boolean {
     || node.type === SyntacticToken.THIS;
 }
 
+export class AssignmentExpression extends Node {
+  readonly left: Node;
+
+  readonly value: Node;
+
+  constructor(left: Node, value: Node, span: Span) {
+    super(SyntacticToken.ASSIGNMENT_EXPR, span);
+
+    this.left = left;
+    this.value = value;
+  }
+}
+
 export class WrappedExpression extends Node {
   readonly expression: Node;
 
@@ -166,19 +179,6 @@ export class ArrayExpression extends Node {
     super(SyntacticToken.ARRAY_EXPR, span);
 
     this.content = content;
-  }
-}
-
-export class AssignmentExpression extends Node {
-  readonly left: Node;
-
-  readonly value: Node;
-
-  constructor(left: Node, value: Node, span: Span) {
-    super(SyntacticToken.ASSIGNMENT_EXPR, span);
-
-    this.left = left;
-    this.value = value;
   }
 }
 

@@ -78,6 +78,16 @@ export class ASTWalker {
 
     switch (node.type) {
       // Declarations
+      case grammar.SyntacticToken.EMPTY_VARIABLE_DECL: {
+        const decl = node as grammar.EmptyVariableDeclaration;
+
+        if (decl.variableType) {
+          this.walkNode(decl.variableType);
+        }
+
+        break;
+      }
+
       case grammar.SyntacticToken.VARIABLE_DECL: {
         const decl = node as grammar.VariableDeclaration;
 
@@ -106,7 +116,6 @@ export class ASTWalker {
         const decl = node as grammar.ClassDeclaration;
 
         decl.extends.forEach(extend => this.walkNode(extend));
-
         decl.staticBody.forEach(child => this.walkNode(child));
         decl.instanceBody.forEach(child => this.walkNode(child));
         break;
@@ -142,6 +151,7 @@ export class ASTWalker {
       case grammar.SyntacticToken.CALL_EXPR: {
         const expr = node as grammar.CallExpression;
         this.walkNode(expr.object);
+        expr.genericArgs.forEach(generic => this.walkNode(generic));
         expr.params.forEach(child => this.walkNode(child));
         break;
       }
@@ -162,6 +172,7 @@ export class ASTWalker {
       case grammar.SyntacticToken.NEW_EXPR: {
         const expr = node as grammar.NewExpression;
         this.walkNode(expr.object);
+        expr.genericArgs.forEach(generic => this.walkNode(generic));
         expr.params.forEach(child => this.walkNode(child));
         break;
       }
@@ -216,13 +227,6 @@ export class ASTWalker {
         const stmt = node as grammar.SwitchStatement;
         this.walkNode(stmt.expression);
         stmt.cases.forEach(child => this.walkNode(child));
-        break;
-      }
-
-      case grammar.SyntacticToken.SWITCH_CASE: {
-        const switchCase = node as grammar.SwitchCase;
-        switchCase.conditions.forEach(child => this.walkNode(child));
-        switchCase.body.forEach(child => this.walkNode(child));
         break;
       }
 
@@ -296,6 +300,30 @@ export class ASTWalker {
       case grammar.SyntacticToken.PROGRAM: {
         const program = node as grammar.Program;
         program.body.forEach(child => this.walkNode(child));
+        break;
+      }
+
+      case grammar.SyntacticToken.SWITCH_CASE: {
+        const switchCase = node as grammar.SwitchCase;
+        switchCase.conditions.forEach(child => this.walkNode(child));
+        switchCase.body.forEach(child => this.walkNode(child));
+        break;
+      }
+
+      case grammar.SyntacticToken.VARIABLE_TYPE: {
+        const variableType = node as grammar.VariableType;
+        this.walkNode(variableType.object);
+        variableType.generics.forEach(generic => this.walkNode(generic));
+        break;
+      }
+
+      case grammar.SyntacticToken.FUNCTION_PARAM: {
+        const functionParam = node as grammar.FunctionParam;
+
+        if (functionParam.variableType) {
+          this.walkNode(functionParam.variableType);
+        }
+
         break;
       }
 
