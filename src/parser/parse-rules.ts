@@ -92,7 +92,7 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RSQB
   { prefix: wrappedExpr, infix: callExpr, precedence: Precedence.OP12 }, // LPAR
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RPAR
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // LT
+  { prefix: null, infix: callExpr, precedence: Precedence.OP12 }, // LT
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // GT
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // COLON
 

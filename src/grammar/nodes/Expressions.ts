@@ -65,12 +65,15 @@ export class BinaryExpression extends Node {
 export class CallExpression extends Node {
   readonly object: Node;
 
+  readonly genericArgs: VariableType[];
+
   readonly params: Node[];
 
-  constructor(object: Node, params: Node[], span: Span) {
+  constructor(object: Node, genericArgs: VariableType[], params: Node[], span: Span) {
     super(SyntacticToken.CALL_EXPR, span);
 
     this.object = object;
+    this.genericArgs = genericArgs;
     this.params = params;
   }
 }
