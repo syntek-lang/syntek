@@ -1,4 +1,6 @@
-import { Node, SyntacticToken } from '..';
+import {
+  Node, Token, SyntacticToken, Identifier, MemberExpression,
+} from '..';
 import { Span } from '../../position';
 
 export class Program extends Node {
@@ -21,5 +23,39 @@ export class SwitchCase extends Node {
 
     this.conditions = conditions;
     this.body = body;
+  }
+}
+
+export class VariableType extends Node {
+  readonly object: Identifier | MemberExpression;
+
+  readonly generics: VariableType[];
+
+  readonly arrayDepth: number;
+
+  constructor(
+    object: Identifier | MemberExpression,
+    generics: VariableType[],
+    arrayDepth: number,
+    span: Span,
+  ) {
+    super(SyntacticToken.VARIABLE_TYPE, span);
+
+    this.object = object;
+    this.generics = generics;
+    this.arrayDepth = arrayDepth;
+  }
+}
+
+export class FunctionParam extends Node {
+  readonly name: Token;
+
+  readonly variableType: VariableType | null;
+
+  constructor(name: Token, variableType: VariableType | null, span: Span) {
+    super(SyntacticToken.FUNCTION_PARAM, span);
+
+    this.name = name;
+    this.variableType = variableType;
   }
 }

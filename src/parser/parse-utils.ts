@@ -109,12 +109,12 @@ export function matchTypeDecl(parser: Parser): VariableType {
     arrayDepth += 1;
   }
 
-  return {
-    type: varLoc,
+  return new VariableType(
+    varLoc,
     generics,
     arrayDepth,
-    span: new Span(varLoc.span.start, parser.previous().span.end),
-  };
+    new Span(varLoc.span.start, parser.previous().span.end),
+  );
 }
 
 /**
@@ -136,7 +136,11 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
       variableType = matchTypeDecl(parser);
     }
 
-    params.push({ name, variableType });
+    params.push(new FunctionParam(
+      name,
+      variableType,
+      variableType ? new Span(name.span.start, variableType.span.end) : name.span,
+    ));
 
     parser.eatWhitespace();
     if (parser.peek().type !== LexicalToken.RPAR) {

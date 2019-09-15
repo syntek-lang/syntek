@@ -1,9 +1,6 @@
 export * from './Token';
 export * from './Node';
 
-export * from './VariableType';
-export * from './FunctionParam';
-
 export * from './SyntacticToken';
 export * from './LexicalToken';
 

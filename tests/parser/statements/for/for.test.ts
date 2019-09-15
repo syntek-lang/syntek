@@ -59,7 +59,7 @@ describe('for', () => {
       expect(stmt.identifier.lexeme).to.equal('x');
 
       expect(stmt.variableType).to.not.be.null;
-      expect((stmt.variableType!.type as Identifier).lexeme).to.equal('Number');
+      expect((stmt.variableType!.object as Identifier).lexeme).to.equal('Number');
       expect(stmt.variableType!.generics.length).to.equal(0);
       expect(stmt.variableType!.arrayDepth).to.equal(0);
 
@@ -85,7 +85,7 @@ describe('for', () => {
       expect(stmt.identifier.lexeme).to.equal('x');
 
       expect(stmt.variableType).to.not.be.null;
-      expect((stmt.variableType!.type as Identifier).lexeme).to.equal('Number');
+      expect((stmt.variableType!.object as Identifier).lexeme).to.equal('Number');
       expect(stmt.variableType!.generics.length).to.equal(0);
       expect(stmt.variableType!.arrayDepth).to.equal(1);
 
@@ -111,7 +111,7 @@ describe('for', () => {
       expect(stmt.identifier.lexeme).to.equal('x');
 
       expect(stmt.variableType).to.not.be.null;
-      expect((stmt.variableType!.type as Identifier).lexeme).to.equal('Number');
+      expect((stmt.variableType!.object as Identifier).lexeme).to.equal('Number');
       expect(stmt.variableType!.generics.length).to.equal(0);
       expect(stmt.variableType!.arrayDepth).to.equal(2);
 
@@ -137,11 +137,11 @@ describe('for', () => {
       expect(stmt.identifier.lexeme).to.equal('x');
 
       expect(stmt.variableType).to.not.be.null;
-      expect((stmt.variableType!.type as Identifier).lexeme).to.equal('A');
+      expect((stmt.variableType!.object as Identifier).lexeme).to.equal('A');
 
       expect(stmt.variableType!.generics.length).to.equal(1);
       const generic = stmt.variableType!.generics[0];
-      expect((generic.type as Identifier).lexeme).to.equal('B');
+      expect((generic.object as Identifier).lexeme).to.equal('B');
       expect(generic.generics.length).to.equal(0);
       expect(generic.arrayDepth).to.equal(0);
 

@@ -222,7 +222,7 @@ describe('class', () => {
       expect(decl.extends.length).to.equal(1);
 
       const extend = decl.extends[0];
-      expect((extend.type as Identifier).lexeme).to.equal('Object');
+      expect((extend.object as Identifier).lexeme).to.equal('Object');
       expect(extend.generics.length).to.equal(0);
       expect(extend.arrayDepth).to.equal(0);
 
@@ -255,12 +255,12 @@ describe('class', () => {
       expect(decl.extends.length).to.equal(2);
 
       const firstExtend = decl.extends[0];
-      expect((firstExtend.type as Identifier).lexeme).to.equal('Object');
+      expect((firstExtend.object as Identifier).lexeme).to.equal('Object');
       expect(firstExtend.generics.length).to.equal(0);
       expect(firstExtend.arrayDepth).to.equal(0);
 
       const secondExtend = decl.extends[1];
-      expect((secondExtend.type as Identifier).lexeme).to.equal('Other');
+      expect((secondExtend.object as Identifier).lexeme).to.equal('Other');
       expect(secondExtend.generics.length).to.equal(0);
       expect(secondExtend.arrayDepth).to.equal(0);
 
@@ -321,11 +321,11 @@ describe('class', () => {
 
       expect(decl.extends.length).to.equal(1);
       const extend = decl.extends[0];
-      expect((extend.type as Identifier).lexeme).to.equal('A');
+      expect((extend.object as Identifier).lexeme).to.equal('A');
 
       expect(extend.generics.length).to.equal(1);
       const generic = extend.generics[0];
-      expect((generic.type as Identifier).lexeme).to.equal('B');
+      expect((generic.object as Identifier).lexeme).to.equal('B');
       expect(generic.generics.length).to.equal(0);
       expect(generic.arrayDepth).to.equal(0);
 
@@ -371,7 +371,7 @@ describe('class', () => {
       expect(secondValue).to.be.an.instanceof(EmptyVariableDeclaration);
 
       expect(secondValue.variableType).to.not.be.null;
-      expect((secondValue.variableType!.type as Identifier).lexeme).to.equal('Number');
+      expect((secondValue.variableType!.object as Identifier).lexeme).to.equal('Number');
       expect(secondValue.variableType!.generics.length).to.equal(0);
       expect(secondValue.variableType!.arrayDepth).to.equal(0);
 

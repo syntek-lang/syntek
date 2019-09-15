@@ -143,7 +143,7 @@ describe('new', () => {
       expect(expr.genericArgs.length).to.equal(1);
 
       const generic = expr.genericArgs[0];
-      expect((generic.type as Identifier).lexeme).to.equal('T');
+      expect((generic.object as Identifier).lexeme).to.equal('T');
       expect(generic.generics.length).to.equal(0);
       expect(generic.arrayDepth).to.equal(0);
 

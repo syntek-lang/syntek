@@ -58,7 +58,7 @@ describe('try', () => {
       expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
 
       expect(stmt.catchStmt.variableType).to.not.be.null;
-      expect((stmt.catchStmt.variableType!.type as Identifier).lexeme).to.equal('Error');
+      expect((stmt.catchStmt.variableType!.object as Identifier).lexeme).to.equal('Error');
       expect(stmt.catchStmt.variableType!.generics.length).to.equal(0);
       expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(0);
 
@@ -81,7 +81,7 @@ describe('try', () => {
       expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
 
       expect(stmt.catchStmt.variableType).to.not.be.null;
-      expect((stmt.catchStmt.variableType!.type as Identifier).lexeme).to.equal('Error');
+      expect((stmt.catchStmt.variableType!.object as Identifier).lexeme).to.equal('Error');
       expect(stmt.catchStmt.variableType!.generics.length).to.equal(0);
       expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(1);
 
@@ -104,7 +104,7 @@ describe('try', () => {
       expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
 
       expect(stmt.catchStmt.variableType).to.not.be.null;
-      expect((stmt.catchStmt.variableType!.type as Identifier).lexeme).to.equal('Error');
+      expect((stmt.catchStmt.variableType!.object as Identifier).lexeme).to.equal('Error');
       expect(stmt.catchStmt.variableType!.generics.length).to.equal(0);
       expect(stmt.catchStmt.variableType!.arrayDepth).to.equal(2);
 
@@ -127,11 +127,11 @@ describe('try', () => {
       expect(stmt.catchStmt.identifier.lexeme).to.equal('error');
 
       expect(stmt.catchStmt.variableType).to.not.be.null;
-      expect((stmt.catchStmt.variableType!.type as Identifier).lexeme).to.equal('A');
+      expect((stmt.catchStmt.variableType!.object as Identifier).lexeme).to.equal('A');
 
       expect(stmt.catchStmt.variableType!.generics.length).to.equal(1);
       const generic = stmt.catchStmt.variableType!.generics[0];
-      expect((generic.type as Identifier).lexeme).to.equal('B');
+      expect((generic.object as Identifier).lexeme).to.equal('B');
       expect(generic.generics.length).to.equal(0);
       expect(generic.arrayDepth).to.equal(0);
 

@@ -109,7 +109,7 @@ describe('parse-utils', () => {
         const genericArgs = matchGenericArgs(parser);
 
         expect(genericArgs.length).to.equal(1);
-        expect((genericArgs[0].type as Identifier).lexeme).to.equal('T');
+        expect((genericArgs[0].object as Identifier).lexeme).to.equal('T');
         expect(genericArgs[0].generics.length).to.equal(0);
         expect(genericArgs[0].arrayDepth).to.equal(0);
       });
@@ -126,11 +126,11 @@ describe('parse-utils', () => {
 
         expect(genericArgs.length).to.equal(2);
 
-        expect((genericArgs[0].type as Identifier).lexeme).to.equal('A');
+        expect((genericArgs[0].object as Identifier).lexeme).to.equal('A');
         expect(genericArgs[0].generics.length).to.equal(0);
         expect(genericArgs[0].arrayDepth).to.equal(0);
 
-        expect((genericArgs[1].type as Identifier).lexeme).to.equal('B');
+        expect((genericArgs[1].object as Identifier).lexeme).to.equal('B');
         expect(genericArgs[1].generics.length).to.equal(0);
         expect(genericArgs[1].arrayDepth).to.equal(0);
       });
@@ -147,7 +147,7 @@ describe('parse-utils', () => {
 
         expect(genericArgs.length).to.equal(1);
 
-        const expr = genericArgs[0].type as MemberExpression;
+        const expr = genericArgs[0].object as MemberExpression;
         expect((expr.object as Identifier).lexeme).to.equal('x');
         expect(expr.property.lexeme).to.equal('y');
 
@@ -167,11 +167,11 @@ describe('parse-utils', () => {
 
         expect(genericArgs.length).to.equal(1);
 
-        expect((genericArgs[0].type as Identifier).lexeme).to.equal('A');
+        expect((genericArgs[0].object as Identifier).lexeme).to.equal('A');
         expect(genericArgs[0].generics.length).to.equal(1);
 
         const generic = genericArgs[0].generics[0];
-        expect((generic.type as Identifier).lexeme).to.equal('B');
+        expect((generic.object as Identifier).lexeme).to.equal('B');
         expect(generic.generics.length).to.equal(0);
         expect(generic.arrayDepth).to.equal(0);
 
@@ -187,7 +187,7 @@ describe('parse-utils', () => {
 
       const typeDecl = matchTypeDecl(parser);
 
-      expect((typeDecl.type as Identifier).lexeme).to.equal('x');
+      expect((typeDecl.object as Identifier).lexeme).to.equal('x');
       expect(typeDecl.generics.length).to.equal(0);
       expect(typeDecl.arrayDepth).to.equal(0);
     });
@@ -199,7 +199,7 @@ describe('parse-utils', () => {
 
         const typeDecl = matchTypeDecl(parser);
 
-        const expr = typeDecl.type as MemberExpression;
+        const expr = typeDecl.object as MemberExpression;
         expect((expr.object as Identifier).lexeme).to.equal('x');
         expect(expr.property.lexeme).to.equal('y');
 
@@ -215,7 +215,7 @@ describe('parse-utils', () => {
 
         const typeDecl = matchTypeDecl(parser);
 
-        expect((typeDecl.type as Identifier).lexeme).to.equal('x');
+        expect((typeDecl.object as Identifier).lexeme).to.equal('x');
         expect(typeDecl.generics.length).to.equal(0);
         expect(typeDecl.arrayDepth).to.equal(1);
       });
@@ -228,7 +228,7 @@ describe('parse-utils', () => {
 
         const typeDecl = matchTypeDecl(parser);
 
-        expect((typeDecl.type as Identifier).lexeme).to.equal('x');
+        expect((typeDecl.object as Identifier).lexeme).to.equal('x');
         expect(typeDecl.generics.length).to.equal(0);
         expect(typeDecl.arrayDepth).to.equal(2);
       });
@@ -241,10 +241,10 @@ describe('parse-utils', () => {
 
         const typeDecl = matchTypeDecl(parser);
 
-        expect((typeDecl.type as Identifier).lexeme).to.equal('A');
+        expect((typeDecl.object as Identifier).lexeme).to.equal('A');
 
         expect(typeDecl.generics.length).to.equal(1);
-        expect((typeDecl.generics[0].type as Identifier).lexeme).to.equal('B');
+        expect((typeDecl.generics[0].object as Identifier).lexeme).to.equal('B');
         expect(typeDecl.generics[0].generics.length).to.equal(0);
         expect(typeDecl.generics[0].arrayDepth).to.equal(0);
 
@@ -259,10 +259,10 @@ describe('parse-utils', () => {
 
         const typeDecl = matchTypeDecl(parser);
 
-        expect((typeDecl.type as Identifier).lexeme).to.equal('A');
+        expect((typeDecl.object as Identifier).lexeme).to.equal('A');
 
         expect(typeDecl.generics.length).to.equal(1);
-        expect((typeDecl.generics[0].type as Identifier).lexeme).to.equal('B');
+        expect((typeDecl.generics[0].object as Identifier).lexeme).to.equal('B');
         expect(typeDecl.generics[0].generics.length).to.equal(0);
         expect(typeDecl.generics[0].arrayDepth).to.equal(0);
 

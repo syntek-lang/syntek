@@ -110,7 +110,7 @@ describe('function', () => {
         const param = decl.params[0];
         expect(param.name.lexeme).to.equal('x');
         expect(param.variableType).to.not.be.null;
-        expect((param.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect((param.variableType!.object as Identifier).lexeme).to.equal('Number');
         expect(param.variableType!.generics.length).to.equal(0);
         expect(param.variableType!.arrayDepth).to.equal(0);
 
@@ -138,7 +138,7 @@ describe('function', () => {
         const param = decl.params[0];
         expect(param.name.lexeme).to.equal('x');
         expect(param.variableType).to.not.be.null;
-        expect((param.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect((param.variableType!.object as Identifier).lexeme).to.equal('Number');
         expect(param.variableType!.generics.length).to.equal(0);
         expect(param.variableType!.arrayDepth).to.equal(1);
 
@@ -166,7 +166,7 @@ describe('function', () => {
         const param = decl.params[0];
         expect(param.name.lexeme).to.equal('x');
         expect(param.variableType).to.not.be.null;
-        expect((param.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect((param.variableType!.object as Identifier).lexeme).to.equal('Number');
         expect(param.variableType!.generics.length).to.equal(0);
         expect(param.variableType!.arrayDepth).to.equal(2);
 
@@ -223,14 +223,14 @@ describe('function', () => {
         const firstParam = decl.params[0];
         expect(firstParam.name.lexeme).to.equal('x');
         expect(firstParam.variableType).to.not.be.null;
-        expect((firstParam.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect((firstParam.variableType!.object as Identifier).lexeme).to.equal('Number');
         expect(firstParam.variableType!.generics.length).to.equal(0);
         expect(firstParam.variableType!.arrayDepth).to.equal(0);
 
         const secondParam = decl.params[1];
         expect(secondParam.name.lexeme).to.equal('y');
         expect(secondParam.variableType).to.not.be.null;
-        expect((secondParam.variableType!.type as Identifier).lexeme).to.equal('String');
+        expect((secondParam.variableType!.object as Identifier).lexeme).to.equal('String');
         expect(secondParam.variableType!.generics.length).to.equal(0);
         expect(secondParam.variableType!.arrayDepth).to.equal(0);
 
@@ -258,14 +258,14 @@ describe('function', () => {
         const firstParam = decl.params[0];
         expect(firstParam.name.lexeme).to.equal('x');
         expect(firstParam.variableType).to.not.be.null;
-        expect((firstParam.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect((firstParam.variableType!.object as Identifier).lexeme).to.equal('Number');
         expect(firstParam.variableType!.generics.length).to.equal(0);
         expect(firstParam.variableType!.arrayDepth).to.equal(1);
 
         const secondParam = decl.params[1];
         expect(secondParam.name.lexeme).to.equal('y');
         expect(secondParam.variableType).to.not.be.null;
-        expect((secondParam.variableType!.type as Identifier).lexeme).to.equal('String');
+        expect((secondParam.variableType!.object as Identifier).lexeme).to.equal('String');
         expect(secondParam.variableType!.generics.length).to.equal(0);
         expect(secondParam.variableType!.arrayDepth).to.equal(1);
 
@@ -293,14 +293,14 @@ describe('function', () => {
         const firstParam = decl.params[0];
         expect(firstParam.name.lexeme).to.equal('x');
         expect(firstParam.variableType).to.not.be.null;
-        expect((firstParam.variableType!.type as Identifier).lexeme).to.equal('Number');
+        expect((firstParam.variableType!.object as Identifier).lexeme).to.equal('Number');
         expect(firstParam.variableType!.generics.length).to.equal(0);
         expect(firstParam.variableType!.arrayDepth).to.equal(2);
 
         const secondParam = decl.params[1];
         expect(secondParam.name.lexeme).to.equal('y');
         expect(secondParam.variableType).to.not.be.null;
-        expect((secondParam.variableType!.type as Identifier).lexeme).to.equal('String');
+        expect((secondParam.variableType!.object as Identifier).lexeme).to.equal('String');
         expect(secondParam.variableType!.generics.length).to.equal(0);
         expect(secondParam.variableType!.arrayDepth).to.equal(2);
 
@@ -328,11 +328,11 @@ describe('function', () => {
         const param = decl.params[0];
         expect(param.name.lexeme).to.equal('x');
         expect(param.variableType).to.not.be.null;
-        expect((param.variableType!.type as Identifier).lexeme).to.equal('A');
+        expect((param.variableType!.object as Identifier).lexeme).to.equal('A');
 
         expect(param.variableType!.generics.length).to.equal(1);
         const generic = param.variableType!.generics[0];
-        expect((generic.type as Identifier).lexeme).to.equal('B');
+        expect((generic.object as Identifier).lexeme).to.equal('B');
         expect(generic.generics.length).to.equal(0);
         expect(generic.arrayDepth).to.equal(0);
 
@@ -361,7 +361,7 @@ describe('function', () => {
         expect(decl.params.length).to.equal(0);
 
         expect(decl.returnType).to.not.be.null;
-        expect((decl.returnType!.type as Identifier).lexeme).to.equal('Boolean');
+        expect((decl.returnType!.object as Identifier).lexeme).to.equal('Boolean');
         expect(decl.returnType!.generics.length).to.equal(0);
         expect(decl.returnType!.arrayDepth).to.equal(0);
 
@@ -384,7 +384,7 @@ describe('function', () => {
         expect(decl.params.length).to.equal(0);
 
         expect(decl.returnType).to.not.be.null;
-        expect((decl.returnType!.type as Identifier).lexeme).to.equal('Boolean');
+        expect((decl.returnType!.object as Identifier).lexeme).to.equal('Boolean');
         expect(decl.returnType!.generics.length).to.equal(0);
         expect(decl.returnType!.arrayDepth).to.equal(1);
 
@@ -407,7 +407,7 @@ describe('function', () => {
         expect(decl.params.length).to.equal(0);
 
         expect(decl.returnType).to.not.be.null;
-        expect((decl.returnType!.type as Identifier).lexeme).to.equal('Boolean');
+        expect((decl.returnType!.object as Identifier).lexeme).to.equal('Boolean');
         expect(decl.returnType!.generics.length).to.equal(0);
         expect(decl.returnType!.arrayDepth).to.equal(2);
 
@@ -430,11 +430,11 @@ describe('function', () => {
         expect(decl.params.length).to.equal(0);
 
         expect(decl.returnType).to.not.be.null;
-        expect((decl.returnType!.type as Identifier).lexeme).to.equal('A');
+        expect((decl.returnType!.object as Identifier).lexeme).to.equal('A');
 
         expect(decl.returnType!.generics.length).to.equal(1);
         const generic = decl.returnType!.generics[0];
-        expect((generic.type as Identifier).lexeme).to.equal('B');
+        expect((generic.object as Identifier).lexeme).to.equal('B');
         expect(generic.generics.length).to.equal(0);
         expect(generic.arrayDepth).to.equal(0);
 

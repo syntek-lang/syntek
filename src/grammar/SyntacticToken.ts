@@ -45,4 +45,6 @@ export enum SyntacticToken {
   // Other
   PROGRAM,
   SWITCH_CASE,
+  VARIABLE_TYPE,
+  FUNCTION_PARAM,
 }
