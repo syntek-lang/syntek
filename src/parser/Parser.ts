@@ -45,8 +45,7 @@ export class Parser {
    * @param tokens - The tokens that need to be parsed
    */
   constructor(tokens: Token[]) {
-    // Filter out whitespace tokens
-    this.tokens = tokens.filter(token => token.type !== LexicalToken.WHITESPACE);
+    this.tokens = tokens;
   }
 
   /**

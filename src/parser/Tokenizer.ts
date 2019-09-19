@@ -133,12 +133,14 @@ export class Tokenizer {
         ? CHAR_TOKENS[char]
         : null;
 
-      // If it is a single char type add it to the tokens
+      // If it is a single char type add it to the list of tokens, unless it's whitespace
       if (singleCharType) {
-        this.tokens.push(new Token(singleCharType, char, new Span(
-          [lineIndex, colIndex],
-          [lineIndex, colIndex + 1],
-        )));
+        if (singleCharType !== LexicalToken.WHITESPACE) {
+          this.tokens.push(new Token(singleCharType, char, new Span(
+            [lineIndex, colIndex],
+            [lineIndex, colIndex + 1],
+          )));
+        }
 
         colIndex += 1;
       } else {
