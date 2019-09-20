@@ -46,23 +46,6 @@ export class BlockScope extends Scope {
         break;
       }
 
-      case grammar.SyntacticToken.TRY_STMT: {
-        const node = this.node as grammar.TryStatement;
-        node.body.forEach(child => this.handleNode(child));
-        break;
-      }
-
-      case grammar.SyntacticToken.CATCH_STMT: {
-        const node = this.node as grammar.CatchStatement;
-
-        if (!this.table.has(node.identifier.lexeme)) {
-          this.table.set(node.identifier.lexeme, new SymbolEntry(node, this));
-        }
-
-        node.body.forEach(child => this.handleNode(child));
-        break;
-      }
-
       case grammar.SyntacticToken.PROGRAM: {
         const node = this.node as grammar.Program;
         node.body.forEach(child => this.handleNode(child));

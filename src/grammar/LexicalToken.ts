@@ -58,10 +58,6 @@ export enum LexicalToken {
 
   ASYNC,
 
-  TRY,
-  CATCH,
-  THROW,
-
   IMPORT,
   AS,
 

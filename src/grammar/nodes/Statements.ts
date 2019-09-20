@@ -11,8 +11,6 @@ export function isStatement(node: Node): boolean {
     || node.type === SyntacticToken.FOR_STMT
     || node.type === SyntacticToken.REPEAT_STMT
     || node.type === SyntacticToken.WHILE_STMT
-    || node.type === SyntacticToken.TRY_STMT
-    || node.type === SyntacticToken.THROW_STMT
     || node.type === SyntacticToken.RETURN_STMT
     || node.type === SyntacticToken.EXPRESSION_STMT
 
@@ -112,45 +110,6 @@ export class WhileStatement extends Node {
 
     this.condition = condition;
     this.body = body;
-  }
-}
-
-export class TryStatement extends Node {
-  readonly body: Node[];
-
-  readonly catchStmt: CatchStatement;
-
-  constructor(body: Node[], catchStmt: CatchStatement, span: Span) {
-    super(SyntacticToken.TRY_STMT, span);
-
-    this.body = body;
-    this.catchStmt = catchStmt;
-  }
-}
-
-export class CatchStatement extends Node {
-  readonly identifier: Token;
-
-  readonly variableType: VariableType | null;
-
-  readonly body: Node[];
-
-  constructor(identifier: Token, variableType: VariableType | null, body: Node[], span: Span) {
-    super(SyntacticToken.CATCH_STMT, span);
-
-    this.identifier = identifier;
-    this.variableType = variableType;
-    this.body = body;
-  }
-}
-
-export class ThrowStatement extends Node {
-  readonly expression: Node;
-
-  constructor(expression: Node, span: Span) {
-    super(SyntacticToken.THROW_STMT, span);
-
-    this.expression = expression;
   }
 }
 

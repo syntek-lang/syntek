@@ -423,8 +423,6 @@ export class Parser {
         case LexicalToken.FOR:
         case LexicalToken.REPEAT:
         case LexicalToken.WHILE:
-        case LexicalToken.TRY:
-        case LexicalToken.THROW:
         case LexicalToken.RETURN:
           return;
         default:

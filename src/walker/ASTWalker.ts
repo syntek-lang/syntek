@@ -256,30 +256,6 @@ export class ASTWalker {
         break;
       }
 
-      case grammar.SyntacticToken.TRY_STMT: {
-        const stmt = node as grammar.TryStatement;
-        stmt.body.forEach(child => this.walkNode(child));
-        this.walkNode(stmt.catchStmt);
-        break;
-      }
-
-      case grammar.SyntacticToken.CATCH_STMT: {
-        const stmt = node as grammar.CatchStatement;
-
-        if (stmt.variableType) {
-          this.walkNode(stmt.variableType);
-        }
-
-        stmt.body.forEach(child => this.walkNode(child));
-        break;
-      }
-
-      case grammar.SyntacticToken.THROW_STMT: {
-        const stmt = node as grammar.ThrowStatement;
-        this.walkNode(stmt.expression);
-        break;
-      }
-
       case grammar.SyntacticToken.RETURN_STMT: {
         const stmt = node as grammar.ReturnStatement;
 

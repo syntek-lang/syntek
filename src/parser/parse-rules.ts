@@ -37,8 +37,6 @@ import { ifStmt } from './internal/statements/ifStmt';
 import { repeatStmt } from './internal/statements/repeatStmt';
 import { returnStmt } from './internal/statements/returnStmt';
 import { switchStmt } from './internal/statements/switchStmt';
-import { throwStmt } from './internal/statements/throwStmt';
-import { tryStmt } from './internal/statements/tryStmt';
 import { whileStmt } from './internal/statements/whileStmt';
 
 type PrefixFunction = (parser: Parser, prefix: Token) => Node;
@@ -125,10 +123,6 @@ export const expressionRules: ExpressionParseRule[] = [
 
   { prefix: asyncExpr, infix: null, precedence: Precedence.OP11 }, // ASYNC
 
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // TRY
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // CATCH
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // THROW
-
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // IMPORT
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // AS
 
@@ -167,7 +161,5 @@ export const statementRules: { [key: number]: ParsingHandler } = {
   [LexicalToken.REPEAT]: repeatStmt,
   [LexicalToken.RETURN]: returnStmt,
   [LexicalToken.SWITCH]: switchStmt,
-  [LexicalToken.THROW]: throwStmt,
-  [LexicalToken.TRY]: tryStmt,
   [LexicalToken.WHILE]: whileStmt,
 };

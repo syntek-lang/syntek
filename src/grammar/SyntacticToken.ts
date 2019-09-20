@@ -32,9 +32,6 @@ export enum SyntacticToken {
   FOR_STMT,
   REPEAT_STMT,
   WHILE_STMT,
-  TRY_STMT,
-  CATCH_STMT,
-  THROW_STMT,
   RETURN_STMT,
   EXPRESSION_STMT,
 

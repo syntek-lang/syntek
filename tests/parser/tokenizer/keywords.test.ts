@@ -36,10 +36,6 @@ const map = {
 
   async: LexicalToken.ASYNC,
 
-  try: LexicalToken.TRY,
-  catch: LexicalToken.CATCH,
-  throw: LexicalToken.THROW,
-
   import: LexicalToken.IMPORT,
   as: LexicalToken.AS,
 

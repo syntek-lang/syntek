@@ -135,18 +135,6 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
         break;
       }
 
-      case grammar.SyntacticToken.TRY_STMT: {
-        const decl = node as grammar.TryStatement;
-        this.scopes.set(node, new BlockScope(decl, this));
-        break;
-      }
-
-      case grammar.SyntacticToken.CATCH_STMT: {
-        const decl = node as grammar.CatchStatement;
-        this.scopes.set(node, new BlockScope(decl, this));
-        break;
-      }
-
       case grammar.SyntacticToken.PROGRAM: {
         const decl = node as grammar.Program;
         this.scopes.set(node, new BlockScope(decl, this));
