@@ -121,6 +121,9 @@ export class ASTWalker {
         break;
       }
 
+      case grammar.SyntacticToken.IMPORT_DECL:
+        break;
+
       // Expressions
       case grammar.SyntacticToken.ASSIGNMENT_EXPR: {
         const expr = node as grammar.AssignmentExpression;
@@ -204,6 +207,12 @@ export class ASTWalker {
         break;
       }
 
+      case grammar.SyntacticToken.IDENTIFIER:
+      case grammar.SyntacticToken.LITERAL:
+      case grammar.SyntacticToken.SUPER:
+      case grammar.SyntacticToken.THIS:
+        break;
+
       // Statements
       case grammar.SyntacticToken.IF_STMT: {
         const stmt = node as grammar.IfStatement;
@@ -272,6 +281,10 @@ export class ASTWalker {
         break;
       }
 
+      case grammar.SyntacticToken.BREAK_STMT:
+      case grammar.SyntacticToken.CONTINUE_STMT:
+        break;
+
       // Other
       case grammar.SyntacticToken.PROGRAM: {
         const program = node as grammar.Program;
@@ -303,8 +316,8 @@ export class ASTWalker {
         break;
       }
 
-      // Node does not need to be walked
-      default: break;
+      default:
+        throw new Error(`Can't walk node of type ${grammar.SyntacticToken[node.type]}`);
     }
 
     // The node is longer a parent
