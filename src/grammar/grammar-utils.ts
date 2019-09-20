@@ -55,7 +55,6 @@ export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
 
   switch: grammar.LexicalToken.SWITCH,
   case: grammar.LexicalToken.CASE,
-  fallthrough: grammar.LexicalToken.FALLTHROUGH,
 
   function: grammar.LexicalToken.FUNCTION,
   return: grammar.LexicalToken.RETURN,
@@ -125,7 +124,6 @@ export const NODE_TYPE: Map<typeof grammar.Node, grammar.SyntacticToken> = new M
 
   .set(grammar.BreakStatement, grammar.SyntacticToken.BREAK_STMT)
   .set(grammar.ContinueStatement, grammar.SyntacticToken.CONTINUE_STMT)
-  .set(grammar.FallthroughStatement, grammar.SyntacticToken.FALLTHROUGH_STMT)
 
   // Other
   .set(grammar.Program, grammar.SyntacticToken.PROGRAM)

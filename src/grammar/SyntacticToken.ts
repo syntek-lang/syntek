@@ -37,7 +37,6 @@ export enum SyntacticToken {
 
   BREAK_STMT,
   CONTINUE_STMT,
-  FALLTHROUGH_STMT,
 
   // Other
   PROGRAM,

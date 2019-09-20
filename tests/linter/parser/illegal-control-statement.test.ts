@@ -4,8 +4,7 @@ import { illegalControlStatement } from '../../../src/linter/rules/parser/illega
 
 const RETURN_ERROR = 'You can only place return inside a function';
 const BREAK_ERROR = 'You can only place break inside a loop or switch case';
-const CONTINUE_ERROR = 'You can only place continue inside a loop';
-const FALLTHROUGH_ERROR = 'You can only place fallthrough inside a switch case';
+const CONTINUE_ERROR = 'You can only place continue inside a loop or switch case';
 
 testRule('illegalControlStatement', illegalControlStatement, {
   valid: [
@@ -25,9 +24,7 @@ testRule('illegalControlStatement', illegalControlStatement, {
     'for x in y \n\t continue',
     'for x in y \n\t if z \n\t\t continue',
     'if x \n\t for y in z \n\t\t continue',
-
-    // Fallthrough
-    'switch x \n\t case y \n\t\t fallthrough',
+    'switch x \n\t case y \n\t\t continue',
   ],
   invalid: [
     // Return
@@ -45,12 +42,5 @@ testRule('illegalControlStatement', illegalControlStatement, {
     { code: 'continue', errors: [CONTINUE_ERROR] },
     { code: 'if x \n\t continue', errors: [CONTINUE_ERROR] },
     { code: 'function x() \n\t continue', errors: [CONTINUE_ERROR] },
-    { code: 'switch x \n\t case y \n\t\t continue', errors: [CONTINUE_ERROR] },
-
-    // Fallthrough
-    { code: 'fallthrough', errors: [FALLTHROUGH_ERROR] },
-    { code: 'if x \n\t fallthrough', errors: [FALLTHROUGH_ERROR] },
-    { code: 'for x in y \n\t fallthrough', errors: [FALLTHROUGH_ERROR] },
-    { code: 'function x() \n\t fallthrough', errors: [FALLTHROUGH_ERROR] },
   ],
 });

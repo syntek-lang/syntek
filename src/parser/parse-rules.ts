@@ -31,7 +31,6 @@ import { thisLiteral } from './internal/literals/thisLiteral';
 // Statements
 import { breakStmt } from './internal/statements/breakStmt';
 import { continueStmt } from './internal/statements/continueStmt';
-import { fallthroughStmt } from './internal/statements/fallthroughStmt';
 import { forStmt } from './internal/statements/forStmt';
 import { ifStmt } from './internal/statements/ifStmt';
 import { repeatStmt } from './internal/statements/repeatStmt';
@@ -115,7 +114,6 @@ export const expressionRules: ExpressionParseRule[] = [
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // SWITCH
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // CASE
-  { prefix: null, infix: null, precedence: Precedence.OP1 }, // FALLTHROUGH
 
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // FUNCTION
   { prefix: null, infix: null, precedence: Precedence.OP1 }, // RETURN
@@ -155,7 +153,6 @@ export const expressionRules: ExpressionParseRule[] = [
 export const statementRules: { [key: number]: ParsingHandler } = {
   [LexicalToken.BREAK]: breakStmt,
   [LexicalToken.CONTINUE]: continueStmt,
-  [LexicalToken.FALLTHROUGH]: fallthroughStmt,
   [LexicalToken.FOR]: forStmt,
   [LexicalToken.IF]: ifStmt,
   [LexicalToken.REPEAT]: repeatStmt,

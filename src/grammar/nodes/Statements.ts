@@ -15,8 +15,7 @@ export function isStatement(node: Node): boolean {
     || node.type === SyntacticToken.EXPRESSION_STMT
 
     || node.type === SyntacticToken.BREAK_STMT
-    || node.type === SyntacticToken.CONTINUE_STMT
-    || node.type === SyntacticToken.FALLTHROUGH_STMT;
+    || node.type === SyntacticToken.CONTINUE_STMT;
 }
 
 export class IfStatement extends Node {
@@ -142,11 +141,5 @@ export class BreakStatement extends Node {
 export class ContinueStatement extends Node {
   constructor(span: Span) {
     super(SyntacticToken.CONTINUE_STMT, span);
-  }
-}
-
-export class FallthroughStatement extends Node {
-  constructor(span: Span) {
-    super(SyntacticToken.FALLTHROUGH_STMT, span);
   }
 }

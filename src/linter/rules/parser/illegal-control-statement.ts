@@ -3,6 +3,11 @@ import * as grammar from '../../../grammar';
 import { LinterRule } from '../..';
 import { Level } from '../../../diagnostic';
 
+function inLoopOrSwitch(parents: grammar.Node[]): boolean {
+  return parents
+    .some(parent => grammar.isLoop(parent) || parent.type === grammar.SyntacticToken.SWITCH_CASE);
+}
+
 export const illegalControlStatement: LinterRule = {
   description: 'Report illegal control statements',
   level: Level.ERROR,
@@ -18,31 +23,14 @@ export const illegalControlStatement: LinterRule = {
     });
 
     walker.onEnter(grammar.BreakStatement, (node, _, parents) => {
-      // Break must be inside a loop or switch case
-      const isValid = parents.some(
-        parent => grammar.isLoop(parent) || parent.type === grammar.SyntacticToken.SWITCH_CASE,
-      );
-
-      if (!isValid) {
+      if (!inLoopOrSwitch(parents)) {
         report('You can only place break inside a loop or switch case', node.span);
       }
     });
 
     walker.onEnter(grammar.ContinueStatement, (node, _, parents) => {
-      // Continue must be inside a loop
-      const isValid = parents.some(grammar.isLoop);
-
-      if (!isValid) {
-        report('You can only place continue inside a loop', node.span);
-      }
-    });
-
-    walker.onEnter(grammar.FallthroughStatement, (node, _, parents) => {
-      // Fallthrough must be inside a switch case
-      const isValid = parents.some(parent => parent.type === grammar.SyntacticToken.SWITCH_CASE);
-
-      if (!isValid) {
-        report('You can only place fallthrough inside a switch case', node.span);
+      if (!inLoopOrSwitch(parents)) {
+        report('You can only place continue inside a loop or switch case', node.span);
       }
     });
   },

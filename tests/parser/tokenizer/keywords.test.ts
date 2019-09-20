@@ -28,7 +28,6 @@ const map = {
 
   switch: LexicalToken.SWITCH,
   case: LexicalToken.CASE,
-  fallthrough: LexicalToken.FALLTHROUGH,
 
   function: LexicalToken.FUNCTION,
   return: LexicalToken.RETURN,

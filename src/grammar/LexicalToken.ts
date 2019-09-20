@@ -50,7 +50,6 @@ export enum LexicalToken {
 
   SWITCH,
   CASE,
-  FALLTHROUGH,
 
   FUNCTION,
   RETURN,
