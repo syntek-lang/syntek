@@ -1,35 +1,6 @@
 import * as grammar from '.';
 
 /**
- * Tokens that consist of a single character
- */
-export const CHAR_TOKENS: { [key: string]: grammar.LexicalToken } = {
-  // Whitespace
-  '\t': grammar.LexicalToken.WHITESPACE,
-  ' ': grammar.LexicalToken.WHITESPACE,
-
-  // Operators
-  '+': grammar.LexicalToken.PLUS,
-  '-': grammar.LexicalToken.MINUS,
-  '*': grammar.LexicalToken.STAR,
-  '/': grammar.LexicalToken.SLASH,
-  '%': grammar.LexicalToken.PERCENT,
-  '^': grammar.LexicalToken.CARET,
-  '=': grammar.LexicalToken.EQUAL,
-
-  // Punctuation
-  '.': grammar.LexicalToken.DOT,
-  ',': grammar.LexicalToken.COMMA,
-  '[': grammar.LexicalToken.LSQB,
-  ']': grammar.LexicalToken.RSQB,
-  '(': grammar.LexicalToken.LPAR,
-  ')': grammar.LexicalToken.RPAR,
-  '<': grammar.LexicalToken.LT,
-  '>': grammar.LexicalToken.GT,
-  ':': grammar.LexicalToken.COLON,
-};
-
-/**
  * Tokens that are a single word
  */
 export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
@@ -37,20 +8,17 @@ export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
   true: grammar.LexicalToken.BOOLEAN,
   false: grammar.LexicalToken.BOOLEAN,
 
-  // Null
-  null: grammar.LexicalToken.NULL,
-
   // Keywords
   class: grammar.LexicalToken.CLASS,
   new: grammar.LexicalToken.NEW,
   static: grammar.LexicalToken.STATIC,
+  extends: grammar.LexicalToken.EXTENDS,
+
   this: grammar.LexicalToken.THIS,
   super: grammar.LexicalToken.SUPER,
-  extends: grammar.LexicalToken.EXTENDS,
   instanceof: grammar.LexicalToken.INSTANCEOF,
 
   if: grammar.LexicalToken.IF,
-  then: grammar.LexicalToken.THEN,
   else: grammar.LexicalToken.ELSE,
 
   switch: grammar.LexicalToken.SWITCH,
@@ -67,17 +35,14 @@ export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
 
   for: grammar.LexicalToken.FOR,
   in: grammar.LexicalToken.IN,
-  repeat: grammar.LexicalToken.REPEAT,
-  times: grammar.LexicalToken.TIMES,
   while: grammar.LexicalToken.WHILE,
+
   continue: grammar.LexicalToken.CONTINUE,
   break: grammar.LexicalToken.BREAK,
+  yield: grammar.LexicalToken.YIELD,
 
   and: grammar.LexicalToken.AND,
   or: grammar.LexicalToken.OR,
-  not: grammar.LexicalToken.NOT,
-
-  is: grammar.LexicalToken.IS,
 
   var: grammar.LexicalToken.VAR,
 };
@@ -85,7 +50,7 @@ export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
 /**
  * Node class mapped to SyntacticToken
  */
-export const NODE_TYPE: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
+export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   // Declarations
   .set(grammar.EmptyVariableDeclaration, grammar.SyntacticToken.EMPTY_VARIABLE_DECL)
   .set(grammar.VariableDeclaration, grammar.SyntacticToken.VARIABLE_DECL)

@@ -1,10 +1,7 @@
 export enum LexicalToken {
   // Whitespace
   NEWLINE,
-  INDENT,
-  OUTDENT,
   COMMENT,
-  WHITESPACE,
 
   // Identifier
   IDENTIFIER,
@@ -16,36 +13,46 @@ export enum LexicalToken {
   SLASH,
   PERCENT,
   CARET,
+
   EQUAL,
+  EQUAL_EQUAL,
+
+  BANG,
+  BANG_EQUAL,
+
+  LT,
+  LT_EQUAL,
+
+  GT,
+  GT_EQUAL,
 
   // Punctuation
   DOT,
   COMMA,
-  LSQB,
-  RSQB,
-  LPAR,
-  RPAR,
-  LT,
-  GT,
+  L_SQB,
+  R_SQB,
+  L_PAR,
+  R_PAR,
+  L_BRACE,
+  R_BRACE,
   COLON,
 
   // Literals
   NUMBER,
   STRING,
   BOOLEAN,
-  NULL,
 
   // Keywords
   CLASS,
   NEW,
   STATIC,
+  EXTENDS,
+
   THIS,
   SUPER,
-  EXTENDS,
   INSTANCEOF,
 
   IF,
-  THEN,
   ELSE,
 
   SWITCH,
@@ -62,20 +69,14 @@ export enum LexicalToken {
 
   FOR,
   IN,
-  REPEAT,
-  TIMES,
   WHILE,
+
   CONTINUE,
   BREAK,
+  YIELD,
 
   AND,
   OR,
-  NOT,
-
-  IS,
-  IS_NOT,
-  IS_LESS_THAN,
-  IS_GREATER_THAN,
 
   VAR,
 
