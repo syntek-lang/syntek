@@ -14,8 +14,8 @@ export function isExpression(node: Node): boolean {
     || node.type === SyntacticToken.NEW_EXPR
     || node.type === SyntacticToken.INSTANCEOF_EXPR
     || node.type === SyntacticToken.ASYNC_EXPR
-    || node.type === SyntacticToken.CONDITIONAL_EXPR
     || node.type === SyntacticToken.ARRAY_EXPR
+    || node.type === SyntacticToken.IF_EXPR
 
     || node.type === SyntacticToken.IDENTIFIER
     || node.type === SyntacticToken.LITERAL
@@ -156,22 +156,6 @@ export class AsyncExpression extends Node {
   }
 }
 
-export class ConditionalExpression extends Node {
-  readonly condition: Node;
-
-  readonly whenTrue: Node;
-
-  readonly whenFalse: Node;
-
-  constructor(condition: Node, whenTrue: Node, whenFalse: Node, span: Span) {
-    super(SyntacticToken.CONDITIONAL_EXPR, span);
-
-    this.condition = condition;
-    this.whenTrue = whenTrue;
-    this.whenFalse = whenFalse;
-  }
-}
-
 export class ArrayExpression extends Node {
   readonly content: Node[];
 
@@ -179,6 +163,36 @@ export class ArrayExpression extends Node {
     super(SyntacticToken.ARRAY_EXPR, span);
 
     this.content = content;
+  }
+}
+
+export class IfExpression extends Node {
+  readonly condition: Node;
+
+  readonly body: Node[];
+
+  readonly elseClause: Node | null;
+
+  readonly ifSpan: Span;
+
+  constructor(condition: Node, body: Node[], elseClause: Node | null, span: Span) {
+    super(SyntacticToken.IF_EXPR, span);
+
+    this.condition = condition;
+    this.body = body;
+    this.elseClause = elseClause;
+
+    this.ifSpan = new Span(span.start, body[body.length - 1].span.end);
+  }
+}
+
+export class ElseExpression extends Node {
+  readonly body: Node[];
+
+  constructor(body: Node[], span: Span) {
+    super(SyntacticToken.ELSE_EXPR, span);
+
+    this.body = body;
   }
 }
 

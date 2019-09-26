@@ -69,8 +69,9 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   .set(grammar.NewExpression, grammar.SyntacticToken.NEW_EXPR)
   .set(grammar.InstanceofExpression, grammar.SyntacticToken.INSTANCEOF_EXPR)
   .set(grammar.AsyncExpression, grammar.SyntacticToken.ASYNC_EXPR)
-  .set(grammar.ConditionalExpression, grammar.SyntacticToken.CONDITIONAL_EXPR)
   .set(grammar.ArrayExpression, grammar.SyntacticToken.ARRAY_EXPR)
+  .set(grammar.IfExpression, grammar.SyntacticToken.IF_EXPR)
+  .set(grammar.ElseExpression, grammar.SyntacticToken.ELSE_EXPR)
 
   .set(grammar.Identifier, grammar.SyntacticToken.IDENTIFIER)
   .set(grammar.Literal, grammar.SyntacticToken.LITERAL)
@@ -78,13 +79,11 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   .set(grammar.This, grammar.SyntacticToken.THIS)
 
   // Statements
-  .set(grammar.IfStatement, grammar.SyntacticToken.IF_STMT)
-  .set(grammar.ElseStatement, grammar.SyntacticToken.ELSE_STMT)
   .set(grammar.SwitchStatement, grammar.SyntacticToken.SWITCH_STMT)
   .set(grammar.ForStatement, grammar.SyntacticToken.FOR_STMT)
-  .set(grammar.RepeatStatement, grammar.SyntacticToken.REPEAT_STMT)
   .set(grammar.WhileStatement, grammar.SyntacticToken.WHILE_STMT)
   .set(grammar.ReturnStatement, grammar.SyntacticToken.RETURN_STMT)
+  .set(grammar.YieldStatement, grammar.SyntacticToken.YIELD_STMT)
   .set(grammar.ExpressionStatement, grammar.SyntacticToken.EXPRESSION_STMT)
 
   .set(grammar.BreakStatement, grammar.SyntacticToken.BREAK_STMT)
@@ -104,6 +103,5 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
  */
 export function isLoop(node: grammar.Node): boolean {
   return node.type === grammar.SyntacticToken.FOR_STMT
-    || node.type === grammar.SyntacticToken.REPEAT_STMT
     || node.type === grammar.SyntacticToken.WHILE_STMT;
 }
