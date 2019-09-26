@@ -1,6 +1,6 @@
 import {
   Token, LexicalToken,
-  CHAR_TOKENS, WORD_TOKENS,
+  WORD_TOKENS,
 } from '../grammar';
 
 import { Span } from '../position';
@@ -8,9 +8,9 @@ import { Diagnostic, Level } from '../diagnostic';
 
 export class Tokenizer {
   /**
-   * A list of the lines in the code
+   * The code to tokenize
    */
-  private readonly lines: string[];
+  private readonly source: string;
 
   /**
    * The tokens collected during tokenizing the code
@@ -28,9 +28,13 @@ export class Tokenizer {
   private readonly diagnostics: Diagnostic[] = [];
 
   /**
-   * The indent counter to keep track of the amount of indent/outdent tokens
+   * The index of the current token being scanned
    */
-  private indent = 0;
+  private index = 0;
+
+  private line = 0;
+
+  private column = 0;
 
   /**
    * Create a new tokenizer
@@ -38,7 +42,7 @@ export class Tokenizer {
    * @param source - The code to tokenize
    */
   constructor(source: string) {
-    this.lines = source.split(/\r?\n/);
+    this.source = source;
   }
 
   /**
@@ -52,20 +56,14 @@ export class Tokenizer {
     comments: Token[];
     diagnostics: Diagnostic[];
   } {
-    for (let i = 0; i < this.lines.length; i += 1) {
-      this.scanLine(i);
+    while (this.index < this.source.length) {
+      this.scanToken();
     }
 
-    // Add outdent tokens
-    this.tokens.push(...new Array(this.indent).fill(null).map(() => new Token(LexicalToken.OUTDENT, '', new Span(
-      [this.lines.length - 1, 0],
-      [this.lines.length - 1, this.indent],
-    ))));
-
-    // Add EOF token after all tokens are scanned
+    // EOF token
     this.tokens.push(new Token(LexicalToken.EOF, '', new Span(
-      [this.lines.length - 1, this.lines[this.lines.length - 1].length],
-      [this.lines.length - 1, this.lines[this.lines.length - 1].length + 1],
+      [this.line, this.column],
+      [this.line, this.column + 1],
     )));
 
     return {
@@ -75,278 +73,265 @@ export class Tokenizer {
     };
   }
 
-  /**
-   * Get the indentation (amount of tabs) of a line
-   *
-   * @param line - The line to get the indentation of
-   * @returns The indenation of the line
-   */
-  private getIndent(line: string): number {
-    const match = line.match(/^\t+/);
-    return match ? match[0].length : 0;
+  private scanToken(): void {
+    const c = this.advance();
+
+    switch (c) {
+      // Whitespace
+      case '\n':
+        this.add(LexicalToken.NEWLINE, c);
+        this.line += 1;
+        this.column = 0;
+        break;
+
+      case '#':
+        this.comment(c);
+        break;
+
+      case ' ':
+      case '\r':
+      case '\t':
+        // Ignore other whitespace
+        this.column += 1;
+        break;
+
+      // Operators
+      case '+':
+        this.add(LexicalToken.PLUS, c);
+        break;
+
+      case '-':
+        this.add(LexicalToken.MINUS, c);
+        break;
+
+      case '*':
+        this.add(LexicalToken.STAR, c);
+        break;
+
+      case '/':
+        this.add(LexicalToken.SLASH, c);
+        break;
+
+      case '%':
+        this.add(LexicalToken.PERCENT, c);
+        break;
+
+      case '^':
+        this.add(LexicalToken.CARET, c);
+        break;
+
+      case '=':
+        if (this.match('=')) {
+          this.add(LexicalToken.EQUAL_EQUAL, `${c}=`);
+        } else {
+          this.add(LexicalToken.EQUAL, c);
+        }
+        break;
+
+      case '!':
+        if (this.match('=')) {
+          this.add(LexicalToken.BANG_EQUAL, `${c}=`);
+        } else {
+          this.add(LexicalToken.BANG, c);
+        }
+        break;
+
+      case '<':
+        if (this.match('=')) {
+          this.add(LexicalToken.LT_EQUAL, `${c}=`);
+        } else {
+          this.add(LexicalToken.LT, c);
+        }
+        break;
+
+      case '>':
+        if (this.match('=')) {
+          this.add(LexicalToken.GT_EQUAL, `${c}=`);
+        } else {
+          this.add(LexicalToken.GT, c);
+        }
+        break;
+
+      // Punctuation
+      case '.':
+        this.add(LexicalToken.DOT, c);
+        break;
+
+      case ',':
+        this.add(LexicalToken.COMMA, c);
+        break;
+
+      case '[':
+        this.add(LexicalToken.L_SQB, c);
+        break;
+
+      case ']':
+        this.add(LexicalToken.R_SQB, c);
+        break;
+
+      case '(':
+        this.add(LexicalToken.L_PAR, c);
+        break;
+
+      case ')':
+        this.add(LexicalToken.R_PAR, c);
+        break;
+
+      case '{':
+        this.add(LexicalToken.L_BRACE, c);
+        break;
+
+      case '}':
+        this.add(LexicalToken.R_BRACE, c);
+        break;
+
+      case ':':
+        this.add(LexicalToken.COLON, c);
+        break;
+
+      // String
+      case '\'':
+      case '"':
+        this.string(c);
+        break;
+
+      default:
+        if (this.isDigit(c)) {
+          this.number(c);
+          break;
+        } else if (this.isAlpha(c)) {
+          this.word(c);
+        } else {
+          this.error(`Unexpected token "${c}"`, c.length);
+        }
+    }
   }
 
-  /**
-   * Scan the line at the given index
-   *
-   * @param lineIndex - The line to scan
-   */
-  private scanLine(lineIndex: number): void {
-    const line = this.lines[lineIndex];
+  private string(start: string): void {
+    let content = start;
 
-    const trimmed = line.trimLeft();
-    if (trimmed.length === 0) {
-      // Return if the line is considered empty
-      return;
+    while (this.peek() !== start) {
+      if (this.peek() === '\n') {
+        this.error('Strings can not span multiple lines', content.length);
+        return;
+      }
+
+      content += this.advance();
     }
 
-    // Add a comment if there is one
-    if (trimmed.charAt(0) === '#') {
-      this.comments.push(new Token(LexicalToken.COMMENT, trimmed, new Span(
-        [lineIndex, line.length - trimmed.length],
-        [lineIndex, line.length],
-      )));
+    // Closing character
+    content += this.advance();
 
-      // Comments last till the end of the line
-      return;
+    this.add(LexicalToken.STRING, content);
+  }
+
+  private number(start: string): void {
+    let content = start;
+
+    // Match the integer part
+    while (this.isDigit(this.peek()) || this.peek() === '_') {
+      content += this.advance();
     }
 
-    // Get the indentation of this line
-    const indent = this.getIndent(line);
+    // Match the fractional part
+    if (this.peek() === '.' && this.isDigit(this.peek(1))) {
+      this.advance(); // Consume the '.'
 
-    // Add indent and outdent tokens
-    this.addIndentTokens(lineIndex, indent);
-
-    // Set the previous indent for the next iteration
-    this.indent = indent;
-
-    let colIndex = indent;
-    while (colIndex < line.length) {
-      // The current character
-      const char = line[colIndex];
-
-      // Get the single char type, if any
-      const singleCharType: LexicalToken | null = Object.prototype.hasOwnProperty.call(
-        CHAR_TOKENS,
-        char,
-      )
-        ? CHAR_TOKENS[char]
-        : null;
-
-      // If it is a single char type add it to the list of tokens, unless it's whitespace
-      if (singleCharType) {
-        if (singleCharType !== LexicalToken.WHITESPACE) {
-          this.tokens.push(new Token(singleCharType, char, new Span(
-            [lineIndex, colIndex],
-            [lineIndex, colIndex + 1],
-          )));
-        }
-
-        colIndex += 1;
-      } else {
-        // Get the remaining characters on this line
-        const remainingChars = line.slice(colIndex);
-        let toAdd = 0;
-
-        if (char >= '0' && char <= '9') {
-          // Current character is start of number
-          toAdd += this.matchNumber(remainingChars, lineIndex, colIndex);
-        } else if (char === '\'') {
-          // Current character is start of string
-          toAdd += this.matchString(remainingChars, lineIndex, colIndex);
-        } else if (char === '#') {
-          // Current character is the start of a comment
-          toAdd += this.matchComment(remainingChars, lineIndex, colIndex);
-        } else {
-          // Remaining characters should be a word
-          const wordMatch = remainingChars.match(/^[a-z_]\w*/i);
-
-          if (wordMatch) {
-            toAdd += this.matchWord(wordMatch, remainingChars, lineIndex, colIndex);
-          }
-        }
-
-        if (toAdd > 0) {
-          colIndex += toAdd;
-        } else {
-          // Unexpected token
-          colIndex += this.error(`Unexpected token '${char}'`, char, lineIndex, colIndex);
-        }
+      while (this.isDigit(this.peek()) || this.peek() === '_') {
+        content += this.advance();
       }
     }
 
-    // Every line ends with a newline
-    this.tokens.push(new Token(LexicalToken.NEWLINE, '\n', new Span(
-      [lineIndex, line.length],
-      [lineIndex, line.length + 1],
-    )));
+    this.add(LexicalToken.NUMBER, content);
   }
 
-  /**
-   * Add indent or outdent tokens at the line
-   *
-   * @param lineIndex - The line to add the tokens at
-   * @param indent - The indentation of the line
-   */
-  private addIndentTokens(lineIndex: number, indent: number): void {
-    if (indent > this.indent) {
-      const diff = indent - this.indent;
+  private word(start: string): void {
+    let content = start;
 
-      this.tokens.push(...new Array(diff).fill(null).map(() => new Token(LexicalToken.INDENT, '\t', new Span(
-        [lineIndex, 0],
-        [lineIndex, diff],
-      ))));
-    } else if (indent < this.indent) {
-      this.tokens.push(...new Array(this.indent - indent).fill(null).map(() => new Token(LexicalToken.OUTDENT, '', new Span(
-        [lineIndex, 0],
-        [lineIndex, indent],
-      ))));
+    while (this.isAlphaNumeric(this.peek())) {
+      content += this.advance();
+    }
+
+    const type = Object.prototype.hasOwnProperty.call(WORD_TOKENS, content)
+      ? WORD_TOKENS[content]
+      : null;
+
+    if (type) {
+      this.add(type, content);
+    } else {
+      this.add(LexicalToken.IDENTIFIER, content);
     }
   }
 
-  /**
-   * Match a number
-   *
-   * @param chars - The chars left on the line
-   * @param lineIndex - The line the number is on
-   * @param colIndex - The column the number starts at
-   * @returns The length of the number
-   */
-  private matchNumber(chars: string, lineIndex: number, colIndex: number): number {
-    const numberMatch = chars.match(/^\d(?:\d|_)*(?:\.\d(?:\d|_)*)?/);
+  private comment(start: string): void {
+    let content = start;
 
-    if (numberMatch) {
-      this.tokens.push(new Token(LexicalToken.NUMBER, numberMatch[0], new Span(
-        [lineIndex, colIndex],
-        [lineIndex, colIndex + numberMatch[0].length],
-      )));
-
-      return numberMatch[0].length;
+    while (this.peek() !== '\n') {
+      content += this.advance();
     }
 
-    return 0;
-  }
-
-  /**
-   * Match a string
-   *
-   * @param chars - The chars left on the line
-   * @param lineIndex - The line the string is on
-   * @param colIndex - The column the string starts at
-   * @returns The length of the string
-   */
-  private matchString(chars: string, lineIndex: number, colIndex: number): number {
-    const stringMatch = chars.match(/^'(?:[^'\\]|\\.)*'/);
-
-    if (stringMatch) {
-      this.tokens.push(new Token(LexicalToken.STRING, stringMatch[0], new Span(
-        [lineIndex, colIndex],
-        [lineIndex, colIndex + stringMatch[0].length],
-      )));
-
-      return stringMatch[0].length;
-    }
-
-    return 0;
-  }
-
-  /**
-   * Match a comment
-   *
-   * @param chars - The chars left on the line
-   * @param lineIndex - The line the comment is on
-   * @param colIndex - The column the comment starts at
-   * @returns The length of the comment
-   */
-  private matchComment(chars: string, lineIndex: number, colIndex: number): number {
-    // Comments last until the end of the current line
-    this.comments.push(new Token(LexicalToken.COMMENT, chars, new Span(
-      [lineIndex, colIndex],
-      [lineIndex, colIndex + chars.length],
+    this.comments.push(new Token(LexicalToken.COMMENT, content, new Span(
+      [this.line, this.column],
+      [this.line, this.column + content.length],
     )));
 
-    return chars.length;
+    this.line += 1;
+    this.column = 0;
   }
 
-  /**
-   * Match a word
-   *
-   * @param wordMatch - The match of the word
-   * @param chars - The chars left on the line
-   * @param lineIndex - The line the word is on
-   * @param colIndex - The column the word starts at
-   * @returns The length of the word
-   */
-  private matchWord(
-    wordMatch: RegExpMatchArray,
-    chars: string,
-    lineIndex: number,
-    colIndex: number,
-  ): number {
-    let lexeme = wordMatch[0];
-    let type = LexicalToken.IDENTIFIER;
+  private isDigit(char: string): boolean {
+    return char >= '0' && char <= '9';
+  }
 
-    // Check if the lexeme is a word token
-    if (Object.prototype.hasOwnProperty.call(WORD_TOKENS, lexeme)) {
-      type = WORD_TOKENS[lexeme];
-    }
+  private isAlpha(char: string): boolean {
+    return (char >= 'a' && char <= 'z')
+      || (char >= 'A' && char <= 'Z')
+      || char === '_';
+  }
 
-    // If 'less', 'greater', or 'than' is matched as a lexeme the line
-    // did not include 'is' and is therefore incorrect
-    if (lexeme === 'less' || lexeme === 'greater' || lexeme === 'than') {
-      return this.error(
-        lexeme === 'than'
-          ? "'than' must come after 'is less' or 'is greater'. Make sure it's on the same line"
-          : `'${lexeme}' must come after 'is'. Make sure it's on the same line`,
-        lexeme,
-        lineIndex,
-        colIndex,
-      );
-    }
+  private isAlphaNumeric(char: string): boolean {
+    return this.isDigit(char) || this.isAlpha(char);
+  }
 
-    if (wordMatch[0] === 'is') {
-      // This regex matches 'is not', 'is less than', and 'is greater than'
-      // It is used to group the 2-3 words into a single token
-      // 'is' does not match
-      const comparisonOperatorMatch = chars.match(/^is\s+(not|(?:(less|greater)\s+than))/);
-
-      if (comparisonOperatorMatch) {
-        lexeme = comparisonOperatorMatch[0];
-
-        // 'less' and 'greater' are the 3rd element, 'not' is the 2nd element
-        const operator = comparisonOperatorMatch[2] || comparisonOperatorMatch[1];
-        switch (operator) {
-          case 'not': type = LexicalToken.IS_NOT; break;
-          case 'less': type = LexicalToken.IS_LESS_THAN; break;
-          case 'greater': type = LexicalToken.IS_GREATER_THAN; break;
-          default: break;
-        }
-      }
-    }
-
+  private add(type: LexicalToken, lexeme: string): void {
     this.tokens.push(new Token(type, lexeme, new Span(
-      [lineIndex, colIndex],
-      [lineIndex, colIndex + lexeme.length],
+      [this.line, this.column],
+      [this.line, this.column + lexeme.length],
     )));
 
-    return lexeme.length;
+    this.column += lexeme.length;
+  }
+
+  private peek(offset = 0): string {
+    return this.source[this.index + offset];
+  }
+
+  private match(char: string): boolean {
+    if (this.peek() === char) {
+      this.index += 1;
+      return true;
+    }
+
+    return false;
+  }
+
+  private advance(): string {
+    this.index += 1;
+    return this.peek(-1);
   }
 
   /**
    * Report an error
    *
    * @param msg - The error message
-   * @param lexeme - The invalid chars
-   * @param lineIndex - The line the lexeme is on
-   * @param colIndex - The column the lexeme starts at
-   * @returns The amount of chars to skip
+   * @param length - The length of the invalid lexeme
    */
-  private error(msg: string, lexeme: string, lineIndex: number, colIndex: number): number {
-    this.diagnostics.push(new Diagnostic(Level.ERROR, 'tokenizer', msg, new Span(
-      [lineIndex, colIndex],
-      [lineIndex, colIndex + lexeme.length],
-    )));
+  private error(msg: string, length: number): void {
+    const diagnostic = new Diagnostic(Level.ERROR, 'tokenizer', msg, new Span(
+      [this.line, this.column],
+      [this.line, this.column + length],
+    ));
 
-    return lexeme.length;
+    this.diagnostics.push(diagnostic);
   }
 }
