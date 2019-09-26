@@ -17,8 +17,9 @@ export enum SyntacticToken {
   NEW_EXPR,
   INSTANCEOF_EXPR,
   ASYNC_EXPR,
-  CONDITIONAL_EXPR,
   ARRAY_EXPR,
+  IF_EXPR,
+  ELSE_EXPR,
 
   IDENTIFIER,
   LITERAL,
@@ -26,13 +27,11 @@ export enum SyntacticToken {
   THIS,
 
   // Statements
-  IF_STMT,
-  ELSE_STMT,
   SWITCH_STMT,
   FOR_STMT,
-  REPEAT_STMT,
   WHILE_STMT,
   RETURN_STMT,
+  YIELD_STMT,
   EXPRESSION_STMT,
 
   BREAK_STMT,
