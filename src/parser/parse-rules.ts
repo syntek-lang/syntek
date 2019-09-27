@@ -124,7 +124,7 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.NONE }, // RETURN
   { prefix: null, infix: null, precedence: Precedence.NONE }, // VOID
 
-  { prefix: asyncExpr, infix: null, precedence: Precedence.NONE }, // ASYNC
+  { prefix: asyncExpr, infix: null, precedence: Precedence.OP9 }, // ASYNC
 
   { prefix: null, infix: null, precedence: Precedence.NONE }, // IMPORT
   { prefix: null, infix: null, precedence: Precedence.NONE }, // AS

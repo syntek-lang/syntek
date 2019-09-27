@@ -74,12 +74,20 @@ export class Parser {
    */
   declaration(): Node {
     const handler = declarationRules[this.peek().type];
+
+    let node: Node;
     if (handler) {
       this.advance();
-      return handler(this);
+      node = handler(this);
+    } else {
+      node = this.statement();
     }
 
-    return this.statement();
+    if (!this.isAtEnd()) {
+      this.consume(LexicalToken.NEWLINE, 'Expected a newline');
+    }
+
+    return node;
   }
 
   /**
@@ -106,7 +114,7 @@ export class Parser {
    * @returns A new node
    */
   expression(msg?: string, errorHandler?: ErrorHandler): Node {
-    return this.parsePrecedence(Precedence.OP2, msg, errorHandler);
+    return this.parsePrecedence(Precedence.OP1, msg, errorHandler);
   }
 
   parsePrecedence(precedence: Precedence, msg?: string, errorHandler?: ErrorHandler): Node {
@@ -131,38 +139,31 @@ export class Parser {
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      // let ignoredWhitespaceToken: Token | null = null;
+      let infixToken: Token;
+      let infixRule: ExpressionParseRule;
 
-      // Break if the next token's precedence is lower than the wanted
-      if (precedence > this.getRule(this.peek().type).precedence) {
-        break;
-        // ignoredWhitespaceToken = this.peekIgnoreWhitespace();
-        //
-        // if (precedence > this.getRule(ignoredWhitespaceToken.type).precedence) {
-        //   break;
-        // }
+      if (this.check(LexicalToken.NEWLINE)) {
+        infixRule = this.getRule(this.peek(1).type);
+
+        if (infixRule.prefix || precedence > infixRule.precedence) {
+          break;
+        } else {
+          this.ignoreNewline();
+          infixToken = this.advance();
+        }
+      } else {
+        infixRule = this.getRule(this.peek().type);
+
+        if (precedence > infixRule.precedence) {
+          break;
+        } else {
+          infixToken = this.advance();
+        }
       }
 
-      // let infixRule: ExpressionParseRule;
-      // let infixToken: Token;
-
-      // When a token was found after ignoring whitespace check if the rule
-      // associated with that token allows ignoring whitespace. If it does trim
-      // the whitespace and advance.
-      // if (ignoredWhitespaceToken) {
-      //   infixRule = this.getRule(ignoredWhitespaceToken.type);
-      //
-      //   // If the token does not have a prefix rule whitespace can be ignored
-      //   if (!infixRule.prefix) {
-      //     this.eatWhitespace();
-      //     infixToken = this.advance();
-      //   } else {
-      //     break;
-      //   }
-      // } else {
-      const infixToken = this.advance();
-      const infixRule = this.getRule(infixToken.type);
-      // }
+      if (precedence > infixRule.precedence) {
+        break;
+      }
 
       if (infixRule.infix) {
         left = infixRule.infix(this, left, infixToken);
@@ -273,6 +274,25 @@ export class Parser {
     return this.peek(-1);
   }
 
+  ignoreNewline(): void {
+    if (this.check(LexicalToken.NEWLINE)) {
+      this.advance();
+    }
+  }
+
+  matchIgnoreNewline(...types: LexicalToken[]): boolean {
+    const offset = this.check(LexicalToken.NEWLINE) ? 1 : 0;
+
+    for (const type of types) {
+      if (this.check(type, offset)) {
+        this.ignoreNewline();
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   /**
    * Report an error
    *
@@ -295,7 +315,7 @@ export class Parser {
    * Sync the parser. This skips over tokens until a keyword is found that could
    * safely be parsed again, without giving incorrect errors.
    */
-  sync(): void {
+  private sync(): void {
     while (!this.isAtEnd()) {
       switch (this.peek().type) {
         case LexicalToken.CLASS:
