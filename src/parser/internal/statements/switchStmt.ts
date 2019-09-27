@@ -7,49 +7,30 @@ import { Span } from '../../../position';
 
 export function switchStmt(parser: Parser): Node {
   const switchSpan = parser.previous().span;
-  parser.eatWhitespace();
 
   const expression = parser.expression("Expected an expression after 'switch'", (error) => {
     error.info('Add an expression after this switch', switchSpan);
   });
 
-  parser.consume(LexicalToken.NEWLINE, 'Expected a newline and indent after the switch statement', (error) => {
-    error.info('Add a newline after the expression', expression.span);
-  });
-  parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, 'Expected a newline and indent after the switch statement', (error) => {
-    error.info('Add an indent after the expression', expression.span);
-  });
+  parser.consume(LexicalToken.L_BRACE, "Expected '{'");
 
   const cases: SwitchCase[] = [];
-  while (!parser.match(LexicalToken.OUTDENT)) {
+  while (!parser.match(LexicalToken.R_BRACE)) {
     const caseSpan = parser.consume(LexicalToken.CASE, "Expected 'case'").span;
 
     const conditions: Node[] = [];
     do {
-      parser.eatWhitespace();
-
       const condition = parser.expression("Expected a list of expressions after 'case'", (error) => {
         error.info('Add one or more expressions after this case', caseSpan);
       });
 
       conditions.push(condition);
-
-      if (parser.peekIgnoreWhitespace().type === LexicalToken.COMMA) {
-        parser.eatWhitespace();
-      }
     } while (parser.match(LexicalToken.COMMA));
 
-    parser.consume(LexicalToken.NEWLINE, 'Expected a newline and indent after the switch case', (error) => {
-      error.info('Add a newline after this expression', conditions[conditions.length - 1].span);
-    });
-    parser.syncIndentation();
-    parser.consume(LexicalToken.INDENT, 'Expected a newline and indent after the switch case', (error) => {
-      error.info('Add an indent after this expression', conditions[conditions.length - 1].span);
-    });
+    parser.consume(LexicalToken.L_BRACE, "Expected '{'");
 
     const body: Node[] = [];
-    while (!parser.match(LexicalToken.OUTDENT)) {
+    while (!parser.match(LexicalToken.R_BRACE)) {
       body.push(parser.declaration());
     }
 

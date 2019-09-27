@@ -14,6 +14,7 @@ import { assignmentExpr } from './internal/expressions/assignmentExpr';
 import { asyncExpr } from './internal/expressions/asyncExpr';
 import { binaryExpr } from './internal/expressions/binaryExpr';
 import { callExpr } from './internal/expressions/callExpr';
+import { ifExpr } from './internal/statements/ifExpr';
 import { indexExpr } from './internal/expressions/indexExpr';
 import { instanceofExpr } from './internal/expressions/instanceofExpr';
 import { memberExpr } from './internal/expressions/memberExpr';
@@ -31,7 +32,6 @@ import { thisLiteral } from './internal/literals/thisLiteral';
 import { breakStmt } from './internal/statements/breakStmt';
 import { continueStmt } from './internal/statements/continueStmt';
 import { forStmt } from './internal/statements/forStmt';
-import { ifStmt } from './internal/statements/ifStmt';
 import { returnStmt } from './internal/statements/returnStmt';
 import { switchStmt } from './internal/statements/switchStmt';
 import { whileStmt } from './internal/statements/whileStmt';
@@ -114,7 +114,7 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: superLiteral, infix: null, precedence: Precedence.NONE }, // SUPER
   { prefix: null, infix: instanceofExpr, precedence: Precedence.OP5 }, // INSTANCEOF
 
-  { prefix: null, infix: null, precedence: Precedence.NONE }, // IF
+  { prefix: ifExpr, infix: null, precedence: Precedence.NONE }, // IF
   { prefix: null, infix: null, precedence: Precedence.NONE }, // ELSE
 
   { prefix: null, infix: null, precedence: Precedence.NONE }, // SWITCH
@@ -153,7 +153,6 @@ export const statementRules: { [key: number]: ParsingHandler } = {
   [LexicalToken.BREAK]: breakStmt,
   [LexicalToken.CONTINUE]: continueStmt,
   [LexicalToken.FOR]: forStmt,
-  [LexicalToken.IF]: ifStmt,
   [LexicalToken.RETURN]: returnStmt,
   [LexicalToken.SWITCH]: switchStmt,
   [LexicalToken.WHILE]: whileStmt,

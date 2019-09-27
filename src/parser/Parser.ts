@@ -15,19 +15,9 @@ import { expressionStmt } from './internal/statements/expressionStmt';
 
 export class Parser {
   /**
-   * The current index
+   * The index of the current token
    */
-  private current = 0;
-
-  /**
-   * The amount of indents consumed. Used for syncing
-   */
-  private indent = 0;
-
-  /**
-   * Whether there has been an error
-   */
-  private hasError = false;
+  private index = 0;
 
   /**
    * The diagnostics reported during parsing
@@ -124,13 +114,7 @@ export class Parser {
 
     const prefixFn = this.getRule(prefixToken.type).prefix;
     if (!prefixFn) {
-      if (this.hasError && this.previous().type === LexicalToken.OUTDENT) {
-        // When the program is already invalid, and an outdent token is invalid it is not reported
-        // This prevents error reports in the wrong places
-        throw new Error('Invalid outdent in error mode');
-      } else {
-        throw this.error(msg || 'Expected a declaration, expression, or statement', this.previous().span, errorHandler);
-      }
+      throw this.error(msg || 'Expected a declaration, expression, or statement', this.previous().span, errorHandler);
     }
 
     const prefixNode = prefixFn(this, prefixToken);
@@ -147,37 +131,38 @@ export class Parser {
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      let ignoredWhitespaceToken: Token | null = null;
+      // let ignoredWhitespaceToken: Token | null = null;
 
       // Break if the next token's precedence is lower than the wanted
       if (precedence > this.getRule(this.peek().type).precedence) {
-        ignoredWhitespaceToken = this.peekIgnoreWhitespace();
-
-        if (precedence > this.getRule(ignoredWhitespaceToken.type).precedence) {
-          break;
-        }
+        break;
+        // ignoredWhitespaceToken = this.peekIgnoreWhitespace();
+        //
+        // if (precedence > this.getRule(ignoredWhitespaceToken.type).precedence) {
+        //   break;
+        // }
       }
 
-      let infixRule: ExpressionParseRule;
-      let infixToken: Token;
+      // let infixRule: ExpressionParseRule;
+      // let infixToken: Token;
 
       // When a token was found after ignoring whitespace check if the rule
       // associated with that token allows ignoring whitespace. If it does trim
       // the whitespace and advance.
-      if (ignoredWhitespaceToken) {
-        infixRule = this.getRule(ignoredWhitespaceToken.type);
-
-        // If the token does not have a prefix rule whitespace can be ignored
-        if (!infixRule.prefix) {
-          this.eatWhitespace();
-          infixToken = this.advance();
-        } else {
-          break;
-        }
-      } else {
-        infixToken = this.advance();
-        infixRule = this.getRule(infixToken.type);
-      }
+      // if (ignoredWhitespaceToken) {
+      //   infixRule = this.getRule(ignoredWhitespaceToken.type);
+      //
+      //   // If the token does not have a prefix rule whitespace can be ignored
+      //   if (!infixRule.prefix) {
+      //     this.eatWhitespace();
+      //     infixToken = this.advance();
+      //   } else {
+      //     break;
+      //   }
+      // } else {
+      const infixToken = this.advance();
+      const infixRule = this.getRule(infixToken.type);
+      // }
 
       if (infixRule.infix) {
         left = infixRule.infix(this, left, infixToken);
@@ -197,61 +182,6 @@ export class Parser {
    */
   getRule(type: LexicalToken): ExpressionParseRule {
     return expressionRules[type];
-  }
-
-  /**
-   * Whether the given token is whitespace
-   *
-   * @param token - The token to check
-   * @returns Whether the given token is whitespace
-   */
-  isWhitespace(token: Token): boolean {
-    return token.type === LexicalToken.NEWLINE
-      || token.type === LexicalToken.INDENT
-      || token.type === LexicalToken.OUTDENT;
-  }
-
-  /**
-   * Eat whitespace whitespace if possible. Stores the indent count so it can be synced.
-   */
-  eatWhitespace(): void {
-    while (this.isWhitespace(this.peek())) {
-      // Consume whitespace
-      const token = this.advance();
-
-      if (token.type === LexicalToken.INDENT) {
-        this.indent += 1;
-      } else if (token.type === LexicalToken.OUTDENT) {
-        this.indent -= 1;
-      }
-    }
-  }
-
-  /**
-   * Sync the indentation, adding indent or outdent tokens
-   */
-  syncIndentation(): void {
-    // TODO: This can probably be optimized by checking `indent` in parse methods
-    // instead of merging new tokens into the array
-    while (this.indent !== 0) {
-      if (this.indent > 0) {
-        if (this.check(LexicalToken.OUTDENT)) {
-          this.advance();
-        } else {
-          this.tokens.splice(this.current, 0, new Token(LexicalToken.INDENT, '\t', new Span([0, 0], [0, 0])));
-        }
-
-        this.indent -= 1;
-      } else {
-        if (this.check(LexicalToken.INDENT)) {
-          this.advance();
-        } else {
-          this.tokens.splice(this.current, 0, new Token(LexicalToken.OUTDENT, '', new Span([0, 0], [0, 0])));
-        }
-
-        this.indent += 1;
-      }
-    }
   }
 
   /**
@@ -294,14 +224,14 @@ export class Parser {
    */
   advance(): Token {
     if (!this.isAtEnd()) {
-      this.current += 1;
+      this.index += 1;
     }
 
     return this.previous();
   }
 
   /**
-   * Check for a token with the given type at the given offset
+   * Check for a token with the given type at the given offset without consuming it
    *
    * @param type - The token type
    * @param offset - The offset to check at
@@ -331,7 +261,7 @@ export class Parser {
    * @returns The token at the offset
    */
   peek(offset = 0): Token {
-    return this.tokens[this.current + offset];
+    return this.tokens[this.index + offset];
   }
 
   /**
@@ -344,48 +274,6 @@ export class Parser {
   }
 
   /**
-   * Peek at the next token, ignoring whitespace
-   *
-   * @returns The token
-   */
-  peekIgnoreWhitespace(): Token {
-    let whitespaceAmount = 0;
-
-    while (this.isWhitespace(this.peek(whitespaceAmount))) {
-      whitespaceAmount += 1;
-    }
-
-    return this.peek(whitespaceAmount);
-  }
-
-  /**
-   * Match a token of a given type. If the token matches it is consumed. Whitespace is ignored.
-   *
-   * @param types - The token types
-   * @returns Whether a token was matched
-   */
-  matchIgnoreWhitespace(...types: LexicalToken[]): boolean {
-    const token = this.peekIgnoreWhitespace();
-
-    if (types.includes(token.type)) {
-      this.eatWhitespace();
-      this.advance();
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Skip over tokens
-   *
-   * @param amount - The amount of tokens to skip
-   */
-  skip(amount: number): void {
-    this.current += amount;
-  }
-
-  /**
    * Report an error
    *
    * @param msg - The error message
@@ -393,8 +281,6 @@ export class Parser {
    * @param errorHandler - A handler to assign more info to the error
    */
   error(msg: string, span: Span, errorHandler?: ErrorHandler): Error {
-    this.hasError = true;
-
     const diagnostic = new Diagnostic(Level.ERROR, 'parser', msg, span);
     this.diagnostics.push(diagnostic);
 
@@ -410,20 +296,16 @@ export class Parser {
    * safely be parsed again, without giving incorrect errors.
    */
   sync(): void {
-    this.indent = 0;
-
     while (!this.isAtEnd()) {
       switch (this.peek().type) {
-        case LexicalToken.VAR:
-        case LexicalToken.FUNCTION:
         case LexicalToken.CLASS:
-        case LexicalToken.IMPORT:
-        case LexicalToken.IF:
         case LexicalToken.SWITCH:
+        case LexicalToken.FUNCTION:
+        case LexicalToken.IMPORT:
         case LexicalToken.FOR:
-        case LexicalToken.REPEAT:
         case LexicalToken.WHILE:
         case LexicalToken.RETURN:
+        case LexicalToken.VAR:
           return;
         default:
           this.advance();

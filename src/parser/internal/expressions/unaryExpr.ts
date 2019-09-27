@@ -4,8 +4,6 @@ import { Parser } from '../..';
 import { Span } from '../../../position';
 
 export function unaryExpr(parser: Parser, operator: Token): Node {
-  parser.eatWhitespace();
-
   const right = parser.parsePrecedence(
     parser.getRule(operator.type).precedence + 1,
     `Expected an expression after '${operator.lexeme}'`,

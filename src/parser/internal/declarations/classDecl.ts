@@ -8,40 +8,29 @@ import { matchGenericParams, matchTypeDecl } from '../../parse-utils';
 
 export function classDecl(parser: Parser): Node {
   const classSpan = parser.previous().span;
-  parser.eatWhitespace();
 
   const identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'class'", (error) => {
     error.info('Add an identifier after this class', classSpan);
   });
 
   let genericParams: Token[] = [];
-  if (parser.matchIgnoreWhitespace(LexicalToken.LT)) {
+  if (parser.match(LexicalToken.LT)) {
     genericParams = matchGenericParams(parser);
   }
 
   const extend: VariableType[] = [];
-  if (parser.matchIgnoreWhitespace(LexicalToken.EXTENDS)) {
+  if (parser.match(LexicalToken.EXTENDS)) {
     do {
-      parser.eatWhitespace();
       extend.push(matchTypeDecl(parser));
-
-      if (parser.peekIgnoreWhitespace().type === LexicalToken.COMMA) {
-        parser.eatWhitespace();
-      }
     } while (parser.match(LexicalToken.COMMA));
   }
 
-  parser.consume(LexicalToken.NEWLINE, 'Expected a newline and indent after the class signature');
-  parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, 'Expected a newline and indent after the class signature');
+  parser.consume(LexicalToken.L_BRACE, "Expected '{'");
 
   const staticBody: Node[] = [];
   const instanceBody: Node[] = [];
-  while (!parser.match(LexicalToken.OUTDENT)) {
+  while (!parser.match(LexicalToken.R_BRACE)) {
     if (parser.match(LexicalToken.STATIC)) {
-      // Eat the whitespace after the 'static' keyword
-      parser.eatWhitespace();
-
       staticBody.push(parser.declaration());
     } else {
       instanceBody.push(parser.declaration());

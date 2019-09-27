@@ -1,23 +1,20 @@
 import {
-  Node, Token, LexicalToken, VariableType, CallExpression,
+  Node, LexicalToken, VariableType, CallExpression,
 } from '../../../grammar';
 
 import { Parser } from '../..';
 import { Span } from '../../../position';
-import { matchGenericArgs, matchExpressionList } from '../../parse-utils';
+import { matchExpressionList } from '../../parse-utils';
 
-export function callExpr(parser: Parser, left: Node, infix: Token): Node {
-  parser.eatWhitespace();
+export function callExpr(parser: Parser, left: Node): Node {
+  const genericArgs: VariableType[] = [];
+  // if (infix.type === LexicalToken.LT) {
+  //   genericArgs = matchGenericArgs(parser);
+  //
+  //   parser.consume(LexicalToken.L_PAR, "Expected '(' after '>'");
+  // }
 
-  let genericArgs: VariableType[] = [];
-  if (infix.type === LexicalToken.LT) {
-    genericArgs = matchGenericArgs(parser);
-    parser.eatWhitespace();
-
-    parser.consume(LexicalToken.LPAR, "Expected '(' after '>'");
-  }
-
-  const params = matchExpressionList(parser, LexicalToken.RPAR);
+  const params = matchExpressionList(parser, LexicalToken.R_PAR);
 
   return new CallExpression(
     left,

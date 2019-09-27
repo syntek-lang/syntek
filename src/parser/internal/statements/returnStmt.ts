@@ -18,7 +18,5 @@ export function returnStmt(parser: Parser): Node {
     });
   }
 
-  parser.syncIndentation();
-
   return new ReturnStatement(expression, new Span(start, parser.previous().span.end));
 }
