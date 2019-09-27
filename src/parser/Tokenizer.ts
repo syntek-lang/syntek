@@ -56,7 +56,7 @@ export class Tokenizer {
     comments: Token[];
     diagnostics: Diagnostic[];
   } {
-    while (this.index < this.source.length) {
+    while (!this.isAtEnd()) {
       this.scanToken();
     }
 
@@ -211,7 +211,7 @@ export class Tokenizer {
     let content = start;
 
     while (this.peek() !== start) {
-      if (this.peek() === '\n') {
+      if (this.peek() === '\n' || this.isAtEnd()) {
         this.error('Strings can not span multiple lines', content.length);
         return;
       }
@@ -266,7 +266,7 @@ export class Tokenizer {
   private comment(start: string): void {
     let content = start;
 
-    while (this.peek() !== '\n') {
+    while (this.peek() !== '\n' && !this.isAtEnd()) {
       content += this.advance();
     }
 
@@ -291,6 +291,10 @@ export class Tokenizer {
 
   private isAlphaNumeric(char: string): boolean {
     return this.isDigit(char) || this.isAlpha(char);
+  }
+
+  private isAtEnd(): boolean {
+    return this.index >= this.source.length;
   }
 
   private add(type: LexicalToken, lexeme: string): void {
