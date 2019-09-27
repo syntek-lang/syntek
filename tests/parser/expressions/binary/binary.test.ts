@@ -11,117 +11,117 @@ import { Literal, BinaryExpression } from '../../../../src/grammar/nodes/Express
 
 describe('binary', () => {
   describe('comparison', () => {
-    it('parses "is" correctly', () => {
-      const program = parse(loadRaw(__dirname, './is.tek'));
+    // it('parses "is" correctly', () => {
+    //   const program = parse(loadRaw(__dirname, './is.tek'));
+    //
+    //   function check(node: Node): void {
+    //     expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
+    //     expect(node).to.be.an.instanceof(ExpressionStatement);
+    //
+    //     const expr = (node as ExpressionStatement).expression as BinaryExpression;
+    //
+    //     expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
+    //     expect(expr).to.be.an.instanceof(BinaryExpression);
+    //
+    //     const left = expr.left as Literal;
+    //     expect(left.type).to.equal(SyntacticToken.LITERAL);
+    //     expect(left).to.be.an.instanceof(Literal);
+    //     expect(left.value.lexeme).to.equal('5');
+    //
+    //     const right = expr.right as Literal;
+    //     expect(right.type).to.equal(SyntacticToken.LITERAL);
+    //     expect(right).to.be.an.instanceof(Literal);
+    //     expect(right.value.lexeme).to.equal('3');
+    //
+    //     expect(expr.operator.type).to.equal(LexicalToken.IS);
+    //   }
+    //
+    //   program.body.forEach(check);
+    // });
 
-      function check(node: Node): void {
-        expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
-        expect(node).to.be.an.instanceof(ExpressionStatement);
+    // it('parses "is not" correctly', () => {
+    //   const program = parse(loadRaw(__dirname, './is-not.tek'));
+    //
+    //   function check(node: Node): void {
+    //     expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
+    //     expect(node).to.be.an.instanceof(ExpressionStatement);
+    //
+    //     const expr = (node as ExpressionStatement).expression as BinaryExpression;
+    //
+    //     expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
+    //     expect(expr).to.be.an.instanceof(BinaryExpression);
+    //
+    //     const left = expr.left as Literal;
+    //     expect(left.type).to.equal(SyntacticToken.LITERAL);
+    //     expect(left).to.be.an.instanceof(Literal);
+    //     expect(left.value.lexeme).to.equal('5');
+    //
+    //     const right = expr.right as Literal;
+    //     expect(right.type).to.equal(SyntacticToken.LITERAL);
+    //     expect(right).to.be.an.instanceof(Literal);
+    //     expect(right.value.lexeme).to.equal('3');
+    //
+    //     expect(expr.operator.type).to.equal(LexicalToken.IS_NOT);
+    //   }
+    //
+    //   program.body.forEach(check);
+    // });
 
-        const expr = (node as ExpressionStatement).expression as BinaryExpression;
+    // it('parses "is less than" correctly', () => {
+    //   const program = parse(loadRaw(__dirname, './is-less-than.tek'));
+    //
+    //   function check(node: Node): void {
+    //     expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
+    //     expect(node).to.be.an.instanceof(ExpressionStatement);
+    //
+    //     const expr = (node as ExpressionStatement).expression as BinaryExpression;
+    //
+    //     expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
+    //     expect(expr).to.be.an.instanceof(BinaryExpression);
+    //
+    //     const left = expr.left as Literal;
+    //     expect(left.type).to.equal(SyntacticToken.LITERAL);
+    //     expect(left).to.be.an.instanceof(Literal);
+    //     expect(left.value.lexeme).to.equal('5');
+    //
+    //     const right = expr.right as Literal;
+    //     expect(right.type).to.equal(SyntacticToken.LITERAL);
+    //     expect(right).to.be.an.instanceof(Literal);
+    //     expect(right.value.lexeme).to.equal('3');
+    //
+    //     expect(expr.operator.type).to.equal(LexicalToken.IS_LESS_THAN);
+    //   }
+    //
+    //   program.body.forEach(check);
+    // });
 
-        expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
-        expect(expr).to.be.an.instanceof(BinaryExpression);
-
-        const left = expr.left as Literal;
-        expect(left.type).to.equal(SyntacticToken.LITERAL);
-        expect(left).to.be.an.instanceof(Literal);
-        expect(left.value.lexeme).to.equal('5');
-
-        const right = expr.right as Literal;
-        expect(right.type).to.equal(SyntacticToken.LITERAL);
-        expect(right).to.be.an.instanceof(Literal);
-        expect(right.value.lexeme).to.equal('3');
-
-        expect(expr.operator.type).to.equal(LexicalToken.IS);
-      }
-
-      program.body.forEach(check);
-    });
-
-    it('parses "is not" correctly', () => {
-      const program = parse(loadRaw(__dirname, './is-not.tek'));
-
-      function check(node: Node): void {
-        expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
-        expect(node).to.be.an.instanceof(ExpressionStatement);
-
-        const expr = (node as ExpressionStatement).expression as BinaryExpression;
-
-        expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
-        expect(expr).to.be.an.instanceof(BinaryExpression);
-
-        const left = expr.left as Literal;
-        expect(left.type).to.equal(SyntacticToken.LITERAL);
-        expect(left).to.be.an.instanceof(Literal);
-        expect(left.value.lexeme).to.equal('5');
-
-        const right = expr.right as Literal;
-        expect(right.type).to.equal(SyntacticToken.LITERAL);
-        expect(right).to.be.an.instanceof(Literal);
-        expect(right.value.lexeme).to.equal('3');
-
-        expect(expr.operator.type).to.equal(LexicalToken.IS_NOT);
-      }
-
-      program.body.forEach(check);
-    });
-
-    it('parses "is less than" correctly', () => {
-      const program = parse(loadRaw(__dirname, './is-less-than.tek'));
-
-      function check(node: Node): void {
-        expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
-        expect(node).to.be.an.instanceof(ExpressionStatement);
-
-        const expr = (node as ExpressionStatement).expression as BinaryExpression;
-
-        expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
-        expect(expr).to.be.an.instanceof(BinaryExpression);
-
-        const left = expr.left as Literal;
-        expect(left.type).to.equal(SyntacticToken.LITERAL);
-        expect(left).to.be.an.instanceof(Literal);
-        expect(left.value.lexeme).to.equal('5');
-
-        const right = expr.right as Literal;
-        expect(right.type).to.equal(SyntacticToken.LITERAL);
-        expect(right).to.be.an.instanceof(Literal);
-        expect(right.value.lexeme).to.equal('3');
-
-        expect(expr.operator.type).to.equal(LexicalToken.IS_LESS_THAN);
-      }
-
-      program.body.forEach(check);
-    });
-
-    it('parses "is greater than" correctly', () => {
-      const program = parse(loadRaw(__dirname, './is-greater-than.tek'));
-
-      function check(node: Node): void {
-        expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
-        expect(node).to.be.an.instanceof(ExpressionStatement);
-
-        const expr = (node as ExpressionStatement).expression as BinaryExpression;
-
-        expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
-        expect(expr).to.be.an.instanceof(BinaryExpression);
-
-        const left = expr.left as Literal;
-        expect(left.type).to.equal(SyntacticToken.LITERAL);
-        expect(left).to.be.an.instanceof(Literal);
-        expect(left.value.lexeme).to.equal('5');
-
-        const right = expr.right as Literal;
-        expect(right.type).to.equal(SyntacticToken.LITERAL);
-        expect(right).to.be.an.instanceof(Literal);
-        expect(right.value.lexeme).to.equal('3');
-
-        expect(expr.operator.type).to.equal(LexicalToken.IS_GREATER_THAN);
-      }
-
-      program.body.forEach(check);
-    });
+    // it('parses "is greater than" correctly', () => {
+    //   const program = parse(loadRaw(__dirname, './is-greater-than.tek'));
+    //
+    //   function check(node: Node): void {
+    //     expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
+    //     expect(node).to.be.an.instanceof(ExpressionStatement);
+    //
+    //     const expr = (node as ExpressionStatement).expression as BinaryExpression;
+    //
+    //     expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
+    //     expect(expr).to.be.an.instanceof(BinaryExpression);
+    //
+    //     const left = expr.left as Literal;
+    //     expect(left.type).to.equal(SyntacticToken.LITERAL);
+    //     expect(left).to.be.an.instanceof(Literal);
+    //     expect(left.value.lexeme).to.equal('5');
+    //
+    //     const right = expr.right as Literal;
+    //     expect(right.type).to.equal(SyntacticToken.LITERAL);
+    //     expect(right).to.be.an.instanceof(Literal);
+    //     expect(right.value.lexeme).to.equal('3');
+    //
+    //     expect(expr.operator.type).to.equal(LexicalToken.IS_GREATER_THAN);
+    //   }
+    //
+    //   program.body.forEach(check);
+    // });
   });
 
   describe('arithmetic', () => {

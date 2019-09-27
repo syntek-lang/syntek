@@ -1,12 +1,10 @@
 import * as grammar from '../grammar';
-import { Scope } from '../analyzer';
 
-type WalkerCallback = (node: grammar.Node, scope: Scope, parents: grammar.Node[]) => void;
+// TODO: Add scope back to the callbacks
+type WalkerCallback = (node: grammar.Node, scope: null, parents: grammar.Node[]) => void;
 
 export class ASTWalker {
   private readonly ast: grammar.Node;
-
-  private scope: Scope;
 
   private readonly parents: grammar.Node[] = [];
 
@@ -14,16 +12,16 @@ export class ASTWalker {
 
   private readonly leaveCallbacks = new Map<grammar.SyntacticToken, WalkerCallback[]>();
 
-  constructor(ast: grammar.Node, scope: Scope) {
+  constructor(ast: grammar.Node) {
     this.ast = ast;
-    this.scope = scope;
   }
 
   onEnter<T extends grammar.Node>(
     node: new (...args: any[]) => T,
-    callback: (node: T, scope: Scope, parents: grammar.Node[]) => void,
+    callback: (node: T, scope: null, parents: grammar.Node[]) => void,
   ): ASTWalker {
-    const type = grammar.NODE_TYPE.get(node);
+    const type = grammar.NODES.get(node);
+
     if (type === undefined) {
       throw new Error('Unable to listen for node');
     }
@@ -39,9 +37,10 @@ export class ASTWalker {
 
   onLeave<T extends grammar.Node>(
     node: new (...args: any[]) => T,
-    callback: (node: T, scope: Scope, parents: grammar.Node[]) => void,
+    callback: (node: T, scope: null, parents: grammar.Node[]) => void,
   ): ASTWalker {
-    const type = grammar.NODE_TYPE.get(node);
+    const type = grammar.NODES.get(node);
+
     if (type === undefined) {
       throw new Error('Unable to listen for node');
     }
@@ -63,18 +62,11 @@ export class ASTWalker {
     // Enter the node
     const enterCallbacks = this.enterCallbacks.get(node.type);
     if (enterCallbacks) {
-      enterCallbacks.forEach(callback => callback(node, this.scope, this.parents));
+      enterCallbacks.forEach(callback => callback(node, null, this.parents));
     }
 
     // The node is a parent of the nodes that are going to be walked
     this.parents.push(node);
-
-    // Change the current scope if necessary
-    const scope = this.scope;
-    if (this.scope.hasOwnScope(node)) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.scope = this.scope.getOwnScope(node)!;
-    }
 
     switch (node.type) {
       // Declarations
@@ -193,17 +185,27 @@ export class ASTWalker {
         break;
       }
 
-      case grammar.SyntacticToken.CONDITIONAL_EXPR: {
-        const expr = node as grammar.ConditionalExpression;
-        this.walkNode(expr.condition);
-        this.walkNode(expr.whenTrue);
-        this.walkNode(expr.whenFalse);
-        break;
-      }
-
       case grammar.SyntacticToken.ARRAY_EXPR: {
         const expr = node as grammar.ArrayExpression;
         expr.content.forEach(child => this.walkNode(child));
+        break;
+      }
+
+      case grammar.SyntacticToken.IF_EXPR: {
+        const expr = node as grammar.IfExpression;
+        this.walkNode(expr.condition);
+        expr.body.forEach(child => this.walkNode(child));
+
+        if (expr.elseClause) {
+          this.walkNode(expr.elseClause);
+        }
+
+        break;
+      }
+
+      case grammar.SyntacticToken.ELSE_EXPR: {
+        const expr = node as grammar.ElseExpression;
+        expr.body.forEach(child => this.walkNode(child));
         break;
       }
 
@@ -214,24 +216,6 @@ export class ASTWalker {
         break;
 
       // Statements
-      case grammar.SyntacticToken.IF_STMT: {
-        const stmt = node as grammar.IfStatement;
-        this.walkNode(stmt.condition);
-        stmt.body.forEach(child => this.walkNode(child));
-
-        if (stmt.elseClause) {
-          this.walkNode(stmt.elseClause);
-        }
-
-        break;
-      }
-
-      case grammar.SyntacticToken.ELSE_STMT: {
-        const stmt = node as grammar.ElseStatement;
-        stmt.body.forEach(child => this.walkNode(child));
-        break;
-      }
-
       case grammar.SyntacticToken.SWITCH_STMT: {
         const stmt = node as grammar.SwitchStatement;
         this.walkNode(stmt.expression);
@@ -247,13 +231,6 @@ export class ASTWalker {
         }
 
         this.walkNode(stmt.object);
-        stmt.body.forEach(child => this.walkNode(child));
-        break;
-      }
-
-      case grammar.SyntacticToken.REPEAT_STMT: {
-        const stmt = node as grammar.RepeatStatement;
-        this.walkNode(stmt.amount);
         stmt.body.forEach(child => this.walkNode(child));
         break;
       }
@@ -323,13 +300,10 @@ export class ASTWalker {
     // The node is longer a parent
     this.parents.pop();
 
-    // Put the scope back
-    this.scope = scope;
-
     // Leave the node
     const leaveCallbacks = this.leaveCallbacks.get(node.type);
     if (leaveCallbacks) {
-      leaveCallbacks.forEach(callback => callback(node, this.scope, this.parents));
+      leaveCallbacks.forEach(callback => callback(node, null, this.parents));
     }
   }
 }
