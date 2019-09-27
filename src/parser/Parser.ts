@@ -83,7 +83,8 @@ export class Parser {
       node = this.statement();
     }
 
-    if (!this.isAtEnd()) {
+    // Every declaration/statement should end with a '{', newline, or the full end
+    if (!this.isAtEnd() && !this.check(LexicalToken.R_BRACE)) {
       this.consume(LexicalToken.NEWLINE, 'Expected a newline');
     }
 
@@ -286,6 +287,7 @@ export class Parser {
     for (const type of types) {
       if (this.check(type, offset)) {
         this.ignoreNewline();
+        this.advance();
         return true;
       }
     }

@@ -173,3 +173,16 @@ export function matchExpressionList(parser: Parser, closingToken: LexicalToken):
 
   return expressions;
 }
+
+export function matchBlock(parser: Parser): Node[] {
+  parser.ignoreNewline();
+  parser.consume(LexicalToken.L_BRACE, "Expected '{'");
+  parser.ignoreNewline();
+
+  const body: Node[] = [];
+  while (!parser.match(LexicalToken.R_BRACE)) {
+    body.push(parser.declaration());
+  }
+
+  return body;
+}
