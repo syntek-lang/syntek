@@ -5,22 +5,15 @@ import { Span } from '../../../position';
 
 export function whileStmt(parser: Parser): Node {
   const whileSpan = parser.previous().span;
-  parser.eatWhitespace();
 
   const condition = parser.expression("Expected a condition after 'while'", (error) => {
     error.info('Add an expression after this while', whileSpan);
   });
 
-  parser.consume(LexicalToken.NEWLINE, 'Expected a newline and indent after the while statement', (error) => {
-    error.info('Add a newline after the condition', condition.span);
-  });
-  parser.syncIndentation();
-  parser.consume(LexicalToken.INDENT, 'Expected a newline and indent after the while statement', (error) => {
-    error.info('Add an indent after the condition', condition.span);
-  });
+  parser.consume(LexicalToken.L_BRACE, "Expected '{'");
 
   const body: Node[] = [];
-  while (!parser.match(LexicalToken.OUTDENT)) {
+  while (!parser.match(LexicalToken.R_BRACE)) {
     body.push(parser.declaration());
   }
 

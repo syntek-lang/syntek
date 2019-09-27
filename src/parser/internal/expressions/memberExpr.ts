@@ -6,7 +6,6 @@ import { Parser } from '../..';
 import { Span } from '../../../position';
 
 export function memberExpr(parser: Parser, left: Node, operator: Token): Node {
-  parser.eatWhitespace();
   const property = parser.match(LexicalToken.IDENTIFIER, LexicalToken.SUPER);
 
   if (!property) {

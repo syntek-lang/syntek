@@ -6,8 +6,6 @@ import { Parser } from '../..';
 import { Span } from '../../../position';
 
 export function binaryExpr(parser: Parser, left: Node, operator: Token): Node {
-  parser.eatWhitespace();
-
   const rule = parser.getRule(operator.type);
   const exponentation = operator.type === LexicalToken.CARET;
 

@@ -9,30 +9,19 @@ import { matchTypeDecl } from '../../parse-utils';
 
 export function variableDecl(parser: Parser): Node {
   const start = parser.peek().span.start;
-  parser.eatWhitespace();
 
   const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier after "var"');
 
   let variableType: VariableType | null = null;
-  if (parser.matchIgnoreWhitespace(LexicalToken.COLON)) {
-    parser.eatWhitespace();
+  if (parser.match(LexicalToken.COLON)) {
     variableType = matchTypeDecl(parser);
   }
 
   // If it's followed with an assignment return a variable declaration
-  if (parser.matchIgnoreWhitespace(LexicalToken.EQUAL)) {
-    const equalSpan = parser.previous().span;
-    parser.eatWhitespace();
-
+  if (parser.match(LexicalToken.EQUAL)) {
     const expr = parser.expression("Expected an expression after '='", (error) => {
-      error.info('Add an expression after this =', equalSpan);
+      error.info('Add an expression after this =', parser.previous().span);
     });
-
-    parser.consume(LexicalToken.NEWLINE, 'Expected a newline after the variable declaration', (error) => {
-      error.info('Add a newline after this expression', expr.span);
-    });
-
-    parser.syncIndentation();
 
     return new VariableDeclaration(
       identifier,
@@ -42,18 +31,9 @@ export function variableDecl(parser: Parser): Node {
     );
   }
 
-  // The declaration is not followed with an assignment
-  const declarationSpan = new Span(start, parser.previous().span.end);
-
-  parser.consume(LexicalToken.NEWLINE, 'Expected a newline after the variable declaration', (error) => {
-    error.info('Add a newline after the declaration', declarationSpan);
-  });
-
-  parser.syncIndentation();
-
   return new EmptyVariableDeclaration(
     identifier,
     variableType,
-    declarationSpan,
+    new Span(start, parser.previous().span.end),
   );
 }
