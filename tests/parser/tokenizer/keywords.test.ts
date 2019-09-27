@@ -10,20 +10,17 @@ const map = {
   true: LexicalToken.BOOLEAN,
   false: LexicalToken.BOOLEAN,
 
-  // Null
-  null: LexicalToken.NULL,
-
   // Keywords
   class: LexicalToken.CLASS,
   new: LexicalToken.NEW,
   static: LexicalToken.STATIC,
+  extends: LexicalToken.EXTENDS,
+
   this: LexicalToken.THIS,
   super: LexicalToken.SUPER,
-  extends: LexicalToken.EXTENDS,
   instanceof: LexicalToken.INSTANCEOF,
 
   if: LexicalToken.IF,
-  then: LexicalToken.THEN,
   else: LexicalToken.ELSE,
 
   switch: LexicalToken.SWITCH,
@@ -40,17 +37,14 @@ const map = {
 
   for: LexicalToken.FOR,
   in: LexicalToken.IN,
-  repeat: LexicalToken.REPEAT,
-  times: LexicalToken.TIMES,
   while: LexicalToken.WHILE,
+
   continue: LexicalToken.CONTINUE,
   break: LexicalToken.BREAK,
+  yield: LexicalToken.YIELD,
 
   and: LexicalToken.AND,
   or: LexicalToken.OR,
-  not: LexicalToken.NOT,
-
-  is: LexicalToken.IS,
 
   var: LexicalToken.VAR,
 };

@@ -2,6 +2,7 @@
  * @see https://docs.syntek.dev/spec/operator-precedence.html
  */
 export enum Precedence {
+  NONE,
   OP1,
   OP2,
   OP3,
@@ -13,6 +14,4 @@ export enum Precedence {
   OP9,
   OP10,
   OP11,
-  OP12,
-  OP13,
 }
