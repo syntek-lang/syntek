@@ -4,6 +4,8 @@ import { Parser } from '../..';
 import { Span } from '../../../position';
 
 export function instanceofExpr(parser: Parser, left: Node, operator: Token): Node {
+  parser.ignoreNewline();
+
   const right = parser.parsePrecedence(
     parser.getRule(operator.type).precedence + 1,
     "Expected an expression after 'instanceof'",

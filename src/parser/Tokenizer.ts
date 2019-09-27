@@ -36,6 +36,8 @@ export class Tokenizer {
 
   private column = 0;
 
+  private onlyWhitespace = true;
+
   /**
    * Create a new tokenizer
    *
@@ -79,9 +81,11 @@ export class Tokenizer {
     switch (c) {
       // Whitespace
       case '\n':
-        this.add(LexicalToken.NEWLINE, c);
-        this.line += 1;
-        this.column = 0;
+        // Ignore empty lines
+        if (!this.onlyWhitespace) {
+          this.add(LexicalToken.NEWLINE, c);
+          this.nextLine();
+        }
         break;
 
       case '#':
@@ -275,8 +279,23 @@ export class Tokenizer {
       [this.line, this.column + content.length],
     )));
 
+    this.nextLine();
+  }
+
+  private nextLine(): void {
     this.line += 1;
     this.column = 0;
+    this.onlyWhitespace = true;
+  }
+
+  private add(type: LexicalToken, lexeme: string): void {
+    this.tokens.push(new Token(type, lexeme, new Span(
+      [this.line, this.column],
+      [this.line, this.column + lexeme.length],
+    )));
+
+    this.column += lexeme.length;
+    this.onlyWhitespace = false;
   }
 
   private isDigit(char: string): boolean {
@@ -295,15 +314,6 @@ export class Tokenizer {
 
   private isAtEnd(): boolean {
     return this.index >= this.source.length;
-  }
-
-  private add(type: LexicalToken, lexeme: string): void {
-    this.tokens.push(new Token(type, lexeme, new Span(
-      [this.line, this.column],
-      [this.line, this.column + lexeme.length],
-    )));
-
-    this.column += lexeme.length;
   }
 
   private peek(offset = 0): string {

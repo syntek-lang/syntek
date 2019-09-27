@@ -4,6 +4,8 @@ import { Parser } from '../..';
 import { Span } from '../../../position';
 
 export function assignmentExpr(parser: Parser, left: Node, operator: Token): Node {
+  parser.ignoreNewline();
+
   const value = parser.expression("Expected an expression after '='", (error) => {
     error.info('Add an expression after this =', operator.span);
   });
