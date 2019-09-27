@@ -18,9 +18,7 @@ export function matchVarLoc(parser: Parser): Identifier | MemberExpression {
   const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier');
   let node: Identifier | MemberExpression = new Identifier(identifier);
 
-  while (parser.matchIgnoreWhitespace(LexicalToken.DOT)) {
-    parser.eatWhitespace();
-
+  while (parser.match(LexicalToken.DOT)) {
     const prop = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier after the "."');
     node = new MemberExpression(node, prop, new Span(node.span.start, prop.span.end));
   }
@@ -38,17 +36,14 @@ export function matchVarLoc(parser: Parser): Identifier | MemberExpression {
  */
 export function matchGenericParams(parser: Parser): Token[] {
   const params: Token[] = [];
-  parser.eatWhitespace();
 
   do {
     params.push(parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier'));
-    parser.eatWhitespace();
 
     // If the next token is not `>` there should be a comma
     // The comma can also be a trailing comma
     if (!parser.check(LexicalToken.GT)) {
       parser.consume(LexicalToken.COMMA, 'Expected "," or ">"');
-      parser.eatWhitespace();
     }
   } while (!parser.match(LexicalToken.GT));
 
@@ -65,18 +60,15 @@ export function matchGenericParams(parser: Parser): Token[] {
  */
 export function matchGenericArgs(parser: Parser): VariableType[] {
   const types: VariableType[] = [];
-  parser.eatWhitespace();
 
   do {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     types.push(matchTypeDecl(parser));
-    parser.eatWhitespace();
 
     // If the next token is not `>` there should be a comma
     // The comma can also be a trailing comma
     if (!parser.check(LexicalToken.GT)) {
       parser.consume(LexicalToken.COMMA, 'Expected "," or ">"');
-      parser.eatWhitespace();
     }
   } while (!parser.match(LexicalToken.GT));
 
@@ -96,16 +88,15 @@ export function matchTypeDecl(parser: Parser): VariableType {
 
   // Parse generics
   let generics: VariableType[] = [];
-  if (parser.matchIgnoreWhitespace(LexicalToken.LT)) {
+  if (parser.match(LexicalToken.LT)) {
     generics = matchGenericArgs(parser);
   }
 
   // Check for array brackets
   let arrayDepth = 0;
-  while (parser.match(LexicalToken.LSQB)) {
-    parser.eatWhitespace();
+  while (parser.match(LexicalToken.L_SQB)) {
+    parser.consume(LexicalToken.R_SQB, 'Expected "]" after "["');
 
-    parser.consume(LexicalToken.RSQB, 'Expected "]" after "["');
     arrayDepth += 1;
   }
 
@@ -125,14 +116,12 @@ export function matchTypeDecl(parser: Parser): VariableType {
  */
 export function matchFunctionParams(parser: Parser): FunctionParam[] {
   const params: FunctionParam[] = [];
-  parser.eatWhitespace();
 
-  while (!parser.match(LexicalToken.RPAR)) {
+  while (!parser.match(LexicalToken.R_PAR)) {
     const name = parser.consume(LexicalToken.IDENTIFIER, 'Expected param name');
 
     let variableType: VariableType | null = null;
-    if (parser.matchIgnoreWhitespace(LexicalToken.COLON)) {
-      parser.eatWhitespace();
+    if (parser.match(LexicalToken.COLON)) {
       variableType = matchTypeDecl(parser);
     }
 
@@ -142,10 +131,8 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
       variableType ? new Span(name.span.start, variableType.span.end) : name.span,
     ));
 
-    parser.eatWhitespace();
-    if (parser.peek().type !== LexicalToken.RPAR) {
+    if (!parser.check(LexicalToken.R_PAR)) {
       parser.consume(LexicalToken.COMMA, 'Expected ","');
-      parser.eatWhitespace();
     }
   }
 
@@ -162,15 +149,12 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
  */
 export function matchExpressionList(parser: Parser, closingToken: LexicalToken): Node[] {
   const expressions: Node[] = [];
-  parser.eatWhitespace();
 
   while (!parser.match(closingToken)) {
     expressions.push(parser.expression('Expected list of expressions'));
-    parser.eatWhitespace();
 
     if (!parser.check(closingToken)) {
       parser.consume(LexicalToken.COMMA, 'Expected ","');
-      parser.eatWhitespace();
     }
   }
 

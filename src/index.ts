@@ -23,7 +23,6 @@ console.log(new Linter(
 
 // Export everything
 export const code = program;
-export * from './analyzer';
 export * from './diagnostic';
 export * from './grammar';
 export * from './linter';

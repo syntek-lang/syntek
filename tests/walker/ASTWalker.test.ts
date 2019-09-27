@@ -7,7 +7,6 @@ import { ASTWalker } from '../../src/walker/ASTWalker';
 
 import * as grammar from '../../src/grammar';
 import { Node } from '../../src/grammar/Node';
-import { BlockScope } from '../../src/analyzer';
 
 describe('ASTWalker', () => {
   const program = parse('10 + 2 * 5');
@@ -23,7 +22,7 @@ describe('ASTWalker', () => {
       parentCount += 1;
     }
 
-    new ASTWalker(program, new BlockScope(program))
+    new ASTWalker(program)
       .onEnter(grammar.Program, walkerCB)
       .onEnter(grammar.ExpressionStatement, walkerCB)
       .onEnter(grammar.BinaryExpression, walkerCB)
@@ -50,7 +49,7 @@ describe('ASTWalker', () => {
       parentCount -= 1;
     }
 
-    new ASTWalker(program, new BlockScope(program))
+    new ASTWalker(program)
       .onLeave(grammar.Program, walkerCB)
       .onLeave(grammar.ExpressionStatement, walkerCB)
       .onLeave(grammar.BinaryExpression, walkerCB)
@@ -87,7 +86,7 @@ describe('ASTWalker', () => {
     const onEnter = (node: Node, _: any, parents: Node[]): void => walkerCB(node, parents, true);
     const onLeave = (node: Node, _: any, parents: Node[]): void => walkerCB(node, parents, false);
 
-    new ASTWalker(program, new BlockScope(program))
+    new ASTWalker(program)
       .onEnter(grammar.Program, onEnter)
       .onLeave(grammar.Program, onLeave)
       .onEnter(grammar.ExpressionStatement, onEnter)

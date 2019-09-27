@@ -14,7 +14,7 @@ import { assignmentExpr } from './internal/expressions/assignmentExpr';
 import { asyncExpr } from './internal/expressions/asyncExpr';
 import { binaryExpr } from './internal/expressions/binaryExpr';
 import { callExpr } from './internal/expressions/callExpr';
-import { ifExpr } from './internal/statements/ifExpr';
+import { ifExpr } from './internal/expressions/ifExpr';
 import { indexExpr } from './internal/expressions/indexExpr';
 import { instanceofExpr } from './internal/expressions/instanceofExpr';
 import { memberExpr } from './internal/expressions/memberExpr';
