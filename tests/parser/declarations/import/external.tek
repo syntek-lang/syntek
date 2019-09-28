@@ -1,71 +1,18 @@
-import './foo' as bar
+import 'x' as y
+
+import 'x' as
+y
+
+import 'x'
+as y
 
 import
-'./foo' as bar
+'x' as y
+
+import 'x'
+as y
 
 import
-  './foo' as bar
-
-import './foo'
-as bar
-
-import './foo'
-  as bar
-
-import './foo' as
-bar
-
-import './foo' as
-  bar
-
-import
-'./foo' as
-bar
-
-import
-  './foo' as
-bar
-
-import
-'./foo' as
-  bar
-
-import
-'./foo'
+'x'
 as
-bar
-
-import
-  './foo'
-as
-bar
-
-import
-'./foo'
-  as
-bar
-
-import
-'./foo'
-as
-  bar
-
-import
-  './foo'
-  as
-bar
-
-import
-  './foo'
-as
-  bar
-
-import
-'./foo'
-  as
-  bar
-
-import
-  './foo'
-  as
-  bar
+y

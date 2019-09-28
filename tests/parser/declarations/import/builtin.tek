@@ -1,7 +1,4 @@
-import foo
+import x
 
 import
-foo
-
-import
-	foo
+x

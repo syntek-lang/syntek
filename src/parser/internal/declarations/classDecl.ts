@@ -9,28 +9,39 @@ import { matchGenericParams, matchTypeDecl } from '../../parse-utils';
 export function classDecl(parser: Parser): Node {
   const classSpan = parser.previous().span;
 
+  parser.ignoreNewline();
+
   const identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'class'", (error) => {
     error.info('Add an identifier after this class', classSpan);
   });
 
   let genericParams: Token[] = [];
-  if (parser.match(LexicalToken.LT)) {
+  if (parser.matchIgnoreNewline(LexicalToken.LT)) {
+    parser.ignoreNewline();
+
     genericParams = matchGenericParams(parser);
   }
 
   const extend: VariableType[] = [];
-  if (parser.match(LexicalToken.EXTENDS)) {
+  if (parser.matchIgnoreNewline(LexicalToken.EXTENDS)) {
     do {
+      parser.ignoreNewline();
+
       extend.push(matchTypeDecl(parser));
-    } while (parser.match(LexicalToken.COMMA));
+    } while (parser.matchIgnoreNewline(LexicalToken.COMMA));
   }
 
+  parser.ignoreNewline();
   parser.consume(LexicalToken.L_BRACE, "Expected '{'");
 
   const staticBody: Node[] = [];
   const instanceBody: Node[] = [];
-  while (!parser.match(LexicalToken.R_BRACE)) {
+  while (!parser.matchIgnoreNewline(LexicalToken.R_BRACE)) {
+    parser.ignoreNewline();
+
     if (parser.match(LexicalToken.STATIC)) {
+      parser.ignoreNewline();
+
       staticBody.push(parser.declaration());
     } else {
       instanceBody.push(parser.declaration());

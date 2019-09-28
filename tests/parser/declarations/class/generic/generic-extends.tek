@@ -1,0 +1,35 @@
+class A extends B<C> {}
+
+class A extends B<C> {
+}
+
+class A extends B<C>
+{}
+
+class A extends B<C
+> {}
+
+class A extends B<
+C> {}
+
+class A extends B
+<C> {}
+
+class A extends
+B<C> {}
+
+class A
+extends B<C> {}
+
+class
+A extends B<C> {}
+
+class
+A
+extends
+B
+<
+C
+>
+{
+}

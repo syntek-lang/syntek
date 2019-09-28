@@ -13,10 +13,8 @@ export function forStmt(parser: Parser): Node {
 
   const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after "for"');
 
-  parser.ignoreNewline();
-
   let variableType: VariableType | null = null;
-  if (parser.match(LexicalToken.COLON)) {
+  if (parser.matchIgnoreNewline(LexicalToken.COLON)) {
     parser.ignoreNewline();
 
     variableType = matchTypeDecl(parser);

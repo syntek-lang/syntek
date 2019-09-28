@@ -16,8 +16,8 @@ describe('import', () => {
       expect(decl.type).to.equal(SyntacticToken.IMPORT_DECL);
       expect(decl).to.be.an.instanceof(ImportDeclaration);
 
-      expect(decl.source.lexeme).to.equal('foo');
-      expect(decl.identifier.lexeme).to.equal('foo');
+      expect(decl.source.lexeme).to.equal('x');
+      expect(decl.identifier.lexeme).to.equal('x');
     }
 
     program.body.forEach(check);
@@ -31,8 +31,8 @@ describe('import', () => {
       expect(decl.type).to.equal(SyntacticToken.IMPORT_DECL);
       expect(decl).to.be.an.instanceof(ImportDeclaration);
 
-      expect(decl.source.lexeme).to.equal('foo');
-      expect(decl.identifier.lexeme).to.equal('bar');
+      expect(decl.source.lexeme).to.equal('x');
+      expect(decl.identifier.lexeme).to.equal('y');
     }
 
     program.body.forEach(check);
@@ -46,8 +46,8 @@ describe('import', () => {
       expect(decl.type).to.equal(SyntacticToken.IMPORT_DECL);
       expect(decl).to.be.an.instanceof(ImportDeclaration);
 
-      expect(decl.source.lexeme).to.equal("'./foo'");
-      expect(decl.identifier.lexeme).to.equal('bar');
+      expect(decl.source.lexeme).to.equal("'x'");
+      expect(decl.identifier.lexeme).to.equal('y');
     }
 
     program.body.forEach(check);

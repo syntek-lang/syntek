@@ -1,0 +1,35 @@
+class A { static var x = y }
+
+class A { static var x = y
+}
+
+class A { static var x =
+y }
+
+class A { static var x
+= y }
+
+class A { static var
+x = y }
+
+class A { static
+var x = y }
+
+class A {
+static var x = y }
+
+class A
+{ static var x = y }
+
+class
+A { static var x = y }
+
+class
+A
+{
+static
+var
+x
+=
+y
+}
