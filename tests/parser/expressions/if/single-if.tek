@@ -1,18 +1,23 @@
-if true
-	one
-	two
+if x { y }
+
+if x { y
+}
+
+if x {
+y }
+
+if x
+{ y }
 
 if
-true
-	one
-	two
+x { y }
 
 if
-	true
-	one
-	two
+x
+{ y }
 
 if
-		true
-	one
-	two
+x
+{
+y
+}

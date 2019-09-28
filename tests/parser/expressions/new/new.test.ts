@@ -6,9 +6,7 @@ import { parse, loadRaw } from '../../../test-utils';
 import { Node } from '../../../../src/grammar/Node';
 import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../src/grammar/nodes/Statements';
-import {
-  Literal, Identifier, NewExpression, MemberExpression,
-} from '../../../../src/grammar/nodes/Expressions';
+import { Identifier, NewExpression, MemberExpression } from '../../../../src/grammar/nodes/Expressions';
 
 describe('new', () => {
   it('parses no params correctly', () => {
@@ -28,7 +26,7 @@ describe('new', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.lexeme).to.equal('Class');
+      expect(object.lexeme).to.equal('x');
     }
 
     program.body.forEach(check);
@@ -49,15 +47,15 @@ describe('new', () => {
 
       expect(expr.params.length).to.equal(1);
 
-      const param = expr.params[0] as Literal;
-      expect(param.type).to.equal(SyntacticToken.LITERAL);
-      expect(param).to.be.an.instanceof(Literal);
-      expect(param.value.lexeme).to.equal('true');
+      const param = expr.params[0] as Identifier;
+      expect(param.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(param).to.be.an.instanceof(Identifier);
+      expect(param.lexeme).to.equal('y');
 
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.lexeme).to.equal('Class');
+      expect(object.lexeme).to.equal('x');
     }
 
     program.body.forEach(check);
@@ -78,20 +76,20 @@ describe('new', () => {
 
       expect(expr.params.length).to.equal(2);
 
-      const firstParam = expr.params[0] as Literal;
-      expect(firstParam.type).to.equal(SyntacticToken.LITERAL);
-      expect(firstParam).to.be.an.instanceof(Literal);
-      expect(firstParam.value.lexeme).to.equal('true');
+      const firstParam = expr.params[0] as Identifier;
+      expect(firstParam.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(firstParam).to.be.an.instanceof(Identifier);
+      expect(firstParam.lexeme).to.equal('y');
 
-      const secondParam = expr.params[1] as Literal;
-      expect(secondParam.type).to.equal(SyntacticToken.LITERAL);
-      expect(secondParam).to.be.an.instanceof(Literal);
-      expect(secondParam.value.lexeme).to.equal('20');
+      const secondParam = expr.params[1] as Identifier;
+      expect(secondParam.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(secondParam).to.be.an.instanceof(Identifier);
+      expect(secondParam.lexeme).to.equal('z');
 
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.lexeme).to.equal('Class');
+      expect(object.lexeme).to.equal('x');
     }
 
     program.body.forEach(check);
@@ -119,10 +117,10 @@ describe('new', () => {
       const object = memberExpr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.lexeme).to.equal('obj');
+      expect(object.lexeme).to.equal('x');
 
       const property = memberExpr.property;
-      expect(property.lexeme).to.equal('Class');
+      expect(property.lexeme).to.equal('y');
     }
 
     program.body.forEach(check);
@@ -143,7 +141,7 @@ describe('new', () => {
       expect(expr.genericArgs.length).to.equal(1);
 
       const generic = expr.genericArgs[0];
-      expect((generic.object as Identifier).lexeme).to.equal('T');
+      expect((generic.object as Identifier).lexeme).to.equal('y');
       expect(generic.generics.length).to.equal(0);
       expect(generic.arrayDepth).to.equal(0);
 
@@ -152,7 +150,7 @@ describe('new', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.lexeme).to.equal('Class');
+      expect(object.lexeme).to.equal('x');
     }
 
     program.body.forEach(check);

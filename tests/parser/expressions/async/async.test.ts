@@ -24,7 +24,7 @@ describe('async', () => {
       const literal = expr.expression as Identifier;
       expect(literal.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(literal).to.be.an.instanceof(Identifier);
-      expect(literal.lexeme).to.equal('Foo');
+      expect(literal.lexeme).to.equal('x');
     }
 
     program.body.forEach(check);

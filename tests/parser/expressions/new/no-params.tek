@@ -1,27 +1,27 @@
-new Class()
+new x()
 
-new Class(
+new x(
 )
 
-new
-Class()
-
-new
-Class(
-)
-
-new Class
+new x
 ()
 
-new Class
+new x
 (
 )
 
 new
-Class
+x()
+
+new
+x(
+)
+
+new
+x
 ()
 
 new
-Class
+x
 (
 )

@@ -1,63 +1,169 @@
-new Class(true)
+# No trailing comma
+new x(y)
 
-new Class(true
+new x(y
 )
 
-new Class(
-true)
+new x(
+y)
 
-new Class(
-true
+new x(
+y
 )
 
-new Class
-(true)
+new x
+(y)
 
-new Class
-(true
+new x
+(y
 )
 
-new Class
+new x
 (
-true)
+y)
 
-new Class
+new x
 (
-true
+y
 )
 
 new
-Class(true)
+x(y)
 
 new
-Class(true
+x(y
 )
 
 new
-Class(
-true)
+x(
+y)
 
 new
-Class(
-true
+x(
+y
 )
 
 new
-Class
-(true)
+x
+(y)
 
 new
-Class
-(true
+x
+(y
 )
 
 new
-Class
+x
 (
-true)
+y)
 
 new
-Class
+x
 (
-true
+y
+)
+
+# Trailing comma
+new x(y,)
+
+new x(y,
+)
+
+new x(y
+,)
+
+new x(
+y,)
+
+new x(
+y,
+)
+
+new x(
+y
+,
+)
+
+new x
+(y,)
+
+new x
+(y,
+)
+
+new x
+(y
+,)
+
+new x
+(
+y,)
+
+new x
+(
+y,
+)
+
+new x
+(
+y
+,
+)
+
+new
+x(y,)
+
+new
+x(y,
+)
+
+new
+x(y
+,)
+
+new
+x(
+y,)
+
+new
+x(
+y,
+)
+
+new
+x(
+y
+,
+)
+
+new
+x
+(y,)
+
+new
+x
+(y,
+)
+
+new
+x
+(y
+,)
+
+new
+x
+(
+y,)
+
+new
+x
+(
+y,
+)
+
+new
+x
+(
+y
+,
 )

@@ -1,23 +1,11 @@
-obj.value
+x.y
 
-obj		.			value
+x.
+y
 
-obj
-.value
+x
+.y
 
-obj
-			.value
-
-obj.
-value
-
-obj.
-			value
-
-obj
+x
 .
-value
-
-obj
-		.
-	value
+y

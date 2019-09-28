@@ -1,30 +1,41 @@
-if true
-	one
-	two
-else
-	one
-	two
+if x { y } else { z }
+
+if x { y } else { z
+}
+
+if x { y } else {
+z }
+
+if x { y } else
+{ z }
+
+if x { y }
+else { z }
+
+if x { y
+} else { z }
+
+if x {
+y } else { z }
+
+if x
+{ y } else { z }
 
 if
-true
-	one
-	two
-else
-	one
-	two
+x { y } else { z }
 
 if
-	true
-	one
-	two
+x
+{ y }
 else
-	one
-	two
+{ z }
 
 if
-		true
-	one
-	two
+x
+{
+y
+}
 else
-	one
-	two
+{
+z
+}

@@ -1,21 +1,28 @@
-fn(true)
+x(y)
 
-fn(true,)
-
-fn(true
+x(y
 )
 
-fn(
-true
+x(
+y)
+
+x(
+y
 )
 
-fn(
-true)
+x(y,)
 
-fn(
-		true
+x(y,
 )
 
-fn(
-			true
-		)
+x(
+y,)
+
+x(
+y,
+)
+
+x(
+y
+,
+)

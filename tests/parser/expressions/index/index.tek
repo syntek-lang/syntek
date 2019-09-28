@@ -1,13 +1,11 @@
-array[0]
+x[y]
 
-array[			0			]
-
-array[
-0
+x[y
 ]
 
-array[0
-]
+x[
+y]
 
-array[
-0]
+x[
+y
+]

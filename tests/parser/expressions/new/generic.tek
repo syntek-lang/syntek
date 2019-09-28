@@ -1,33 +1,27 @@
-new Class<T>()
+new x<y>()
 
-new Class<
-T>()
-
-new Class<T
->()
-
-new Class<T>
-()
-
-new
-Class<T>()
-
-new
-Class<
-	T
->()
-
-new
-	Class<
-		T
-	>
-(
+new x<y>(
 )
 
+new x<y>
+()
+
+new x<y
+>()
+
+new x<
+y>()
+
+new x
+<y>()
+
 new
-	Class
-	<
-	T
-	>
-	(
-	)
+x<y>()
+
+new
+x
+<
+y
+>
+(
+)

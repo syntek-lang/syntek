@@ -1,31 +1,57 @@
-fn(true, 20)
+x(y, z)
 
-fn(true, 20,)
-
-fn(true, 20
+x(y, z
 )
 
-fn(
-true,
-20
+x(y,
+z)
+
+x(y
+, z)
+
+x(
+y, z)
+
+x(
+y,
+z
 )
 
-fn(
-true,
-20,
+x(
+y
+,
+z
 )
 
-fn(
-true, 20)
+x(y, z,)
 
-fn(true,
-20)
-
-fn(
-	true,
-	20
+x(y, z,
 )
 
-fn(
-	true,
-	20)
+x(y, z
+,)
+
+x(y,
+z,)
+
+x(y
+, z,)
+
+x(
+y, z,)
+
+x(
+y, z,
+)
+
+x(
+y,
+z,
+)
+
+x(
+y
+,
+z
+,
+)

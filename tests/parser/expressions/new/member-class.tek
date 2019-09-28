@@ -1,70 +1,34 @@
-new obj.Class()
+new x.y()
 
-new obj.Class(
+new x.y(
 )
 
-new obj.Class
-()
+new x.
+y()
 
-new obj.Class
-(
+new x.
+y(
 )
 
-new
-obj.Class()
+new x
+.y()
 
-new
-obj.Class(
+new x
+.y(
 )
 
-new
-obj.Class
-(
-)
-
-new obj.
-Class()
-
-new obj.
-Class(
-)
-
-new obj.
-Class
-()
-
-new obj.
-Class
-(
-)
-
-new obj
-	.Class()
-
-new obj
-	.Class(
-	)
-
-new obj
-	.Class
-	()
-
-new
-obj.
-Class()
-
-new
-obj
-.Class()
-
-new
-obj
+new x
 .
-Class()
+y()
+
+new x
+.
+y(
+)
 
 new
-obj
+x
 .
-Class
+y
 (
 )

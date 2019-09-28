@@ -1,22 +1,27 @@
-[true]
+[x]
 
-[true
+[x
 ]
 
 [
-true]
+x]
 
 [
-true
+x
 ]
 
-[
-	true
+[x,]
+
+[x,
 ]
 
-[
-	true
-				]
+[x
+,]
 
 [
-	true]
+x,]
+
+[
+x
+,
+]
