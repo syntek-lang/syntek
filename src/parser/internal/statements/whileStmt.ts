@@ -1,21 +1,19 @@
-import { Node, LexicalToken, WhileStatement } from '../../../grammar';
+import { Node, WhileStatement } from '../../../grammar';
 
 import { Parser } from '../..';
 import { Span } from '../../../position';
+import { matchBlock } from '../../parse-utils';
 
 export function whileStmt(parser: Parser): Node {
   const whileSpan = parser.previous().span;
+
+  parser.ignoreNewline();
 
   const condition = parser.expression("Expected a condition after 'while'", (error) => {
     error.info('Add an expression after this while', whileSpan);
   });
 
-  parser.consume(LexicalToken.L_BRACE, "Expected '{'");
-
-  const body: Node[] = [];
-  while (!parser.match(LexicalToken.R_BRACE)) {
-    body.push(parser.declaration());
-  }
+  const body = matchBlock(parser);
 
   return new WhileStatement(condition, body, new Span(whileSpan.start, parser.previous().span.end));
 }

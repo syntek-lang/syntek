@@ -4,33 +4,38 @@ import {
 
 import { Parser } from '../..';
 import { Span } from '../../../position';
-import { matchTypeDecl } from '../../parse-utils';
+import { matchTypeDecl, matchBlock } from '../../parse-utils';
 
 export function forStmt(parser: Parser): Node {
   const forSpan = parser.previous().span;
 
+  parser.ignoreNewline();
+
   const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected identifier after "for"');
+
+  parser.ignoreNewline();
 
   let variableType: VariableType | null = null;
   if (parser.match(LexicalToken.COLON)) {
+    parser.ignoreNewline();
+
     variableType = matchTypeDecl(parser);
   }
+
+  parser.ignoreNewline();
 
   const inSpan = parser.consume(LexicalToken.IN, "Expected 'in' after the variable", (/* error */) => {
     // TODO: Add this back
     // error.info("Add 'in' after this variable", varDecl.span);
   }).span;
 
+  parser.ignoreNewline();
+
   const object = parser.expression("Expected an expression after 'in'", (error) => {
     error.info("Add an expression after this 'in'", inSpan);
   });
 
-  parser.consume(LexicalToken.L_BRACE, "Expected '{'");
-
-  const body: Node[] = [];
-  while (!parser.match(LexicalToken.R_BRACE)) {
-    body.push(parser.declaration());
-  }
+  const body = matchBlock(parser);
 
   return new ForStatement(
     identifier,

@@ -27,7 +27,7 @@ describe('program', () => {
 
     expect(program.span).to.deep.equal({
       start: [0, 0],
-      end: [0, 2],
+      end: [0, 1],
     });
   });
 });

@@ -1,69 +1,34 @@
+for x in y { z }
+
+for x in y { z
+}
+
+for x in y {
+z }
+
 for x in y
-	one
-	two
-
-for
-x in y
-	one
-	two
-
-for
-	x in y
-	one
-	two
-
-for
-		x in y
-	one
-	two
-
-for x
-in y
-	one
-	two
-
-for x
-	in y
-	one
-	two
-
-for x
-		in y
-	one
-	two
+{ z }
 
 for x in
-y
-	one
-	two
+y { z }
 
-for x in
-	y
-	one
-	two
+for x
+in y { z }
 
-for x in
-		y
-	one
-	two
+for
+x in y { z }
 
 for
 x
 in
 y
-	one
-	two
+{ z }
+
 
 for
-	x
-	in
-	y
-	one
-	two
-
-for
-		x
-		in
-		y
-	one
-	two
+x
+in
+y
+{
+z
+}

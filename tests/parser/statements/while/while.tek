@@ -1,18 +1,25 @@
-while true
-	one
-	two
+while x { y }
+
+while x { y
+}
+
+while x {
+y }
+
+while x
+{ y }
 
 while
-true
-	one
-	two
+x { y }
+
 
 while
-	true
-	one
-	two
+x
+{ y }
+
 
 while
-		true
-	one
-	two
+x
+{
+y
+}
