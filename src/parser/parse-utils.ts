@@ -19,6 +19,8 @@ export function matchVarLoc(parser: Parser): Identifier | MemberExpression {
   let node: Identifier | MemberExpression = new Identifier(identifier);
 
   while (parser.matchIgnoreNewline(LexicalToken.DOT)) {
+    parser.ignoreNewline();
+
     const prop = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier after the "."');
     node = new MemberExpression(node, prop, new Span(node.span.start, prop.span.end));
   }

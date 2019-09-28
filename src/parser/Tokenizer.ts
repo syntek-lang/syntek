@@ -81,11 +81,11 @@ export class Tokenizer {
     switch (c) {
       // Whitespace
       case '\n':
-        // Ignore empty lines
+        // Don't add a newline token for empty lines
         if (!this.onlyWhitespace) {
           this.add(LexicalToken.NEWLINE, c);
-          this.nextLine();
         }
+        this.nextLine();
         break;
 
       case '#':
