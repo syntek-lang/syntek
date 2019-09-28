@@ -50,7 +50,7 @@ export class Parser {
   } {
     const body: Node[] = [];
 
-    while (!this.isAtEnd()) {
+    while (!this.isEOF()) {
       try {
         body.push(this.declaration());
       } catch {
@@ -84,7 +84,7 @@ export class Parser {
     }
 
     // Every declaration/statement should end with a '{', newline, or the full end
-    if (!this.isAtEnd() && !this.check(LexicalToken.R_BRACE)) {
+    if (!this.isEOF() && !this.check(LexicalToken.R_BRACE)) {
       this.consume(LexicalToken.NEWLINE, 'Expected a newline');
     }
 
@@ -225,7 +225,7 @@ export class Parser {
    * @returns The previous token
    */
   advance(): Token {
-    if (!this.isAtEnd()) {
+    if (!this.isEOF()) {
       this.index += 1;
     }
 
@@ -240,7 +240,7 @@ export class Parser {
    * @returns Whether the token is at the given offset
    */
   check(type: LexicalToken, offset = 0): boolean {
-    if (this.isAtEnd()) {
+    if (this.isEOF()) {
       return false;
     }
 
@@ -252,8 +252,12 @@ export class Parser {
    *
    * @returns Whether the parser is at the end
    */
-  isAtEnd(): boolean {
+  isEOF(): boolean {
     return this.peek().type === LexicalToken.EOF;
+  }
+
+  isEOL(): boolean {
+    return this.check(LexicalToken.NEWLINE) || this.check(LexicalToken.R_BRACE) || this.isEOF();
   }
 
   /**
@@ -318,7 +322,7 @@ export class Parser {
    * safely be parsed again, without giving incorrect errors.
    */
   private sync(): void {
-    while (!this.isAtEnd()) {
+    while (!this.isEOF()) {
       switch (this.peek().type) {
         case LexicalToken.CLASS:
         case LexicalToken.SWITCH:

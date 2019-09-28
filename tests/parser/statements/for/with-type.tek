@@ -1,0 +1,40 @@
+for x: A in y { z }
+
+for x: A in y { z
+}
+
+for x: A in y {
+z }
+
+for x: A in y
+{ z }
+
+for x: A in
+y { z }
+
+for x: A
+in y { z }
+
+for x:
+A in y { z }
+
+for x
+: A in y { z }
+
+for
+x: A in y { z }
+
+for
+x: A
+in y
+{ z }
+
+for
+x
+:
+A
+in
+y
+{
+z
+}

@@ -4,26 +4,9 @@ import { expect } from 'chai';
 import { parse, loadRaw } from '../../../test-utils';
 
 import { Node } from '../../../../src/grammar/Node';
+import { Identifier } from '../../../../src/grammar/nodes/Expressions';
 import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
-import { Literal, Identifier } from '../../../../src/grammar/nodes/Expressions';
 import { ExpressionStatement, WhileStatement } from '../../../../src/grammar/nodes/Statements';
-
-function checkBody(nodes: Node[]): void {
-  const names = ['one', 'two'];
-
-  expect(nodes.length).to.equal(names.length);
-
-  for (let i = 0; i < names.length; i += 1) {
-    const stmt = nodes[i] as ExpressionStatement;
-    expect(stmt.type).to.equal(SyntacticToken.EXPRESSION_STMT);
-    expect(stmt).to.be.an.instanceof(ExpressionStatement);
-
-    const expr = stmt.expression as Identifier;
-    expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
-    expect(expr).to.be.an.instanceof(Identifier);
-    expect(expr.lexeme).to.equal(names[i]);
-  }
-}
 
 describe('while', () => {
   it('parses correctly', () => {
@@ -34,12 +17,13 @@ describe('while', () => {
       expect(stmt.type).to.equal(SyntacticToken.WHILE_STMT);
       expect(stmt).to.be.an.instanceof(WhileStatement);
 
-      const condition = stmt.condition as Literal;
-      expect(condition.type).to.equal(SyntacticToken.LITERAL);
-      expect(condition).to.be.an.instanceof(Literal);
-      expect(condition.value.lexeme).to.equal('true');
+      const condition = stmt.condition as Identifier;
+      expect(condition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(condition).to.be.an.instanceof(Identifier);
+      expect(condition.lexeme).to.equal('x');
 
-      checkBody(stmt.body);
+      expect(stmt.body.length).to.equal(1);
+      expect(((stmt.body[0] as ExpressionStatement).expression as Identifier).lexeme).to.equal('y');
     }
 
     program.body.forEach(check);

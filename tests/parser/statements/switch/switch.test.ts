@@ -26,7 +26,7 @@ function checkBody(nodes: Node[]): void {
 }
 
 describe('switch', () => {
-  it('parses single case single condition correctly', () => {
+  it.skip('parses single case single condition correctly', () => {
     const program = parse(loadRaw(__dirname, './single-case-single-condition.tek'));
 
     function check(node: Node): void {
@@ -55,7 +55,7 @@ describe('switch', () => {
     program.body.forEach(check);
   });
 
-  it('parses multi case single condition correctly', () => {
+  it.skip('parses multi case single condition correctly', () => {
     const program = parse(loadRaw(__dirname, './multi-case-single-condition.tek'));
 
     function check(node: Node): void {
@@ -94,7 +94,7 @@ describe('switch', () => {
     program.body.forEach(check);
   });
 
-  it('parses single case multi condition correctly', () => {
+  it.skip('parses single case multi condition correctly', () => {
     const program = parse(loadRaw(__dirname, './single-case-multi-condition.tek'));
 
     function check(node: Node): void {
@@ -128,7 +128,7 @@ describe('switch', () => {
     program.body.forEach(check);
   });
 
-  it('parses multi case multi condition correctly', () => {
+  it.skip('parses multi case multi condition correctly', () => {
     const program = parse(loadRaw(__dirname, './multi-case-multi-condition.tek'));
 
     function check(node: Node): void {
