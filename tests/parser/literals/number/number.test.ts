@@ -8,9 +8,9 @@ import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../src/grammar/nodes/Statements';
 
 describe('number', () => {
-  it('parses correctly', () => {
+  it('parses numbers correctly', () => {
     const valid = loadRaw(__dirname, './number.tek');
-    const numbers = valid.split('\n');
+    const numbers = valid.split('\n').filter(x => x);
 
     parse(valid).body.forEach((node, i) => {
       expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);

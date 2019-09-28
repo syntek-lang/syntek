@@ -220,6 +220,11 @@ export class Tokenizer {
         return;
       }
 
+      // The character is escaped, so consume the '\' as well
+      if (this.peek() === '\\') {
+        content += this.advance();
+      }
+
       content += this.advance();
     }
 
@@ -239,7 +244,7 @@ export class Tokenizer {
 
     // Match the fractional part
     if (this.peek() === '.' && this.isDigit(this.peek(1))) {
-      this.advance(); // Consume the '.'
+      content += this.advance();
 
       while (this.isDigit(this.peek()) || this.peek() === '_') {
         content += this.advance();
