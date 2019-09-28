@@ -8,13 +8,17 @@ import { Span } from '../../../position';
 export function importDecl(parser: Parser): Node {
   const importSpan = parser.previous().span;
 
+  parser.ignoreNewline();
+
   let source: Token;
   let identifier: Token | null = null;
 
   if (parser.check(LexicalToken.IDENTIFIER)) {
     source = parser.advance();
 
-    if (parser.match(LexicalToken.AS)) {
+    if (parser.matchIgnoreNewline(LexicalToken.AS)) {
+      parser.ignoreNewline();
+
       identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'as'", (error) => {
         error.info('Add an identifier after this as', parser.previous().span);
       });
@@ -24,9 +28,13 @@ export function importDecl(parser: Parser): Node {
       error.info('Add an identifier or string after this import', importSpan);
     });
 
+    parser.ignoreNewline();
+
     const asSpan = parser.consume(LexicalToken.AS, "Importing a file must always be followed with 'as'", (error) => {
       error.info("Add 'as' after the source", source.span);
     }).span;
+
+    parser.ignoreNewline();
 
     identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'as'", (error) => {
       error.info('Add an identifier after this as', asSpan);

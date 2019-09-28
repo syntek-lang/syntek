@@ -1,32 +1,15 @@
-var x: Number
-
-var
-x: Number
-
-var
-	x: Number
+var x: A
 
 var x:
-Number
-
-var x:
-	Number
+A
 
 var x
-: Number
+: A
 
-var x
-	: Number
+var
+x: A
 
-var x
+var
+x
 :
-Number
-
-var x
-	:
-	Number
-
-var
-	x
-	:
-	Number
+A

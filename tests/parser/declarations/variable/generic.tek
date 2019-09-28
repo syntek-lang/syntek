@@ -1,11 +1,19 @@
 var x: A<B> = y
 
-var x: A
-<B> = y
+var x: A<B> =
+y
+
+var x: A<B>
+= y
+
+var x: A<B
+> = y
 
 var x: A<
-	B
-> = y
+B> = y
+
+var x: A
+<B> = y
 
 var x:
 A<B> = y
@@ -13,33 +21,19 @@ A<B> = y
 var x
 : A<B> = y
 
-var x:
-	A<
-		B
-	> = y
-
-var x:
-	A
-	<
-		B
-	> = y
-
-var x:
-	A
-	<B
-		> = y
-
-var x:
-	A
-	<
-		B> = y
+var
+x: A<B> = y
 
 var
-	x
-	:
-	A
-	<
-	B
-	>
-	=
-	y
+x: A<B>
+= y
+
+var
+x
+:
+A
+<
+B
+>
+=
+y

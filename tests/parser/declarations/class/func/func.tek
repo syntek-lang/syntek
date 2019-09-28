@@ -1,0 +1,39 @@
+class A { function x() {} }
+
+class A { function x() {}
+}
+
+class A { function x() {
+} }
+
+class A { function x()
+{} }
+
+class A { function x(
+) {} }
+
+class A { function x
+() {} }
+
+class A { function
+x() {} }
+
+class A {
+function x() {} }
+
+class A
+{ function x() {} }
+
+class
+A { function x() {} }
+
+class
+A
+{
+function
+x
+(
+)
+{
+}
+}

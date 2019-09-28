@@ -1,0 +1,43 @@
+class A { static function x() {} }
+
+class A { static function x() {}
+}
+
+class A { static function x() {
+} }
+
+class A { static function x()
+{} }
+
+class A { static function x(
+) {} }
+
+class A { static function x
+() {} }
+
+class A { static function
+x() {} }
+
+class A { static
+function x() {} }
+
+class A {
+static function x() {} }
+
+class A
+{ static function x() {} }
+
+class
+A { static function x() {} }
+
+class
+A
+{
+static
+function
+x
+(
+)
+{
+}
+}
