@@ -24,7 +24,6 @@ const invalid = [
   'function',
   'var',
   'for',
-  'repeat',
   'class',
   'static',
   'true',

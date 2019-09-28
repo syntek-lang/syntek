@@ -24,7 +24,7 @@ describe('comments', () => {
   });
 
   it('parses multiple comments correctly', () => {
-    const { comments } = new Tokenizer('# this is a comment\n\n#this is another comment').tokenize();
+    const { comments } = new Tokenizer('# this is a comment\n\n# this is another #comment').tokenize();
     expect(comments.length).to.equal(2);
 
     expect(comments[0].lexeme).to.equal('# this is a comment');
@@ -34,11 +34,11 @@ describe('comments', () => {
       end: [0, 19],
     });
 
-    expect(comments[1].lexeme).to.equal('#this is another comment');
+    expect(comments[1].lexeme).to.equal('# this is another #comment');
     expect(comments[1].type).to.equal(LexicalToken.COMMENT);
     expect(comments[1].span).to.deep.equal({
-      start: [2, 0],
-      end: [2, 24],
+      start: [3, 0],
+      end: [3, 26],
     });
   });
 
