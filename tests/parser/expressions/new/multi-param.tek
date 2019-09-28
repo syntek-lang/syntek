@@ -1,87 +1,106 @@
-new Class(true, 20)
+new x(y, z)
 
-new Class(true,
-20)
-
-new Class(
-true, 20)
-
-new Class(
-true,
-20
+new x(y, z
 )
 
-new Class(
-true,20
+new x(y,
+z)
+
+new x(y
+, z)
+
+new x(
+y, z)
+
+new x(
+y,
+z
 )
 
-new Class
-(true, 20)
-
-new Class
-(true, 20
+new x(
+y
+,
+z
 )
 
-new Class
+new x
+(y, z)
+
+new x
+(y, z
+)
+
+new x
+(y,
+z)
+
+new x
+(y
+, z)
+
+new x
 (
-true, 20)
+y, z)
 
-new Class
+new x
 (
-true, 20
+y,
+z
 )
 
-new Class
+new x
 (
-true,
-20
+y
+,
+z
 )
 
 new
-Class(true, 20)
+x(y, z)
 
 new
-Class(true, 20,
+x(y, z
 )
 
 new
-Class(
-true, 20)
+x(y,
+z)
 
 new
-Class(
-true, 20
+x(y
+, z)
+
+new
+x(
+y, z)
+
+new
+x(
+y,
+z
 )
 
 new
-Class(
-true,
-20,
+x(
+y
+,
+z
 )
 
 new
-Class
-(true, 20)
-
-new
-Class
-(true, 20
-)
-
-new
-Class
+x
 (
-true, 20)
-
-new
-Class
-(
-true, 20
+y
+,
+z
 )
 
+# Trailing comma
 new
-Class
+x
 (
-true,
-20,
+y
+,
+z
+,
 )

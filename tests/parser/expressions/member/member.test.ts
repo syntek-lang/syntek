@@ -25,11 +25,11 @@ describe('member', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.lexeme).to.equal('obj');
+      expect(object.lexeme).to.equal('x');
 
       const property = expr.property;
       expect(property.type).to.equal(LexicalToken.IDENTIFIER);
-      expect(property.lexeme).to.equal('value');
+      expect(property.lexeme).to.equal('y');
     }
 
     program.body.forEach(check);
@@ -50,7 +50,7 @@ describe('member', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.lexeme).to.equal('A');
+      expect(object.lexeme).to.equal('x');
 
       const property = expr.property;
       expect(property.type).to.equal(LexicalToken.SUPER);

@@ -1,45 +1,64 @@
-if true
-	one
-	two
-else if false
-	one
-	two
-else
-	one
-	two
+if x { a } else if y { b } else { c }
+
+if x { a } else if y { b } else { c
+}
+
+if x { a } else if y { b } else {
+c }
+
+if x { a } else if y { b } else
+{ c }
+
+if x { a } else if y { b }
+else { c }
+
+if x { a } else if y { b
+} else { c }
+
+if x { a } else if y {
+b } else { c }
+
+if x { a } else if y
+{ b } else { c }
+
+if x { a } else if
+y { b } else { c }
+
+if x { a } else
+if y { b } else { c }
+
+if x { a }
+else if y { b } else { c }
+
+if x { a
+} else if y { b } else { c }
+
+if x {
+a } else if y { b } else { c }
+
+if x
+{ a } else if y { b } else { c }
 
 if
-true
-	one
-	two
-else if
-false
-	one
-	two
-else
-	one
-	two
+x { a } else if y { b } else { c }
 
 if
-	true
-	one
-	two
-else if
-	false
-	one
-	two
-else
-	one
-	two
+x { a }
+else if y { b }
+else { c }
 
 if
-		true
-	one
-	two
-else if
-		false
-	one
-	two
+x
+{
+a
+}
 else
-	one
-	two
+if
+y
+{
+b
+}
+else
+{
+c
+}

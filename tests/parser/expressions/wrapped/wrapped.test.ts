@@ -6,7 +6,7 @@ import { parse, loadRaw } from '../../../test-utils';
 import { Node } from '../../../../src/grammar/Node';
 import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../src/grammar/nodes/Statements';
-import { Literal, WrappedExpression } from '../../../../src/grammar/nodes/Expressions';
+import { Identifier, WrappedExpression } from '../../../../src/grammar/nodes/Expressions';
 
 describe('wrapped', () => {
   it('parses correctly', () => {
@@ -21,10 +21,10 @@ describe('wrapped', () => {
       expect(expr.type).to.equal(SyntacticToken.WRAPPED_EXPR);
       expect(expr).to.be.an.instanceof(WrappedExpression);
 
-      const content = expr.expression as Literal;
-      expect(content.type).to.equal(SyntacticToken.LITERAL);
-      expect(content).to.be.an.instanceof(Literal);
-      expect(content.value.lexeme).to.equal('5');
+      const content = expr.expression as Identifier;
+      expect(content.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(content).to.be.an.instanceof(Identifier);
+      expect(content.lexeme).to.equal('x');
     }
 
     program.body.forEach(check);

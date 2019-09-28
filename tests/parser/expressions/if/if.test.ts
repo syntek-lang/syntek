@@ -6,25 +6,19 @@ import { parse, loadRaw } from '../../../test-utils';
 import { Node } from '../../../../src/grammar/Node';
 import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../src/grammar/nodes/Statements';
-import {
-  Literal, Identifier, IfExpression, ElseExpression,
-} from '../../../../src/grammar/nodes/Expressions';
+import { Identifier, IfExpression, ElseExpression } from '../../../../src/grammar/nodes/Expressions';
 
-function checkBody(nodes: Node[]): void {
-  const names = ['one', 'two'];
+function checkBody(nodes: Node[], name: string): void {
+  expect(nodes.length).to.equal(1);
 
-  expect(nodes.length).to.equal(names.length);
+  const stmt = nodes[0] as ExpressionStatement;
+  expect(stmt.type).to.equal(SyntacticToken.EXPRESSION_STMT);
+  expect(stmt).to.be.an.instanceof(ExpressionStatement);
 
-  for (let i = 0; i < names.length; i += 1) {
-    const stmt = nodes[i] as ExpressionStatement;
-    expect(stmt.type).to.equal(SyntacticToken.EXPRESSION_STMT);
-    expect(stmt).to.be.an.instanceof(ExpressionStatement);
-
-    const expr = stmt.expression as Identifier;
-    expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
-    expect(expr).to.be.an.instanceof(Identifier);
-    expect(expr.lexeme).to.equal(names[i]);
-  }
+  const expr = stmt.expression as Identifier;
+  expect(expr.type).to.equal(SyntacticToken.IDENTIFIER);
+  expect(expr).to.be.an.instanceof(Identifier);
+  expect(expr.lexeme).to.equal(name);
 }
 
 describe('if', () => {
@@ -32,17 +26,21 @@ describe('if', () => {
     const program = parse(loadRaw(__dirname, './single-if.tek'));
 
     function check(node: Node): void {
-      const stmt = node as IfExpression;
-      expect(stmt.type).to.equal(SyntacticToken.IF_EXPR);
-      expect(stmt).to.be.an.instanceof(IfExpression);
+      expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
+      expect(node).to.be.an.instanceof(ExpressionStatement);
 
-      const condition = stmt.condition as Literal;
-      expect(condition.type).to.equal(SyntacticToken.LITERAL);
-      expect(condition).to.be.an.instanceof(Literal);
-      expect(condition.value.lexeme).to.equal('true');
-      checkBody(stmt.body);
+      const expr = (node as ExpressionStatement).expression as IfExpression;
+      expect(expr.type).to.equal(SyntacticToken.IF_EXPR);
+      expect(expr).to.be.an.instanceof(IfExpression);
 
-      expect(stmt.elseClause).to.be.null;
+      const condition = expr.condition as Identifier;
+      expect(condition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(condition).to.be.an.instanceof(Identifier);
+      expect(condition.lexeme).to.equal('x');
+
+      checkBody(expr.body, 'y');
+
+      expect(expr.elseClause).to.be.null;
     }
 
     program.body.forEach(check);
@@ -52,20 +50,25 @@ describe('if', () => {
     const program = parse(loadRaw(__dirname, './if-with-else.tek'));
 
     function check(node: Node): void {
-      const stmt = node as IfExpression;
-      expect(stmt.type).to.equal(SyntacticToken.IF_EXPR);
-      expect(stmt).to.be.an.instanceof(IfExpression);
+      expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
+      expect(node).to.be.an.instanceof(ExpressionStatement);
 
-      const condition = stmt.condition as Literal;
-      expect(condition.type).to.equal(SyntacticToken.LITERAL);
-      expect(condition).to.be.an.instanceof(Literal);
-      expect(condition.value.lexeme).to.equal('true');
-      checkBody(stmt.body);
+      const expr = (node as ExpressionStatement).expression as IfExpression;
+      expect(expr.type).to.equal(SyntacticToken.IF_EXPR);
+      expect(expr).to.be.an.instanceof(IfExpression);
 
-      const elseClause = stmt.elseClause as ElseExpression;
+      const condition = expr.condition as Identifier;
+      expect(condition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(condition).to.be.an.instanceof(Identifier);
+      expect(condition.lexeme).to.equal('x');
+
+      checkBody(expr.body, 'y');
+
+      const elseClause = expr.elseClause as ElseExpression;
       expect(elseClause.type).to.equal(SyntacticToken.ELSE_EXPR);
       expect(elseClause).to.be.an.instanceof(ElseExpression);
-      checkBody(elseClause.body);
+
+      checkBody(elseClause.body, 'z');
     }
 
     program.body.forEach(check);
@@ -75,25 +78,36 @@ describe('if', () => {
     const program = parse(loadRaw(__dirname, './if-with-else-if.tek'));
 
     function check(node: Node): void {
-      const stmt = node as IfExpression;
-      expect(stmt.type).to.equal(SyntacticToken.IF_EXPR);
-      expect(stmt).to.be.an.instanceof(IfExpression);
+      expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
+      expect(node).to.be.an.instanceof(ExpressionStatement);
 
-      const condition = stmt.condition as Literal;
-      expect(condition.type).to.equal(SyntacticToken.LITERAL);
-      expect(condition).to.be.an.instanceof(Literal);
-      expect(condition.value.lexeme).to.equal('true');
-      checkBody(stmt.body);
+      const expr = (node as ExpressionStatement).expression as IfExpression;
+      expect(expr.type).to.equal(SyntacticToken.IF_EXPR);
+      expect(expr).to.be.an.instanceof(IfExpression);
 
-      const secondIf = stmt.elseClause as IfExpression;
+      const condition = expr.condition as Identifier;
+      expect(condition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(condition).to.be.an.instanceof(Identifier);
+      expect(condition.lexeme).to.equal('x');
+
+      checkBody(expr.body, 'a');
+
+      const secondIf = expr.elseClause as IfExpression;
       expect(secondIf.type).to.equal(SyntacticToken.IF_EXPR);
       expect(secondIf).to.be.an.instanceof(IfExpression);
-      checkBody(secondIf.body);
+
+      const ifCondition = secondIf.condition as Identifier;
+      expect(ifCondition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(ifCondition).to.be.an.instanceof(Identifier);
+      expect(ifCondition.lexeme).to.equal('y');
+
+      checkBody(secondIf.body, 'b');
 
       const elseClause = secondIf.elseClause as ElseExpression;
       expect(elseClause.type).to.equal(SyntacticToken.ELSE_EXPR);
       expect(elseClause).to.be.an.instanceof(ElseExpression);
-      checkBody(elseClause.body);
+
+      checkBody(elseClause.body, 'c');
     }
 
     program.body.forEach(check);

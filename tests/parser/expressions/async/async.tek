@@ -1,7 +1,4 @@
-async Foo
+async x
 
 async
-Foo
-
-async
-	Foo
+x

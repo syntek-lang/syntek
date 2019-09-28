@@ -1,15 +1,11 @@
-true instanceof Boolean
+x instanceof y
 
-true instanceof
-Boolean
+x instanceof
+y
 
-true
-instanceof Boolean
+x
+instanceof y
 
-true
+x
 instanceof
-Boolean
-
-true
-		instanceof
-	Boolean
+y

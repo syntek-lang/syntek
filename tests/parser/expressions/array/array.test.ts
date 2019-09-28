@@ -6,7 +6,7 @@ import { parse, loadRaw } from '../../../test-utils';
 import { Node } from '../../../../src/grammar/Node';
 import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../src/grammar/nodes/Statements';
-import { Literal, ArrayExpression } from '../../../../src/grammar/nodes/Expressions';
+import { Identifier, ArrayExpression } from '../../../../src/grammar/nodes/Expressions';
 
 describe('array', () => {
   it('parses no params correctly', () => {
@@ -41,10 +41,10 @@ describe('array', () => {
 
       expect(expr.content.length).to.equal(1);
 
-      const param = expr.content[0] as Literal;
-      expect(param.type).to.equal(SyntacticToken.LITERAL);
-      expect(param).to.be.an.instanceof(Literal);
-      expect(param.value.lexeme).to.equal('true');
+      const param = expr.content[0] as Identifier;
+      expect(param.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(param).to.be.an.instanceof(Identifier);
+      expect(param.lexeme).to.equal('x');
     }
 
     program.body.forEach(check);
@@ -64,15 +64,15 @@ describe('array', () => {
 
       expect(expr.content.length).to.equal(2);
 
-      const firstParam = expr.content[0] as Literal;
-      expect(firstParam.type).to.equal(SyntacticToken.LITERAL);
-      expect(firstParam).to.be.an.instanceof(Literal);
-      expect(firstParam.value.lexeme).to.equal('true');
+      const firstParam = expr.content[0] as Identifier;
+      expect(firstParam.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(firstParam).to.be.an.instanceof(Identifier);
+      expect(firstParam.lexeme).to.equal('x');
 
-      const secondParam = expr.content[1] as Literal;
-      expect(secondParam.type).to.equal(SyntacticToken.LITERAL);
-      expect(secondParam).to.be.an.instanceof(Literal);
-      expect(secondParam.value.lexeme).to.equal('20');
+      const secondParam = expr.content[1] as Identifier;
+      expect(secondParam.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(secondParam).to.be.an.instanceof(Identifier);
+      expect(secondParam.lexeme).to.equal('y');
     }
 
     program.body.forEach(check);

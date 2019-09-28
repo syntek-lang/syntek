@@ -6,7 +6,7 @@ import { parse, loadRaw } from '../../../test-utils';
 import { Node } from '../../../../src/grammar/Node';
 import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../src/grammar/nodes/Statements';
-import { Literal, Identifier, IndexExpression } from '../../../../src/grammar/nodes/Expressions';
+import { Identifier, IndexExpression } from '../../../../src/grammar/nodes/Expressions';
 
 describe('index', () => {
   it('parses correctly', () => {
@@ -24,12 +24,12 @@ describe('index', () => {
       const object = expr.object as Identifier;
       expect(object.type).to.equal(SyntacticToken.IDENTIFIER);
       expect(object).to.be.an.instanceof(Identifier);
-      expect(object.lexeme).to.equal('array');
+      expect(object.lexeme).to.equal('x');
 
-      const index = expr.index as Literal;
-      expect(index.type).to.equal(SyntacticToken.LITERAL);
-      expect(index).to.be.an.instanceof(Literal);
-      expect(index.value.lexeme).to.equal('0');
+      const index = expr.index as Identifier;
+      expect(index.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(index).to.be.an.instanceof(Identifier);
+      expect(index.lexeme).to.equal('y');
     }
 
     program.body.forEach(check);
