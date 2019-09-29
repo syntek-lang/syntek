@@ -14,6 +14,8 @@ import {
 import { expressionStmt } from './internal/statements/expressionStmt';
 
 export class Parser {
+  ignoreAllNewlines = false;
+
   /**
    * The index of the current token
    */
@@ -146,7 +148,7 @@ export class Parser {
       if (this.check(LexicalToken.NEWLINE)) {
         infixRule = this.getRule(this.peek(1).type);
 
-        if (infixRule.prefix || precedence > infixRule.precedence) {
+        if ((infixRule.prefix && !this.ignoreAllNewlines) || precedence > infixRule.precedence) {
           break;
         } else {
           this.ignoreNewline();

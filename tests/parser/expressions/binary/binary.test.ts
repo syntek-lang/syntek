@@ -9,6 +9,12 @@ import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../src/grammar/nodes/Statements';
 import { Identifier, BinaryExpression } from '../../../../src/grammar/nodes/Expressions';
 
+function checkIdentifier(node: Node, name: string): void {
+  expect(node.type).to.equal(SyntacticToken.IDENTIFIER);
+  expect(node).to.be.an.instanceof(Identifier);
+  expect((node as Identifier).lexeme).to.equal(name);
+}
+
 describe('binary', () => {
   describe('comparison', () => {
     it.skip('parses "is" correctly', () => {
@@ -137,15 +143,8 @@ describe('binary', () => {
         expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
         expect(expr).to.be.an.instanceof(BinaryExpression);
 
-        const left = expr.left as Identifier;
-        expect(left.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(left).to.be.an.instanceof(Identifier);
-        expect(left.lexeme).to.equal('x');
-
-        const right = expr.right as Identifier;
-        expect(right.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(right).to.be.an.instanceof(Identifier);
-        expect(right.lexeme).to.equal('y');
+        checkIdentifier(expr.left, 'x');
+        checkIdentifier(expr.right, 'y');
 
         expect(expr.operator.type).to.equal(LexicalToken.PLUS);
       }
@@ -165,17 +164,31 @@ describe('binary', () => {
         expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
         expect(expr).to.be.an.instanceof(BinaryExpression);
 
-        const left = expr.left as Identifier;
-        expect(left.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(left).to.be.an.instanceof(Identifier);
-        expect(left.lexeme).to.equal('x');
-
-        const right = expr.right as Identifier;
-        expect(right.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(right).to.be.an.instanceof(Identifier);
-        expect(right.lexeme).to.equal('y');
+        checkIdentifier(expr.left, 'x');
+        checkIdentifier(expr.right, 'y');
 
         expect(expr.operator.type).to.equal(LexicalToken.MINUS);
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses wrapped subtraction correctly', () => {
+      const program = parse(loadRaw(__dirname, './arithmetic/wrapped-subtraction.tek'));
+
+      function check(node: Node): void {
+        expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
+        expect(node).to.be.an.instanceof(ExpressionStatement);
+
+        const expr = ((node as any).expression as any).expression as BinaryExpression;
+        const nested = (expr.left as any).expression as BinaryExpression;
+
+        checkIdentifier(nested.left, 'x');
+        checkIdentifier(nested.right, 'y');
+        checkIdentifier(expr.right, 'z');
+
+        expect(expr.operator.type).to.equal(LexicalToken.MINUS);
+        expect(nested.operator.type).to.equal(LexicalToken.MINUS);
       }
 
       program.body.forEach(check);
@@ -193,15 +206,8 @@ describe('binary', () => {
         expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
         expect(expr).to.be.an.instanceof(BinaryExpression);
 
-        const left = expr.left as Identifier;
-        expect(left.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(left).to.be.an.instanceof(Identifier);
-        expect(left.lexeme).to.equal('x');
-
-        const right = expr.right as Identifier;
-        expect(right.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(right).to.be.an.instanceof(Identifier);
-        expect(right.lexeme).to.equal('y');
+        checkIdentifier(expr.left, 'x');
+        checkIdentifier(expr.right, 'y');
 
         expect(expr.operator.type).to.equal(LexicalToken.STAR);
       }
@@ -221,15 +227,8 @@ describe('binary', () => {
         expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
         expect(expr).to.be.an.instanceof(BinaryExpression);
 
-        const left = expr.left as Identifier;
-        expect(left.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(left).to.be.an.instanceof(Identifier);
-        expect(left.lexeme).to.equal('x');
-
-        const right = expr.right as Identifier;
-        expect(right.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(right).to.be.an.instanceof(Identifier);
-        expect(right.lexeme).to.equal('y');
+        checkIdentifier(expr.left, 'x');
+        checkIdentifier(expr.right, 'y');
 
         expect(expr.operator.type).to.equal(LexicalToken.SLASH);
       }
@@ -249,15 +248,8 @@ describe('binary', () => {
         expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
         expect(expr).to.be.an.instanceof(BinaryExpression);
 
-        const left = expr.left as Identifier;
-        expect(left.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(left).to.be.an.instanceof(Identifier);
-        expect(left.lexeme).to.equal('x');
-
-        const right = expr.right as Identifier;
-        expect(right.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(right).to.be.an.instanceof(Identifier);
-        expect(right.lexeme).to.equal('y');
+        checkIdentifier(expr.left, 'x');
+        checkIdentifier(expr.right, 'y');
 
         expect(expr.operator.type).to.equal(LexicalToken.PERCENT);
       }
@@ -277,15 +269,8 @@ describe('binary', () => {
         expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
         expect(expr).to.be.an.instanceof(BinaryExpression);
 
-        const left = expr.left as Identifier;
-        expect(left.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(left).to.be.an.instanceof(Identifier);
-        expect(left.lexeme).to.equal('x');
-
-        const right = expr.right as Identifier;
-        expect(right.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(right).to.be.an.instanceof(Identifier);
-        expect(right.lexeme).to.equal('y');
+        checkIdentifier(expr.left, 'x');
+        checkIdentifier(expr.right, 'y');
 
         expect(expr.operator.type).to.equal(LexicalToken.CARET);
       }
@@ -307,15 +292,8 @@ describe('binary', () => {
         expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
         expect(expr).to.be.an.instanceof(BinaryExpression);
 
-        const left = expr.left as Identifier;
-        expect(left.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(left).to.be.an.instanceof(Identifier);
-        expect(left.lexeme).to.equal('x');
-
-        const right = expr.right as Identifier;
-        expect(right.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(right).to.be.an.instanceof(Identifier);
-        expect(right.lexeme).to.equal('y');
+        checkIdentifier(expr.left, 'x');
+        checkIdentifier(expr.right, 'y');
 
         expect(expr.operator.type).to.equal(LexicalToken.AND);
       }
@@ -335,15 +313,8 @@ describe('binary', () => {
         expect(expr.type).to.equal(SyntacticToken.BINARY_EXPR);
         expect(expr).to.be.an.instanceof(BinaryExpression);
 
-        const left = expr.left as Identifier;
-        expect(left.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(left).to.be.an.instanceof(Identifier);
-        expect(left.lexeme).to.equal('x');
-
-        const right = expr.right as Identifier;
-        expect(right.type).to.equal(SyntacticToken.IDENTIFIER);
-        expect(right).to.be.an.instanceof(Identifier);
-        expect(right.lexeme).to.equal('y');
+        checkIdentifier(expr.left, 'x');
+        checkIdentifier(expr.right, 'y');
 
         expect(expr.operator.type).to.equal(LexicalToken.OR);
       }
