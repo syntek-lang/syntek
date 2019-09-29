@@ -8,32 +8,32 @@ const THIS_ERROR = 'You can only use this inside a class';
 testRule('illegalSuperThis', illegalSuperThis, {
   valid: [
     // Super
-    'class C \n\t var x = super.x',
-    'class C \n\t function x() \n\t\t super',
+    'class C { var x = super.x }',
+    'class C { function x() { super } }',
 
-    'class C \n\t var x = C.super',
-    'class C \n\t function x() \n\t\t C.super',
+    'class C { var x = C.super }',
+    'class C { function x() { C.super } }',
 
     // This
-    'class C \n\t var x = this.x',
-    'class C \n\t function x() \n\t\t this',
+    'class C { var x = this.x }',
+    'class C { function x() { this } }',
   ],
   invalid: [
     // Super
     { code: 'super', errors: [SUPER_ERROR] },
-    { code: 'if x \n\t super', errors: [SUPER_ERROR] },
-    { code: 'function x() \n\t super', errors: [SUPER_ERROR] },
-    { code: 'switch x \n\t case y \n\t\t super', errors: [SUPER_ERROR] },
+    { code: 'if x { super }', errors: [SUPER_ERROR] },
+    { code: 'function x() { super }', errors: [SUPER_ERROR] },
+    { code: 'switch x { case y { super } }', errors: [SUPER_ERROR] },
 
     { code: 'C.super', errors: [SUPER_ERROR] },
-    { code: 'if x \n\t C.super', errors: [SUPER_ERROR] },
-    { code: 'function x() \n\t C.super', errors: [SUPER_ERROR] },
-    { code: 'switch x \n\t case y \n\t\t C.super', errors: [SUPER_ERROR] },
+    { code: 'if x { C.super }', errors: [SUPER_ERROR] },
+    { code: 'function x() { C.super }', errors: [SUPER_ERROR] },
+    { code: 'switch x { case y { C.super } }', errors: [SUPER_ERROR] },
 
     // This
     { code: 'this', errors: [THIS_ERROR] },
-    { code: 'if x \n\t this', errors: [THIS_ERROR] },
-    { code: 'function x() \n\t this', errors: [THIS_ERROR] },
-    { code: 'switch x \n\t case y \n\t\t this', errors: [THIS_ERROR] },
+    { code: 'if x { this }', errors: [THIS_ERROR] },
+    { code: 'function x() { this }', errors: [THIS_ERROR] },
+    { code: 'switch x { case y { this } }', errors: [THIS_ERROR] },
   ],
 });
