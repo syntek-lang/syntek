@@ -1,65 +1,35 @@
-function <A> foo()
-	one
-	two
+function <A> x() {}
+
+function <A> x() {
+}
+
+function <A> x()
+{}
+
+function <A> x(
+) {}
+
+function <A> x
+() {}
+
+function <A>
+x() {}
 
 function <A
-> foo()
-	one
-	two
+> x() {}
 
 function <
-A> foo()
-	one
-	two
-
-function <
-	A
-> foo()
-	one
-	two
+A> x() {}
 
 function
-<A> foo()
-	one
-	two
+<A> x() {}
 
 function
-	<A> foo()
-	one
-	two
-
-function
-		<A> foo()
-	one
-	two
-
-function <A>
-foo()
-	one
-	two
-
-function <A>
-	foo()
-	one
-	two
-
-function <A>
-		foo()
-	one
-	two
-
-function
-		<A>
-		foo()
-	one
-	two
-
-function
-		<
-		A
-		>
-		foo
-		(
-		)
-	one
-	two
+<
+A
+>
+x
+(
+)
+{
+}

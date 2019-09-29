@@ -1,0 +1,35 @@
+function x(y: A) {}
+
+function x(y: A) {
+}
+
+function x(y: A)
+{}
+
+function x(y: A
+) {}
+
+function x(y:
+A) {}
+
+function x(y
+: A) {}
+
+function x(
+y: A) {}
+
+function x
+(y: A) {}
+
+function
+x(y: A) {}
+
+function
+x
+(
+y
+:
+A
+)
+{
+}
