@@ -9,20 +9,20 @@ testRule('illegalAssignmentExpr', illegalAssignmentExpr, {
   valid: [
     'x = 5',
     'x = 10 - 5',
-    'if x \n\t x = 5',
-    'function x() \n\t x = 5',
-    'switch x \n\t case y \n\t\t x = 5',
-    'class C \n\t function x() \n\t\t x = 5',
+    'if x { x = 5 }',
+    'function x() { x = 5 }',
+    'switch x { case y { x = 5 } }',
+    'class C { function x() { x = 5 } }',
 
     'obj.x = 5',
     'array[0] = 5',
-    'if x \n\t obj.x = 5',
-    'if x \n\t array[0] = 5',
+    'if x { obj.x = 5 }',
+    'if x { array[0] = 5 }',
   ],
   invalid: [
     { code: '(x = 5)', errors: [EXPR_ERROR] },
-    { code: 'if x = 5 \n\t y', errors: [EXPR_ERROR] },
-    { code: 'for x in y = 5 \n\t z', errors: [EXPR_ERROR] },
+    { code: 'if x = 5 { y }', errors: [EXPR_ERROR] },
+    { code: 'for x in y = 5 { z }', errors: [EXPR_ERROR] },
 
     { code: 'x + y = 5', errors: [LEFT_ERROR] },
     { code: 'fn() = 5', errors: [LEFT_ERROR] },

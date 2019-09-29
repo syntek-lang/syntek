@@ -9,38 +9,38 @@ const CONTINUE_ERROR = 'You can only place continue inside a loop or switch case
 testRule('illegalControlStatement', illegalControlStatement, {
   valid: [
     // Return
-    'function x() \n\t return',
-    'function x() \n\t if y \n\t\t return',
-    'if x \n\t function x() \n\t\t return',
-    'class C \n\t function x() \n\t\t return',
+    'function x() { return }',
+    'function x() { if y { return } }',
+    'if x { function x() { return } }',
+    'class C { function x() { return } }',
 
     // Break
-    'for x in y \n\t break',
-    'for x in y \n\t if z \n\t\t break',
-    'if x \n\t for y in z \n\t\t break',
-    'switch x \n\t case y \n\t\t break',
+    'for x in y { break }',
+    'for x in y { if z { break } }',
+    'if x { for y in z { break } }',
+    'switch x { case y { break } }',
 
     // Continue
-    'for x in y \n\t continue',
-    'for x in y \n\t if z \n\t\t continue',
-    'if x \n\t for y in z \n\t\t continue',
-    'switch x \n\t case y \n\t\t continue',
+    'for x in y { continue }',
+    'for x in y { if z { continue } }',
+    'if x { for y in z { continue } }',
+    'switch x { case y { continue } }',
   ],
   invalid: [
     // Return
     { code: 'return', errors: [RETURN_ERROR] },
-    { code: 'if x \n\t return', errors: [RETURN_ERROR] },
-    { code: 'for x in y \n\t return', errors: [RETURN_ERROR] },
-    { code: 'switch x \n\t case y \n\t\t return', errors: [RETURN_ERROR] },
+    { code: 'if x { return }', errors: [RETURN_ERROR] },
+    { code: 'for x in y { return }', errors: [RETURN_ERROR] },
+    { code: 'switch x { case y { return } }', errors: [RETURN_ERROR] },
 
     // Break
     { code: 'break', errors: [BREAK_ERROR] },
-    { code: 'if x \n\t break', errors: [BREAK_ERROR] },
-    { code: 'function x() \n\t break', errors: [BREAK_ERROR] },
+    { code: 'if x { break }', errors: [BREAK_ERROR] },
+    { code: 'function x() { break }', errors: [BREAK_ERROR] },
 
     // Continue
     { code: 'continue', errors: [CONTINUE_ERROR] },
-    { code: 'if x \n\t continue', errors: [CONTINUE_ERROR] },
-    { code: 'function x() \n\t continue', errors: [CONTINUE_ERROR] },
+    { code: 'if x { continue }', errors: [CONTINUE_ERROR] },
+    { code: 'function x() { continue }', errors: [CONTINUE_ERROR] },
   ],
 });
