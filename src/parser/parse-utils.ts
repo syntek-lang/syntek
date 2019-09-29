@@ -132,6 +132,8 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
 
     let variableType: VariableType | null = null;
     if (parser.matchIgnoreNewline(LexicalToken.COLON)) {
+      parser.ignoreNewline();
+
       variableType = matchTypeDecl(parser);
     }
 
@@ -144,6 +146,7 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
     parser.ignoreNewline();
     if (!parser.check(LexicalToken.R_PAR)) {
       parser.consume(LexicalToken.COMMA, 'Expected ","');
+
       parser.ignoreNewline();
     }
   }

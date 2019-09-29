@@ -1,0 +1,23 @@
+function x() {}
+
+function x() {
+}
+
+function x()
+{}
+
+function x(
+) {}
+
+function x
+() {}
+
+function
+x() {}
+
+function
+x
+(
+)
+{
+}
