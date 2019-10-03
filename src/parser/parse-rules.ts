@@ -35,6 +35,7 @@ import { forStmt } from './internal/statements/forStmt';
 import { returnStmt } from './internal/statements/returnStmt';
 import { switchStmt } from './internal/statements/switchStmt';
 import { whileStmt } from './internal/statements/whileStmt';
+import { yieldStmt } from './internal/statements/yieldStmt';
 
 type PrefixFunction = (parser: Parser, prefix: Token) => Node;
 type InfixFunction = (parser: Parser, left: Node, infix: Token) => Node;
@@ -156,4 +157,5 @@ export const statementRules: { [key: number]: ParsingHandler } = {
   [LexicalToken.RETURN]: returnStmt,
   [LexicalToken.SWITCH]: switchStmt,
   [LexicalToken.WHILE]: whileStmt,
+  [LexicalToken.YIELD]: yieldStmt,
 };
