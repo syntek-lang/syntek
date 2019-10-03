@@ -1,0 +1,55 @@
+(if x { y
+- z } else {})
+
+(if x { y
+- z } else {}
+)
+
+(if x { y
+- z } else {
+})
+
+(if x { y
+- z } else
+{})
+
+(if x { y
+- z }
+else {})
+
+(if x { y
+- z
+} else {})
+
+(if x { y
+-
+z } else {})
+
+(if x {
+y
+- z } else {})
+
+(if x
+{ y
+- z } else {})
+
+(if
+x { y
+- z } else {})
+
+(
+if x { y
+- z } else {})
+
+(
+if
+x
+{
+y
+-
+z
+}
+else
+{
+}
+)

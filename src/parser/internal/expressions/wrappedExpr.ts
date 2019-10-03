@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import {
   Node, Token, LexicalToken, WrappedExpression,
 } from '../../../grammar';
@@ -11,7 +9,7 @@ export function wrappedExpr(parser: Parser, prefix: Token): Node {
   const start = prefix.span.start;
 
   const ignoreAllNewlines = parser.ignoreAllNewlines;
-  parser.ignoreAllNewlines = true;
+  parser.ignoreAllNewlines = true; // eslint-disable-line no-param-reassign
 
   parser.ignoreNewline();
 
@@ -25,7 +23,7 @@ export function wrappedExpr(parser: Parser, prefix: Token): Node {
     error.info("Add a ')' after the expression", expr.span);
   });
 
-  parser.ignoreAllNewlines = ignoreAllNewlines;
+  parser.ignoreAllNewlines = ignoreAllNewlines; // eslint-disable-line no-param-reassign
 
   return new WrappedExpression(expr, new Span(start, parser.previous().span.end));
 }

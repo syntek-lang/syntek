@@ -180,6 +180,9 @@ export function matchExpressionList(parser: Parser, closingToken: LexicalToken):
 }
 
 export function matchBlock(parser: Parser): Node[] {
+  const ignoreAllNewlines = parser.ignoreAllNewlines;
+  parser.ignoreAllNewlines = false; // eslint-disable-line no-param-reassign
+
   parser.ignoreNewline();
   parser.consume(LexicalToken.L_BRACE, "Expected '{'");
   parser.ignoreNewline();
@@ -188,6 +191,8 @@ export function matchBlock(parser: Parser): Node[] {
   while (!parser.match(LexicalToken.R_BRACE)) {
     body.push(parser.declaration());
   }
+
+  parser.ignoreAllNewlines = ignoreAllNewlines; // eslint-disable-line no-param-reassign
 
   return body;
 }
