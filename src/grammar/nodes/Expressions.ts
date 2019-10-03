@@ -182,7 +182,11 @@ export class IfExpression extends Node {
     this.body = body;
     this.elseClause = elseClause;
 
-    this.ifSpan = new Span(span.start, body[body.length - 1].span.end);
+    const spanEnd = body.length
+      ? body[body.length - 1].span.end
+      : span.start;
+
+    this.ifSpan = new Span(span.start, spanEnd);
   }
 }
 

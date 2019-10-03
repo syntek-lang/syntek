@@ -25,6 +25,30 @@ function checkBody(nodes: Node[], name: string): void {
 }
 
 describe('if', () => {
+  it('parses empty if correctly', () => {
+    const program = parse(loadRaw(__dirname, './empty.tek'));
+
+    function check(node: Node): void {
+      expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
+      expect(node).to.be.an.instanceof(ExpressionStatement);
+
+      const expr = (node as ExpressionStatement).expression as IfExpression;
+      expect(expr.type).to.equal(SyntacticToken.IF_EXPR);
+      expect(expr).to.be.an.instanceof(IfExpression);
+
+      const condition = expr.condition as Identifier;
+      expect(condition.type).to.equal(SyntacticToken.IDENTIFIER);
+      expect(condition).to.be.an.instanceof(Identifier);
+      expect(condition.lexeme).to.equal('x');
+
+      expect(expr.body.length).to.equal(0);
+
+      expect(expr.elseClause).to.be.null;
+    }
+
+    program.body.forEach(check);
+  });
+
   it('parses single if correctly', () => {
     const program = parse(loadRaw(__dirname, './single-if.tek'));
 
