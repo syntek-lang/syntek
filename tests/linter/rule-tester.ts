@@ -39,7 +39,7 @@ export function testRule(name: string, rule: LinterRule, testCases: TestCases): 
         it(sanitize(invalid.code), () => {
           const errors = lintCode(invalid.code);
 
-          expect(errors.length).to.equal(invalid.errors.length);
+          expect(errors.length).to.equal(invalid.errors.length, `Expected ${invalid.errors.length} error${invalid.errors.length === 1 ? '' : 's'}, but got ${errors.length}`);
 
           errors.forEach((error) => {
             // The error should be in the list of expected errors
