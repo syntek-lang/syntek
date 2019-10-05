@@ -252,6 +252,12 @@ export class ASTWalker {
         break;
       }
 
+      case grammar.SyntacticToken.YIELD_STMT: {
+        const stmt = node as grammar.YieldStatement;
+        this.walkNode(stmt.expression);
+        break;
+      }
+
       case grammar.SyntacticToken.EXPRESSION_STMT: {
         const stmt = node as grammar.ExpressionStatement;
         this.walkNode(stmt.expression);

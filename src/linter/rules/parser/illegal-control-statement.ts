@@ -22,6 +22,14 @@ export const illegalControlStatement: LinterRule = {
       }
     });
 
+    walker.onEnter(grammar.YieldStatement, (node, _, parents) => {
+      const isValid = parents.some(parent => parent.type === grammar.SyntacticToken.IF_EXPR);
+
+      if (!isValid) {
+        report('You can only place yield inside an if expression', node.span);
+      }
+    });
+
     walker.onEnter(grammar.BreakStatement, (node, _, parents) => {
       if (!inLoopOrSwitch(parents)) {
         report('You can only place break inside a loop or switch case', node.span);
