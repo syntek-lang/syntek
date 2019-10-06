@@ -21,6 +21,11 @@ console.log(new Linter(
   lintParser,
 ).lint());
 
+// Scopes
+import { BlockScope } from './scope';
+
+console.log(new BlockScope(parseResult.ast));
+
 // Export everything
 export const code = program;
 export * from './diagnostic';
@@ -28,4 +33,5 @@ export * from './grammar';
 export * from './linter';
 export * from './parser';
 export * from './position';
+export * from './scope';
 export * from './walker';
