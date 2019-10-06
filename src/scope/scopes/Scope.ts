@@ -14,7 +14,7 @@ export abstract class Scope {
 
   readonly symbols: SymbolTable;
 
-  readonly scopes = new Map<grammar.Node, Scope>()
+  private readonly scopes = new Map<grammar.Node, Scope>()
 
   constructor(node: grammar.Node, parent?: Scope) {
     this.node = node;
@@ -27,6 +27,30 @@ export abstract class Scope {
     }
 
     this.build();
+  }
+
+  getScope(node: grammar.Node): Scope | undefined {
+    if (node === this.node) {
+      return this;
+    }
+
+    if (this.hasOwnScope(node)) {
+      return this.getOwnScope(node);
+    }
+
+    if (this.parent) {
+      return this.parent.getScope(node);
+    }
+
+    return undefined;
+  }
+
+  getOwnScope(node: grammar.Node): Scope | undefined {
+    return this.scopes.get(node);
+  }
+
+  hasOwnScope(node: grammar.Node): boolean {
+    return this.scopes.has(node);
   }
 
   add(node: grammar.Node): void {

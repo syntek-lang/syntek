@@ -1,10 +1,14 @@
 import * as grammar from '../grammar';
 
-// TODO: Add scope back to the callbacks
-type WalkerCallback = (node: grammar.Node, scope: null, parents: grammar.Node[]) => void;
+import { Scope } from '../scope';
+import { WalkerContext } from './WalkerContext';
+
+type WalkerCallback = (node: grammar.Node, context: WalkerContext) => void;
 
 export class ASTWalker {
   private readonly ast: grammar.Node;
+
+  private readonly scope?: Scope;
 
   private readonly parents: grammar.Node[] = [];
 
@@ -12,13 +16,14 @@ export class ASTWalker {
 
   private readonly leaveCallbacks = new Map<grammar.SyntacticToken, WalkerCallback[]>();
 
-  constructor(ast: grammar.Node) {
+  constructor(ast: grammar.Node, scope?: Scope) {
     this.ast = ast;
+    this.scope = scope;
   }
 
   onEnter<T extends grammar.Node>(
     node: new (...args: any[]) => T,
-    callback: (node: T, scope: null, parents: grammar.Node[]) => void,
+    callback: (node: T, context: WalkerContext) => void,
   ): ASTWalker {
     const type = grammar.NODES.get(node);
 
@@ -37,7 +42,7 @@ export class ASTWalker {
 
   onLeave<T extends grammar.Node>(
     node: new (...args: any[]) => T,
-    callback: (node: T, scope: null, parents: grammar.Node[]) => void,
+    callback: (node: T, context: WalkerContext) => void,
   ): ASTWalker {
     const type = grammar.NODES.get(node);
 
@@ -55,18 +60,29 @@ export class ASTWalker {
 
   walk(): void {
     // Walk the ast
-    this.walkNode(this.ast);
+    this.walkNode(this.ast, new WalkerContext(this.parents, this.scope));
   }
 
-  private walkNode(node: grammar.Node): void {
+  private walkNode(node: grammar.Node, context: WalkerContext): void {
     // Enter the node
     const enterCallbacks = this.enterCallbacks.get(node.type);
     if (enterCallbacks) {
-      enterCallbacks.forEach(callback => callback(node, null, this.parents));
+      enterCallbacks.forEach(callback => callback(node, context));
     }
 
     // The node is a parent of the nodes that are going to be walked
     this.parents.push(node);
+
+    // newContext is the context that for the children of the current node
+    // For instance, if node is a for statement it will be blockscope
+    // If the node has no scope of it's own, like an import declaration, it uses the existing scope
+    let newContext = context;
+    if (context.scope && context.scope.hasOwnScope(node)) {
+      newContext = new WalkerContext(context.parents, context.scope.getOwnScope(node));
+    }
+
+    // Shorthand method that calls walkNode with the context
+    const walk = (nodeToWalk: grammar.Node): void => this.walkNode(nodeToWalk, newContext);
 
     switch (node.type) {
       // Declarations
@@ -74,7 +90,7 @@ export class ASTWalker {
         const decl = node as grammar.EmptyVariableDeclaration;
 
         if (decl.variableType) {
-          this.walkNode(decl.variableType);
+          walk(decl.variableType);
         }
 
         break;
@@ -84,32 +100,32 @@ export class ASTWalker {
         const decl = node as grammar.VariableDeclaration;
 
         if (decl.variableType) {
-          this.walkNode(decl.variableType);
+          walk(decl.variableType);
         }
 
-        this.walkNode(decl.value);
+        walk(decl.value);
         break;
       }
 
       case grammar.SyntacticToken.FUNCTION_DECL: {
         const decl = node as grammar.FunctionDeclaration;
 
-        decl.params.forEach(param => this.walkNode(param));
+        decl.params.forEach(walk);
 
         if (decl.returnType) {
-          this.walkNode(decl.returnType);
+          walk(decl.returnType);
         }
 
-        decl.body.forEach(child => this.walkNode(child));
+        decl.body.forEach(walk);
         break;
       }
 
       case grammar.SyntacticToken.CLASS_DECL: {
         const decl = node as grammar.ClassDeclaration;
 
-        decl.extends.forEach(extend => this.walkNode(extend));
-        decl.staticBody.forEach(child => this.walkNode(child));
-        decl.instanceBody.forEach(child => this.walkNode(child));
+        decl.extends.forEach(walk);
+        decl.staticBody.forEach(walk);
+        decl.instanceBody.forEach(walk);
         break;
       }
 
@@ -119,85 +135,85 @@ export class ASTWalker {
       // Expressions
       case grammar.SyntacticToken.ASSIGNMENT_EXPR: {
         const expr = node as grammar.AssignmentExpression;
-        this.walkNode(expr.left);
-        this.walkNode(expr.value);
+        walk(expr.left);
+        walk(expr.value);
         break;
       }
 
       case grammar.SyntacticToken.WRAPPED_EXPR: {
         const expr = node as grammar.WrappedExpression;
-        this.walkNode(expr.expression);
+        walk(expr.expression);
         break;
       }
 
       case grammar.SyntacticToken.UNARY_EXPR: {
         const expr = node as grammar.UnaryExpression;
-        this.walkNode(expr.right);
+        walk(expr.right);
         break;
       }
 
       case grammar.SyntacticToken.BINARY_EXPR: {
         const expr = node as grammar.BinaryExpression;
-        this.walkNode(expr.left);
-        this.walkNode(expr.right);
+        walk(expr.left);
+        walk(expr.right);
         break;
       }
 
       case grammar.SyntacticToken.CALL_EXPR: {
         const expr = node as grammar.CallExpression;
-        this.walkNode(expr.object);
-        expr.genericArgs.forEach(generic => this.walkNode(generic));
-        expr.params.forEach(child => this.walkNode(child));
+        walk(expr.object);
+        expr.genericArgs.forEach(walk);
+        expr.params.forEach(walk);
         break;
       }
 
       case grammar.SyntacticToken.INDEX_EXPR: {
         const expr = node as grammar.IndexExpression;
-        this.walkNode(expr.object);
-        this.walkNode(expr.index);
+        walk(expr.object);
+        walk(expr.index);
         break;
       }
 
       case grammar.SyntacticToken.MEMBER_EXPR: {
         const expr = node as grammar.MemberExpression;
-        this.walkNode(expr.object);
+        walk(expr.object);
         break;
       }
 
       case grammar.SyntacticToken.NEW_EXPR: {
         const expr = node as grammar.NewExpression;
-        this.walkNode(expr.object);
-        expr.genericArgs.forEach(generic => this.walkNode(generic));
-        expr.params.forEach(child => this.walkNode(child));
+        walk(expr.object);
+        expr.genericArgs.forEach(walk);
+        expr.params.forEach(walk);
         break;
       }
 
       case grammar.SyntacticToken.INSTANCEOF_EXPR: {
         const expr = node as grammar.InstanceofExpression;
-        this.walkNode(expr.left);
-        this.walkNode(expr.right);
+        walk(expr.left);
+        walk(expr.right);
         break;
       }
 
       case grammar.SyntacticToken.ASYNC_EXPR: {
         const expr = node as grammar.AsyncExpression;
-        this.walkNode(expr.expression);
+        walk(expr.expression);
         break;
       }
 
       case grammar.SyntacticToken.ARRAY_EXPR: {
         const expr = node as grammar.ArrayExpression;
-        expr.content.forEach(child => this.walkNode(child));
+        expr.content.forEach(walk);
         break;
       }
 
       case grammar.SyntacticToken.IF_EXPR: {
         const expr = node as grammar.IfExpression;
-        this.walkNode(expr.condition);
-        expr.body.forEach(child => this.walkNode(child));
+        walk(expr.condition);
+        expr.body.forEach(walk);
 
         if (expr.elseClause) {
-          this.walkNode(expr.elseClause);
+          walk(expr.elseClause);
         }
 
         break;
@@ -205,7 +221,7 @@ export class ASTWalker {
 
       case grammar.SyntacticToken.ELSE_EXPR: {
         const expr = node as grammar.ElseExpression;
-        expr.body.forEach(child => this.walkNode(child));
+        expr.body.forEach(walk);
         break;
       }
 
@@ -218,8 +234,8 @@ export class ASTWalker {
       // Statements
       case grammar.SyntacticToken.SWITCH_STMT: {
         const stmt = node as grammar.SwitchStatement;
-        this.walkNode(stmt.expression);
-        stmt.cases.forEach(child => this.walkNode(child));
+        walk(stmt.expression);
+        stmt.cases.forEach(walk);
         break;
       }
 
@@ -227,18 +243,18 @@ export class ASTWalker {
         const stmt = node as grammar.ForStatement;
 
         if (stmt.variableType) {
-          this.walkNode(stmt.variableType);
+          walk(stmt.variableType);
         }
 
-        this.walkNode(stmt.object);
-        stmt.body.forEach(child => this.walkNode(child));
+        walk(stmt.object);
+        stmt.body.forEach(walk);
         break;
       }
 
       case grammar.SyntacticToken.WHILE_STMT: {
         const stmt = node as grammar.WhileStatement;
-        this.walkNode(stmt.condition);
-        stmt.body.forEach(child => this.walkNode(child));
+        walk(stmt.condition);
+        stmt.body.forEach(walk);
         break;
       }
 
@@ -246,7 +262,7 @@ export class ASTWalker {
         const stmt = node as grammar.ReturnStatement;
 
         if (stmt.expression) {
-          this.walkNode(stmt.expression);
+          walk(stmt.expression);
         }
 
         break;
@@ -254,13 +270,13 @@ export class ASTWalker {
 
       case grammar.SyntacticToken.YIELD_STMT: {
         const stmt = node as grammar.YieldStatement;
-        this.walkNode(stmt.expression);
+        walk(stmt.expression);
         break;
       }
 
       case grammar.SyntacticToken.EXPRESSION_STMT: {
         const stmt = node as grammar.ExpressionStatement;
-        this.walkNode(stmt.expression);
+        walk(stmt.expression);
         break;
       }
 
@@ -271,21 +287,21 @@ export class ASTWalker {
       // Other
       case grammar.SyntacticToken.PROGRAM: {
         const program = node as grammar.Program;
-        program.body.forEach(child => this.walkNode(child));
+        program.body.forEach(walk);
         break;
       }
 
       case grammar.SyntacticToken.SWITCH_CASE: {
         const switchCase = node as grammar.SwitchCase;
-        switchCase.conditions.forEach(child => this.walkNode(child));
-        switchCase.body.forEach(child => this.walkNode(child));
+        switchCase.conditions.forEach(walk);
+        switchCase.body.forEach(walk);
         break;
       }
 
       case grammar.SyntacticToken.VARIABLE_TYPE: {
         const variableType = node as grammar.VariableType;
-        this.walkNode(variableType.object);
-        variableType.generics.forEach(generic => this.walkNode(generic));
+        walk(variableType.object);
+        variableType.generics.forEach(walk);
         break;
       }
 
@@ -293,7 +309,7 @@ export class ASTWalker {
         const functionParam = node as grammar.FunctionParam;
 
         if (functionParam.variableType) {
-          this.walkNode(functionParam.variableType);
+          walk(functionParam.variableType);
         }
 
         break;
@@ -309,7 +325,7 @@ export class ASTWalker {
     // Leave the node
     const leaveCallbacks = this.leaveCallbacks.get(node.type);
     if (leaveCallbacks) {
-      leaveCallbacks.forEach(callback => callback(node, null, this.parents));
+      leaveCallbacks.forEach(callback => callback(node, context));
     }
   }
 }

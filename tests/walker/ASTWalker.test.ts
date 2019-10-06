@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { parse } from '../test-utils';
 
 import { ASTWalker } from '../../src/walker/ASTWalker';
+import { WalkerContext } from '../../src/walker/WalkerContext';
 
 import * as grammar from '../../src/grammar';
 import { Node } from '../../src/grammar/Node';
@@ -15,10 +16,10 @@ describe('ASTWalker', () => {
     const array: Node[] = [];
     let parentCount = 0;
 
-    function walkerCB(node: Node, _: any, parents: Node[]): void {
+    function walkerCB(node: Node, context: WalkerContext): void {
       array.push(node);
 
-      expect(parents.length).to.equal(parentCount);
+      expect(context.parents.length).to.equal(parentCount);
       parentCount += 1;
     }
 
@@ -42,10 +43,10 @@ describe('ASTWalker', () => {
     const array: Node[] = [];
     let parentCount = 3;
 
-    function walkerCB(node: Node, _: any, parents: Node[]): void {
+    function walkerCB(node: Node, context: WalkerContext): void {
       array.push(node);
 
-      expect(parents.length).to.equal(parentCount);
+      expect(context.parents.length).to.equal(parentCount);
       parentCount -= 1;
     }
 
@@ -69,22 +70,22 @@ describe('ASTWalker', () => {
     const array: Node[] = [];
     let parentCount = 0;
 
-    function walkerCB(node: Node, parents: Node[], enter: boolean): void {
+    function walkerCB(node: Node, context: WalkerContext, enter: boolean): void {
       array.push(node);
 
       if (!enter) {
         parentCount -= 1;
       }
 
-      expect(parents.length).to.equal(parentCount);
+      expect(context.parents.length).to.equal(parentCount);
 
       if (enter) {
         parentCount += 1;
       }
     }
 
-    const onEnter = (node: Node, _: any, parents: Node[]): void => walkerCB(node, parents, true);
-    const onLeave = (node: Node, _: any, parents: Node[]): void => walkerCB(node, parents, false);
+    const onEnter = (node: Node, context: WalkerContext): void => walkerCB(node, context, true);
+    const onLeave = (node: Node, context: WalkerContext): void => walkerCB(node, context, false);
 
     new ASTWalker(program)
       .onEnter(grammar.Program, onEnter)

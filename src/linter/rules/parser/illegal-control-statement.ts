@@ -12,7 +12,7 @@ export const illegalControlStatement: LinterRule = {
   description: 'Report illegal control statements',
   level: Level.ERROR,
   create(walker, report) {
-    walker.onEnter(grammar.ReturnStatement, (node, _, parents) => {
+    walker.onEnter(grammar.ReturnStatement, (node, { parents }) => {
       // Return must be inside a function
       const isValid = parents
         .some(parent => parent.type === grammar.SyntacticToken.FUNCTION_DECL);
@@ -22,7 +22,7 @@ export const illegalControlStatement: LinterRule = {
       }
     });
 
-    walker.onEnter(grammar.YieldStatement, (node, _, parents) => {
+    walker.onEnter(grammar.YieldStatement, (node, { parents }) => {
       const isValid = parents.some(parent => parent.type === grammar.SyntacticToken.IF_EXPR);
 
       if (!isValid) {
@@ -30,13 +30,13 @@ export const illegalControlStatement: LinterRule = {
       }
     });
 
-    walker.onEnter(grammar.BreakStatement, (node, _, parents) => {
+    walker.onEnter(grammar.BreakStatement, (node, { parents }) => {
       if (!inLoopOrSwitch(parents)) {
         report('You can only place break inside a loop or switch case', node.span);
       }
     });
 
-    walker.onEnter(grammar.ContinueStatement, (node, _, parents) => {
+    walker.onEnter(grammar.ContinueStatement, (node, { parents }) => {
       if (!inLoopOrSwitch(parents)) {
         report('You can only place continue inside a loop or switch case', node.span);
       }

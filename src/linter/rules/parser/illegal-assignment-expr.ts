@@ -7,7 +7,7 @@ export const illegalAssignmentExpr: LinterRule = {
   description: 'Report illegal assignments',
   level: Level.ERROR,
   create(walker, report) {
-    walker.onEnter(grammar.AssignmentExpression, (node, _, parents) => {
+    walker.onEnter(grammar.AssignmentExpression, (node, { parents }) => {
       if (parents[parents.length - 1].type !== grammar.SyntacticToken.EXPRESSION_STMT) {
         report('Assignments can not be inside another expression', node.span);
       }

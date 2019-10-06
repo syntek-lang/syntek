@@ -24,7 +24,8 @@ console.log(new Linter(
 // Scopes
 import { BlockScope } from './scope';
 
-console.log(new BlockScope(parseResult.ast));
+export const blockScope = new BlockScope(parseResult.ast);
+console.log(blockScope);
 
 // Export everything
 export const code = program;

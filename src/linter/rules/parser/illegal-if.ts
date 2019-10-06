@@ -24,7 +24,7 @@ export const illegalIf: LinterRule = {
   description: 'Report illegal if expressions',
   level: Level.ERROR,
   create(walker, report) {
-    walker.onEnter(grammar.IfExpression, (node, _, parents) => {
+    walker.onEnter(grammar.IfExpression, (node, { parents }) => {
       if (isExpr(node, parents)) {
         if (!node.elseClause) {
           report('An if expression must have an else body', node.span);
