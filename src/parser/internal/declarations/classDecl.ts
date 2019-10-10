@@ -1,5 +1,5 @@
 import {
-  Node, Token, LexicalToken, ClassDeclaration, VariableType,
+  Node, Token, LexicalToken, ClassDeclaration, ClassProp, VariableType,
 } from '../../../grammar';
 
 import { Parser } from '../..';
@@ -7,12 +7,21 @@ import { Span } from '../../../position';
 import { matchGenericParams, matchTypeDecl } from '../../parse-utils';
 
 export function classDecl(parser: Parser): Node {
-  const classSpan = parser.previous().span;
+  const isAbstract = parser.previous().type === LexicalToken.ABSTRACT;
+
+  let classToken: Token;
+  if (isAbstract) {
+    parser.ignoreNewline();
+
+    classToken = parser.consume(LexicalToken.CLASS, "Expected 'class' after 'abstract'");
+  } else {
+    classToken = parser.previous();
+  }
 
   parser.ignoreNewline();
 
   const identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'class'", (error) => {
-    error.info('Add an identifier after this class', classSpan);
+    error.info('Add an identifier after this class', classToken.span);
   });
 
   let genericParams: Token[] = [];
@@ -34,26 +43,31 @@ export function classDecl(parser: Parser): Node {
   parser.ignoreNewline();
   parser.consume(LexicalToken.L_BRACE, "Expected '{'");
 
-  const staticBody: Node[] = [];
-  const instanceBody: Node[] = [];
+  const body: ClassProp[] = [];
   while (!parser.matchIgnoreNewline(LexicalToken.R_BRACE)) {
-    parser.ignoreNewline();
+    let abstract = false;
+    let isStatic = false;
 
-    if (parser.match(LexicalToken.STATIC)) {
-      parser.ignoreNewline();
-
-      staticBody.push(parser.declaration());
-    } else {
-      instanceBody.push(parser.declaration());
+    while (parser.matchIgnoreNewline(LexicalToken.ABSTRACT, LexicalToken.STATIC)) {
+      if (parser.previous().type === LexicalToken.ABSTRACT) {
+        abstract = true;
+      } else {
+        isStatic = true;
+      }
     }
+
+    parser.ignoreNewline();
+    const decl = parser.declaration();
+
+    body.push(new ClassProp(decl, abstract, isStatic, decl.span));
   }
 
   return new ClassDeclaration(
+    isAbstract,
     identifier,
     genericParams,
     extend,
-    staticBody,
-    instanceBody,
-    new Span(classSpan.start, parser.previous().span.end),
+    body,
+    new Span(classToken.span.start, parser.previous().span.end),
   );
 }

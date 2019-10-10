@@ -1,0 +1,53 @@
+# abstract static
+abstract class A {
+	abstract static var x
+}
+
+abstract class A {
+	abstract static var
+		x
+}
+
+abstract class A {
+	abstract static
+		var x
+}
+
+abstract class A {
+	abstract
+		static var x
+}
+
+abstract class A {
+	abstract
+		static
+		var
+		x
+}
+
+# static abstract
+abstract class A {
+	static abstract var x
+}
+
+abstract class A {
+	static abstract var
+		x
+}
+
+abstract class A {
+	static abstract
+		var x
+}
+
+abstract class A {
+	static
+		abstract var x
+}
+
+abstract class A {
+	static
+		abstract
+		var
+		x
+}

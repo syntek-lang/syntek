@@ -2,6 +2,7 @@ export enum SyntacticToken {
   // Declarations
   EMPTY_VARIABLE_DECL,
   VARIABLE_DECL,
+  EMPTY_FUNCTION_DECL,
   FUNCTION_DECL,
   CLASS_DECL,
   IMPORT_DECL,
@@ -42,4 +43,5 @@ export enum SyntacticToken {
   SWITCH_CASE,
   VARIABLE_TYPE,
   FUNCTION_PARAM,
+  CLASS_PROP,
 }

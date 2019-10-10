@@ -10,9 +10,11 @@ export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
 
   // Keywords
   class: grammar.LexicalToken.CLASS,
-  new: grammar.LexicalToken.NEW,
-  static: grammar.LexicalToken.STATIC,
   extends: grammar.LexicalToken.EXTENDS,
+  new: grammar.LexicalToken.NEW,
+
+  abstract: grammar.LexicalToken.ABSTRACT,
+  static: grammar.LexicalToken.STATIC,
 
   this: grammar.LexicalToken.THIS,
   super: grammar.LexicalToken.SUPER,
@@ -54,6 +56,7 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   // Declarations
   .set(grammar.EmptyVariableDeclaration, grammar.SyntacticToken.EMPTY_VARIABLE_DECL)
   .set(grammar.VariableDeclaration, grammar.SyntacticToken.VARIABLE_DECL)
+  .set(grammar.EmptyFunctionDeclaration, grammar.SyntacticToken.EMPTY_FUNCTION_DECL)
   .set(grammar.FunctionDeclaration, grammar.SyntacticToken.FUNCTION_DECL)
   .set(grammar.ClassDeclaration, grammar.SyntacticToken.CLASS_DECL)
   .set(grammar.ImportDeclaration, grammar.SyntacticToken.IMPORT_DECL)
@@ -93,7 +96,8 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   .set(grammar.Program, grammar.SyntacticToken.PROGRAM)
   .set(grammar.SwitchCase, grammar.SyntacticToken.SWITCH_CASE)
   .set(grammar.VariableType, grammar.SyntacticToken.VARIABLE_TYPE)
-  .set(grammar.FunctionParam, grammar.SyntacticToken.FUNCTION_PARAM);
+  .set(grammar.FunctionParam, grammar.SyntacticToken.FUNCTION_PARAM)
+  .set(grammar.ClassProp, grammar.SyntacticToken.CLASS_PROP);
 
 /**
  * Check if a node is a loop

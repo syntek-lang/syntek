@@ -1,0 +1,23 @@
+function x(): A
+
+function x():
+A
+
+function x()
+: A
+
+function x(
+): A
+
+function x
+(): A
+
+function
+x(): A
+
+function
+x
+(
+)
+:
+A

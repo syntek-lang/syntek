@@ -59,3 +59,19 @@ export class FunctionParam extends Node {
     this.variableType = variableType;
   }
 }
+
+export class ClassProp extends Node {
+  readonly value: Node;
+
+  readonly abstract: boolean;
+
+  readonly static: boolean;
+
+  constructor(value: Node, abstract: boolean, isStatic: boolean, span: Span) {
+    super(SyntacticToken.CLASS_PROP, span);
+
+    this.value = value;
+    this.abstract = abstract;
+    this.static = isStatic;
+  }
+}

@@ -1,5 +1,5 @@
 import {
-  Node, Token, LexicalToken, FunctionDeclaration, VariableType,
+  Node, Token, LexicalToken, FunctionDeclaration, EmptyFunctionDeclaration, VariableType,
 } from '../../../grammar';
 
 import { Parser } from '../..';
@@ -38,14 +38,24 @@ export function functionDecl(parser: Parser): Node {
     returnType = matchTypeDecl(parser);
   }
 
-  const body = matchBlock(parser);
+  if (parser.checkIgnoreNewline(LexicalToken.L_BRACE)) {
+    const body = matchBlock(parser);
 
-  return new FunctionDeclaration(
+    return new FunctionDeclaration(
+      identifier,
+      genericParams,
+      params,
+      returnType,
+      body,
+      new Span(functionSpan.start, parser.previous().span.end),
+    );
+  }
+
+  return new EmptyFunctionDeclaration(
     identifier,
     genericParams,
     params,
     returnType,
-    body,
     new Span(functionSpan.start, parser.previous().span.end),
   );
 }

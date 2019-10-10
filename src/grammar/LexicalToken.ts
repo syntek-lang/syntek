@@ -44,9 +44,11 @@ export enum LexicalToken {
 
   // Keywords
   CLASS,
-  NEW,
-  STATIC,
   EXTENDS,
+  NEW,
+
+  ABSTRACT,
+  STATIC,
 
   THIS,
   SUPER,

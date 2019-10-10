@@ -6,7 +6,7 @@ import { parse, loadRaw } from '../../../test-utils';
 import { Node } from '../../../../src/grammar/Node';
 import { Identifier } from '../../../../src/grammar/nodes/Expressions';
 import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
-import { FunctionDeclaration } from '../../../../src/grammar/nodes/Declarations';
+import { FunctionDeclaration, EmptyFunctionDeclaration } from '../../../../src/grammar/nodes/Declarations';
 
 describe('function', () => {
   it('parses generic param correctly', () => {
@@ -144,6 +144,27 @@ describe('function', () => {
       expect(decl.returnType!.generics.length).to.equal(0);
       expect(decl.returnType!.arrayDepth).to.equal(0);
       expect(decl.body.length).to.equal(0);
+    }
+
+    program.body.forEach(check);
+  });
+
+  it('parses empty correctly', () => {
+    const program = parse(loadRaw(__dirname, './empty.tek'));
+
+    function check(node: Node): void {
+      const decl = node as EmptyFunctionDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.EMPTY_FUNCTION_DECL);
+      expect(decl).to.be.an.instanceof(EmptyFunctionDeclaration);
+
+      expect(decl.identifier.lexeme).to.equal('x');
+      expect(decl.genericParams.length).to.equal(0);
+      expect(decl.params.length).to.equal(0);
+
+      expect(decl.returnType).to.not.be.null;
+      expect((decl.returnType!.object as Identifier).lexeme).to.equal('A');
+      expect(decl.returnType!.generics.length).to.equal(0);
+      expect(decl.returnType!.arrayDepth).to.equal(0);
     }
 
     program.body.forEach(check);

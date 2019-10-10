@@ -287,6 +287,12 @@ export class Parser {
     }
   }
 
+  checkIgnoreNewline(type: LexicalToken): boolean {
+    const offset = this.check(LexicalToken.NEWLINE) ? 1 : 0;
+
+    return this.check(type, offset);
+  }
+
   matchIgnoreNewline(...types: LexicalToken[]): boolean {
     const offset = this.check(LexicalToken.NEWLINE) ? 1 : 0;
 

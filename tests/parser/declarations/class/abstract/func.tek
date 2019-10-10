@@ -1,0 +1,31 @@
+abstract class A {
+	abstract function x()
+}
+
+abstract class A {
+	abstract function x(
+		)
+}
+
+abstract class A {
+	abstract function x
+		()
+}
+
+abstract class A {
+	abstract function
+		x()
+}
+
+abstract class A {
+	abstract
+		function x()
+}
+
+abstract class A {
+	abstract
+		function
+		x
+		(
+		)
+}

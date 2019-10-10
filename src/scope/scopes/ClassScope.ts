@@ -7,8 +7,7 @@ export class ClassScope extends Scope {
     if (this.node.type === grammar.SyntacticToken.CLASS_DECL) {
       const decl = this.node as grammar.ClassDeclaration;
 
-      decl.staticBody.forEach(node => this.add(node));
-      decl.instanceBody.forEach(node => this.add(node));
+      decl.body.forEach(prop => this.add(prop.value));
     } else {
       throw new Error(`Class scope can't contain node of type ${grammar.SyntacticToken[this.node.type]}`);
     }

@@ -51,6 +51,7 @@ export interface ExpressionParseRule {
  * An object containing the start token of a declaration mapped to the handler
  */
 export const declarationRules: { [key: number]: ParsingHandler } = {
+  [LexicalToken.ABSTRACT]: classDecl,
   [LexicalToken.CLASS]: classDecl,
   [LexicalToken.FUNCTION]: functionDecl,
   [LexicalToken.IMPORT]: importDecl,
@@ -107,9 +108,11 @@ export const expressionRules: ExpressionParseRule[] = [
 
   // Keywords
   { prefix: null, infix: null, precedence: Precedence.NONE }, // CLASS
-  { prefix: newExpr, infix: null, precedence: Precedence.OP10 }, // NEW
-  { prefix: null, infix: null, precedence: Precedence.NONE }, // STATIC
   { prefix: null, infix: null, precedence: Precedence.NONE }, // EXTENDS
+  { prefix: newExpr, infix: null, precedence: Precedence.OP10 }, // NEW
+
+  { prefix: null, infix: null, precedence: Precedence.NONE }, // ABSTRACT
+  { prefix: null, infix: null, precedence: Precedence.NONE }, // STATIC
 
   { prefix: thisLiteral, infix: null, precedence: Precedence.NONE }, // THIS
   { prefix: superLiteral, infix: null, precedence: Precedence.NONE }, // SUPER

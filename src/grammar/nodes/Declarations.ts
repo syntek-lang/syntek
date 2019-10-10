@@ -1,5 +1,5 @@
 import {
-  Node, Token, SyntacticToken, VariableType, FunctionParam,
+  Node, Token, SyntacticToken, VariableType, FunctionParam, ClassProp,
 } from '..';
 
 import { Span } from '../../position';
@@ -7,6 +7,7 @@ import { Span } from '../../position';
 export function isDeclaration(node: Node): boolean {
   return node.type === SyntacticToken.EMPTY_VARIABLE_DECL
     || node.type === SyntacticToken.VARIABLE_DECL
+    || node.type === SyntacticToken.EMPTY_FUNCTION_DECL
     || node.type === SyntacticToken.FUNCTION_DECL
     || node.type === SyntacticToken.CLASS_DECL
     || node.type === SyntacticToken.IMPORT_DECL;
@@ -50,6 +51,31 @@ export class VariableDeclaration extends Node {
   }
 }
 
+export class EmptyFunctionDeclaration extends Node {
+  readonly identifier: Token;
+
+  readonly genericParams: Token[];
+
+  readonly params: FunctionParam[];
+
+  readonly returnType: VariableType | null;
+
+  constructor(
+    identifier: Token,
+    genericParams: Token[],
+    params: FunctionParam[],
+    returnType: VariableType | null,
+    span: Span,
+  ) {
+    super(SyntacticToken.EMPTY_FUNCTION_DECL, span);
+
+    this.identifier = identifier;
+    this.genericParams = genericParams;
+    this.params = params;
+    this.returnType = returnType;
+  }
+}
+
 export class FunctionDeclaration extends Node {
   readonly identifier: Token;
 
@@ -80,31 +106,31 @@ export class FunctionDeclaration extends Node {
 }
 
 export class ClassDeclaration extends Node {
+  readonly abstract: boolean;
+
   readonly identifier: Token;
 
   readonly genericParams: Token[];
 
   readonly extends: VariableType[];
 
-  readonly staticBody: Node[];
-
-  readonly instanceBody: Node[];
+  readonly body: ClassProp[];
 
   constructor(
+    abstract: boolean,
     identifier: Token,
     genericParams: Token[],
     extend: VariableType[],
-    staticBody: Node[],
-    instanceBody: Node[],
+    body: ClassProp[],
     span: Span,
   ) {
     super(SyntacticToken.CLASS_DECL, span);
 
+    this.abstract = abstract;
     this.identifier = identifier;
     this.genericParams = genericParams;
     this.extends = extend;
-    this.staticBody = staticBody;
-    this.instanceBody = instanceBody;
+    this.body = body;
   }
 }
 

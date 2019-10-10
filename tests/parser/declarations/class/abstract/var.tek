@@ -1,0 +1,19 @@
+abstract class A {
+	abstract var x
+}
+
+abstract class A {
+	abstract var
+		x
+}
+
+abstract class A {
+	abstract
+		var x
+}
+
+abstract class A {
+	abstract
+		var
+		x
+}
