@@ -4,8 +4,11 @@ import { LinterRule } from '../..';
 import { Level } from '../../../diagnostic';
 
 function inLoopOrSwitch(parents: grammar.Node[]): boolean {
-  return parents
-    .some(parent => grammar.isLoop(parent) || parent.type === grammar.SyntacticToken.SWITCH_CASE);
+  return parents.some(parent => [
+    grammar.SyntacticToken.FOR_STMT,
+    grammar.SyntacticToken.WHILE_STMT,
+    grammar.SyntacticToken.SWITCH_CASE,
+  ].includes(parent.type));
 }
 
 export const illegalControlStatement: LinterRule = {

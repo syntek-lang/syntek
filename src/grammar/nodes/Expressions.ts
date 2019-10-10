@@ -3,26 +3,6 @@ import {
 } from '..';
 import { Span } from '../../position';
 
-export function isExpression(node: Node): boolean {
-  return node.type === SyntacticToken.ASSIGNMENT_EXPR
-    || node.type === SyntacticToken.WRAPPED_EXPR
-    || node.type === SyntacticToken.UNARY_EXPR
-    || node.type === SyntacticToken.BINARY_EXPR
-    || node.type === SyntacticToken.CALL_EXPR
-    || node.type === SyntacticToken.INDEX_EXPR
-    || node.type === SyntacticToken.MEMBER_EXPR
-    || node.type === SyntacticToken.NEW_EXPR
-    || node.type === SyntacticToken.INSTANCEOF_EXPR
-    || node.type === SyntacticToken.ASYNC_EXPR
-    || node.type === SyntacticToken.ARRAY_EXPR
-    || node.type === SyntacticToken.IF_EXPR
-
-    || node.type === SyntacticToken.IDENTIFIER
-    || node.type === SyntacticToken.LITERAL
-    || node.type === SyntacticToken.SUPER
-    || node.type === SyntacticToken.THIS;
-}
-
 export class AssignmentExpression extends Node {
   readonly left: Node;
 

@@ -4,17 +4,6 @@ import {
 
 import { Span } from '../../position';
 
-export function isStatement(node: Node): boolean {
-  return node.type === SyntacticToken.SWITCH_STMT
-    || node.type === SyntacticToken.FOR_STMT
-    || node.type === SyntacticToken.WHILE_STMT
-    || node.type === SyntacticToken.RETURN_STMT
-    || node.type === SyntacticToken.EXPRESSION_STMT
-
-    || node.type === SyntacticToken.BREAK_STMT
-    || node.type === SyntacticToken.CONTINUE_STMT;
-}
-
 export class SwitchStatement extends Node {
   readonly expression: Node;
 

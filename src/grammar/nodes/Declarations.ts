@@ -4,15 +4,6 @@ import {
 
 import { Span } from '../../position';
 
-export function isDeclaration(node: Node): boolean {
-  return node.type === SyntacticToken.EMPTY_VARIABLE_DECL
-    || node.type === SyntacticToken.VARIABLE_DECL
-    || node.type === SyntacticToken.EMPTY_FUNCTION_DECL
-    || node.type === SyntacticToken.FUNCTION_DECL
-    || node.type === SyntacticToken.CLASS_DECL
-    || node.type === SyntacticToken.IMPORT_DECL;
-}
-
 export class EmptyVariableDeclaration extends Node {
   readonly identifier: Token;
 

@@ -99,13 +99,22 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   .set(grammar.FunctionParam, grammar.SyntacticToken.FUNCTION_PARAM)
   .set(grammar.ClassProp, grammar.SyntacticToken.CLASS_PROP);
 
-/**
- * Check if a node is a loop
- *
- * @param node - The node to check
- * @returns Whether the node is a loop
- */
-export function isLoop(node: grammar.Node): boolean {
-  return node.type === grammar.SyntacticToken.FOR_STMT
-    || node.type === grammar.SyntacticToken.WHILE_STMT;
+export function isDeclaration(node: grammar.Node): boolean {
+  return node.type >= grammar.SyntacticToken.EMPTY_VARIABLE_DECL
+    && node.type <= grammar.SyntacticToken.IMPORT_DECL;
+}
+
+export function isExpression(node: grammar.Node): boolean {
+  return node.type >= grammar.SyntacticToken.ASSIGNMENT_EXPR
+    && node.type <= grammar.SyntacticToken.THIS;
+}
+
+export function isStatement(node: grammar.Node): boolean {
+  return node.type >= grammar.SyntacticToken.SWITCH_CASE
+    && node.type <= grammar.SyntacticToken.CONTINUE_STMT;
+}
+
+export function isOther(node: grammar.Node): boolean {
+  return node.type >= grammar.SyntacticToken.PROGRAM
+    && node.type <= grammar.SyntacticToken.CLASS_PROP;
 }
