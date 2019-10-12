@@ -116,5 +116,5 @@ export function isStatement(node: grammar.Node): boolean {
 
 export function isOther(node: grammar.Node): boolean {
   return node.type >= grammar.SyntacticToken.PROGRAM
-    && node.type <= grammar.SyntacticToken.CLASS_PROP;
+    && node.type <= grammar.SyntacticToken.IMPORT_EXPOSE;
 }

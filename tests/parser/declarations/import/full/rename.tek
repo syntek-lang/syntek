@@ -1,0 +1,23 @@
+import a.b as c
+
+import a.b as
+c
+
+import a.b
+as c
+
+import a.
+b as c
+
+import a
+.b as c
+
+import
+a.b as c
+
+import
+a
+.
+b
+as
+c

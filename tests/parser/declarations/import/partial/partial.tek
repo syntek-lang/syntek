@@ -1,0 +1,39 @@
+import a.b.{c, d}
+
+import a.b.{c, d
+}
+
+import a.b.{c,
+d}
+
+import a.b.{c
+, d}
+
+import a.b.{
+c, d}
+
+import a.b.
+{c, d}
+
+import a.b
+.{c, d}
+
+import a.
+b.{c, d}
+
+import a
+.b.{c, d}
+
+import
+a.b.{c, d}
+
+import
+a
+.
+b
+.
+{
+c
+,
+d
+}

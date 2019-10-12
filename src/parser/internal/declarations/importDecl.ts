@@ -1,5 +1,5 @@
 import {
-  Node, Token, LexicalToken, ImportDeclaration,
+  Node, Token, LexicalToken, ImportDeclaration, ImportExpose,
 } from '../../../grammar';
 
 import { Parser } from '../..';
@@ -7,43 +7,66 @@ import { Span } from '../../../position';
 
 export function importDecl(parser: Parser): Node {
   const importSpan = parser.previous().span;
+  const path: Token[] = [];
 
-  parser.ignoreNewline();
+  do {
+    parser.ignoreNewline();
 
-  let source: Token;
-  let identifier: Token | null = null;
+    path.push(parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'import'"));
+  } while (
+    // import std.math.{
+    //                ^^
+    parser.matchIgnoreNewline(LexicalToken.DOT) && !parser.checkIgnoreNewline(LexicalToken.L_BRACE)
+  );
 
-  if (parser.check(LexicalToken.IDENTIFIER)) {
-    source = parser.advance();
+  // Expose
+  if (parser.matchIgnoreNewline(LexicalToken.L_BRACE)) {
+    const expose: ImportExpose[] = [];
 
-    if (parser.matchIgnoreNewline(LexicalToken.AS)) {
+    do {
       parser.ignoreNewline();
 
-      identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'as'", (error) => {
-        error.info('Add an identifier after this as', parser.previous().span);
-      });
-    }
-  } else {
-    source = parser.consume(LexicalToken.STRING, "Expected an identifier or string after 'import'", (error) => {
-      error.info('Add an identifier or string after this import', importSpan);
-    });
+      const value = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier');
+      let rename: Token | null = null;
+
+      if (parser.matchIgnoreNewline(LexicalToken.AS)) {
+        parser.ignoreNewline();
+
+        rename = parser.consume(LexicalToken.IDENTIFIER, "Expected identifier after 'as'");
+      }
+
+      expose.push(new ImportExpose(
+        value,
+        rename,
+        new Span(
+          value.span.start,
+          rename ? rename.span.end : value.span.end,
+        ),
+      ));
+    } while (parser.matchIgnoreNewline(LexicalToken.COMMA));
 
     parser.ignoreNewline();
+    parser.consume(LexicalToken.R_BRACE, "Expected '}'");
 
-    const asSpan = parser.consume(LexicalToken.AS, "Importing a file must always be followed with 'as'", (error) => {
-      error.info("Add 'as' after the source", source.span);
-    }).span;
+    return new ImportDeclaration(
+      path,
+      null,
+      expose,
+      new Span(importSpan.start, parser.previous().span.end),
+    );
+  }
 
+  let rename: Token | null = null;
+  if (parser.matchIgnoreNewline(LexicalToken.AS)) {
     parser.ignoreNewline();
 
-    identifier = parser.consume(LexicalToken.IDENTIFIER, "Expected an identifier after 'as'", (error) => {
-      error.info('Add an identifier after this as', asSpan);
-    });
+    rename = parser.consume(LexicalToken.IDENTIFIER, "Expected identifier after 'as'");
   }
 
   return new ImportDeclaration(
-    source,
-    identifier,
+    path,
+    rename,
+    null,
     new Span(importSpan.start, parser.previous().span.end),
   );
 }

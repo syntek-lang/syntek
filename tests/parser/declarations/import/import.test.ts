@@ -8,48 +8,95 @@ import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 import { ImportDeclaration } from '../../../../src/grammar/nodes/Declarations';
 
 describe('import', () => {
-  it('parses builtin correctly', () => {
-    const program = parse(loadRaw(__dirname, './builtin.tek'));
+  describe('full', () => {
+    it('parses full correctly', () => {
+      const program = parse(loadRaw(__dirname, './full/full.tek'));
 
-    function check(node: Node): void {
-      const decl = node as ImportDeclaration;
-      expect(decl.type).to.equal(SyntacticToken.IMPORT_DECL);
-      expect(decl).to.be.an.instanceof(ImportDeclaration);
+      function check(node: Node): void {
+        const decl = node as ImportDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.IMPORT_DECL);
+        expect(decl).to.be.an.instanceof(ImportDeclaration);
 
-      expect(decl.source.lexeme).to.equal('x');
-      expect(decl.identifier.lexeme).to.equal('x');
-    }
+        expect(decl.path.length).to.equal(2);
+        expect(decl.path[0].lexeme).to.equal('a');
+        expect(decl.path[1].lexeme).to.equal('b');
 
-    program.body.forEach(check);
+        expect(decl.rename).to.be.undefined;
+        expect(decl.expose).to.be.undefined;
+      }
+
+      program.body.forEach(check);
+    });
+
+    it('parses rename correctly', () => {
+      const program = parse(loadRaw(__dirname, './full/rename.tek'));
+
+      function check(node: Node): void {
+        const decl = node as ImportDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.IMPORT_DECL);
+        expect(decl).to.be.an.instanceof(ImportDeclaration);
+
+        expect(decl.path.length).to.equal(2);
+        expect(decl.path[0].lexeme).to.equal('a');
+        expect(decl.path[1].lexeme).to.equal('b');
+
+        expect(decl.rename!.lexeme).to.equal('c');
+        expect(decl.expose).to.be.undefined;
+      }
+
+      program.body.forEach(check);
+    });
   });
 
-  it('parses builtin with "as" correctly', () => {
-    const program = parse(loadRaw(__dirname, './builtin-with-as.tek'));
+  describe('partial', () => {
+    it('parses partial correctly', () => {
+      const program = parse(loadRaw(__dirname, './partial/partial.tek'));
 
-    function check(node: Node): void {
-      const decl = node as ImportDeclaration;
-      expect(decl.type).to.equal(SyntacticToken.IMPORT_DECL);
-      expect(decl).to.be.an.instanceof(ImportDeclaration);
+      function check(node: Node): void {
+        const decl = node as ImportDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.IMPORT_DECL);
+        expect(decl).to.be.an.instanceof(ImportDeclaration);
 
-      expect(decl.source.lexeme).to.equal('x');
-      expect(decl.identifier.lexeme).to.equal('y');
-    }
+        expect(decl.path.length).to.equal(2);
+        expect(decl.path[0].lexeme).to.equal('a');
+        expect(decl.path[1].lexeme).to.equal('b');
 
-    program.body.forEach(check);
-  });
+        expect(decl.rename).to.be.undefined;
+        expect(decl.expose!.length).to.equal(2);
 
-  it('parses external correctly', () => {
-    const program = parse(loadRaw(__dirname, './external.tek'));
+        expect(decl.expose![0].value.lexeme).to.equal('c');
+        expect(decl.expose![0].rename).to.be.undefined;
 
-    function check(node: Node): void {
-      const decl = node as ImportDeclaration;
-      expect(decl.type).to.equal(SyntacticToken.IMPORT_DECL);
-      expect(decl).to.be.an.instanceof(ImportDeclaration);
+        expect(decl.expose![1].value.lexeme).to.equal('d');
+        expect(decl.expose![1].rename).to.be.undefined;
+      }
 
-      expect(decl.source.lexeme).to.equal("'x'");
-      expect(decl.identifier.lexeme).to.equal('y');
-    }
+      program.body.forEach(check);
+    });
 
-    program.body.forEach(check);
+    it('parses rename correctly', () => {
+      const program = parse(loadRaw(__dirname, './partial/rename.tek'));
+
+      function check(node: Node): void {
+        const decl = node as ImportDeclaration;
+        expect(decl.type).to.equal(SyntacticToken.IMPORT_DECL);
+        expect(decl).to.be.an.instanceof(ImportDeclaration);
+
+        expect(decl.path.length).to.equal(2);
+        expect(decl.path[0].lexeme).to.equal('a');
+        expect(decl.path[1].lexeme).to.equal('b');
+
+        expect(decl.rename).to.be.undefined;
+        expect(decl.expose!.length).to.equal(2);
+
+        expect(decl.expose![0].value.lexeme).to.equal('c');
+        expect(decl.expose![0].rename!.lexeme).to.equal('d');
+
+        expect(decl.expose![1].value.lexeme).to.equal('e');
+        expect(decl.expose![1].rename!.lexeme).to.equal('f');
+      }
+
+      program.body.forEach(check);
+    });
   });
 });

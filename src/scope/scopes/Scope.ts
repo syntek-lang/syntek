@@ -88,7 +88,15 @@ export abstract class Scope {
 
       case grammar.SyntacticToken.IMPORT_DECL: {
         const decl = node as grammar.ImportDeclaration;
-        this.symbols.add(decl.identifier, new SymbolEntry(decl, this));
+
+        if (decl.rename) {
+          this.symbols.add(decl.rename, new SymbolEntry(decl, this));
+        } else if (decl.expose) {
+          decl.expose.forEach(expose => this.add(expose));
+        } else {
+          this.symbols.add(decl.path[decl.path.length - 1], new SymbolEntry(decl, this));
+        }
+
         break;
       }
 
@@ -183,6 +191,18 @@ export abstract class Scope {
       case grammar.SyntacticToken.FUNCTION_PARAM: {
         const param = node as grammar.FunctionParam;
         this.symbols.add(param.name, new SymbolEntry(param, this));
+        break;
+      }
+
+      case grammar.SyntacticToken.CLASS_PROP: {
+        const prop = node as grammar.ClassProp;
+        this.add(prop.value);
+        break;
+      }
+
+      case grammar.SyntacticToken.IMPORT_EXPOSE: {
+        const expose = node as grammar.ImportExpose;
+        this.symbols.add(expose.rename || expose.value, new SymbolEntry(expose, this));
         break;
       }
 

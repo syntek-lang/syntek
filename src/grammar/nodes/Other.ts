@@ -75,3 +75,19 @@ export class ClassProp extends Node {
     this.static = isStatic;
   }
 }
+
+export class ImportExpose extends Node {
+  readonly value: Token;
+
+  readonly rename?: Token;
+
+  constructor(value: Token, rename: Token | null, span: Span) {
+    super(SyntacticToken.IMPORT_EXPOSE, span);
+
+    this.value = value;
+
+    if (rename) {
+      this.rename = rename;
+    }
+  }
+}

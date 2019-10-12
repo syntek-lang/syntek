@@ -44,4 +44,5 @@ export enum SyntacticToken {
   VARIABLE_TYPE,
   FUNCTION_PARAM,
   CLASS_PROP,
+  IMPORT_EXPOSE,
 }

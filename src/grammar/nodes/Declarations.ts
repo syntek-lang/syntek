@@ -1,5 +1,5 @@
 import {
-  Node, Token, SyntacticToken, VariableType, FunctionParam, ClassProp,
+  Node, Token, SyntacticToken, VariableType, FunctionParam, ClassProp, ImportExpose,
 } from '..';
 
 import { Span } from '../../position';
@@ -126,19 +126,26 @@ export class ClassDeclaration extends Node {
 }
 
 export class ImportDeclaration extends Node {
-  readonly source: Token;
+  readonly path: Token[];
 
-  readonly identifier: Token;
+  readonly rename?: Token;
 
-  constructor(source: Token, identifier: Token | null, span: Span) {
+  readonly expose?: ImportExpose[];
+
+  constructor(
+    path: Token[],
+    rename: Token | null,
+    expose: ImportExpose[] | null,
+    span: Span,
+  ) {
     super(SyntacticToken.IMPORT_DECL, span);
 
-    this.source = source;
+    this.path = path;
 
-    if (identifier) {
-      this.identifier = identifier;
-    } else {
-      this.identifier = source;
+    if (rename) {
+      this.rename = rename;
+    } else if (expose) {
+      this.expose = expose;
     }
   }
 }
