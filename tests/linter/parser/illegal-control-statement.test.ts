@@ -7,7 +7,10 @@ const YIELD_ERROR = 'You can only place yield inside an if expression';
 const BREAK_ERROR = 'You can only place break inside a loop or switch case';
 const CONTINUE_ERROR = 'You can only place continue inside a loop or switch case';
 
-testRule('illegalControlStatement', illegalControlStatement, {
+testRule('illegalControlStatement', {
+  rule: illegalControlStatement,
+  scope: false,
+
   valid: [
     // Return
     'function x() { return }',

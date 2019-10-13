@@ -5,7 +5,10 @@ import { importAtTopLevel } from '../../../src/linter/rules/parser/import-at-top
 const IMPORT = 'import myImport';
 const ERROR = 'An import can only be at the top level';
 
-testRule('importAtTopLevel', importAtTopLevel, {
+testRule('importAtTopLevel', {
+  rule: importAtTopLevel,
+  scope: false,
+
   valid: [IMPORT],
   invalid: [
     { code: `if x { ${IMPORT} }`, errors: [ERROR] },

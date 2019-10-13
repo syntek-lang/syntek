@@ -53,6 +53,26 @@ export abstract class Scope {
     return this.scopes.has(node);
   }
 
+  getSymbol(name: string): SymbolEntry | undefined {
+    if (this.hasOwnSymbol(name)) {
+      return this.getOwnSymbol(name);
+    }
+
+    if (this.parent) {
+      return this.parent.getSymbol(name);
+    }
+
+    return undefined;
+  }
+
+  getOwnSymbol(name: string): SymbolEntry | undefined {
+    return this.symbols.symbols.get(name);
+  }
+
+  hasOwnSymbol(name: string): boolean {
+    return this.symbols.symbols.has(name);
+  }
+
   add(node: grammar.Node): void {
     switch (node.type) {
       // Declarations

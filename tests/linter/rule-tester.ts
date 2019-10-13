@@ -4,9 +4,13 @@ import { expect } from 'chai';
 import { Linter } from '../../src/linter/Linter';
 import { LinterRule } from '../../src/linter/LinterRule';
 
+import { BlockScope } from '../../src/scope';
 import { parse, sanitize } from '../test-utils';
 
-interface TestCases {
+interface TestSettings {
+  rule: LinterRule;
+  scope: boolean;
+
   valid: string[];
   invalid: {
     code: string;
@@ -14,16 +18,23 @@ interface TestCases {
   }[];
 }
 
-export function testRule(name: string, rule: LinterRule, testCases: TestCases): void {
+export function testRule(name: string, settings: TestSettings): void {
   function lintCode(code: string): string[] {
-    return new Linter(parse(code), { [name]: rule })
+    const program = parse(code);
+
+    let scope: BlockScope | undefined;
+    if (settings.scope) {
+      scope = new BlockScope(program);
+    }
+
+    return new Linter(program, { [name]: settings.rule }, scope)
       .lint()
       .map(error => error.msg);
   }
 
   describe(name, () => {
     describe('valid', () => {
-      testCases.valid.forEach((valid) => {
+      settings.valid.forEach((valid) => {
         it(sanitize(valid), () => {
           lintCode(valid)
             .forEach((error) => {
@@ -35,7 +46,7 @@ export function testRule(name: string, rule: LinterRule, testCases: TestCases): 
     });
 
     describe('invalid', () => {
-      testCases.invalid.forEach((invalid) => {
+      settings.invalid.forEach((invalid) => {
         it(sanitize(invalid.code), () => {
           const errors = lintCode(invalid.code);
 

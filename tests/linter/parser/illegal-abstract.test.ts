@@ -5,7 +5,10 @@ import { illegalAbstract } from '../../../src/linter/rules/parser/illegal-abstra
 const CLASS_ERROR = 'Only abstract classes can contain abstract properties';
 const PROP_ERROR = 'An abstract property can not contain a value';
 
-testRule('illegalAbstract', illegalAbstract, {
+testRule('illegalAbstract', {
+  rule: illegalAbstract,
+  scope: false,
+
   valid: [
     'abstract class A { abstract var x \n abstract function y() }',
     'abstract class A { abstract static var x \n abstract static function y() }',

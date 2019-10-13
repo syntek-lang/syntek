@@ -4,7 +4,10 @@ import { declarationsInClass } from '../../../src/linter/rules/parser/declaratio
 
 const ERROR = 'You can only put declarations in a class body';
 
-testRule('declarationsInClass', declarationsInClass, {
+testRule('declarationsInClass', {
+  rule: declarationsInClass,
+  scope: false,
+
   valid: [
     'class X { var x }',
     'class X { var x = 5 }',

@@ -12,7 +12,7 @@ console.log(tokenResult);
 export const parseResult = new Parser(tokenResult.tokens).parse();
 console.log(parseResult);
 
-// Semantic analysis
+// Lint parser
 import { Linter } from './linter';
 import * as lintParser from './linter/rules/parser';
 
@@ -26,6 +26,15 @@ import { BlockScope } from './scope';
 
 export const blockScope = new BlockScope(parseResult.ast);
 console.log(blockScope);
+
+// Lint declarations
+import * as lintDeclarations from './linter/rules/declarations';
+
+console.log(new Linter(
+  parseResult.ast,
+  lintDeclarations,
+  blockScope,
+).lint());
 
 // Export everything
 export const code = program;

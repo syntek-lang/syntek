@@ -5,7 +5,10 @@ import { illegalAssignmentExpr } from '../../../src/linter/rules/parser/illegal-
 const EXPR_ERROR = 'Assignments can not be inside another expression';
 const LEFT_ERROR = 'You can only assign to an identifier, member expression, and index expression';
 
-testRule('illegalAssignmentExpr', illegalAssignmentExpr, {
+testRule('illegalAssignmentExpr', {
+  rule: illegalAssignmentExpr,
+  scope: false,
+
   valid: [
     'x = 5',
     'x = 10 - 5',

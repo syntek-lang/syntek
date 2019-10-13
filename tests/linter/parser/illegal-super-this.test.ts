@@ -5,7 +5,10 @@ import { illegalSuperThis } from '../../../src/linter/rules/parser/illegal-super
 const SUPER_ERROR = 'You can only use super inside a class';
 const THIS_ERROR = 'You can only use this inside a class';
 
-testRule('illegalSuperThis', illegalSuperThis, {
+testRule('illegalSuperThis', {
+  rule: illegalSuperThis,
+  scope: false,
+
   valid: [
     // Super
     'class C { var x = super.x }',

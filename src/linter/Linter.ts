@@ -1,4 +1,5 @@
 import { LinterRule } from '.';
+import { Scope } from '../scope';
 import { Program } from '../grammar';
 import { ASTWalker } from '../walker';
 import { Diagnostic } from '../diagnostic';
@@ -12,15 +13,18 @@ export class Linter {
 
   private readonly rules: LinterRules;
 
+  private readonly scope?: Scope;
+
   private readonly diagnostics: Diagnostic[] = [];
 
-  constructor(ast: Program, rules: LinterRules) {
+  constructor(ast: Program, rules: LinterRules, scope?: Scope) {
     this.ast = ast;
     this.rules = rules;
+    this.scope = scope;
   }
 
   lint(): Diagnostic[] {
-    const walker = new ASTWalker(this.ast);
+    const walker = new ASTWalker(this.ast, this.scope);
 
     Object.entries(this.rules).forEach(([name, rule]) => {
       rule.create(walker, (msg, span, errorHandler) => {

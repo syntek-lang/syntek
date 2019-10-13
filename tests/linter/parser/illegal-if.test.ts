@@ -4,7 +4,10 @@ import { illegalIf } from '../../../src/linter/rules/parser/illegal-if';
 
 const ERROR = 'An if expression must have an else body';
 
-testRule('illegalIf', illegalIf, {
+testRule('illegalIf', {
+  rule: illegalIf,
+  scope: false,
+
   valid: [
     'if x {}',
     'if x {} else {}',
