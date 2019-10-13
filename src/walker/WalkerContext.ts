@@ -4,10 +4,22 @@ import { Node } from '../grammar';
 export class WalkerContext {
   readonly parents: Node[];
 
-  readonly scope?: Scope;
+  private readonly privateScope?: Scope;
 
   constructor(parents: Node[], scope?: Scope) {
     this.parents = parents;
-    this.scope = scope;
+    this.privateScope = scope;
+  }
+
+  get scope(): Scope {
+    if (this.privateScope) {
+      return this.privateScope;
+    }
+
+    throw new Error('Scope is not available at this stage');
+  }
+
+  hasScope(): boolean {
+    return !!this.privateScope;
   }
 }

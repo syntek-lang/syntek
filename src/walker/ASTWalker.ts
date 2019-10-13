@@ -77,7 +77,7 @@ export class ASTWalker {
     // For instance, if node is a for statement it will be blockscope
     // If the node has no scope of it's own, like an import declaration, it uses the existing scope
     let newContext = context;
-    if (context.scope && context.scope.hasOwnScope(node)) {
+    if (context.hasScope() && context.scope.hasOwnScope(node)) {
       newContext = new WalkerContext(context.parents, context.scope.getOwnScope(node));
     }
 
