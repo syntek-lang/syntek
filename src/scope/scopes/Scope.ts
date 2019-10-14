@@ -88,6 +88,15 @@ export abstract class Scope {
         break;
       }
 
+      case grammar.SyntacticToken.EMPTY_FUNCTION_DECL: {
+        const decl = node as grammar.EmptyFunctionDeclaration;
+
+        this.symbols.add(decl.identifier, new SymbolEntry(decl, this));
+        this.scopes.set(decl, new FunctionScope(decl, this));
+
+        break;
+      }
+
       case grammar.SyntacticToken.FUNCTION_DECL: {
         const decl = node as grammar.FunctionDeclaration;
 

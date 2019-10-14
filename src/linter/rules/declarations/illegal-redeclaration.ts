@@ -3,6 +3,7 @@ import * as grammar from '../../../grammar';
 import { LinterRule } from '../..';
 import { Level } from '../../../diagnostic';
 
+import { WalkerContext } from '../../../walker';
 import { Scope, ClassScope, SymbolEntry } from '../../../scope';
 
 function findSymbol(scope: Scope, name: string): SymbolEntry | undefined {
@@ -39,12 +40,58 @@ export const illegalRedeclaration: LinterRule = {
   description: 'Report illegal redeclarations',
   level: Level.ERROR,
   create(walker, report) {
-    walker.onEnter(grammar.VariableDeclaration, (node, ctx) => {
-      const symbol = findSymbol(ctx.scope, node.identifier.lexeme);
+    function checkDeclaration(
+      node: grammar.Node,
+      ctx: WalkerContext,
+      type: string,
+      name: string,
+    ): void {
+      const symbol = findSymbol(ctx.scope, name);
 
       if (symbol && symbol.node !== node) {
-        report("You can't redeclare a variable", node.span);
+        report(`You can't declare a ${type} with the name '${name}', because it is already used`, node.span);
       }
-    });
+    }
+
+    walker
+      .onEnter(grammar.EmptyVariableDeclaration, (node, ctx) => checkDeclaration(node, ctx, 'variable', node.identifier.lexeme))
+      .onEnter(grammar.VariableDeclaration, (node, ctx) => checkDeclaration(node, ctx, 'variable', node.identifier.lexeme))
+      .onEnter(grammar.FunctionParam, (node, ctx) => checkDeclaration(node, ctx, 'param', node.name.lexeme))
+      .onEnter(grammar.ForStatement, (node, ctx) => checkDeclaration(node, ctx, 'variable', node.identifier.lexeme))
+
+      .onEnter(grammar.ClassDeclaration, (node, ctx) => {
+        // Check class name
+        checkDeclaration(node, ctx, 'class', node.identifier.lexeme);
+
+        // Check generics
+        node.genericParams.forEach((generic) => {
+          checkDeclaration(node, ctx, 'generic', generic.lexeme);
+        });
+      })
+
+      .onEnter(grammar.EmptyFunctionDeclaration, (node, ctx) => {
+        // TODO: mangle function name for overloading
+        const name = node.identifier.lexeme;
+
+        // Check function name
+        checkDeclaration(node, ctx, 'function', name);
+
+        // Check generics
+        node.genericParams.forEach((generic) => {
+          checkDeclaration(node, ctx, 'generic', generic.lexeme);
+        });
+      })
+      .onEnter(grammar.FunctionDeclaration, (node, ctx) => {
+        // TODO: mangle function name for overloading
+        const name = node.identifier.lexeme;
+
+        // Check function name
+        checkDeclaration(node, ctx, 'function', name);
+
+        // Check generics
+        node.genericParams.forEach((generic) => {
+          checkDeclaration(node, ctx, 'generic', generic.lexeme);
+        });
+      });
   },
 };
