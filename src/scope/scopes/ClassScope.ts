@@ -8,7 +8,8 @@ export class ClassScope extends Scope {
     if (this.node.type === grammar.SyntacticToken.CLASS_DECL) {
       const decl = this.node as grammar.ClassDeclaration;
 
-      decl.genericParams.forEach(generic => this.symbols.add(generic, new SymbolEntry(decl, this)));
+      decl.genericParams
+        .forEach(generic => this.symbols.add(generic.lexeme, new SymbolEntry(decl, this)));
 
       decl.body.forEach(prop => this.add(prop.value));
     } else {

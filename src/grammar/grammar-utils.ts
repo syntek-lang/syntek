@@ -118,3 +118,8 @@ export function isOther(node: grammar.Node): boolean {
   return node.type >= grammar.SyntacticToken.PROGRAM
     && node.type <= grammar.SyntacticToken.IMPORT_EXPOSE;
 }
+
+export function isFunction(node: grammar.Node): boolean {
+  return node.type === grammar.SyntacticToken.EMPTY_FUNCTION_DECL
+    || node.type === grammar.SyntacticToken.FUNCTION_DECL;
+}

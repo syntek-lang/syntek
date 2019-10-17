@@ -5,3 +5,5 @@ export * from './scopes/Scope';
 
 export * from './symbols/SymbolEntry';
 export * from './symbols/SymbolTable';
+
+export * from './mangle';

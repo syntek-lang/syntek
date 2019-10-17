@@ -3,7 +3,12 @@ import * as grammar from '../../../grammar';
 import { LinterRule } from '../..';
 import { Level } from '../../../diagnostic';
 
-import { Scope, ClassScope, SymbolEntry } from '../../../scope';
+import {
+  Scope, ClassScope,
+  SymbolEntry, mangleFunctionName,
+} from '../../../scope';
+
+type Func = grammar.FunctionDeclaration | grammar.EmptyFunctionDeclaration;
 
 function findSymbol(scope: Scope, name: string): SymbolEntry | undefined {
   // If the current scope is a class scope then just look in the current scope
@@ -39,36 +44,64 @@ export const illegalRedeclaration: LinterRule = {
   description: 'Report illegal redeclarations',
   level: Level.ERROR,
   create(walker, report) {
-    function checkDeclaration(node: grammar.Node, scope: Scope, type: string, name: string): void {
-      const symbol = findSymbol(scope, name);
+    function error(type: string, name: grammar.Token): void {
+      report(`You can't declare a ${type} with the name '${name.lexeme}', because it is already used`, name.span);
+    }
 
-      if (symbol && symbol.node !== node) {
-        report(`You can't declare a ${type} with the name '${name}', because it is already used`, node.span);
+    function checkDeclaration(
+      node: grammar.Node,
+      scope: Scope,
+      type: string,
+      name: grammar.Token,
+    ): void {
+      const symbol = findSymbol(scope, name.lexeme);
+
+      if ((symbol && symbol.node !== node) || scope.hasFunction(name.lexeme)) {
+        error(type, name);
+      }
+    }
+
+    function checkFunctionDeclaration(node: Func, scope: Scope): void {
+      // Check regular name
+      const symbol = findSymbol(scope, node.identifier.lexeme);
+
+      if (symbol && !grammar.isFunction(symbol.node)) {
+        error('function', node.identifier);
+      } else {
+        // Check mangled function name
+        const name = mangleFunctionName(node);
+        const mangledSymbol = findSymbol(scope, name);
+
+        if (!mangledSymbol || mangledSymbol.node === node) {
+          return;
+        }
+
+        if (mangledSymbol.scope === scope) {
+          report(`Identical function overload exists for '${node.identifier.lexeme}'`, node.span);
+        } else {
+          error('function', node.identifier);
+        }
       }
     }
 
     walker
-      .onEnter(grammar.EmptyVariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier.lexeme))
-      .onEnter(grammar.VariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier.lexeme))
-      .onEnter(grammar.FunctionParam, (node, ctx) => checkDeclaration(node, ctx.scope, 'param', node.name.lexeme))
-      .onEnter(grammar.ForStatement, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier.lexeme))
+      .onEnter(grammar.EmptyVariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier))
+      .onEnter(grammar.VariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier))
+      .onEnter(grammar.FunctionParam, (node, ctx) => checkDeclaration(node, ctx.scope, 'param', node.name))
+      .onEnter(grammar.ForStatement, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier))
 
       .onEnter(grammar.ClassDeclaration, (node, ctx) => {
         // Check class name
-        checkDeclaration(node, ctx.scope, 'class', node.identifier.lexeme);
+        checkDeclaration(node, ctx.scope, 'class', node.identifier);
 
         // Check generics
         node.genericParams.forEach((generic) => {
-          checkDeclaration(node, ctx.scope, 'generic', generic.lexeme);
+          checkDeclaration(node, ctx.scope, 'generic', generic);
         });
       })
 
       .onEnter(grammar.EmptyFunctionDeclaration, (node, ctx) => {
-        // TODO: mangle function name for overloading
-        const name = node.identifier.lexeme;
-
-        // Check function name
-        checkDeclaration(node, ctx.scope, 'function', name);
+        checkFunctionDeclaration(node, ctx.scope);
 
         // Check generics
         node.genericParams.forEach((generic) => {
@@ -76,16 +109,12 @@ export const illegalRedeclaration: LinterRule = {
           const scope = ctx.scope.getScope(node);
 
           if (scope) {
-            checkDeclaration(node, scope, 'generic', generic.lexeme);
+            checkDeclaration(node, scope, 'generic', generic);
           }
         });
       })
       .onEnter(grammar.FunctionDeclaration, (node, ctx) => {
-        // TODO: mangle function name for overloading
-        const name = node.identifier.lexeme;
-
-        // Check function name
-        checkDeclaration(node, ctx.scope, 'function', name);
+        checkFunctionDeclaration(node, ctx.scope);
 
         // Check generics
         node.genericParams.forEach((generic) => {
@@ -93,7 +122,7 @@ export const illegalRedeclaration: LinterRule = {
           const scope = ctx.scope.getScope(node);
 
           if (scope) {
-            checkDeclaration(node, scope, 'generic', generic.lexeme);
+            checkDeclaration(node, scope, 'generic', generic);
           }
         });
       });

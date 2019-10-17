@@ -8,13 +8,15 @@ export class FunctionScope extends Scope {
     if (this.node.type === grammar.SyntacticToken.EMPTY_FUNCTION_DECL) {
       const decl = this.node as grammar.EmptyFunctionDeclaration;
 
-      decl.genericParams.forEach(generic => this.symbols.add(generic, new SymbolEntry(decl, this)));
+      decl.genericParams
+        .forEach(generic => this.symbols.add(generic.lexeme, new SymbolEntry(decl, this)));
 
       decl.params.forEach(param => this.add(param));
     } else if (this.node.type === grammar.SyntacticToken.FUNCTION_DECL) {
       const decl = this.node as grammar.FunctionDeclaration;
 
-      decl.genericParams.forEach(generic => this.symbols.add(generic, new SymbolEntry(decl, this)));
+      decl.genericParams
+        .forEach(generic => this.symbols.add(generic.lexeme, new SymbolEntry(decl, this)));
 
       decl.params.forEach(param => this.add(param));
       decl.body.forEach(node => this.add(node));

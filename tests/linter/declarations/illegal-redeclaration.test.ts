@@ -10,6 +10,7 @@ const FOR_ERROR = (name: string): string => ERROR('variable', name);
 const CLASS_ERROR = (name: string): string => ERROR('class', name);
 const GENERIC_ERROR = (name: string): string => ERROR('generic', name);
 const FUNCTION_ERROR = (name: string): string => ERROR('function', name);
+const OVERLOAD_ERROR = (name: string): string => `Identical function overload exists for '${name}'`;
 
 testRule('illegalRedeclaration', {
   rule: illegalRedeclaration,
@@ -67,11 +68,11 @@ testRule('illegalRedeclaration', {
     {
       group: 'empty function',
       tests: [
-        'class A { abstract function x() \n abstract function y() }',
-        'var x \n class A { abstract function x() }',
-        { code: 'class A { abstract function x() \n abstract function x(a: A) }', skip: true },
-        { code: 'class A { abstract function x(a: A) \n abstract function x(b: B) }', skip: true },
-        'class A { var T \n abstract function <T> x() }',
+        'function x() \n function y()',
+        'var x \n class A { function x() }',
+        'function x() \n function x(a: A)',
+        'function x(a: A) \n function x(b: B)',
+        'class A { var T \n function <T> x() }',
       ],
     },
 
@@ -82,14 +83,14 @@ testRule('illegalRedeclaration', {
         'var x \n class A { function x() {} }',
         'if true { function x() {} } \n if true { function x() {} }',
         'class A { var T \n function <T> x() {} }',
-        { code: 'function x() {} \n function x(a: A)', skip: true },
-        { code: 'function x(a: A) {} \n function x(b: B)', skip: true },
+        'function x() {} \n function x(a: A)',
+        'function x(a: A) {} \n function x(b: B)',
 
         {
           group: 'generics',
           tests: [
             'function <T> x() {} \n function <T> y() {}',
-            { code: 'function <A> x(a: A) {} \n function <A, B> x(b: B) {}', skip: true },
+            'function <A> x(a: A) {} \n function <A, B> x(b: B) {}',
           ],
         },
       ],
@@ -125,6 +126,7 @@ testRule('illegalRedeclaration', {
     {
       group: 'function param',
       tests: [
+        { code: 'function x(x: A)', errors: [PARAM_ERROR('x')] },
         { code: 'function x(x: A) {}', errors: [PARAM_ERROR('x')] },
         { code: 'var x \n function y(x: A) {}', errors: [PARAM_ERROR('x')] },
         { code: 'function <T> x(T: A) {}', errors: [PARAM_ERROR('T')] },
@@ -155,25 +157,28 @@ testRule('illegalRedeclaration', {
     {
       group: 'empty function',
       tests: [
-        { code: 'class A { abstract function x() \n abstract function x() }', errors: [FUNCTION_ERROR('x')] },
-        { code: 'class A { abstract function x(a: A) \n abstract function x(b: A) }', errors: [FUNCTION_ERROR('x')] },
-        { code: 'var T \n class A { abstract function <T> x() }', errors: [GENERIC_ERROR('T')] },
+        { code: 'function x() \n function x()', errors: [OVERLOAD_ERROR('x')] },
+        { code: 'function x(a: A) \n function x(b: A)', errors: [OVERLOAD_ERROR('x')] },
+        { code: 'var T \n class A { function <T> x() }', errors: [GENERIC_ERROR('T')] },
       ],
     },
 
     {
       group: 'function',
       tests: [
-        { code: 'function x() {} \n function x() {}', errors: [FUNCTION_ERROR('x')] },
-        { code: 'function x(a: A) {} \n function x(b: A) {}', errors: [FUNCTION_ERROR('x')] },
+        { code: 'var x \n function x() {}', errors: [VAR_ERROR('x'), FUNCTION_ERROR('x')] },
+        { code: 'function x() {} \n var x', errors: [VAR_ERROR('x')] },
+        { code: 'function x() {} \n function x() {}', errors: [OVERLOAD_ERROR('x')] },
+        { code: 'function x(a: A) {} \n function x(b: A) {}', errors: [OVERLOAD_ERROR('x')] },
         { code: 'function x() {} \n if true { function x() {} }', errors: [FUNCTION_ERROR('x')] },
 
         {
           group: 'generics',
           tests: [
-            { code: 'function x() {} \n function <A> x() {}', errors: [FUNCTION_ERROR('x')] },
-            { code: 'function <A> x() {} \n function <B> x() {}', errors: [FUNCTION_ERROR('x')] },
-            { code: 'function <A> x(a: A) {} \n function <B> x(b: B) {}', errors: [FUNCTION_ERROR('x')] },
+            { code: 'function x() {} \n function <A> x() {}', errors: [OVERLOAD_ERROR('x')] },
+            { code: 'function <A> x() {} \n function <B> x() {}', errors: [OVERLOAD_ERROR('x')] },
+            { code: 'function <A> x(a: A) {} \n function <B> x(b: B) {}', errors: [OVERLOAD_ERROR('x')] },
+            { code: 'var x \n function <A> x(a: A) {}', errors: [VAR_ERROR('x'), FUNCTION_ERROR('x')] },
           ],
         },
       ],

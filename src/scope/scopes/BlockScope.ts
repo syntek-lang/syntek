@@ -29,7 +29,7 @@ export class BlockScope extends Scope {
       case grammar.SyntacticToken.FOR_STMT: {
         const stmt = this.node as grammar.ForStatement;
 
-        this.symbols.add(stmt.identifier, new SymbolEntry(stmt, this));
+        this.symbols.add(stmt.identifier.lexeme, new SymbolEntry(stmt, this));
         stmt.body.forEach(node => this.add(node));
 
         break;
