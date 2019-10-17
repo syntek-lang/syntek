@@ -5,7 +5,7 @@ import {
 import { Parser } from '../..';
 import { Span } from '../../../position';
 import {
-  matchGenericParams, matchTypeDecl, matchFunctionParams, matchBlock,
+  matchGenericParams, matchTypeDecl, matchParamList, matchBlock,
 } from '../../parse-utils';
 
 export function functionDecl(parser: Parser): Node {
@@ -29,7 +29,7 @@ export function functionDecl(parser: Parser): Node {
   parser.consume(LexicalToken.L_PAR, "Expected '(' after the function name", (error) => {
     error.info("Add '(' after this identifier", identifier.span);
   });
-  const params = matchFunctionParams(parser);
+  const params = matchParamList(parser);
 
   let returnType: VariableType | null = null;
   if (parser.matchIgnoreNewline(LexicalToken.COLON)) {

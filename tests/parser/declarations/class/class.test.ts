@@ -32,6 +32,7 @@ describe('class', () => {
 
         expect(decl.genericParams.length).to.equal(0);
         expect(decl.extends.length).to.equal(0);
+        expect(decl.constructors.length).to.equal(0);
         expect(decl.body.length).to.equal(0);
       }
 
@@ -51,6 +52,7 @@ describe('class', () => {
 
           expect(decl.genericParams.length).to.equal(0);
           expect(decl.extends.length).to.equal(0);
+          expect(decl.constructors.length).to.equal(0);
           expect(decl.body.length).to.equal(1);
 
           const prop = decl.body[0];
@@ -81,6 +83,7 @@ describe('class', () => {
 
           expect(decl.genericParams.length).to.equal(0);
           expect(decl.extends.length).to.equal(0);
+          expect(decl.constructors.length).to.equal(0);
           expect(decl.body.length).to.equal(1);
 
           const prop = decl.body[0];
@@ -113,6 +116,7 @@ describe('class', () => {
 
           expect(decl.genericParams.length).to.equal(0);
           expect(decl.extends.length).to.equal(0);
+          expect(decl.constructors.length).to.equal(0);
           expect(decl.body.length).to.equal(1);
 
           const prop = decl.body[0];
@@ -143,6 +147,7 @@ describe('class', () => {
 
           expect(decl.genericParams.length).to.equal(0);
           expect(decl.extends.length).to.equal(0);
+          expect(decl.constructors.length).to.equal(0);
           expect(decl.body.length).to.equal(1);
 
           const prop = decl.body[0];
@@ -182,6 +187,7 @@ describe('class', () => {
           expect(extend.generics.length).to.equal(0);
           expect(extend.arrayDepth).to.equal(0);
 
+          expect(decl.constructors.length).to.equal(0);
           expect(decl.body.length).to.equal(0);
         }
 
@@ -212,6 +218,7 @@ describe('class', () => {
           expect(secondExtend.generics.length).to.equal(0);
           expect(secondExtend.arrayDepth).to.equal(0);
 
+          expect(decl.constructors.length).to.equal(0);
           expect(decl.body.length).to.equal(0);
         }
 
@@ -235,6 +242,7 @@ describe('class', () => {
 
           expect(decl.extends.length).to.equal(0);
 
+          expect(decl.constructors.length).to.equal(0);
           expect(decl.body.length).to.equal(0);
         }
 
@@ -265,6 +273,64 @@ describe('class', () => {
 
           expect(extend.arrayDepth).to.equal(0);
 
+          expect(decl.constructors.length).to.equal(0);
+          expect(decl.body.length).to.equal(0);
+        }
+
+        program.body.forEach(check);
+      });
+    });
+
+    describe('constructor', () => {
+      it('parses no param correctly', () => {
+        const program = parse(loadRaw(__dirname, './constructor/no-param.tek'));
+
+        function check(node: Node): void {
+          const decl = node as ClassDeclaration;
+          expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
+          expect(decl).to.be.an.instanceof(ClassDeclaration);
+          expect(decl.abstract).to.be.false;
+          expect(decl.identifier.lexeme).to.equal('A');
+
+          expect(decl.genericParams.length).to.equal(0);
+          expect(decl.extends.length).to.equal(0);
+
+          expect(decl.constructors.length).to.equal(1);
+          const constructor = decl.constructors[0];
+          expect(constructor.params.length).to.equal(0);
+          expect(constructor.body.length).to.equal(0);
+
+          expect(decl.body.length).to.equal(0);
+        }
+
+        program.body.forEach(check);
+      });
+
+      it('parses param correctly', () => {
+        const program = parse(loadRaw(__dirname, './constructor/param.tek'));
+
+        function check(node: Node): void {
+          const decl = node as ClassDeclaration;
+          expect(decl.type).to.equal(SyntacticToken.CLASS_DECL);
+          expect(decl).to.be.an.instanceof(ClassDeclaration);
+          expect(decl.abstract).to.be.false;
+          expect(decl.identifier.lexeme).to.equal('A');
+
+          expect(decl.genericParams.length).to.equal(0);
+          expect(decl.extends.length).to.equal(0);
+
+          expect(decl.constructors.length).to.equal(1);
+          const constructor = decl.constructors[0];
+          expect(constructor.params.length).to.equal(1);
+
+          const param = constructor.params[0];
+          expect(param.name.lexeme).to.equal('x');
+          expect((param.variableType.object as Identifier).lexeme).to.equal('A');
+          expect(param.variableType.generics.length).to.equal(0);
+          expect(param.variableType.arrayDepth).to.equal(0);
+
+          expect(constructor.body.length).to.equal(0);
+
           expect(decl.body.length).to.equal(0);
         }
 
@@ -286,6 +352,7 @@ describe('class', () => {
 
         expect(decl.genericParams.length).to.equal(0);
         expect(decl.extends.length).to.equal(0);
+        expect(decl.constructors.length).to.equal(0);
         expect(decl.body.length).to.equal(0);
       }
 
@@ -304,6 +371,7 @@ describe('class', () => {
 
         expect(decl.genericParams.length).to.equal(0);
         expect(decl.extends.length).to.equal(0);
+        expect(decl.constructors.length).to.equal(0);
         expect(decl.body.length).to.equal(1);
 
         const prop = decl.body[0];
@@ -332,6 +400,7 @@ describe('class', () => {
 
         expect(decl.genericParams.length).to.equal(0);
         expect(decl.extends.length).to.equal(0);
+        expect(decl.constructors.length).to.equal(0);
         expect(decl.body.length).to.equal(1);
 
         const prop = decl.body[0];
@@ -361,6 +430,7 @@ describe('class', () => {
 
         expect(decl.genericParams.length).to.equal(0);
         expect(decl.extends.length).to.equal(0);
+        expect(decl.constructors.length).to.equal(0);
         expect(decl.body.length).to.equal(1);
 
         const prop = decl.body[0];

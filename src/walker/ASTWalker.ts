@@ -109,7 +109,6 @@ export class ASTWalker {
 
       case grammar.SyntacticToken.EMPTY_FUNCTION_DECL: {
         const decl = node as grammar.EmptyFunctionDeclaration;
-
         decl.params.forEach(walk);
 
         if (decl.returnType) {
@@ -121,7 +120,6 @@ export class ASTWalker {
 
       case grammar.SyntacticToken.FUNCTION_DECL: {
         const decl = node as grammar.FunctionDeclaration;
-
         decl.params.forEach(walk);
 
         if (decl.returnType) {
@@ -134,8 +132,8 @@ export class ASTWalker {
 
       case grammar.SyntacticToken.CLASS_DECL: {
         const decl = node as grammar.ClassDeclaration;
-
         decl.extends.forEach(walk);
+        decl.constructors.forEach(walk);
         decl.body.forEach(walk);
         break;
       }
@@ -316,9 +314,16 @@ export class ASTWalker {
         break;
       }
 
-      case grammar.SyntacticToken.FUNCTION_PARAM: {
-        const functionParam = node as grammar.FunctionParam;
+      case grammar.SyntacticToken.PARAMETER: {
+        const functionParam = node as grammar.Parameter;
         walk(functionParam.variableType);
+        break;
+      }
+
+      case grammar.SyntacticToken.CONSTRUCTOR: {
+        const constructor = node as grammar.Constructor;
+        constructor.params.forEach(walk);
+        constructor.body.forEach(walk);
         break;
       }
 

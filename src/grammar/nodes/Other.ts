@@ -47,16 +47,29 @@ export class VariableType extends Node {
   }
 }
 
-export class FunctionParam extends Node {
+export class Parameter extends Node {
   readonly name: Token;
 
   readonly variableType: VariableType;
 
   constructor(name: Token, variableType: VariableType, span: Span) {
-    super(SyntacticToken.FUNCTION_PARAM, span);
+    super(SyntacticToken.PARAMETER, span);
 
     this.name = name;
     this.variableType = variableType;
+  }
+}
+
+export class Constructor extends Node {
+  readonly params: Parameter[];
+
+  readonly body: Node[];
+
+  constructor(params: Parameter[], body: Node[], span: Span) {
+    super(SyntacticToken.CONSTRUCTOR, span);
+
+    this.params = params;
+    this.body = body;
   }
 }
 

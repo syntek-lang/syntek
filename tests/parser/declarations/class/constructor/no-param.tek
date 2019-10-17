@@ -1,0 +1,35 @@
+class A { new() {} }
+
+class A { new() {}
+}
+
+class A { new() {
+} }
+
+class A { new()
+{} }
+
+class A { new(
+) {} }
+
+class A { new
+() {} }
+
+class A {
+new() {} }
+
+class A
+{ new() {} }
+
+class
+A { new() {} }
+
+class
+A
+{
+new
+(
+)
+{
+}
+}

@@ -18,7 +18,7 @@ testRule('declarationsInClass', {
   invalid: [
     { code: 'class X { 5 }', errors: [ERROR] },
     { code: 'class X { x = 5 }', errors: [ERROR] },
-    { code: 'class X { new X() }', errors: [ERROR] },
+    { code: 'class X { 5 + 10 }', errors: [ERROR] },
     { code: 'class X { if x { y } }', errors: [ERROR] },
     { code: 'class X { for x in y { z } }', errors: [ERROR] },
     { code: 'class X { x \n y }', errors: [ERROR, ERROR] },

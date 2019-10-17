@@ -239,8 +239,8 @@ export abstract class Scope {
       case grammar.SyntacticToken.VARIABLE_TYPE:
         break;
 
-      case grammar.SyntacticToken.FUNCTION_PARAM: {
-        const param = node as grammar.FunctionParam;
+      case grammar.SyntacticToken.PARAMETER: {
+        const param = node as grammar.Parameter;
         this.symbols.add(param.name.lexeme, new SymbolEntry(param, this));
         break;
       }

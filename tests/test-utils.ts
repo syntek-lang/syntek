@@ -39,7 +39,7 @@ export function parse(code: string): Program {
   const result = parser.parse();
 
   if (result.diagnostics.length) {
-    let msg = `Error tokenizing:\n${code}\nInfo:`;
+    let msg = `Error parsing:\n${code}\nInfo:`;
 
     result.diagnostics.forEach((diagnostic) => {
       msg += `\n- ${diagnostic.msg}`;

@@ -1,5 +1,5 @@
 import {
-  Node, Token, LexicalToken, VariableType, FunctionParam,
+  Node, Token, LexicalToken, VariableType, Parameter,
   Identifier, MemberExpression,
 } from '../grammar';
 
@@ -118,13 +118,13 @@ export function matchTypeDecl(parser: Parser): VariableType {
 }
 
 /**
- * Match fuction params. Assumes `(` is already consumed
+ * Match a list of params. Assumes `(` is already consumed
  *
  * @param parser - The parser object
  * @returns An array of function params
  */
-export function matchFunctionParams(parser: Parser): FunctionParam[] {
-  const params: FunctionParam[] = [];
+export function matchParamList(parser: Parser): Parameter[] {
+  const params: Parameter[] = [];
   parser.ignoreNewline();
 
   while (!parser.match(LexicalToken.R_PAR)) {
@@ -136,7 +136,7 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
 
     const variableType = matchTypeDecl(parser);
 
-    params.push(new FunctionParam(
+    params.push(new Parameter(
       name,
       variableType,
       variableType ? new Span(name.span.start, variableType.span.end) : name.span,

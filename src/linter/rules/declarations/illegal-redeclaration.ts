@@ -87,7 +87,7 @@ export const illegalRedeclaration: LinterRule = {
     walker
       .onEnter(grammar.EmptyVariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier))
       .onEnter(grammar.VariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier))
-      .onEnter(grammar.FunctionParam, (node, ctx) => checkDeclaration(node, ctx.scope, 'param', node.name))
+      .onEnter(grammar.Parameter, (node, ctx) => checkDeclaration(node, ctx.scope, 'param', node.name))
       .onEnter(grammar.ForStatement, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier))
 
       .onEnter(grammar.ClassDeclaration, (node, ctx) => {

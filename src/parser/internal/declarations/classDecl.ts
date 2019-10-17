@@ -1,10 +1,12 @@
 import {
-  Node, Token, LexicalToken, ClassDeclaration, ClassProp, VariableType,
+  Node, Token, LexicalToken, ClassDeclaration, Constructor, ClassProp, VariableType,
 } from '../../../grammar';
 
 import { Parser } from '../..';
 import { Span } from '../../../position';
-import { matchGenericParams, matchTypeDecl } from '../../parse-utils';
+import {
+  matchGenericParams, matchTypeDecl, matchParamList, matchBlock,
+} from '../../parse-utils';
 
 export function classDecl(parser: Parser): Node {
   const isAbstract = parser.previous().type === LexicalToken.ABSTRACT;
@@ -43,7 +45,8 @@ export function classDecl(parser: Parser): Node {
   parser.ignoreNewline();
   parser.consume(LexicalToken.L_BRACE, "Expected '{'");
 
-  const body: ClassProp[] = [];
+  const constructors: Constructor[] = [];
+  const classProps: ClassProp[] = [];
   while (!parser.matchIgnoreNewline(LexicalToken.R_BRACE)) {
     let abstract = false;
     let isStatic = false;
@@ -56,10 +59,29 @@ export function classDecl(parser: Parser): Node {
       }
     }
 
-    parser.ignoreNewline();
-    const decl = parser.declaration();
+    // Match constructor
+    if (parser.matchIgnoreNewline(LexicalToken.NEW)) {
+      const newSpan = parser.previous().span;
+      parser.ignoreNewline();
 
-    body.push(new ClassProp(decl, abstract, isStatic, decl.span));
+      parser.consume(LexicalToken.L_PAR, "Expected '(' after 'new'", (error) => {
+        error.info("Add '(' after this identifier", identifier.span);
+      });
+
+      const params = matchParamList(parser);
+      const body = matchBlock(parser);
+
+      constructors.push(new Constructor(
+        params,
+        body,
+        new Span(newSpan.start, parser.previous().span.end),
+      ));
+    } else {
+      parser.ignoreNewline();
+      const decl = parser.declaration();
+
+      classProps.push(new ClassProp(decl, abstract, isStatic, decl.span));
+    }
   }
 
   return new ClassDeclaration(
@@ -67,7 +89,8 @@ export function classDecl(parser: Parser): Node {
     identifier,
     genericParams,
     extend,
-    body,
+    constructors,
+    classProps,
     new Span(classToken.span.start, parser.previous().span.end),
   );
 }

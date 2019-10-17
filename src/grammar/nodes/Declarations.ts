@@ -1,5 +1,5 @@
 import {
-  Node, Token, SyntacticToken, VariableType, FunctionParam, ClassProp, ImportExpose,
+  Node, Token, SyntacticToken, VariableType, Parameter, Constructor, ClassProp, ImportExpose,
 } from '..';
 
 import { Span } from '../../position';
@@ -47,14 +47,14 @@ export class EmptyFunctionDeclaration extends Node {
 
   readonly genericParams: Token[];
 
-  readonly params: FunctionParam[];
+  readonly params: Parameter[];
 
   readonly returnType: VariableType | null;
 
   constructor(
     identifier: Token,
     genericParams: Token[],
-    params: FunctionParam[],
+    params: Parameter[],
     returnType: VariableType | null,
     span: Span,
   ) {
@@ -72,7 +72,7 @@ export class FunctionDeclaration extends Node {
 
   readonly genericParams: Token[];
 
-  readonly params: FunctionParam[];
+  readonly params: Parameter[];
 
   readonly returnType: VariableType | null;
 
@@ -81,7 +81,7 @@ export class FunctionDeclaration extends Node {
   constructor(
     identifier: Token,
     genericParams: Token[],
-    params: FunctionParam[],
+    params: Parameter[],
     returnType: VariableType | null,
     body: Node[],
     span: Span,
@@ -105,6 +105,8 @@ export class ClassDeclaration extends Node {
 
   readonly extends: VariableType[];
 
+  readonly constructors: Constructor[];
+
   readonly body: ClassProp[];
 
   constructor(
@@ -112,6 +114,7 @@ export class ClassDeclaration extends Node {
     identifier: Token,
     genericParams: Token[],
     extend: VariableType[],
+    constructors: Constructor[],
     body: ClassProp[],
     span: Span,
   ) {
@@ -121,6 +124,7 @@ export class ClassDeclaration extends Node {
     this.identifier = identifier;
     this.genericParams = genericParams;
     this.extends = extend;
+    this.constructors = constructors;
     this.body = body;
   }
 }

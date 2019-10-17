@@ -96,8 +96,9 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   .set(grammar.Program, grammar.SyntacticToken.PROGRAM)
   .set(grammar.SwitchCase, grammar.SyntacticToken.SWITCH_CASE)
   .set(grammar.VariableType, grammar.SyntacticToken.VARIABLE_TYPE)
-  .set(grammar.FunctionParam, grammar.SyntacticToken.FUNCTION_PARAM)
-  .set(grammar.ClassProp, grammar.SyntacticToken.CLASS_PROP);
+  .set(grammar.Parameter, grammar.SyntacticToken.PARAMETER)
+  .set(grammar.ClassProp, grammar.SyntacticToken.CLASS_PROP)
+  .set(grammar.ImportExpose, grammar.SyntacticToken.IMPORT_EXPOSE);
 
 export function isDeclaration(node: grammar.Node): boolean {
   return node.type >= grammar.SyntacticToken.EMPTY_VARIABLE_DECL

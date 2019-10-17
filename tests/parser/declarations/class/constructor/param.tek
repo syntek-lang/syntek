@@ -1,0 +1,47 @@
+class A { new(x: A) {} }
+
+class A { new(x: A) {}
+}
+
+class A { new(x: A) {
+} }
+
+class A { new(x: A)
+{} }
+
+class A { new(x: A
+) {} }
+
+class A { new(x:
+A) {} }
+
+class A { new(x
+: A) {} }
+
+class A { new(
+x: A) {} }
+
+class A { new
+(x: A) {} }
+
+class A {
+new(x: A) {} }
+
+class A
+{ new(x: A) {} }
+
+class
+A { new(x: A) {} }
+
+class
+A
+{
+new
+(
+x
+:
+A
+)
+{
+}
+}
