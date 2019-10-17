@@ -3,7 +3,6 @@ import * as grammar from '../../../grammar';
 import { LinterRule } from '../..';
 import { Level } from '../../../diagnostic';
 
-import { WalkerContext } from '../../../walker';
 import { Scope, ClassScope, SymbolEntry } from '../../../scope';
 
 function findSymbol(scope: Scope, name: string): SymbolEntry | undefined {
@@ -40,13 +39,8 @@ export const illegalRedeclaration: LinterRule = {
   description: 'Report illegal redeclarations',
   level: Level.ERROR,
   create(walker, report) {
-    function checkDeclaration(
-      node: grammar.Node,
-      ctx: WalkerContext,
-      type: string,
-      name: string,
-    ): void {
-      const symbol = findSymbol(ctx.scope, name);
+    function checkDeclaration(node: grammar.Node, scope: Scope, type: string, name: string): void {
+      const symbol = findSymbol(scope, name);
 
       if (symbol && symbol.node !== node) {
         report(`You can't declare a ${type} with the name '${name}', because it is already used`, node.span);
@@ -54,18 +48,18 @@ export const illegalRedeclaration: LinterRule = {
     }
 
     walker
-      .onEnter(grammar.EmptyVariableDeclaration, (node, ctx) => checkDeclaration(node, ctx, 'variable', node.identifier.lexeme))
-      .onEnter(grammar.VariableDeclaration, (node, ctx) => checkDeclaration(node, ctx, 'variable', node.identifier.lexeme))
-      .onEnter(grammar.FunctionParam, (node, ctx) => checkDeclaration(node, ctx, 'param', node.name.lexeme))
-      .onEnter(grammar.ForStatement, (node, ctx) => checkDeclaration(node, ctx, 'variable', node.identifier.lexeme))
+      .onEnter(grammar.EmptyVariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier.lexeme))
+      .onEnter(grammar.VariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier.lexeme))
+      .onEnter(grammar.FunctionParam, (node, ctx) => checkDeclaration(node, ctx.scope, 'param', node.name.lexeme))
+      .onEnter(grammar.ForStatement, (node, ctx) => checkDeclaration(node, ctx.scope, 'variable', node.identifier.lexeme))
 
       .onEnter(grammar.ClassDeclaration, (node, ctx) => {
         // Check class name
-        checkDeclaration(node, ctx, 'class', node.identifier.lexeme);
+        checkDeclaration(node, ctx.scope, 'class', node.identifier.lexeme);
 
         // Check generics
         node.genericParams.forEach((generic) => {
-          checkDeclaration(node, ctx, 'generic', generic.lexeme);
+          checkDeclaration(node, ctx.scope, 'generic', generic.lexeme);
         });
       })
 
@@ -74,11 +68,16 @@ export const illegalRedeclaration: LinterRule = {
         const name = node.identifier.lexeme;
 
         // Check function name
-        checkDeclaration(node, ctx, 'function', name);
+        checkDeclaration(node, ctx.scope, 'function', name);
 
         // Check generics
         node.genericParams.forEach((generic) => {
-          checkDeclaration(node, ctx, 'generic', generic.lexeme);
+          // Generics are declared in the function's scope
+          const scope = ctx.scope.getScope(node);
+
+          if (scope) {
+            checkDeclaration(node, scope, 'generic', generic.lexeme);
+          }
         });
       })
       .onEnter(grammar.FunctionDeclaration, (node, ctx) => {
@@ -86,11 +85,16 @@ export const illegalRedeclaration: LinterRule = {
         const name = node.identifier.lexeme;
 
         // Check function name
-        checkDeclaration(node, ctx, 'function', name);
+        checkDeclaration(node, ctx.scope, 'function', name);
 
         // Check generics
         node.genericParams.forEach((generic) => {
-          checkDeclaration(node, ctx, 'generic', generic.lexeme);
+          // Generics are declared in the function's scope
+          const scope = ctx.scope.getScope(node);
+
+          if (scope) {
+            checkDeclaration(node, scope, 'generic', generic.lexeme);
+          }
         });
       });
   },

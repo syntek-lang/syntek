@@ -59,6 +59,7 @@ testRule('illegalRedeclaration', {
       group: 'class',
       tests: [
         'class A {} \n class B {}',
+        'class A { var T \n function x() { var T } }',
         'class A<T> {} \n class B<T> {}',
       ],
     },
@@ -70,7 +71,7 @@ testRule('illegalRedeclaration', {
         'var x \n class A { abstract function x() }',
         { code: 'class A { abstract function x() \n abstract function x(a: A) }', skip: true },
         { code: 'class A { abstract function x(a: A) \n abstract function x(b: B) }', skip: true },
-        { code: 'class A { var T \n abstract function <T> x() }', skip: true },
+        'class A { var T \n abstract function <T> x() }',
       ],
     },
 
@@ -80,6 +81,7 @@ testRule('illegalRedeclaration', {
         'function x() {} \n function y() {}',
         'var x \n class A { function x() {} }',
         'if true { function x() {} } \n if true { function x() {} }',
+        'class A { var T \n function <T> x() {} }',
         { code: 'function x() {} \n function x(a: A)', skip: true },
         { code: 'function x(a: A) {} \n function x(b: B)', skip: true },
 
@@ -152,7 +154,7 @@ testRule('illegalRedeclaration', {
       tests: [
         { code: 'class A { abstract function x() \n abstract function x() }', errors: [FUNCTION_ERROR('x')] },
         { code: 'class A { abstract function x(a: A) \n abstract function x(b: A) }', errors: [FUNCTION_ERROR('x')] },
-        { code: 'var T \n class A { abstract function <T> x() }', errors: [GENERIC_ERROR('T')], skip: true },
+        { code: 'var T \n class A { abstract function <T> x() }', errors: [GENERIC_ERROR('T')] },
       ],
     },
 
