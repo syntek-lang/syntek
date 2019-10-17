@@ -144,6 +144,9 @@ testRule('illegalRedeclaration', {
       group: 'class',
       tests: [
         { code: 'class A {} \n class A {}', errors: [CLASS_ERROR('A')] },
+        { code: 'class A<T> { var T }', errors: [VAR_ERROR('T')] },
+        { code: 'var T \n class A<T> { var T }', errors: [GENERIC_ERROR('T'), VAR_ERROR('T')] },
+        { code: 'class A<T> { var T } \n var T', errors: [GENERIC_ERROR('T'), VAR_ERROR('T')] },
         { code: 'class T {} \n class A<T> {}', errors: [GENERIC_ERROR('T')] },
         { code: 'class A<T> {} \n class T {}', errors: [GENERIC_ERROR('T')] },
       ],
