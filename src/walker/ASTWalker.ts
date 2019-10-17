@@ -318,11 +318,7 @@ export class ASTWalker {
 
       case grammar.SyntacticToken.FUNCTION_PARAM: {
         const functionParam = node as grammar.FunctionParam;
-
-        if (functionParam.variableType) {
-          walk(functionParam.variableType);
-        }
-
+        walk(functionParam.variableType);
         break;
       }
 

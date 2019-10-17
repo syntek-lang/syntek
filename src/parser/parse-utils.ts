@@ -130,12 +130,11 @@ export function matchFunctionParams(parser: Parser): FunctionParam[] {
   while (!parser.match(LexicalToken.R_PAR)) {
     const name = parser.consume(LexicalToken.IDENTIFIER, 'Expected param name');
 
-    let variableType: VariableType | null = null;
-    if (parser.matchIgnoreNewline(LexicalToken.COLON)) {
-      parser.ignoreNewline();
+    parser.ignoreNewline();
+    parser.consume(LexicalToken.COLON, "Expected ':' after param name");
+    parser.ignoreNewline();
 
-      variableType = matchTypeDecl(parser);
-    }
+    const variableType = matchTypeDecl(parser);
 
     params.push(new FunctionParam(
       name,

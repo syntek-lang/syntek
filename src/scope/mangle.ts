@@ -44,9 +44,7 @@ export function mangleFunctionName(node: Func): string {
   const generics = node.genericParams.map(generic => generic.lexeme);
 
   node.params.forEach((param) => {
-    if (param.variableType) {
-      fnMangle += `-${mangleVariableType(param.variableType, generics)}`;
-    }
+    fnMangle += `-${mangleVariableType(param.variableType, generics)}`;
   });
 
   return fnMangle;

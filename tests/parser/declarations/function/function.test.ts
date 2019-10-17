@@ -48,32 +48,8 @@ describe('function', () => {
     program.body.forEach(check);
   });
 
-  it('parses param without type correctly', () => {
-    const program = parse(loadRaw(__dirname, './param-without-type.tek'));
-
-    function check(node: Node): void {
-      const decl = node as FunctionDeclaration;
-      expect(decl.type).to.equal(SyntacticToken.FUNCTION_DECL);
-      expect(decl).to.be.an.instanceof(FunctionDeclaration);
-
-      expect(decl.identifier.lexeme).to.equal('x');
-      expect(decl.genericParams.length).to.equal(0);
-
-      expect(decl.params.length).to.equal(1);
-
-      const param = decl.params[0];
-      expect(param.name.lexeme).to.equal('y');
-      expect(param.variableType).to.be.null;
-
-      expect(decl.returnType).to.be.null;
-      expect(decl.body.length).to.equal(0);
-    }
-
-    program.body.forEach(check);
-  });
-
-  it('parses param with type correctly', () => {
-    const program = parse(loadRaw(__dirname, './param-with-type.tek'));
+  it('parses single param correctly', () => {
+    const program = parse(loadRaw(__dirname, './single-param.tek'));
 
     function check(node: Node): void {
       const decl = node as FunctionDeclaration;
@@ -88,9 +64,9 @@ describe('function', () => {
       const param = decl.params[0];
       expect(param.name.lexeme).to.equal('y');
       expect(param.variableType).to.not.be.null;
-      expect((param.variableType!.object as Identifier).lexeme).to.equal('A');
-      expect(param.variableType!.generics.length).to.equal(0);
-      expect(param.variableType!.arrayDepth).to.equal(0);
+      expect((param.variableType.object as Identifier).lexeme).to.equal('A');
+      expect(param.variableType.generics.length).to.equal(0);
+      expect(param.variableType.arrayDepth).to.equal(0);
 
       expect(decl.returnType).to.be.null;
       expect(decl.body.length).to.equal(0);
@@ -99,8 +75,8 @@ describe('function', () => {
     program.body.forEach(check);
   });
 
-  it('parses multiple param correctly', () => {
-    const program = parse(loadRaw(__dirname, './multiple-param.tek'));
+  it('parses multi param correctly', () => {
+    const program = parse(loadRaw(__dirname, './multi-param.tek'));
 
     function check(node: Node): void {
       const decl = node as FunctionDeclaration;
@@ -114,11 +90,17 @@ describe('function', () => {
 
       const param1 = decl.params[0];
       expect(param1.name.lexeme).to.equal('y');
-      expect(param1.variableType).to.be.null;
+      expect(param1.variableType).to.not.be.null;
+      expect((param1.variableType.object as Identifier).lexeme).to.equal('A');
+      expect(param1.variableType.generics.length).to.equal(0);
+      expect(param1.variableType.arrayDepth).to.equal(0);
 
       const param2 = decl.params[1];
       expect(param2.name.lexeme).to.equal('z');
-      expect(param2.variableType).to.be.null;
+      expect(param2.variableType).to.not.be.null;
+      expect((param2.variableType.object as Identifier).lexeme).to.equal('B');
+      expect(param2.variableType.generics.length).to.equal(0);
+      expect(param2.variableType.arrayDepth).to.equal(0);
 
       expect(decl.returnType).to.be.null;
       expect(decl.body.length).to.equal(0);

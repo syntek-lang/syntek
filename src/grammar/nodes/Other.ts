@@ -50,9 +50,9 @@ export class VariableType extends Node {
 export class FunctionParam extends Node {
   readonly name: Token;
 
-  readonly variableType: VariableType | null;
+  readonly variableType: VariableType;
 
-  constructor(name: Token, variableType: VariableType | null, span: Span) {
+  constructor(name: Token, variableType: VariableType, span: Span) {
     super(SyntacticToken.FUNCTION_PARAM, span);
 
     this.name = name;
