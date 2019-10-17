@@ -1,6 +1,7 @@
 import {
   FunctionDeclaration, EmptyFunctionDeclaration,
   Identifier, MemberExpression,
+  Constructor,
   VariableType, SyntacticToken,
 } from '../grammar';
 
@@ -15,10 +16,10 @@ function variableTypeObjectToString(node: Identifier | MemberExpression): string
   return `${variableTypeObjectToString(expr.object as any)}.${expr.property.lexeme}`;
 }
 
-function mangleVariableType(type: VariableType, generics: string[]): string {
+function mangleVariableType(type: VariableType, generics?: string[]): string {
   let mangle = variableTypeObjectToString(type.object);
 
-  if (generics.includes(mangle)) {
+  if (generics && generics.includes(mangle)) {
     mangle = generics.indexOf(mangle).toString();
   }
 
@@ -40,12 +41,16 @@ function mangleVariableType(type: VariableType, generics: string[]): string {
 }
 
 export function mangleFunctionName(node: Func): string {
-  let fnMangle = node.identifier.lexeme;
+  let mangle = node.identifier.lexeme;
   const generics = node.genericParams.map(generic => generic.lexeme);
 
   node.params.forEach((param) => {
-    fnMangle += `-${mangleVariableType(param.variableType, generics)}`;
+    mangle += `-${mangleVariableType(param.variableType, generics)}`;
   });
 
-  return fnMangle;
+  return mangle;
+}
+
+export function mangleConstructor(node: Constructor): string {
+  return node.params.map(param => mangleVariableType(param.variableType)).join('-');
 }

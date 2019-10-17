@@ -5,7 +5,8 @@ import { Level } from '../../../diagnostic';
 
 import {
   Scope, ClassScope,
-  SymbolEntry, mangleFunctionName,
+  SymbolEntry,
+  mangleFunctionName, mangleConstructor,
 } from '../../../scope';
 
 type Func = grammar.FunctionDeclaration | grammar.EmptyFunctionDeclaration;
@@ -97,6 +98,19 @@ export const illegalRedeclaration: LinterRule = {
         // Check generics
         node.genericParams.forEach((generic) => {
           checkDeclaration(node, ctx.scope, 'generic', generic);
+        });
+
+        // Check constructors
+        const constructors: string[] = [];
+
+        node.constructors.forEach((constructor) => {
+          const mangled = mangleConstructor(constructor);
+
+          if (constructors.includes(mangled)) {
+            report('Identical constructor overload exists', constructor.span);
+          } else {
+            constructors.push(mangled);
+          }
         });
       })
 

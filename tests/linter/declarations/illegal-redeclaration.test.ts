@@ -11,6 +11,7 @@ const CLASS_ERROR = (name: string): string => ERROR('class', name);
 const GENERIC_ERROR = (name: string): string => ERROR('generic', name);
 const FUNCTION_ERROR = (name: string): string => ERROR('function', name);
 const OVERLOAD_ERROR = (name: string): string => `Identical function overload exists for '${name}'`;
+const CONSTRUCTOR_ERROR = 'Identical constructor overload exists';
 
 testRule('illegalRedeclaration', {
   rule: illegalRedeclaration,
@@ -62,6 +63,16 @@ testRule('illegalRedeclaration', {
         'class A {} \n class B {}',
         'class A { var T \n function x() { var T } }',
         'class A<T> {} \n class B<T> {}',
+
+        {
+          group: 'constructor',
+          tests: [
+            'class A { new() {} }',
+            'class A { new() {} \n new(x: A) {} }',
+            'class A { new(x: A) {} \n new(b: B) {} }',
+            'class A { new(x: Array<A>) {} \n new(b: Array<B>) {} }',
+          ],
+        },
       ],
     },
 
@@ -151,6 +162,16 @@ testRule('illegalRedeclaration', {
         { code: 'class A<T> { var T } \n var T', errors: [GENERIC_ERROR('T'), VAR_ERROR('T')] },
         { code: 'class T {} \n class A<T> {}', errors: [GENERIC_ERROR('T')] },
         { code: 'class A<T> {} \n class T {}', errors: [GENERIC_ERROR('T')] },
+
+        {
+          group: 'constructor',
+          tests: [
+            { code: 'class A { new() {} \n new() {} }', errors: [CONSTRUCTOR_ERROR] },
+            { code: 'class A { new(x: A) {} \n new(y: A) {} }', errors: [CONSTRUCTOR_ERROR] },
+            { code: 'class A { new(x: Array<A>) {} \n new(y: Array<A>) {} }', errors: [CONSTRUCTOR_ERROR] },
+            { code: 'class A { new() {} \n new(x: A) {} \n new() {} \n new(y: A) {} }', errors: [CONSTRUCTOR_ERROR, CONSTRUCTOR_ERROR] },
+          ],
+        },
       ],
     },
 
