@@ -1,9 +1,17 @@
 <div align="center">
-  <h1>Syntek</h1>
-  <a href="https://discord.gg/W69mtsX"><img src="https://img.shields.io/discord/573246372984127499.svg?color=blue&label=DISCORD&style=for-the-badge" alt="Discord" /></a>
-  <a href="https://www.patreon.com/synteklang"><img src="https://img.shields.io/badge/patreon-donate-orange.svg?style=for-the-badge" alt="Patreon" /></a>
-  <a href="https://travis-ci.com/syntek-lang/syntek"><img src="https://img.shields.io/travis/com/syntek-lang/syntek.svg?style=for-the-badge" alt="Build" /></a>
-  <a href="https://github.com/syntek-lang/syntek"><img src="https://img.shields.io/github/package-json/v/syntek-lang/syntek.svg?colorB=red&style=for-the-badge" alt="Version" /></a>
+    <br />
+	  <h1>Syntek</h1>
+    <br />
+    <p>
+        <a href="https://www.npmjs.com/package/syntek"><img src="https://badgen.net/npm/v/syntek" alt="Version" /></a>
+        <a href="https://travis-ci.org/syntek-lang/syntek"><img src="https://travis-ci.org/syntek-lang/syntek.svg?branch=master" alt="Build Status" /></a>
+        <a href="https://david-dm.org/syntek-lang/syntek"><img src="https://img.shields.io/david/syntek-lang/syntek.svg?maxAge=3600" alt="Dependencies" /></a>
+        <a href="https://www.npmjs.com/package/syntek"><img src="https://badgen.net/npm/dt/syntek" alt="Downloads" /></a>
+        <a href="https://github.com/syntek-lang/syntek"><img src="https://badgen.net/github/stars/syntek-lang/syntek" alt="Stars" /></a>
+        <a href="https://github.com/syntek-lang/syntek/blob/master/LICENSE"><img src="https://badgen.net/github/license/syntek-lang/syntek" alt="License" /></a>
+				<a href="https://discord.gg/W69mtsX"><img src="https://img.shields.io/discord/573246372984127499.svg?color=blue&label=DISCORD&style=for-the-badge" alt="Discord" /></a>
+				<a href="https://www.patreon.com/synteklang"><img src="https://img.shields.io/badge/patreon-donate-orange.svg?style=for-the-badge" alt="Patreon" /></a>
+    </p>
 </div>
 
 Syntek is an easy-to-use & simplistic programming language. It simplifies complex tasks and handles them in much better method.
