@@ -107,7 +107,9 @@ export class ClassDeclaration extends Node {
 
   readonly constructors: Constructor[];
 
-  readonly body: ClassProp[];
+  readonly staticBody: ClassProp[];
+
+  readonly instanceBody: ClassProp[];
 
   constructor(
     abstract: boolean,
@@ -115,7 +117,8 @@ export class ClassDeclaration extends Node {
     genericParams: Token[],
     extend: VariableType[],
     constructors: Constructor[],
-    body: ClassProp[],
+    staticBody: ClassProp[],
+    instanceBody: ClassProp[],
     span: Span,
   ) {
     super(SyntacticToken.CLASS_DECL, span);
@@ -125,7 +128,8 @@ export class ClassDeclaration extends Node {
     this.genericParams = genericParams;
     this.extends = extend;
     this.constructors = constructors;
-    this.body = body;
+    this.staticBody = staticBody;
+    this.instanceBody = instanceBody;
   }
 }
 

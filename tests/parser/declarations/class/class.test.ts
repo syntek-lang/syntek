@@ -33,7 +33,8 @@ describe('class', () => {
         expect(decl.genericParams.length).to.equal(0);
         expect(decl.extends.length).to.equal(0);
         expect(decl.constructors.length).to.equal(0);
-        expect(decl.body.length).to.equal(0);
+        expect(decl.staticBody.length).to.equal(0);
+        expect(decl.instanceBody.length).to.equal(0);
       }
 
       program.body.forEach(check);
@@ -53,9 +54,10 @@ describe('class', () => {
           expect(decl.genericParams.length).to.equal(0);
           expect(decl.extends.length).to.equal(0);
           expect(decl.constructors.length).to.equal(0);
-          expect(decl.body.length).to.equal(1);
+          expect(decl.staticBody.length).to.equal(0);
+          expect(decl.instanceBody.length).to.equal(1);
 
-          const prop = decl.body[0];
+          const prop = decl.instanceBody[0];
           expect(prop.abstract).to.be.false;
           expect(prop.static).to.be.false;
 
@@ -84,9 +86,10 @@ describe('class', () => {
           expect(decl.genericParams.length).to.equal(0);
           expect(decl.extends.length).to.equal(0);
           expect(decl.constructors.length).to.equal(0);
-          expect(decl.body.length).to.equal(1);
+          expect(decl.staticBody.length).to.equal(1);
+          expect(decl.instanceBody.length).to.equal(0);
 
-          const prop = decl.body[0];
+          const prop = decl.staticBody[0];
           expect(prop.abstract).to.be.false;
           expect(prop.static).to.be.true;
 
@@ -117,9 +120,10 @@ describe('class', () => {
           expect(decl.genericParams.length).to.equal(0);
           expect(decl.extends.length).to.equal(0);
           expect(decl.constructors.length).to.equal(0);
-          expect(decl.body.length).to.equal(1);
+          expect(decl.staticBody.length).to.equal(0);
+          expect(decl.instanceBody.length).to.equal(1);
 
-          const prop = decl.body[0];
+          const prop = decl.instanceBody[0];
           expect(prop.abstract).to.be.false;
           expect(prop.static).to.be.false;
 
@@ -148,9 +152,10 @@ describe('class', () => {
           expect(decl.genericParams.length).to.equal(0);
           expect(decl.extends.length).to.equal(0);
           expect(decl.constructors.length).to.equal(0);
-          expect(decl.body.length).to.equal(1);
+          expect(decl.staticBody.length).to.equal(1);
+          expect(decl.instanceBody.length).to.equal(0);
 
-          const prop = decl.body[0];
+          const prop = decl.staticBody[0];
           expect(prop.abstract).to.be.false;
           expect(prop.static).to.be.true;
 
@@ -188,7 +193,8 @@ describe('class', () => {
           expect(extend.arrayDepth).to.equal(0);
 
           expect(decl.constructors.length).to.equal(0);
-          expect(decl.body.length).to.equal(0);
+          expect(decl.staticBody.length).to.equal(0);
+          expect(decl.instanceBody.length).to.equal(0);
         }
 
         program.body.forEach(check);
@@ -219,7 +225,8 @@ describe('class', () => {
           expect(secondExtend.arrayDepth).to.equal(0);
 
           expect(decl.constructors.length).to.equal(0);
-          expect(decl.body.length).to.equal(0);
+          expect(decl.staticBody.length).to.equal(0);
+          expect(decl.instanceBody.length).to.equal(0);
         }
 
         program.body.forEach(check);
@@ -243,7 +250,8 @@ describe('class', () => {
           expect(decl.extends.length).to.equal(0);
 
           expect(decl.constructors.length).to.equal(0);
-          expect(decl.body.length).to.equal(0);
+          expect(decl.staticBody.length).to.equal(0);
+          expect(decl.instanceBody.length).to.equal(0);
         }
 
         program.body.forEach(check);
@@ -274,7 +282,8 @@ describe('class', () => {
           expect(extend.arrayDepth).to.equal(0);
 
           expect(decl.constructors.length).to.equal(0);
-          expect(decl.body.length).to.equal(0);
+          expect(decl.staticBody.length).to.equal(0);
+          expect(decl.instanceBody.length).to.equal(0);
         }
 
         program.body.forEach(check);
@@ -300,7 +309,8 @@ describe('class', () => {
           expect(constructor.params.length).to.equal(0);
           expect(constructor.body.length).to.equal(0);
 
-          expect(decl.body.length).to.equal(0);
+          expect(decl.staticBody.length).to.equal(0);
+          expect(decl.instanceBody.length).to.equal(0);
         }
 
         program.body.forEach(check);
@@ -331,7 +341,8 @@ describe('class', () => {
 
           expect(constructor.body.length).to.equal(0);
 
-          expect(decl.body.length).to.equal(0);
+          expect(decl.staticBody.length).to.equal(0);
+          expect(decl.instanceBody.length).to.equal(0);
         }
 
         program.body.forEach(check);
@@ -353,7 +364,8 @@ describe('class', () => {
         expect(decl.genericParams.length).to.equal(0);
         expect(decl.extends.length).to.equal(0);
         expect(decl.constructors.length).to.equal(0);
-        expect(decl.body.length).to.equal(0);
+        expect(decl.staticBody.length).to.equal(0);
+        expect(decl.instanceBody.length).to.equal(0);
       }
 
       program.body.forEach(check);
@@ -372,9 +384,10 @@ describe('class', () => {
         expect(decl.genericParams.length).to.equal(0);
         expect(decl.extends.length).to.equal(0);
         expect(decl.constructors.length).to.equal(0);
-        expect(decl.body.length).to.equal(1);
+        expect(decl.staticBody.length).to.equal(0);
+        expect(decl.instanceBody.length).to.equal(1);
 
-        const prop = decl.body[0];
+        const prop = decl.instanceBody[0];
         expect(prop.abstract).to.be.true;
         expect(prop.static).to.be.false;
 
@@ -401,9 +414,10 @@ describe('class', () => {
         expect(decl.genericParams.length).to.equal(0);
         expect(decl.extends.length).to.equal(0);
         expect(decl.constructors.length).to.equal(0);
-        expect(decl.body.length).to.equal(1);
+        expect(decl.staticBody.length).to.equal(0);
+        expect(decl.instanceBody.length).to.equal(1);
 
-        const prop = decl.body[0];
+        const prop = decl.instanceBody[0];
         expect(prop.abstract).to.be.true;
         expect(prop.static).to.be.false;
 
@@ -431,9 +445,10 @@ describe('class', () => {
         expect(decl.genericParams.length).to.equal(0);
         expect(decl.extends.length).to.equal(0);
         expect(decl.constructors.length).to.equal(0);
-        expect(decl.body.length).to.equal(1);
+        expect(decl.staticBody.length).to.equal(1);
+        expect(decl.instanceBody.length).to.equal(0);
 
-        const prop = decl.body[0];
+        const prop = decl.staticBody[0];
         expect(prop.abstract).to.be.true;
         expect(prop.static).to.be.true;
 

@@ -62,6 +62,8 @@ testRule('illegalRedeclaration', {
       tests: [
         'class A {} \n class B {}',
         'class A { var T \n function x() { var T } }',
+        'class A { var x \n static var x }',
+        'class A { function x() \n static function x() {} }',
         'class A<T> {} \n class B<T> {}',
 
         {
@@ -157,6 +159,8 @@ testRule('illegalRedeclaration', {
       group: 'class',
       tests: [
         { code: 'class A {} \n class A {}', errors: [CLASS_ERROR('A')] },
+        { code: 'class A { var x \n var x }', errors: [VAR_ERROR('x')] },
+        { code: 'class A { static var x \n static var x }', errors: [VAR_ERROR('x')] },
         { code: 'class A<T> { var T }', errors: [VAR_ERROR('T')] },
         { code: 'var T \n class A<T> { var T }', errors: [GENERIC_ERROR('T'), VAR_ERROR('T')] },
         { code: 'class A<T> { var T } \n var T', errors: [GENERIC_ERROR('T'), VAR_ERROR('T')] },

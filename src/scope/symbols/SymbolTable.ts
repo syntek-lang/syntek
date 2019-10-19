@@ -4,20 +4,22 @@ import { FunctionDeclaration, EmptyFunctionDeclaration } from '../../grammar';
 type Func = FunctionDeclaration | EmptyFunctionDeclaration;
 
 export class SymbolTable {
-  readonly symbols = new Map<string, SymbolEntry>();
+  private readonly symbols = new Map<string, SymbolEntry>();
 
-  readonly functions = new Map<string, Func[]>();
+  private readonly functions = new Map<string, Func[]>();
 
-  readonly parent?: SymbolTable;
-
-  constructor(parent?: SymbolTable) {
-    this.parent = parent;
+  get(name: string): SymbolEntry | undefined {
+    return this.symbols.get(name);
   }
 
   add(name: string, entry: SymbolEntry): void {
     if (!this.symbols.has(name)) {
       this.symbols.set(name, entry);
     }
+  }
+
+  has(name: string): boolean {
+    return this.symbols.has(name);
   }
 
   addFunction(node: Func): void {
@@ -28,5 +30,9 @@ export class SymbolTable {
     } else {
       this.functions.set(node.identifier.lexeme, [node]);
     }
+  }
+
+  hasFunction(name: string): boolean {
+    return this.functions.has(name);
   }
 }

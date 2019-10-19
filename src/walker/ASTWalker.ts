@@ -134,7 +134,8 @@ export class ASTWalker {
         const decl = node as grammar.ClassDeclaration;
         decl.extends.forEach(walk);
         decl.constructors.forEach(walk);
-        decl.body.forEach(walk);
+        decl.staticBody.forEach(walk);
+        decl.instanceBody.forEach(walk);
         break;
       }
 

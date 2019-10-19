@@ -14,19 +14,14 @@ export abstract class Scope {
 
   readonly parent?: Scope;
 
-  readonly symbols: SymbolTable;
+  protected readonly symbols: SymbolTable;
 
-  private readonly scopes = new Map<grammar.Node, Scope>();
+  protected readonly scopes = new Map<grammar.Node, Scope>();
 
   constructor(node: grammar.Node, parent?: Scope) {
     this.node = node;
     this.parent = parent;
-
-    if (parent) {
-      this.symbols = new SymbolTable(parent.symbols);
-    } else {
-      this.symbols = new SymbolTable();
-    }
+    this.symbols = new SymbolTable();
 
     this.build();
   }
@@ -68,11 +63,11 @@ export abstract class Scope {
   }
 
   getOwnSymbol(name: string): SymbolEntry | undefined {
-    return this.symbols.symbols.get(name);
+    return this.symbols.get(name);
   }
 
   hasOwnSymbol(name: string): boolean {
-    return this.symbols.symbols.has(name);
+    return this.symbols.has(name);
   }
 
   hasFunction(name: string): boolean {
@@ -88,30 +83,30 @@ export abstract class Scope {
   }
 
   hasOwnFunction(name: string): boolean {
-    return this.symbols.functions.has(name);
+    return this.symbols.hasFunction(name);
   }
 
-  protected add(node: grammar.Node): void {
+  protected add(node: grammar.Node, table: SymbolTable = this.symbols): void {
     switch (node.type) {
       // Declarations
       case grammar.SyntacticToken.EMPTY_VARIABLE_DECL: {
         const decl = node as grammar.EmptyVariableDeclaration;
-        this.symbols.add(decl.identifier.lexeme, new SymbolEntry(decl, this));
+        table.add(decl.identifier.lexeme, new SymbolEntry(decl, this));
         break;
       }
 
       case grammar.SyntacticToken.VARIABLE_DECL: {
         const decl = node as grammar.VariableDeclaration;
-        this.symbols.add(decl.identifier.lexeme, new SymbolEntry(decl, this));
+        table.add(decl.identifier.lexeme, new SymbolEntry(decl, this));
         break;
       }
 
       case grammar.SyntacticToken.EMPTY_FUNCTION_DECL: {
         const decl = node as grammar.EmptyFunctionDeclaration;
 
-        this.symbols.addFunction(decl);
+        table.addFunction(decl);
 
-        this.symbols.add(mangleFunctionName(decl), new SymbolEntry(decl, this));
+        table.add(mangleFunctionName(decl), new SymbolEntry(decl, this));
         this.scopes.set(decl, new FunctionScope(decl, this));
 
         break;
@@ -120,9 +115,9 @@ export abstract class Scope {
       case grammar.SyntacticToken.FUNCTION_DECL: {
         const decl = node as grammar.FunctionDeclaration;
 
-        this.symbols.addFunction(decl);
+        table.addFunction(decl);
 
-        this.symbols.add(mangleFunctionName(decl), new SymbolEntry(decl, this));
+        table.add(mangleFunctionName(decl), new SymbolEntry(decl, this));
         this.scopes.set(decl, new FunctionScope(decl, this));
 
         break;
@@ -131,7 +126,7 @@ export abstract class Scope {
       case grammar.SyntacticToken.CLASS_DECL: {
         const decl = node as grammar.ClassDeclaration;
 
-        this.symbols.add(decl.identifier.lexeme, new SymbolEntry(decl, this));
+        table.add(decl.identifier.lexeme, new SymbolEntry(decl, this));
         this.scopes.set(decl, new ClassScope(decl, this));
 
         break;
@@ -141,11 +136,11 @@ export abstract class Scope {
         const decl = node as grammar.ImportDeclaration;
 
         if (decl.rename) {
-          this.symbols.add(decl.rename.lexeme, new SymbolEntry(decl, this));
+          table.add(decl.rename.lexeme, new SymbolEntry(decl, this));
         } else if (decl.expose) {
           decl.expose.forEach(expose => this.add(expose));
         } else {
-          this.symbols.add(decl.path[decl.path.length - 1].lexeme, new SymbolEntry(decl, this));
+          table.add(decl.path[decl.path.length - 1].lexeme, new SymbolEntry(decl, this));
         }
 
         break;
@@ -241,7 +236,7 @@ export abstract class Scope {
 
       case grammar.SyntacticToken.PARAMETER: {
         const param = node as grammar.Parameter;
-        this.symbols.add(param.name.lexeme, new SymbolEntry(param, this));
+        table.add(param.name.lexeme, new SymbolEntry(param, this));
         break;
       }
 
@@ -255,9 +250,9 @@ export abstract class Scope {
         const expose = node as grammar.ImportExpose;
 
         if (expose.rename) {
-          this.symbols.add(expose.rename.lexeme, new SymbolEntry(expose, this));
+          table.add(expose.rename.lexeme, new SymbolEntry(expose, this));
         } else {
-          this.symbols.add(expose.value.lexeme, new SymbolEntry(expose, this));
+          table.add(expose.value.lexeme, new SymbolEntry(expose, this));
         }
 
         break;

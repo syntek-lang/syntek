@@ -46,7 +46,8 @@ export function classDecl(parser: Parser): Node {
   parser.consume(LexicalToken.L_BRACE, "Expected '{'");
 
   const constructors: Constructor[] = [];
-  const classProps: ClassProp[] = [];
+  const staticBody: ClassProp[] = [];
+  const instanceBody: ClassProp[] = [];
   while (!parser.matchIgnoreNewline(LexicalToken.R_BRACE)) {
     let abstract = false;
     let isStatic = false;
@@ -79,8 +80,13 @@ export function classDecl(parser: Parser): Node {
     } else {
       parser.ignoreNewline();
       const decl = parser.declaration();
+      const prop = new ClassProp(decl, abstract, isStatic, decl.span);
 
-      classProps.push(new ClassProp(decl, abstract, isStatic, decl.span));
+      if (isStatic) {
+        staticBody.push(prop);
+      } else {
+        instanceBody.push(prop);
+      }
     }
   }
 
@@ -90,7 +96,8 @@ export function classDecl(parser: Parser): Node {
     genericParams,
     extend,
     constructors,
-    classProps,
+    staticBody,
+    instanceBody,
     new Span(classToken.span.start, parser.previous().span.end),
   );
 }
