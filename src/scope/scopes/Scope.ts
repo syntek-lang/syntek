@@ -22,8 +22,6 @@ export abstract class Scope {
     this.node = node;
     this.parent = parent;
     this.symbols = new SymbolTable();
-
-    this.build();
   }
 
   getScope(node: grammar.Node): Scope | undefined {
@@ -105,9 +103,11 @@ export abstract class Scope {
         const decl = node as grammar.EmptyFunctionDeclaration;
 
         table.addFunction(decl);
-
         table.add(mangleFunctionName(decl), new SymbolEntry(decl, this));
-        this.scopes.set(decl, new FunctionScope(decl, this));
+
+        const scope = new FunctionScope(decl, this);
+        scope.build();
+        this.scopes.set(decl, scope);
 
         break;
       }
@@ -116,9 +116,11 @@ export abstract class Scope {
         const decl = node as grammar.FunctionDeclaration;
 
         table.addFunction(decl);
-
         table.add(mangleFunctionName(decl), new SymbolEntry(decl, this));
-        this.scopes.set(decl, new FunctionScope(decl, this));
+
+        const scope = new FunctionScope(decl, this);
+        scope.build();
+        this.scopes.set(decl, scope);
 
         break;
       }
@@ -127,7 +129,10 @@ export abstract class Scope {
         const decl = node as grammar.ClassDeclaration;
 
         table.add(decl.identifier.lexeme, new SymbolEntry(decl, this));
-        this.scopes.set(decl, new ClassScope(decl, this));
+
+        const scope = new ClassScope(decl, this);
+        scope.build();
+        this.scopes.set(decl, scope);
 
         break;
       }
@@ -169,13 +174,21 @@ export abstract class Scope {
 
       case grammar.SyntacticToken.IF_EXPR: {
         const expr = node as grammar.IfExpression;
-        this.scopes.set(expr, new BlockScope(expr, this));
+
+        const scope = new BlockScope(expr, this);
+        scope.build();
+        this.scopes.set(expr, scope);
+
         break;
       }
 
       case grammar.SyntacticToken.ELSE_EXPR: {
         const expr = node as grammar.ElseExpression;
-        this.scopes.set(expr, new BlockScope(expr, this));
+
+        const scope = new BlockScope(expr, this);
+        scope.build();
+        this.scopes.set(expr, scope);
+
         break;
       }
 
@@ -188,19 +201,31 @@ export abstract class Scope {
       // Statements
       case grammar.SyntacticToken.SWITCH_STMT: {
         const stmt = node as grammar.SwitchStatement;
-        this.scopes.set(stmt, new BlockScope(stmt, this));
+
+        const scope = new BlockScope(stmt, this);
+        scope.build();
+        this.scopes.set(stmt, scope);
+
         break;
       }
 
       case grammar.SyntacticToken.FOR_STMT: {
         const stmt = node as grammar.ForStatement;
-        this.scopes.set(stmt, new BlockScope(stmt, this));
+
+        const scope = new BlockScope(stmt, this);
+        scope.build();
+        this.scopes.set(stmt, scope);
+
         break;
       }
 
       case grammar.SyntacticToken.WHILE_STMT: {
         const stmt = node as grammar.WhileStatement;
-        this.scopes.set(stmt, new BlockScope(stmt, this));
+
+        const scope = new BlockScope(stmt, this);
+        scope.build();
+        this.scopes.set(stmt, scope);
+
         break;
       }
 
@@ -221,13 +246,21 @@ export abstract class Scope {
       // Other
       case grammar.SyntacticToken.PROGRAM: {
         const program = node as grammar.Program;
-        this.scopes.set(program, new BlockScope(program, this));
+
+        const scope = new BlockScope(program, this);
+        scope.build();
+        this.scopes.set(program, scope);
+
         break;
       }
 
       case grammar.SyntacticToken.SWITCH_CASE: {
         const switchCase = node as grammar.SwitchCase;
-        this.scopes.set(switchCase, new BlockScope(switchCase, this));
+
+        const scope = new BlockScope(switchCase, this);
+        scope.build();
+        this.scopes.set(switchCase, scope);
+
         break;
       }
 

@@ -25,6 +25,7 @@ console.log(new Linter(
 import { BlockScope } from './scope';
 
 export const blockScope = new BlockScope(parseResult.ast);
+blockScope.build();
 console.log(blockScope);
 
 // Lint declarations

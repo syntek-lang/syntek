@@ -5,16 +5,13 @@ import { SymbolTable } from '../symbols/SymbolTable';
 import { SymbolEntry } from '../symbols/SymbolEntry';
 
 export class ClassScope extends Scope {
-  private staticSymbols?: SymbolTable;
+  private readonly staticSymbols = new SymbolTable();
 
   getOwnStaticSymbol(name: string): SymbolEntry | undefined {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.staticSymbols!.get(name);
+    return this.staticSymbols.get(name);
   }
 
   build(): void {
-    this.staticSymbols = new SymbolTable();
-
     if (this.node.type === grammar.SyntacticToken.CLASS_DECL) {
       const decl = this.node as grammar.ClassDeclaration;
 

@@ -44,6 +44,7 @@ export function testRule(name: string, settings: TestSettings): void {
     let scope: BlockScope | undefined;
     if (settings.scope) {
       scope = new BlockScope(program);
+      scope.build();
     }
 
     return new Linter(program, { [name]: settings.rule }, scope)
