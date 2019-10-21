@@ -108,6 +108,13 @@ testRule('illegalRedeclaration', {
         },
       ],
     },
+
+    {
+      group: 'builtin',
+      tests: [
+        'class A { var Function = 5 }',
+      ],
+    },
   ],
   invalid: [
     {
@@ -208,6 +215,15 @@ testRule('illegalRedeclaration', {
             { code: 'function <T> T() {}', errors: [GENERIC_ERROR('T')] },
           ],
         },
+      ],
+    },
+
+    {
+      group: 'builtin',
+      tests: [
+        { code: 'class Object {}', errors: [CLASS_ERROR('Object')] },
+        { code: 'function range() {}', errors: [FUNCTION_ERROR('range')] },
+        { code: 'var Function = 5', errors: [VAR_ERROR('Function')] },
       ],
     },
   ],

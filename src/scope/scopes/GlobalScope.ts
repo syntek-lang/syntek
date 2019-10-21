@@ -11,16 +11,25 @@ export class GlobalScope extends Scope {
   }
 
   build(): void {
-    this.symbols.add('Object', new SymbolEntry(new grammar.NativeNode(), this));
-    this.symbols.add('Class', new SymbolEntry(new grammar.NativeNode(), this));
-    this.symbols.add('Number', new SymbolEntry(new grammar.NativeNode(), this));
-    this.symbols.add('String', new SymbolEntry(new grammar.NativeNode(), this));
-    this.symbols.add('Boolean', new SymbolEntry(new grammar.NativeNode(), this));
-    this.symbols.add('Optional', new SymbolEntry(new grammar.NativeNode(), this));
-    this.symbols.add('Array', new SymbolEntry(new grammar.NativeNode(), this));
-    this.symbols.add('Function', new SymbolEntry(new grammar.NativeNode(), this));
-    this.symbols.add('VoidFunction', new SymbolEntry(new grammar.NativeNode(), this));
-    this.symbols.add('Error', new SymbolEntry(new grammar.NativeNode(), this));
-    this.symbols.add('Promise', new SymbolEntry(new grammar.NativeNode(), this));
+    [
+      // Functions
+      'print',
+      'range',
+
+      // Classes
+      'Object',
+      'Class',
+      'Number',
+      'String',
+      'Boolean',
+      'Optional',
+      'Array',
+      'Function',
+      'VoidFunction',
+      'Error',
+      'Promise',
+    ].forEach((builtin) => {
+      this.symbols.add(builtin, new SymbolEntry(new grammar.NativeNode(), this));
+    });
   }
 }
