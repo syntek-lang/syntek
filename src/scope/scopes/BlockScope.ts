@@ -42,12 +42,6 @@ export class BlockScope extends Scope {
       }
 
       // Other
-      case grammar.SyntacticToken.PROGRAM: {
-        const program = this.node as grammar.Program;
-        program.body.forEach(node => this.add(node));
-        break;
-      }
-
       case grammar.SyntacticToken.SWITCH_CASE: {
         const switchCase = this.node as grammar.SwitchCase;
         switchCase.body.forEach(node => this.add(node));

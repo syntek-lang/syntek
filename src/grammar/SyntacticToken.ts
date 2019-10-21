@@ -39,6 +39,7 @@ export enum SyntacticToken {
   CONTINUE_STMT,
 
   // Other
+  NATIVE_NODE,
   PROGRAM,
   SWITCH_CASE,
   VARIABLE_TYPE,

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { Linter } from '../../src/linter/Linter';
 import { LinterRule } from '../../src/linter/LinterRule';
 
-import { BlockScope } from '../../src/scope';
+import { ProgramScope } from '../../src/scope';
 import { parse, sanitize } from '../test-utils';
 
 type ValidTest =
@@ -41,9 +41,9 @@ export function testRule(name: string, settings: TestSettings): void {
   function lintCode(code: string): string[] {
     const program = parse(code);
 
-    let scope: BlockScope | undefined;
+    let scope: ProgramScope | undefined;
     if (settings.scope) {
-      scope = new BlockScope(program);
+      scope = new ProgramScope(program);
       scope.build();
     }
 

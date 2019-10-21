@@ -22,11 +22,11 @@ console.log(new Linter(
 ).lint());
 
 // Scopes
-import { BlockScope } from './scope';
+import { ProgramScope } from './scope';
 
-export const blockScope = new BlockScope(parseResult.ast);
-blockScope.build();
-console.log(blockScope);
+export const scope = new ProgramScope(parseResult.ast);
+scope.build();
+console.log(scope);
 
 // Lint declarations
 import * as lintDeclarations from './linter/rules/declarations';
@@ -34,7 +34,7 @@ import * as lintDeclarations from './linter/rules/declarations';
 console.log(new Linter(
   parseResult.ast,
   lintDeclarations,
-  blockScope,
+  scope,
 ).lint());
 
 // Export everything

@@ -14,14 +14,13 @@ export abstract class Scope {
 
   readonly parent?: Scope;
 
-  protected readonly symbols: SymbolTable;
+  protected readonly symbols = new SymbolTable();
 
   protected readonly scopes = new Map<grammar.Node, Scope>();
 
   constructor(node: grammar.Node, parent?: Scope) {
     this.node = node;
     this.parent = parent;
-    this.symbols = new SymbolTable();
   }
 
   getScope(node: grammar.Node): Scope | undefined {
@@ -244,16 +243,6 @@ export abstract class Scope {
         break;
 
       // Other
-      case grammar.SyntacticToken.PROGRAM: {
-        const program = node as grammar.Program;
-
-        const scope = new BlockScope(program, this);
-        scope.build();
-        this.scopes.set(program, scope);
-
-        break;
-      }
-
       case grammar.SyntacticToken.SWITCH_CASE: {
         const switchCase = node as grammar.SwitchCase;
 

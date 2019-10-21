@@ -3,6 +3,12 @@ import {
 } from '..';
 import { Span } from '../../position';
 
+export class NativeNode extends Node {
+  constructor() {
+    super(SyntacticToken.NATIVE_NODE, new Span([0, 0], [0, 0]));
+  }
+}
+
 export class Program extends Node {
   readonly body: Node[];
 
