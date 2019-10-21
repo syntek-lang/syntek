@@ -166,6 +166,7 @@ testRule('illegalRedeclaration', {
         { code: 'class A<T> { var T } \n var T', errors: [GENERIC_ERROR('T'), VAR_ERROR('T')] },
         { code: 'class T {} \n class A<T> {}', errors: [GENERIC_ERROR('T')] },
         { code: 'class A<T> {} \n class T {}', errors: [GENERIC_ERROR('T')] },
+        { code: 'class T<T> {}', errors: [GENERIC_ERROR('T')] },
 
         {
           group: 'constructor',
@@ -204,6 +205,7 @@ testRule('illegalRedeclaration', {
             { code: 'function <A> x() {} \n function <B> x() {}', errors: [OVERLOAD_ERROR('x')] },
             { code: 'function <A> x(a: A) {} \n function <B> x(b: B) {}', errors: [OVERLOAD_ERROR('x')] },
             { code: 'var x \n function <A> x(a: A) {}', errors: [VAR_ERROR('x'), FUNCTION_ERROR('x')] },
+            { code: 'function <T> T() {}', errors: [GENERIC_ERROR('T')] },
           ],
         },
       ],

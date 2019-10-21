@@ -104,7 +104,13 @@ export const illegalRedeclaration: LinterRule = {
 
         // Check generics
         node.genericParams.forEach((generic) => {
-          checkDeclaration(node, ctx.getScope(), ctx.parents, 'generic', generic);
+          // Check if the class name is equal to the generic
+          // This has to be done manually because the node for generics IS the class
+          if (node.identifier.lexeme === generic.lexeme) {
+            error('generic', generic);
+          } else {
+            checkDeclaration(node, ctx.getScope(), ctx.parents, 'generic', generic);
+          }
         });
 
         // Check constructors
