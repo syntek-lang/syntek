@@ -93,18 +93,18 @@ export const illegalRedeclaration: LinterRule = {
     }
 
     walker
-      .onEnter(grammar.EmptyVariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.scope, ctx.parents, 'variable', node.identifier))
-      .onEnter(grammar.VariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.scope, ctx.parents, 'variable', node.identifier))
-      .onEnter(grammar.Parameter, (node, ctx) => checkDeclaration(node, ctx.scope, ctx.parents, 'param', node.name))
-      .onEnter(grammar.ForStatement, (node, ctx) => checkDeclaration(node, ctx.scope, ctx.parents, 'variable', node.identifier))
+      .onEnter(grammar.EmptyVariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.getScope(), ctx.parents, 'variable', node.identifier))
+      .onEnter(grammar.VariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.getScope(), ctx.parents, 'variable', node.identifier))
+      .onEnter(grammar.Parameter, (node, ctx) => checkDeclaration(node, ctx.getScope(), ctx.parents, 'param', node.name))
+      .onEnter(grammar.ForStatement, (node, ctx) => checkDeclaration(node, ctx.getScope(), ctx.parents, 'variable', node.identifier))
 
       .onEnter(grammar.ClassDeclaration, (node, ctx) => {
         // Check class name
-        checkDeclaration(node, ctx.scope, ctx.parents, 'class', node.identifier);
+        checkDeclaration(node, ctx.getScope(), ctx.parents, 'class', node.identifier);
 
         // Check generics
         node.genericParams.forEach((generic) => {
-          checkDeclaration(node, ctx.scope, ctx.parents, 'generic', generic);
+          checkDeclaration(node, ctx.getScope(), ctx.parents, 'generic', generic);
         });
 
         // Check constructors
@@ -122,12 +122,12 @@ export const illegalRedeclaration: LinterRule = {
       })
 
       .onEnter(grammar.EmptyFunctionDeclaration, (node, ctx) => {
-        checkFunctionDeclaration(node, ctx.scope, ctx.parents);
+        checkFunctionDeclaration(node, ctx.getScope(), ctx.parents);
 
         // Check generics
         node.genericParams.forEach((generic) => {
           // Generics are declared in the function's scope
-          const scope = ctx.scope.getScope(node);
+          const scope = ctx.getScope().getScope(node);
 
           if (scope) {
             checkDeclaration(node, scope, ctx.parents, 'generic', generic);
@@ -135,12 +135,12 @@ export const illegalRedeclaration: LinterRule = {
         });
       })
       .onEnter(grammar.FunctionDeclaration, (node, ctx) => {
-        checkFunctionDeclaration(node, ctx.scope, ctx.parents);
+        checkFunctionDeclaration(node, ctx.getScope(), ctx.parents);
 
         // Check generics
         node.genericParams.forEach((generic) => {
           // Generics are declared in the function's scope
-          const scope = ctx.scope.getScope(node);
+          const scope = ctx.getScope().getScope(node);
 
           if (scope) {
             checkDeclaration(node, scope, ctx.parents, 'generic', generic);
