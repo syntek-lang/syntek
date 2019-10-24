@@ -190,16 +190,6 @@ export class Identifier extends Node {
   }
 }
 
-export class Literal extends Node {
-  readonly value: Token;
-
-  constructor(value: Token, span: Span) {
-    super(SyntacticToken.LITERAL, span);
-
-    this.value = value;
-  }
-}
-
 export class Super extends Node {
   constructor(span: Span) {
     super(SyntacticToken.SUPER, span);
@@ -209,5 +199,35 @@ export class Super extends Node {
 export class This extends Node {
   constructor(span: Span) {
     super(SyntacticToken.THIS, span);
+  }
+}
+
+export class NumberLiteral extends Node {
+  readonly value: Token;
+
+  constructor(value: Token) {
+    super(SyntacticToken.NUMBER_LITERAL, value.span);
+
+    this.value = value;
+  }
+}
+
+export class StringLiteral extends Node {
+  readonly value: Token;
+
+  constructor(value: Token) {
+    super(SyntacticToken.STRING_LITERAL, value.span);
+
+    this.value = value;
+  }
+}
+
+export class BooleanLiteral extends Node {
+  readonly value: Token;
+
+  constructor(value: Token) {
+    super(SyntacticToken.BOOLEAN_LITERAL, value.span);
+
+    this.value = value;
   }
 }

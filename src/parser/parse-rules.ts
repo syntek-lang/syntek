@@ -24,7 +24,7 @@ import { wrappedExpr } from './internal/expressions/wrappedExpr';
 
 // Literals
 import { identifier } from './internal/literals/identifier';
-import { literals } from './internal/literals/literals';
+import { numberLiteral, stringLiteral, booleanLiteral } from './internal/literals/literals';
 import { superLiteral } from './internal/literals/superLiteral';
 import { thisLiteral } from './internal/literals/thisLiteral';
 
@@ -102,9 +102,9 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: null, infix: null, precedence: Precedence.NONE }, // COLON
 
   // Literals
-  { prefix: literals, infix: null, precedence: Precedence.NONE }, // NUMBER
-  { prefix: literals, infix: null, precedence: Precedence.NONE }, // STRING
-  { prefix: literals, infix: null, precedence: Precedence.NONE }, // BOOLEAN
+  { prefix: numberLiteral, infix: null, precedence: Precedence.NONE }, // NUMBER
+  { prefix: stringLiteral, infix: null, precedence: Precedence.NONE }, // STRING
+  { prefix: booleanLiteral, infix: null, precedence: Precedence.NONE }, // BOOLEAN
 
   // Keywords
   { prefix: null, infix: null, precedence: Precedence.NONE }, // CLASS

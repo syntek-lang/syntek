@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { parse } from '../../../test-utils';
 
-import { Literal } from '../../../../src/grammar/nodes/Expressions';
+import { BooleanLiteral } from '../../../../src/grammar/nodes/Expressions';
 import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../src/grammar/nodes/Statements';
 
@@ -15,9 +15,9 @@ describe('boolean', () => {
     expect(stmt.type).to.equal(SyntacticToken.EXPRESSION_STMT);
     expect(stmt).to.be.an.instanceof(ExpressionStatement);
 
-    const expr = stmt.expression as Literal;
-    expect(expr.type).to.equal(SyntacticToken.LITERAL);
-    expect(expr).to.be.an.instanceof(Literal);
+    const expr = stmt.expression as BooleanLiteral;
+    expect(expr.type).to.equal(SyntacticToken.BOOLEAN_LITERAL);
+    expect(expr).to.be.an.instanceof(BooleanLiteral);
     expect(expr.value.lexeme).to.equal('true');
   });
 
@@ -28,9 +28,9 @@ describe('boolean', () => {
     expect(stmt.type).to.equal(SyntacticToken.EXPRESSION_STMT);
     expect(stmt).to.be.an.instanceof(ExpressionStatement);
 
-    const expr = stmt.expression as Literal;
-    expect(expr.type).to.equal(SyntacticToken.LITERAL);
-    expect(expr).to.be.an.instanceof(Literal);
+    const expr = stmt.expression as BooleanLiteral;
+    expect(expr.type).to.equal(SyntacticToken.BOOLEAN_LITERAL);
+    expect(expr).to.be.an.instanceof(BooleanLiteral);
     expect(expr.value.lexeme).to.equal('false');
   });
 });

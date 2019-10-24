@@ -77,9 +77,12 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   .set(grammar.ElseExpression, grammar.SyntacticToken.ELSE_EXPR)
 
   .set(grammar.Identifier, grammar.SyntacticToken.IDENTIFIER)
-  .set(grammar.Literal, grammar.SyntacticToken.LITERAL)
   .set(grammar.Super, grammar.SyntacticToken.SUPER)
   .set(grammar.This, grammar.SyntacticToken.THIS)
+
+  .set(grammar.NumberLiteral, grammar.SyntacticToken.NUMBER_LITERAL)
+  .set(grammar.StringLiteral, grammar.SyntacticToken.STRING_LITERAL)
+  .set(grammar.BooleanLiteral, grammar.SyntacticToken.BOOLEAN_LITERAL)
 
   // Statements
   .set(grammar.SwitchStatement, grammar.SyntacticToken.SWITCH_STMT)
@@ -107,7 +110,7 @@ export function isDeclaration(node: grammar.Node): boolean {
 
 export function isExpression(node: grammar.Node): boolean {
   return node.type >= grammar.SyntacticToken.ASSIGNMENT_EXPR
-    && node.type <= grammar.SyntacticToken.THIS;
+    && node.type <= grammar.SyntacticToken.BOOLEAN_LITERAL;
 }
 
 export function isStatement(node: grammar.Node): boolean {

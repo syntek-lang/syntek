@@ -236,9 +236,11 @@ export class ASTWalker {
       }
 
       case grammar.SyntacticToken.IDENTIFIER:
-      case grammar.SyntacticToken.LITERAL:
       case grammar.SyntacticToken.SUPER:
       case grammar.SyntacticToken.THIS:
+      case grammar.SyntacticToken.NUMBER_LITERAL:
+      case grammar.SyntacticToken.STRING_LITERAL:
+      case grammar.SyntacticToken.BOOLEAN_LITERAL:
         break;
 
       // Statements

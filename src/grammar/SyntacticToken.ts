@@ -23,9 +23,12 @@ export enum SyntacticToken {
   ELSE_EXPR,
 
   IDENTIFIER,
-  LITERAL,
   SUPER,
   THIS,
+
+  NUMBER_LITERAL,
+  STRING_LITERAL,
+  BOOLEAN_LITERAL,
 
   // Statements
   SWITCH_STMT,

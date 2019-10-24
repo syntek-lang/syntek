@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { parse, loadRaw } from '../../../test-utils';
 
-import { Literal } from '../../../../src/grammar/nodes/Expressions';
+import { StringLiteral } from '../../../../src/grammar/nodes/Expressions';
 import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
 import { ExpressionStatement } from '../../../../src/grammar/nodes/Statements';
 
@@ -16,9 +16,9 @@ describe('string', () => {
       expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
       expect(node).to.be.an.instanceof(ExpressionStatement);
 
-      const expr = (node as ExpressionStatement).expression as Literal;
-      expect(expr.type).to.equal(SyntacticToken.LITERAL);
-      expect(expr).to.be.an.instanceof(Literal);
+      const expr = (node as ExpressionStatement).expression as StringLiteral;
+      expect(expr.type).to.equal(SyntacticToken.STRING_LITERAL);
+      expect(expr).to.be.an.instanceof(StringLiteral);
       expect(expr.value.lexeme).to.equal(strings[i]);
     });
   });
@@ -31,9 +31,9 @@ describe('string', () => {
       expect(node.type).to.equal(SyntacticToken.EXPRESSION_STMT);
       expect(node).to.be.an.instanceof(ExpressionStatement);
 
-      const expr = (node as ExpressionStatement).expression as Literal;
-      expect(expr.type).to.equal(SyntacticToken.LITERAL);
-      expect(expr).to.be.an.instanceof(Literal);
+      const expr = (node as ExpressionStatement).expression as StringLiteral;
+      expect(expr.type).to.equal(SyntacticToken.STRING_LITERAL);
+      expect(expr).to.be.an.instanceof(StringLiteral);
       expect(expr.value.lexeme).to.equal(strings[i]);
     });
   });

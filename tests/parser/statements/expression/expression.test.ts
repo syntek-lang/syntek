@@ -5,7 +5,7 @@ import { parse } from '../../../test-utils';
 
 import { Node } from '../../../../src/grammar/Node';
 import { SyntacticToken } from '../../../../src/grammar/SyntacticToken';
-import { Literal, Identifier } from '../../../../src/grammar/nodes/Expressions';
+import { NumberLiteral, Identifier } from '../../../../src/grammar/nodes/Expressions';
 import { ExpressionStatement } from '../../../../src/grammar/nodes/Statements';
 
 describe('expression', () => {
@@ -34,9 +34,9 @@ describe('expression', () => {
       expect(stmt.type).to.equal(SyntacticToken.EXPRESSION_STMT);
       expect(stmt).to.be.an.instanceof(ExpressionStatement);
 
-      const expr = stmt.expression as Literal;
-      expect(expr.type).to.equal(SyntacticToken.LITERAL);
-      expect(expr).to.be.an.instanceof(Literal);
+      const expr = stmt.expression as NumberLiteral;
+      expect(expr.type).to.equal(SyntacticToken.NUMBER_LITERAL);
+      expect(expr).to.be.an.instanceof(NumberLiteral);
       expect(expr.value.lexeme).to.equal('5');
     }
 
