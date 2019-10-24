@@ -1,27 +1,64 @@
 import * as grammar from '../../grammar';
 
 import { Scope } from './Scope';
+import { StaticScope } from './StaticScope';
 import { SymbolTable } from '../symbols/SymbolTable';
 import { SymbolEntry } from '../symbols/SymbolEntry';
 
-export class ClassScope extends Scope {
-  private readonly staticSymbols = new SymbolTable();
+export class ClassScope extends Scope<grammar.ClassDeclaration> {
+  readonly staticScope: StaticScope;
 
-  getOwnStaticSymbol(name: string): SymbolEntry | undefined {
-    return this.staticSymbols.get(name);
+  readonly generics = new SymbolTable();
+
+  constructor(node: grammar.ClassDeclaration, parent?: Scope) {
+    super(node, parent);
+
+    this.staticScope = new StaticScope(node, parent);
+    this.staticScope.build();
+  }
+
+  getSymbol(name: string): SymbolEntry | undefined {
+    if (this.generics.has(name)) {
+      return this.generics.get(name);
+    }
+
+    if (this.parent) {
+      return this.parent.getSymbol(name);
+    }
+
+    return undefined;
+  }
+
+  hasSymbol(name: string): boolean {
+    if (this.generics.has(name)) {
+      return true;
+    }
+
+    if (this.parent) {
+      return this.parent.hasSymbol(name);
+    }
+
+    return false;
+  }
+
+  hasFunction(name: string): boolean {
+    if (this.parent) {
+      return this.parent.hasFunction(name);
+    }
+
+    return false;
   }
 
   build(): void {
-    if (this.node.type === grammar.SyntacticToken.CLASS_DECL) {
-      const decl = this.node as grammar.ClassDeclaration;
+    this.node.genericParams.forEach((generic) => {
+      const entry = new SymbolEntry(this.node, this);
 
-      decl.genericParams
-        .forEach(generic => this.symbols.add(generic.lexeme, new SymbolEntry(decl, this)));
+      // Generics are stored with the general symbols, and a map for generics, because
+      // a generic can be acquired directly
+      this.symbols.add(generic.lexeme, entry);
+      this.generics.add(generic.lexeme, entry);
+    });
 
-      decl.staticBody.forEach(prop => this.add(prop.value, this.staticSymbols));
-      decl.instanceBody.forEach(prop => this.add(prop.value));
-    } else {
-      throw new Error(`Class scope can't contain node of type ${grammar.SyntacticToken[this.node.type]}`);
-    }
+    this.node.instanceBody.forEach(prop => this.add(prop.value));
   }
 }

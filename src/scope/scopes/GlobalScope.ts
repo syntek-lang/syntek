@@ -3,7 +3,7 @@ import * as grammar from '../../grammar';
 import { Scope } from './Scope';
 import { SymbolEntry } from '../symbols/SymbolEntry';
 
-export class GlobalScope extends Scope {
+export class GlobalScope extends Scope<grammar.NativeNode> {
   constructor() {
     super(new grammar.NativeNode());
 

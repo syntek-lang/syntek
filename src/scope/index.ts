@@ -4,6 +4,7 @@ export * from './scopes/FunctionScope';
 export * from './scopes/GlobalScope';
 export * from './scopes/ProgramScope';
 export * from './scopes/Scope';
+export * from './scopes/StaticScope';
 
 export * from './symbols/SymbolEntry';
 export * from './symbols/SymbolTable';

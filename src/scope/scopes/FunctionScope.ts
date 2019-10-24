@@ -3,25 +3,18 @@ import * as grammar from '../../grammar';
 import { Scope } from './Scope';
 import { SymbolEntry } from '../symbols/SymbolEntry';
 
-export class FunctionScope extends Scope {
+type Func = grammar.FunctionDeclaration | grammar.EmptyFunctionDeclaration;
+
+export class FunctionScope extends Scope<Func> {
   build(): void {
-    if (this.node.type === grammar.SyntacticToken.EMPTY_FUNCTION_DECL) {
-      const decl = this.node as grammar.EmptyFunctionDeclaration;
+    this.node.genericParams.forEach((generic) => {
+      this.symbols.add(generic.lexeme, new SymbolEntry(this.node, this));
+    });
 
-      decl.genericParams
-        .forEach(generic => this.symbols.add(generic.lexeme, new SymbolEntry(decl, this)));
+    this.node.params.forEach(param => this.add(param));
 
-      decl.params.forEach(param => this.add(param));
-    } else if (this.node.type === grammar.SyntacticToken.FUNCTION_DECL) {
-      const decl = this.node as grammar.FunctionDeclaration;
-
-      decl.genericParams
-        .forEach(generic => this.symbols.add(generic.lexeme, new SymbolEntry(decl, this)));
-
-      decl.params.forEach(param => this.add(param));
-      decl.body.forEach(node => this.add(node));
-    } else {
-      throw new Error(`Function scope can't contain node of type ${grammar.SyntacticToken[this.node.type]}`);
+    if (this.node.type === grammar.SyntacticToken.FUNCTION_DECL) {
+      (this.node as grammar.FunctionDeclaration).body.forEach(node => this.add(node));
     }
   }
 }

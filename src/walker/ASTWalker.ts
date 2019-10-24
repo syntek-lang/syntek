@@ -1,6 +1,6 @@
 import * as grammar from '../grammar';
 
-import { Scope } from '../scope';
+import { Scope, ClassScope } from '../scope';
 import { WalkerContext } from './WalkerContext';
 
 type WalkerCallback = (node: grammar.Node, context: WalkerContext) => void;
@@ -134,8 +134,20 @@ export class ASTWalker {
         const decl = node as grammar.ClassDeclaration;
         decl.extends.forEach(walk);
         decl.constructors.forEach(walk);
-        decl.staticBody.forEach(walk);
         decl.instanceBody.forEach(walk);
+
+        if (newContext.hasScope()) {
+          // The static body has a special static scope, which is a property of the class scope
+          decl.staticBody.forEach((child) => {
+            const scope = (newContext.getScope() as ClassScope).staticScope;
+
+            this.walkNode(child, new WalkerContext(this.parents, scope));
+          });
+        } else {
+          // Just walk regularly as there is no scope
+          decl.staticBody.forEach(walk);
+        }
+
         break;
       }
 

@@ -4,7 +4,7 @@ import { LinterRule } from '../..';
 import { Level } from '../../../diagnostic';
 
 import {
-  Scope, ClassScope,
+  Scope, ClassScope, StaticScope,
   SymbolEntry,
   mangleFunctionName, mangleConstructor,
 } from '../../../scope';
@@ -13,13 +13,7 @@ type Func = grammar.FunctionDeclaration | grammar.EmptyFunctionDeclaration;
 
 function findSymbol(scope: Scope, parents: grammar.Node[], name: string): SymbolEntry | undefined {
   // If the current scope is a class scope then just look in the current scope
-  if (scope instanceof ClassScope) {
-    // If the prop is static check the static symbols
-    if ((parents[parents.length - 1] as grammar.ClassProp).static) {
-      return scope.getOwnStaticSymbol(name);
-    }
-
-    // Check regular symbols
+  if (scope instanceof ClassScope || scope instanceof StaticScope) {
     return scope.getOwnSymbol(name);
   }
 
