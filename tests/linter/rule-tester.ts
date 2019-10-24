@@ -30,7 +30,7 @@ type InvalidTest =
   };
 
 interface TestSettings {
-  rule: LinterRule;
+  rules: { [name: string]: LinterRule };
   scope: boolean;
 
   valid: ValidTest[];
@@ -47,7 +47,9 @@ export function testRule(name: string, settings: TestSettings): void {
       scope.build();
     }
 
-    return new Linter(program, { [name]: settings.rule }, scope)
+    const rule = settings.rules[name];
+
+    return new Linter(program, { [name]: rule }, scope)
       .lint()
       .map(error => error.msg);
   }

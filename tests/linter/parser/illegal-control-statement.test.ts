@@ -1,6 +1,6 @@
 import { testRule } from '../rule-tester';
 
-import { illegalControlStatement } from '../../../src/linter/rules/parser/illegal-control-statement';
+import * as parser from '../../../src/linter/rules/parser';
 
 const RETURN_ERROR = 'You can only place return inside a function';
 const YIELD_ERROR = 'You can only place yield inside an if expression';
@@ -8,7 +8,7 @@ const BREAK_ERROR = 'You can only place break inside a loop or switch case';
 const CONTINUE_ERROR = 'You can only place continue inside a loop or switch case';
 
 testRule('illegalControlStatement', {
-  rule: illegalControlStatement,
+  rules: parser,
   scope: false,
 
   valid: [

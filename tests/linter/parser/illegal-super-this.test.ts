@@ -1,12 +1,12 @@
 import { testRule } from '../rule-tester';
 
-import { illegalSuperThis } from '../../../src/linter/rules/parser/illegal-super-this';
+import * as parser from '../../../src/linter/rules/parser';
 
 const SUPER_ERROR = 'You can only use super inside a class';
 const THIS_ERROR = 'You can only use this inside a class';
 
 testRule('illegalSuperThis', {
-  rule: illegalSuperThis,
+  rules: parser,
   scope: false,
 
   valid: [

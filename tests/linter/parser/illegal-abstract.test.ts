@@ -1,12 +1,12 @@
 import { testRule } from '../rule-tester';
 
-import { illegalAbstract } from '../../../src/linter/rules/parser/illegal-abstract';
+import * as parser from '../../../src/linter/rules/parser';
 
 const CLASS_ERROR = 'Only abstract classes can contain abstract properties';
 const PROP_ERROR = 'An abstract property can not contain a value';
 
 testRule('illegalAbstract', {
-  rule: illegalAbstract,
+  rules: parser,
   scope: false,
 
   valid: [

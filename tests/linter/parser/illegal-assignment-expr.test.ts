@@ -1,12 +1,12 @@
 import { testRule } from '../rule-tester';
 
-import { illegalAssignmentExpr } from '../../../src/linter/rules/parser/illegal-assignment-expr';
+import * as parser from '../../../src/linter/rules/parser';
 
 const EXPR_ERROR = 'Assignments can not be inside another expression';
 const LEFT_ERROR = 'You can only assign to an identifier, member expression, and index expression';
 
 testRule('illegalAssignmentExpr', {
-  rule: illegalAssignmentExpr,
+  rules: parser,
   scope: false,
 
   valid: [

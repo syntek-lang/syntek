@@ -1,11 +1,11 @@
 import { testRule } from '../rule-tester';
 
-import { noUndefined } from '../../../src/linter/rules/declarations/no-undefined';
+import * as declarations from '../../../src/linter/rules/declarations';
 
 const ERROR = (name: string): string => `No symbol with the name '${name}'`;
 
 testRule('noUndefined', {
-  rule: noUndefined,
+  rules: declarations,
   scope: true,
 
   valid: [

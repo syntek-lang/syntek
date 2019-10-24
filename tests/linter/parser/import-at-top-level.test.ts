@@ -1,12 +1,12 @@
 import { testRule } from '../rule-tester';
 
-import { importAtTopLevel } from '../../../src/linter/rules/parser/import-at-top-level';
+import * as parser from '../../../src/linter/rules/parser';
 
 const IMPORT = 'import myImport';
 const ERROR = 'An import can only be at the top level';
 
 testRule('importAtTopLevel', {
-  rule: importAtTopLevel,
+  rules: parser,
   scope: false,
 
   valid: [IMPORT],

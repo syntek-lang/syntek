@@ -1,12 +1,12 @@
 import { testRule } from '../rule-tester';
 
-import { classAtTopLevel } from '../../../src/linter/rules/parser/class-at-top-level';
+import * as parser from '../../../src/linter/rules/parser';
 
 const CLASS = 'class MyClass { var _ }';
 const ERROR = 'A class can only be declared at the top level';
 
 testRule('classAtTopLevel', {
-  rule: classAtTopLevel,
+  rules: parser,
   scope: false,
 
   valid: [CLASS],

@@ -1,11 +1,11 @@
 import { testRule } from '../rule-tester';
 
-import { illegalIf } from '../../../src/linter/rules/parser/illegal-if';
+import * as parser from '../../../src/linter/rules/parser';
 
 const ERROR = 'An if expression must have an else body';
 
 testRule('illegalIf', {
-  rule: illegalIf,
+  rules: parser,
   scope: false,
 
   valid: [

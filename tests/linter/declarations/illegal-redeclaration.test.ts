@@ -1,6 +1,6 @@
 import { testRule } from '../rule-tester';
 
-import { illegalRedeclaration } from '../../../src/linter/rules/declarations/illegal-redeclaration';
+import * as declarations from '../../../src/linter/rules/declarations';
 
 const ERROR = (type: string, name: string): string => `You can't declare a ${type} with the name '${name}', because it is already used`;
 
@@ -14,7 +14,7 @@ const OVERLOAD_ERROR = (name: string): string => `Identical function overload ex
 const CONSTRUCTOR_ERROR = 'Identical constructor overload exists';
 
 testRule('illegalRedeclaration', {
-  rule: illegalRedeclaration,
+  rules: declarations,
   scope: true,
 
   valid: [
