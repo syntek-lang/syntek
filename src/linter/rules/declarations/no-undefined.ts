@@ -14,7 +14,7 @@ export const noUndefined: LinterRule = {
         const identifier = node as grammar.Identifier;
         const scope = ctx.getScope();
 
-        if (!scope.hasSymbol(identifier.lexeme)) {
+        if (!scope.hasSymbol(identifier.lexeme) && !scope.hasFunction(identifier.lexeme)) {
           report(`No symbol with the name '${identifier.lexeme}'`, identifier.span);
         }
       }

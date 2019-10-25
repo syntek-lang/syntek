@@ -37,6 +37,9 @@ testRule('noUndefined', {
 
         // Call
         'var x \n x()',
+        'function x() {} \n x()',
+        'var A \n function x(y: A) {} \n x()',
+        'var A \n var B \n function x(y: A, z: B) {} \n x()',
         'var x \n var y \n x(y)',
 
         // Index
@@ -49,6 +52,7 @@ testRule('noUndefined', {
         // New
         'var x \n new x()',
         'var x \n new x.y()',
+        'class A {} \n new A()',
         'var x \n var y \n new x(y)',
         'var x \n var y \n new x.y(y)',
 
