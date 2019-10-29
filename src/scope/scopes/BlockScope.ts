@@ -20,12 +20,6 @@ export class BlockScope extends Scope {
       }
 
       // Statements
-      case grammar.SyntacticToken.SWITCH_STMT: {
-        const stmt = this.node as grammar.SwitchStatement;
-        stmt.cases.forEach(switchCase => this.add(switchCase));
-        break;
-      }
-
       case grammar.SyntacticToken.FOR_STMT: {
         const stmt = this.node as grammar.ForStatement;
 
@@ -38,13 +32,6 @@ export class BlockScope extends Scope {
       case grammar.SyntacticToken.WHILE_STMT: {
         const stmt = this.node as grammar.WhileStatement;
         stmt.body.forEach(node => this.add(node));
-        break;
-      }
-
-      // Other
-      case grammar.SyntacticToken.SWITCH_CASE: {
-        const switchCase = this.node as grammar.SwitchCase;
-        switchCase.body.forEach(node => this.add(node));
         break;
       }
 

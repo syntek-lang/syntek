@@ -1,21 +1,8 @@
 import {
-  Node, Token, SyntacticToken, SwitchCase, VariableType,
+  Node, Token, SyntacticToken, VariableType,
 } from '..';
 
 import { Span } from '../../position';
-
-export class SwitchStatement extends Node {
-  readonly expression: Node;
-
-  readonly cases: SwitchCase[];
-
-  constructor(expression: Node, cases: SwitchCase[], span: Span) {
-    super(SyntacticToken.SWITCH_STMT, span);
-
-    this.expression = expression;
-    this.cases = cases;
-  }
-}
 
 export class ForStatement extends Node {
   readonly identifier: Token;

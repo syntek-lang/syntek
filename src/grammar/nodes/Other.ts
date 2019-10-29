@@ -19,19 +19,6 @@ export class Program extends Node {
   }
 }
 
-export class SwitchCase extends Node {
-  readonly conditions: Node[];
-
-  readonly body: Node[];
-
-  constructor(conditions: Node[], body: Node[], span: Span) {
-    super(SyntacticToken.SWITCH_CASE, span);
-
-    this.conditions = conditions;
-    this.body = body;
-  }
-}
-
 export class VariableType extends Node {
   readonly object: Identifier | MemberExpression;
 

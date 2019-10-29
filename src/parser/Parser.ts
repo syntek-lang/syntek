@@ -333,7 +333,6 @@ export class Parser {
     while (!this.isEOF()) {
       switch (this.peek().type) {
         case LexicalToken.CLASS:
-        case LexicalToken.SWITCH:
         case LexicalToken.FUNCTION:
         case LexicalToken.IMPORT:
         case LexicalToken.FOR:

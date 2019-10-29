@@ -31,7 +31,6 @@ export enum SyntacticToken {
   BOOLEAN_LITERAL,
 
   // Statements
-  SWITCH_STMT,
   FOR_STMT,
   WHILE_STMT,
   RETURN_STMT,
@@ -44,7 +43,6 @@ export enum SyntacticToken {
   // Other
   NATIVE_NODE,
   PROGRAM,
-  SWITCH_CASE,
   VARIABLE_TYPE,
   PARAMETER,
   CONSTRUCTOR,

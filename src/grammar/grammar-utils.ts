@@ -23,9 +23,6 @@ export const WORD_TOKENS: { [key: string]: grammar.LexicalToken } = {
   if: grammar.LexicalToken.IF,
   else: grammar.LexicalToken.ELSE,
 
-  switch: grammar.LexicalToken.SWITCH,
-  case: grammar.LexicalToken.CASE,
-
   function: grammar.LexicalToken.FUNCTION,
   return: grammar.LexicalToken.RETURN,
   void: grammar.LexicalToken.VOID,
@@ -85,7 +82,6 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   .set(grammar.BooleanLiteral, grammar.SyntacticToken.BOOLEAN_LITERAL)
 
   // Statements
-  .set(grammar.SwitchStatement, grammar.SyntacticToken.SWITCH_STMT)
   .set(grammar.ForStatement, grammar.SyntacticToken.FOR_STMT)
   .set(grammar.WhileStatement, grammar.SyntacticToken.WHILE_STMT)
   .set(grammar.ReturnStatement, grammar.SyntacticToken.RETURN_STMT)
@@ -97,7 +93,6 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
 
   // Other
   .set(grammar.Program, grammar.SyntacticToken.PROGRAM)
-  .set(grammar.SwitchCase, grammar.SyntacticToken.SWITCH_CASE)
   .set(grammar.VariableType, grammar.SyntacticToken.VARIABLE_TYPE)
   .set(grammar.Parameter, grammar.SyntacticToken.PARAMETER)
   .set(grammar.ClassProp, grammar.SyntacticToken.CLASS_PROP)
@@ -114,7 +109,7 @@ export function isExpression(node: grammar.Node): boolean {
 }
 
 export function isStatement(node: grammar.Node): boolean {
-  return node.type >= grammar.SyntacticToken.SWITCH_CASE
+  return node.type >= grammar.SyntacticToken.FOR_STMT
     && node.type <= grammar.SyntacticToken.CONTINUE_STMT;
 }
 

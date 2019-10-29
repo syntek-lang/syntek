@@ -212,16 +212,6 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
         break;
 
       // Statements
-      case grammar.SyntacticToken.SWITCH_STMT: {
-        const stmt = node as grammar.SwitchStatement;
-
-        const scope = new BlockScope(stmt, this);
-        scope.build();
-        this.scopes.set(stmt, scope);
-
-        break;
-      }
-
       case grammar.SyntacticToken.FOR_STMT: {
         const stmt = node as grammar.ForStatement;
 
@@ -257,16 +247,6 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
         break;
 
       // Other
-      case grammar.SyntacticToken.SWITCH_CASE: {
-        const switchCase = node as grammar.SwitchCase;
-
-        const scope = new BlockScope(switchCase, this);
-        scope.build();
-        this.scopes.set(switchCase, scope);
-
-        break;
-      }
-
       case grammar.SyntacticToken.VARIABLE_TYPE:
         break;
 

@@ -256,13 +256,6 @@ export class ASTWalker {
         break;
 
       // Statements
-      case grammar.SyntacticToken.SWITCH_STMT: {
-        const stmt = node as grammar.SwitchStatement;
-        walk(stmt.expression);
-        stmt.cases.forEach(walk);
-        break;
-      }
-
       case grammar.SyntacticToken.FOR_STMT: {
         const stmt = node as grammar.ForStatement;
 
@@ -312,13 +305,6 @@ export class ASTWalker {
       case grammar.SyntacticToken.PROGRAM: {
         const program = node as grammar.Program;
         program.body.forEach(walk);
-        break;
-      }
-
-      case grammar.SyntacticToken.SWITCH_CASE: {
-        const switchCase = node as grammar.SwitchCase;
-        switchCase.conditions.forEach(walk);
-        switchCase.body.forEach(walk);
         break;
       }
 

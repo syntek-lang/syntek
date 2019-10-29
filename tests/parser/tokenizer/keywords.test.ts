@@ -23,9 +23,6 @@ const map = {
   if: LexicalToken.IF,
   else: LexicalToken.ELSE,
 
-  switch: LexicalToken.SWITCH,
-  case: LexicalToken.CASE,
-
   function: LexicalToken.FUNCTION,
   return: LexicalToken.RETURN,
   void: LexicalToken.VOID,

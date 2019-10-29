@@ -14,7 +14,6 @@ testRule('illegalAssignmentExpr', {
     'x = 10 - 5',
     'if x { x = 5 }',
     'function x() { x = 5 }',
-    'switch x { case y { x = 5 } }',
     'class C { function x() { x = 5 } }',
 
     'obj.x = 5',

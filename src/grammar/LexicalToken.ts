@@ -57,9 +57,6 @@ export enum LexicalToken {
   IF,
   ELSE,
 
-  SWITCH,
-  CASE,
-
   FUNCTION,
   RETURN,
   VOID,

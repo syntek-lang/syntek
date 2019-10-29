@@ -33,7 +33,6 @@ import { breakStmt } from './internal/statements/breakStmt';
 import { continueStmt } from './internal/statements/continueStmt';
 import { forStmt } from './internal/statements/forStmt';
 import { returnStmt } from './internal/statements/returnStmt';
-import { switchStmt } from './internal/statements/switchStmt';
 import { whileStmt } from './internal/statements/whileStmt';
 import { yieldStmt } from './internal/statements/yieldStmt';
 
@@ -121,9 +120,6 @@ export const expressionRules: ExpressionParseRule[] = [
   { prefix: ifExpr, infix: null, precedence: Precedence.NONE }, // IF
   { prefix: null, infix: null, precedence: Precedence.NONE }, // ELSE
 
-  { prefix: null, infix: null, precedence: Precedence.NONE }, // SWITCH
-  { prefix: null, infix: null, precedence: Precedence.NONE }, // CASE
-
   { prefix: null, infix: null, precedence: Precedence.NONE }, // FUNCTION
   { prefix: null, infix: null, precedence: Precedence.NONE }, // RETURN
   { prefix: null, infix: null, precedence: Precedence.NONE }, // VOID
@@ -158,7 +154,6 @@ export const statementRules: { [key: number]: ParsingHandler } = {
   [LexicalToken.CONTINUE]: continueStmt,
   [LexicalToken.FOR]: forStmt,
   [LexicalToken.RETURN]: returnStmt,
-  [LexicalToken.SWITCH]: switchStmt,
   [LexicalToken.WHILE]: whileStmt,
   [LexicalToken.YIELD]: yieldStmt,
 };
