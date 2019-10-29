@@ -151,8 +151,15 @@ export class ASTWalker {
         break;
       }
 
-      case grammar.SyntacticToken.IMPORT_DECL:
+      case grammar.SyntacticToken.IMPORT_DECL: {
+        const decl = node as grammar.ImportDeclaration;
+
+        if (decl.expose) {
+          decl.expose.forEach(walk);
+        }
+
         break;
+      }
 
       // Expressions
       case grammar.SyntacticToken.ASSIGNMENT_EXPR: {
@@ -333,6 +340,9 @@ export class ASTWalker {
         walk(prop.value);
         break;
       }
+
+      case grammar.SyntacticToken.IMPORT_EXPOSE:
+        break;
 
       default:
         throw new Error(`Can't walk node of type ${grammar.SyntacticToken[node.type]}`);

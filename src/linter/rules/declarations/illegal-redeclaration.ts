@@ -146,6 +146,17 @@ export const illegalRedeclaration: LinterRule = {
             checkDeclaration(node, scope, ctx.parents, 'generic', generic);
           }
         });
+      })
+
+      .onEnter(grammar.ImportDeclaration, (node, ctx) => {
+        if (!node.expose) {
+          const name = node.rename || node.path[node.path.length - 1];
+          checkDeclaration(node, ctx.getScope(), ctx.parents, 'import', name);
+        }
+      })
+      .onEnter(grammar.ImportExpose, (node, ctx) => {
+        const name = node.rename || node.value;
+        checkDeclaration(node, ctx.getScope(), ctx.parents, 'import', name);
       });
   },
 };

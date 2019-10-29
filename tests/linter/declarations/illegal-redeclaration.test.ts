@@ -10,6 +10,8 @@ const FOR_ERROR = (name: string): string => ERROR('variable', name);
 const CLASS_ERROR = (name: string): string => ERROR('class', name);
 const GENERIC_ERROR = (name: string): string => ERROR('generic', name);
 const FUNCTION_ERROR = (name: string): string => ERROR('function', name);
+const IMPORT_ERROR = (name: string): string => ERROR('import', name);
+
 const OVERLOAD_ERROR = (name: string): string => `Identical function overload exists for '${name}'`;
 const CONSTRUCTOR_ERROR = 'Identical constructor overload exists';
 
@@ -106,6 +108,16 @@ testRule('illegalRedeclaration', {
             'function <A> x(a: A) {} \n function <A, B> x(b: B) {}',
           ],
         },
+      ],
+    },
+
+    {
+      group: 'import',
+      tests: [
+        'import std.math \n import std.fs',
+        'import std.math \n import src.math as custom',
+        'import std.math.{floor, ceil}',
+        'import std.math.{floor} \n import src.math.{floor as flr}',
       ],
     },
 
@@ -215,6 +227,18 @@ testRule('illegalRedeclaration', {
             { code: 'function <T> T() {}', errors: [GENERIC_ERROR('T')] },
           ],
         },
+      ],
+    },
+
+    {
+      group: 'import',
+      tests: [
+        { code: 'import std.math \n import src.math', errors: [IMPORT_ERROR('math')] },
+        { code: 'import std.math \n import src.math as math', errors: [IMPORT_ERROR('math')] },
+        { code: 'import std.math \n import src.custom as math', errors: [IMPORT_ERROR('math')] },
+        { code: 'import std.math.{floor} \n import src.math.{floor}', errors: [IMPORT_ERROR('floor')] },
+        { code: 'import std.math.{floor} \n import src.math.{floor as floor}', errors: [IMPORT_ERROR('floor')] },
+        { code: 'import std.math.{floor as flr} \n import src.math.{floor as flr}', errors: [IMPORT_ERROR('flr')] },
       ],
     },
 

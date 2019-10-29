@@ -93,6 +93,8 @@ export function testRule(name: string, settings: TestSettings): void {
           const test = invalid.skip ? it.skip : it;
 
           test(sanitize(invalid.code), () => {
+            expect(invalid.errors.length).to.be.greaterThan(0, 'Invalid code must expect 1 or more errors');
+
             const errors = lintCode(invalid.code);
 
             expect(errors.length).to.equal(invalid.errors.length, `Expected ${invalid.errors.length} error${invalid.errors.length === 1 ? '' : 's'}, but got ${errors.length}`);
