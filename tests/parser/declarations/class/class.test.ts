@@ -394,7 +394,7 @@ describe('class', () => {
         const value = prop.value as EmptyVariableDeclaration;
         expect(value.type).to.equal(SyntacticToken.EMPTY_VARIABLE_DECL);
         expect(value).to.be.an.instanceof(EmptyVariableDeclaration);
-        expect(value.variableType).to.be.null;
+        expect((value.variableType.object as Identifier).lexeme).to.equal('A');
         expect(value.identifier.lexeme).to.equal('x');
       }
 
@@ -455,7 +455,7 @@ describe('class', () => {
         const value = prop.value as EmptyVariableDeclaration;
         expect(value.type).to.equal(SyntacticToken.EMPTY_VARIABLE_DECL);
         expect(value).to.be.an.instanceof(EmptyVariableDeclaration);
-        expect(value.variableType).to.be.null;
+        expect((value.variableType.object as Identifier).lexeme).to.equal('A');
         expect(value.identifier.lexeme).to.equal('x');
       }
 

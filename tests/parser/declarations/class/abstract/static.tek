@@ -1,21 +1,31 @@
 # abstract static
 abstract class A {
+	abstract static var x: A
+}
+
+abstract class A {
+	abstract static var x:
+		A
+}
+
+abstract class A {
 	abstract static var x
+		: A
 }
 
 abstract class A {
 	abstract static var
-		x
+		x: A
 }
 
 abstract class A {
 	abstract static
-		var x
+		var x: A
 }
 
 abstract class A {
 	abstract
-		static var x
+		static var x: A
 }
 
 abstract class A {
@@ -23,26 +33,38 @@ abstract class A {
 		static
 		var
 		x
+		:
+		A
 }
 
 # static abstract
 abstract class A {
+	static abstract var x: A
+}
+
+abstract class A {
+	static abstract var x:
+		A
+}
+
+abstract class A {
 	static abstract var x
+		: A
 }
 
 abstract class A {
 	static abstract var
-		x
+		x: A
 }
 
 abstract class A {
 	static abstract
-		var x
+		var x: A
 }
 
 abstract class A {
 	static
-		abstract var x
+		abstract var x: A
 }
 
 abstract class A {
@@ -50,4 +72,6 @@ abstract class A {
 		abstract
 		var
 		x
+		:
+		A
 }

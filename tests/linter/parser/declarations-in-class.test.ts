@@ -9,11 +9,11 @@ testRule('declarationsInClass', {
   scope: false,
 
   valid: [
-    'class X { var x }',
+    'class X { var x: A }',
     'class X { var x = 5 }',
     'class X { function x() { return } }',
     'class X { import x }',
-    'class X { class Y { var x } }',
+    'class X { class Y { var x: A } }',
   ],
   invalid: [
     { code: 'class X { 5 }', errors: [ERROR] },

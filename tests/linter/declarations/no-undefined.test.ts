@@ -13,7 +13,7 @@ testRule('noUndefined', {
       group: 'declarations',
       tests: [
         // Variable
-        'var x \n var y = x',
+        'var x = 5 \n var y = x',
       ],
     },
 
@@ -21,57 +21,57 @@ testRule('noUndefined', {
       group: 'expressions',
       tests: [
         // Assignment
-        'var x \n x = x',
+        'var x = 5 \n x = x',
 
         // Wrapped
-        'var x \n (x)',
+        'var x = 5 \n (x)',
 
         // Unary
-        'var x \n -x',
-        'var x \n !x',
+        'var x = 5 \n -x',
+        'var x = 5 \n !x',
 
         // Binary
-        'var x \n x + 5',
-        'var x \n 5 + x',
-        'var x \n x + x',
+        'var x = 5 \n x + 5',
+        'var x = 5 \n 5 + x',
+        'var x = 5 \n x + x',
 
         // Call
-        'var x \n x()',
+        'var x = 5 \n x()',
         'function x() {} \n x()',
-        'var A \n function x(y: A) {} \n x()',
-        'var A \n var B \n function x(y: A, z: B) {} \n x()',
-        'var x \n var y \n x(y)',
+        'var A = 5 \n function x(y: A) {} \n x()',
+        'var A = 5 \n var B = 10 \n function x(y: A, z: B) {} \n x()',
+        'var x = 5 \n var y = 10 \n x(y)',
 
         // Index
-        'var x \n x[0]',
-        'var x \n var y \n x[y]',
+        'var x = 5 \n x[0]',
+        'var x = 5 \n var y = 5 \n x[y]',
 
         // Member
-        'var x \n x.y',
+        'var x = 5 \n x.y',
 
         // New
-        'var x \n new x()',
-        'var x \n new x.y()',
+        'var x = 5 \n new x()',
+        'var x = 5 \n new x.y()',
         'class A {} \n new A()',
-        'var x \n var y \n new x(y)',
-        'var x \n var y \n new x.y(y)',
+        'var x = 5 \n var y = 10 \n new x(y)',
+        'var x = 5 \n var y = 10 \n new x.y(y)',
 
         // Instanceof
-        'var x \n var y \n x instanceof y',
+        'var x = 5 \n var y = 10 \n x instanceof y',
 
         // Async
-        'var x \n async x',
+        'var x = 5 \n async x',
 
         // Array
         '[]',
-        'var x \n [x]',
-        'var x \n var y \n [x, y]',
+        'var x = 5 \n [x]',
+        'var x = 5 \n var y = 10 \n [x, y]',
 
         // If
-        'var x \n if x {}',
-        'var x \n if x {} else {}',
-        'var x \n var y \n if x {} else if y {}',
-        'var x \n var y \n if x {} else if y {} else {}',
+        'var x = 5 \n if x {}',
+        'var x = 5 \n if x {} else {}',
+        'var x = 5 \n var y = 10 \n if x {} else if y {}',
+        'var x = 5 \n var y = 10 \n if x {} else if y {} else {}',
       ],
     },
 
@@ -79,20 +79,20 @@ testRule('noUndefined', {
       group: 'statements',
       tests: [
         // For
-        'var x \n for y in x {}',
+        'var x = 5 \n for y in x {}',
 
         // While
-        'var x \n while x {}',
+        'var x = 5 \n while x {}',
 
         // Return
         'return',
-        'var x \n return x',
+        'var x = 5 \n return x',
 
         // Yield
-        'var x \n yield x',
+        'var x = 5 \n yield x',
 
         // Expression
-        'var x \n x',
+        'var x = 5 \n x',
       ],
     },
 
@@ -100,10 +100,10 @@ testRule('noUndefined', {
       group: 'other',
       tests: [
         // VariableType
-        'var A \n var y: A',
-        'var A \n function x(y: A) {}',
+        'var A = 5 \n var y: A',
+        'var A = 5 \n function x(y: A) {}',
         'function <T> x(y: T) {}',
-        'var A \n function x(): A {}',
+        'var A = 5 \n function x(): A {}',
         'class A<T> { var x: T }',
       ],
     },
@@ -122,7 +122,7 @@ testRule('noUndefined', {
       tests: [
         // Assignment
         { code: 'x = 5', errors: [ERROR('x')] },
-        { code: 'var x \n x = y', errors: [ERROR('y')] },
+        { code: 'var x = 5 \n x = y', errors: [ERROR('y')] },
         { code: 'x = y', errors: [ERROR('x'), ERROR('y')] },
 
         // Wrapped
@@ -139,13 +139,13 @@ testRule('noUndefined', {
 
         // Call
         { code: 'x()', errors: [ERROR('x')] },
-        { code: 'var x \n x(y)', errors: [ERROR('y')] },
+        { code: 'var x = 5 \n x(y)', errors: [ERROR('y')] },
         { code: 'x(y)', errors: [ERROR('x'), ERROR('y')] },
         { code: 'x(y, z)', errors: [ERROR('x'), ERROR('y'), ERROR('z')] },
 
         // Index
         { code: 'x[0]', errors: [ERROR('x')] },
-        { code: 'var x \n x[y]', errors: [ERROR('y')] },
+        { code: 'var x = 5 \n x[y]', errors: [ERROR('y')] },
         { code: 'x[y]', errors: [ERROR('x'), ERROR('y')] },
 
         // Member
@@ -154,13 +154,13 @@ testRule('noUndefined', {
 
         // New
         { code: 'new x()', errors: [ERROR('x')] },
-        { code: 'var x \n new x(y)', errors: [ERROR('y')] },
+        { code: 'var x = 5 \n new x(y)', errors: [ERROR('y')] },
         { code: 'new x(y)', errors: [ERROR('x'), ERROR('y')] },
         { code: 'new x(y, z)', errors: [ERROR('x'), ERROR('y'), ERROR('z')] },
 
         // Instanceof
-        { code: 'var x \n x instanceof y', errors: [ERROR('y')] },
-        { code: 'var y \n x instanceof y', errors: [ERROR('x')] },
+        { code: 'var x = 5 \n x instanceof y', errors: [ERROR('y')] },
+        { code: 'var y = 5 \n x instanceof y', errors: [ERROR('x')] },
         { code: 'x instanceof y', errors: [ERROR('x'), ERROR('y')] },
 
         // Async
@@ -175,7 +175,7 @@ testRule('noUndefined', {
         { code: 'if x {} else {}', errors: [ERROR('x')] },
         { code: 'if x {} else if y {}', errors: [ERROR('x'), ERROR('y')] },
         { code: 'if x {} else if y {} else {}', errors: [ERROR('x'), ERROR('y')] },
-        { code: 'var x \n if x {} else if y {} else {}', errors: [ERROR('y')] },
+        { code: 'var x = 5 \n if x {} else if y {} else {}', errors: [ERROR('y')] },
       ],
     },
 

@@ -37,6 +37,10 @@ export function variableDecl(parser: Parser): Node {
     );
   }
 
+  if (!variableType) {
+    throw parser.error('Empty variable declaration must have a type', new Span(start, parser.previous().span.end));
+  }
+
   return new EmptyVariableDeclaration(
     identifier,
     variableType,

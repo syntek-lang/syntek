@@ -1,19 +1,31 @@
 abstract class A {
+	abstract var x: A
+}
+
+abstract class A {
+	abstract var x:
+		A
+}
+
+abstract class A {
 	abstract var x
+		: A
 }
 
 abstract class A {
 	abstract var
-		x
+		x: A
 }
 
 abstract class A {
 	abstract
-		var x
+		var x: A
 }
 
 abstract class A {
 	abstract
 		var
 		x
+		:
+		A
 }

@@ -7,11 +7,11 @@ import { Span } from '../../position';
 export class EmptyVariableDeclaration extends Node {
   readonly identifier: Token;
 
-  readonly variableType: VariableType | null;
+  readonly variableType: VariableType;
 
   constructor(
     identifier: Token,
-    variableType: VariableType | null,
+    variableType: VariableType,
     span: Span,
   ) {
     super(SyntacticToken.EMPTY_VARIABLE_DECL, span);

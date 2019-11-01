@@ -2,7 +2,7 @@ import { testRule } from '../rule-tester';
 
 import * as parser from '../../../src/linter/rules/parser';
 
-const CLASS = 'class MyClass { var _ }';
+const CLASS = 'class MyClass { var x = 5 }';
 const ERROR = 'A class can only be declared at the top level';
 
 testRule('classAtTopLevel', {

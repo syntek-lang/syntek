@@ -85,39 +85,21 @@ describe('variable', () => {
     });
   });
 
-  describe('without value', () => {
-    it('parses without type correctly', () => {
-      const program = parse(loadRaw(__dirname, './empty-without-type.tek'));
+  it('parses empty correctly', () => {
+    const program = parse(loadRaw(__dirname, './empty.tek'));
 
-      function check(node: Node): void {
-        const decl = node as EmptyVariableDeclaration;
-        expect(decl.type).to.equal(SyntacticToken.EMPTY_VARIABLE_DECL);
-        expect(decl).to.be.an.instanceof(EmptyVariableDeclaration);
+    function check(node: Node): void {
+      const decl = node as EmptyVariableDeclaration;
+      expect(decl.type).to.equal(SyntacticToken.EMPTY_VARIABLE_DECL);
+      expect(decl).to.be.an.instanceof(EmptyVariableDeclaration);
 
-        expect(decl.identifier.lexeme).to.equal('x');
-        expect(decl.variableType).to.be.null;
-      }
+      expect(decl.identifier.lexeme).to.equal('x');
 
-      program.body.forEach(check);
-    });
+      expect((decl.variableType.object as Identifier).lexeme).to.equal('A');
+      expect(decl.variableType.generics.length).to.equal(0);
+      expect(decl.variableType.arrayDepth).to.equal(0);
+    }
 
-    it('parses with type correctly', () => {
-      const program = parse(loadRaw(__dirname, './empty-with-type.tek'));
-
-      function check(node: Node): void {
-        const decl = node as EmptyVariableDeclaration;
-        expect(decl.type).to.equal(SyntacticToken.EMPTY_VARIABLE_DECL);
-        expect(decl).to.be.an.instanceof(EmptyVariableDeclaration);
-
-        expect(decl.identifier.lexeme).to.equal('x');
-
-        expect(decl.variableType).to.not.be.null;
-        expect((decl.variableType!.object as Identifier).lexeme).to.equal('A');
-        expect(decl.variableType!.generics.length).to.equal(0);
-        expect(decl.variableType!.arrayDepth).to.equal(0);
-      }
-
-      program.body.forEach(check);
-    });
+    program.body.forEach(check);
   });
 });
