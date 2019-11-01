@@ -14,7 +14,7 @@ type Func = grammar.FunctionDeclaration | grammar.EmptyFunctionDeclaration;
 function findSymbol(scope: Scope, parents: grammar.Node[], name: string): SymbolEntry | undefined {
   // If the current scope is a class scope then just look in the current scope
   if (scope instanceof ClassScope || scope instanceof StaticScope) {
-    return scope.getOwnSymbol(name);
+    return scope.table.get(name);
   }
 
   // Start from the bottom, to find the original declaration
@@ -38,7 +38,7 @@ function findSymbol(scope: Scope, parents: grammar.Node[], name: string): Symbol
     }
   }
 
-  return scope.getOwnSymbol(name);
+  return scope.table.get(name);
 }
 
 export const illegalRedeclaration: LinterRule = {

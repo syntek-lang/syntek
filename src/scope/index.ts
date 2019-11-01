@@ -8,5 +8,7 @@ export * from './scopes/StaticScope';
 
 export * from './symbols/SymbolEntry';
 export * from './symbols/SymbolTable';
+export * from './symbols/SymbolType';
 
 export * from './mangle';
+export * from './type-utils';

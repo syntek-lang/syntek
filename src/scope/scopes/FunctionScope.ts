@@ -8,7 +8,7 @@ type Func = grammar.FunctionDeclaration | grammar.EmptyFunctionDeclaration;
 export class FunctionScope extends Scope<Func> {
   build(): void {
     this.node.genericParams.forEach((generic) => {
-      this.symbols.add(generic.lexeme, new SymbolEntry(this.node, this));
+      this.table.add(generic.lexeme, new SymbolEntry(this.node, this));
     });
 
     this.node.params.forEach(param => this.add(param));

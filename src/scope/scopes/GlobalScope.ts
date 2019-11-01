@@ -5,7 +5,7 @@ import { SymbolEntry } from '../symbols/SymbolEntry';
 
 export class GlobalScope extends Scope<grammar.NativeNode> {
   constructor() {
-    super(new grammar.NativeNode());
+    super(new grammar.NativeNode('GlobalScope'));
 
     this.build();
   }
@@ -18,7 +18,6 @@ export class GlobalScope extends Scope<grammar.NativeNode> {
 
       // Classes
       'Object',
-      'Class',
       'Number',
       'String',
       'Boolean',
@@ -29,7 +28,7 @@ export class GlobalScope extends Scope<grammar.NativeNode> {
       'Error',
       'Promise',
     ].forEach((builtin) => {
-      this.symbols.add(builtin, new SymbolEntry(new grammar.NativeNode(), this));
+      this.table.add(builtin, new SymbolEntry(new grammar.NativeNode(builtin), this));
     });
   }
 }

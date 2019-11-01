@@ -17,16 +17,17 @@ export class ClassScope extends Scope<grammar.ClassDeclaration> {
     this.staticScope.build();
   }
 
-  getSymbol(name: string): SymbolEntry | undefined {
-    if (this.generics.has(name)) {
-      return this.generics.get(name);
+  getSymbol(name: string): SymbolEntry {
+    const generic = this.generics.get(name);
+    if (generic) {
+      return generic;
     }
 
     if (this.parent) {
       return this.parent.getSymbol(name);
     }
 
-    return undefined;
+    throw new Error(`No symbol with the name ${name}`);
   }
 
   hasSymbol(name: string): boolean {
@@ -53,9 +54,9 @@ export class ClassScope extends Scope<grammar.ClassDeclaration> {
     this.node.genericParams.forEach((generic) => {
       const entry = new SymbolEntry(this.node, this);
 
-      // Generics are stored with the general symbols, and a map for generics, because
+      // Generics are stored in the general table, and a map for generics, because
       // a generic can be acquired directly
-      this.symbols.add(generic.lexeme, entry);
+      this.table.add(generic.lexeme, entry);
       this.generics.add(generic.lexeme, entry);
     });
 

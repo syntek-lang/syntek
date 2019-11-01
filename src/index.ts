@@ -37,8 +37,17 @@ console.log(new Linter(
   scope,
 ).lint());
 
+// Collect types
+import { TypeCollector } from './collector';
+
+export const typedScope = new ProgramScope(parseResult.ast);
+typedScope.build();
+new TypeCollector(typedScope).collect();
+console.log(typedScope);
+
 // Export everything
 export const code = program;
+export * from './collector';
 export * from './diagnostic';
 export * from './grammar';
 export * from './linter';

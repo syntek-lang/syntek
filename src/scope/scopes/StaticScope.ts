@@ -4,12 +4,12 @@ import { Scope } from './Scope';
 import { SymbolEntry } from '../symbols/SymbolEntry';
 
 export class StaticScope extends Scope<grammar.ClassDeclaration> {
-  getSymbol(name: string): SymbolEntry | undefined {
+  getSymbol(name: string): SymbolEntry {
     if (this.parent) {
       return this.parent.getSymbol(name);
     }
 
-    return undefined;
+    throw new Error(`No symbol with the name ${name}`);
   }
 
   hasSymbol(name: string): boolean {

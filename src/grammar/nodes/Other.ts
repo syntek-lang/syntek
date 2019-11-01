@@ -4,8 +4,12 @@ import {
 import { Span } from '../../position';
 
 export class NativeNode extends Node {
-  constructor() {
+  readonly name: string;
+
+  constructor(name: string) {
     super(SyntacticToken.NATIVE_NODE, new Span([0, 0], [0, 0]));
+
+    this.name = name;
   }
 }
 
