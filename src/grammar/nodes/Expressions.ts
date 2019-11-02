@@ -98,13 +98,18 @@ export class MemberExpression extends Node {
 }
 
 export class NewExpression extends Node {
-  readonly object: Node;
+  readonly object: Identifier | MemberExpression;
 
   readonly genericArgs: VariableType[];
 
   readonly params: Node[];
 
-  constructor(object: Node, genericArgs: VariableType[], params: Node[], span: Span) {
+  constructor(
+    object: Identifier | MemberExpression,
+    genericArgs: VariableType[],
+    params: Node[],
+    span: Span,
+  ) {
     super(SyntacticToken.NEW_EXPR, span);
 
     this.object = object;
