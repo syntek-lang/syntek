@@ -11,7 +11,7 @@ type ValidTest =
   string
   | {
     code: string;
-    skip: boolean;
+    skip: true;
   }
   | {
     group: string;
@@ -22,7 +22,7 @@ type InvalidTest =
   {
     code: string;
     errors: string[];
-    skip?: boolean;
+    skip?: true;
   }
   | {
     group: string;

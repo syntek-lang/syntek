@@ -270,7 +270,9 @@ export class ASTWalker {
           walk(stmt.variableType);
         }
 
-        walk(stmt.object);
+        // The object of the for stmt uses the outer context of the stmt
+        this.walkNode(stmt.object, context);
+
         stmt.body.forEach(walk);
         break;
       }

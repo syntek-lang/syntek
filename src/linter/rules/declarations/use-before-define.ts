@@ -3,10 +3,36 @@ import * as grammar from '../../../grammar';
 import { LinterRule } from '../..';
 import { Level } from '../../../diagnostic';
 
+import { Scope, ClassScope, FunctionScope } from '../../../scope';
 import { WalkerContext } from '../../../walker';
 
-export const noUndefined: LinterRule = {
-  description: 'Report references to undefined variables',
+function isImmediateReference(identifier: grammar.Identifier, scope: Scope): boolean {
+  // Class scope never has an immediate reference
+  if (scope instanceof ClassScope) {
+    return false;
+  }
+
+  // If the current scope has the variable it is an immediate reference
+  if (scope.table.has(identifier.lexeme)) {
+    return true;
+  }
+
+  // If the variable is not declared in the current scope, and the current scope is
+  // function scope, the variable does not have to be declared before it's use
+  if (scope instanceof FunctionScope) {
+    return false;
+  }
+
+  // Recursively check scopes
+  if (scope.parent) {
+    return isImmediateReference(identifier, scope.parent);
+  }
+
+  return false;
+}
+
+export const useBeforeDefine: LinterRule = {
+  description: 'Report using variables before being defined',
   level: Level.ERROR,
   create(walker, report) {
     function check(node: grammar.Node, ctx: WalkerContext): void {
@@ -14,9 +40,20 @@ export const noUndefined: LinterRule = {
         const identifier = node as grammar.Identifier;
         const scope = ctx.getScope();
 
-        // If there is no symbol or function with the given name, report it
-        if (!scope.hasSymbol(identifier.lexeme) && !scope.hasFunction(identifier.lexeme)) {
-          report(`No symbol with the name '${identifier.lexeme}'`, identifier.span);
+        // Ignore unresolved identifiers, and ignore functions
+        if (!scope.hasSymbol(identifier.lexeme) || scope.hasFunction(identifier.lexeme)) {
+          return;
+        }
+
+        const symbol = scope.getSymbol(identifier.lexeme);
+
+        // Check if the node is after it's declaration
+        if (symbol.node.span.before(node.span) || symbol.node.span.contains(node.span)) {
+          return;
+        }
+
+        if (isImmediateReference(identifier, scope)) {
+          report(`'${identifier.lexeme}' is used before it's declaration`, identifier.span);
         }
       }
     }
