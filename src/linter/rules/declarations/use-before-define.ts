@@ -3,15 +3,17 @@ import * as grammar from '../../../grammar';
 import { LinterRule } from '../..';
 import { Level } from '../../../diagnostic';
 
-import { Scope, ClassScope, FunctionScope } from '../../../scope';
+import {
+  Scope, ClassScope, FunctionScope, StaticScope,
+} from '../../../scope';
 import { WalkerContext } from '../../../walker';
 
 function inInitializer(
   decl: grammar.VariableDeclaration,
-  identifier: grammar.Identifier,
+  value: grammar.Node,
   parents: grammar.Node[],
 ): boolean {
-  if (decl.value === identifier) {
+  if (decl.value === value) {
     return true;
   }
 
@@ -54,9 +56,10 @@ export const useBeforeDefine: LinterRule = {
   level: Level.ERROR,
   create(walker, report) {
     function check(node: grammar.Node, ctx: WalkerContext): void {
+      const scope = ctx.getScope();
+
       if (node.type === grammar.SyntacticToken.IDENTIFIER) {
         const identifier = node as grammar.Identifier;
-        const scope = ctx.getScope();
 
         // Ignore unresolved identifiers, and ignore functions
         if (!scope.hasSymbol(identifier.lexeme) || scope.hasFunction(identifier.lexeme)) {
@@ -65,13 +68,13 @@ export const useBeforeDefine: LinterRule = {
 
         const symbol = scope.getSymbol(identifier.lexeme);
 
-        // Check if the node is after it's declaration
+        // Check if the node is after the declaration
         if (node.span.after(symbol.node.identifier.span)) {
           if (!(symbol.node instanceof grammar.VariableDeclaration)) {
             return;
           }
 
-          // Check if the symbol is accessed in it's initializer, such as:
+          // Check if the symbol is accessed in its initializer, such as:
           // var x = x
           if (!inInitializer(symbol.node, identifier, ctx.parents)) {
             return;
@@ -79,7 +82,70 @@ export const useBeforeDefine: LinterRule = {
         }
 
         if (isImmediateReference(identifier, scope)) {
-          report(`'${identifier.lexeme}' is used before it's declaration`, identifier.span);
+          report(`'${identifier.lexeme}' is used before its declaration`, identifier.span);
+        }
+      } else if (node.type === grammar.SyntacticToken.MEMBER_EXPR) {
+        const expr = node as grammar.MemberExpression;
+
+        if (expr.object.type === grammar.SyntacticToken.THIS) {
+          // Get the symbol from the this variable
+          const thisScope = scope.getThis();
+          const symbol = thisScope.table.get(expr.property.lexeme);
+
+          // Ignore unresolved identifiers, and ignore functions
+          if (!symbol || thisScope.table.hasFunction(expr.property.lexeme)) {
+            return;
+          }
+
+          // Check if the node is after the declaration
+          if (node.span.after(symbol.node.identifier.span)) {
+            if (!(symbol.node instanceof grammar.VariableDeclaration)) {
+              return;
+            }
+
+            // Check if the symbol is accessed in its initializer, such as:
+            // class A { var x = this.x }
+            if (!inInitializer(symbol.node, expr, ctx.parents)) {
+              return;
+            }
+          }
+
+          report(`'${expr.property.lexeme}' is used before its declaration`, expr.span);
+        } else if (
+          expr.object.type === grammar.SyntacticToken.IDENTIFIER && scope instanceof StaticScope
+        ) {
+          const identifier = expr.object as grammar.Identifier;
+
+          if (!scope.hasSymbol(identifier.lexeme)) {
+            return;
+          }
+
+          // Check whether the object is the current class
+          if (scope.getSymbol(identifier.lexeme).node !== scope.node) {
+            return;
+          }
+
+          // Get the property of the class
+          const symbol = scope.table.get(expr.property.lexeme);
+
+          if (!symbol) {
+            return;
+          }
+
+          // Check if the node is after the declaration
+          if (node.span.after(symbol.node.identifier.span)) {
+            if (!(symbol.node instanceof grammar.VariableDeclaration)) {
+              return;
+            }
+
+            // Check if the symbol is accessed in its initializer, such as:
+            // class A { static var x = A.x }
+            if (!inInitializer(symbol.node, expr, ctx.parents)) {
+              return;
+            }
+          }
+
+          report(`'${expr.property.lexeme}' is used before its declaration`, expr.span);
         }
       }
     }

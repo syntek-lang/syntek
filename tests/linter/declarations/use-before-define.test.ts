@@ -2,7 +2,7 @@ import { testRule } from '../rule-tester';
 
 import * as declarations from '../../../src/linter/rules/declarations';
 
-const ERROR = (name: string): string => `'${name}' is used before it's declaration`;
+const ERROR = (name: string): string => `'${name}' is used before its declaration`;
 
 testRule('useBeforeDefine', {
   rules: declarations,
@@ -46,7 +46,12 @@ testRule('useBeforeDefine', {
     { code: 'class A { static var x = x } \n var x = A.x', errors: [ERROR('x')] },
     { code: 'var x = A.x \n class A { static var x = x }', errors: [ERROR('A')] },
 
-    { code: 'class A { var x = this.y \n var y = 5 }', errors: [ERROR('y')], skip: true },
-    { code: 'class A { static var x = A.y \n static var y = 5 }', errors: [ERROR('y')], skip: true },
+    { code: 'class A { var x = this.x }', errors: [ERROR('x')] },
+    { code: 'class A { var x = 5 + this.x }', errors: [ERROR('x')] },
+    { code: 'class A { var x = this.y \n var y = 5 }', errors: [ERROR('y')] },
+
+    { code: 'class A { static var x = A.x }', errors: [ERROR('x')] },
+    { code: 'class A { static var x = 5 + A.x }', errors: [ERROR('x')] },
+    { code: 'class A { static var x = A.y \n static var y = 5 }', errors: [ERROR('y')] },
   ],
 });

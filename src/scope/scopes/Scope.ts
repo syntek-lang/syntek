@@ -47,6 +47,18 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
     return this.scopes.has(node);
   }
 
+  getThis(): ClassScope {
+    if (this instanceof ClassScope) {
+      return this;
+    }
+
+    if (this.parent) {
+      return this.parent.getThis();
+    }
+
+    throw new Error("Can't get 'this' outside of a class scope");
+  }
+
   getSymbol(name: string): SymbolEntry {
     const symbol = this.table.get(name);
     if (symbol) {
