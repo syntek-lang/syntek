@@ -5,7 +5,8 @@ export enum SyntacticToken {
   EMPTY_FUNCTION_DECL,
   FUNCTION_DECL,
   CLASS_DECL,
-  IMPORT_DECL,
+  FULL_IMPORT_DECL,
+  PARTIAL_IMPORT_DECL,
 
   // Expressions
   ASSIGNMENT_EXPR,

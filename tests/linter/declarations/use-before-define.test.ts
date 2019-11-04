@@ -31,6 +31,10 @@ testRule('useBeforeDefine', {
     'class A { static var x = 5 \n static var y = A.x }',
   ],
   invalid: [
+    { code: 'var x = x', errors: [ERROR('x')] },
+    { code: 'var x = x + 5', errors: [ERROR('x')] },
+    { code: 'var x = 5 + x', errors: [ERROR('x')] },
+
     { code: 'x \n var x = 5', errors: [ERROR('x')] },
     { code: 'x = 10 \n var x = 5', errors: [ERROR('x')] },
     { code: 'var x = y \n var y = x', errors: [ERROR('y')] },

@@ -1,15 +1,11 @@
 import {
-  Node, Token, SyntacticToken, Identifier, MemberExpression,
+  Node, DeclarationNode, Token, SyntacticToken, Identifier, MemberExpression,
 } from '..';
 import { Span } from '../../position';
 
-export class NativeNode extends Node {
-  readonly name: string;
-
-  constructor(name: string) {
-    super(SyntacticToken.NATIVE_NODE, new Span([0, 0], [0, 0]));
-
-    this.name = name;
+export class NativeNode extends DeclarationNode {
+  constructor(identifier: Token) {
+    super(identifier, SyntacticToken.NATIVE_NODE, new Span([0, 0], [0, 0]));
   }
 }
 
@@ -44,15 +40,12 @@ export class VariableType extends Node {
   }
 }
 
-export class Parameter extends Node {
-  readonly name: Token;
-
+export class Parameter extends DeclarationNode {
   readonly variableType: VariableType;
 
-  constructor(name: Token, variableType: VariableType, span: Span) {
-    super(SyntacticToken.PARAMETER, span);
+  constructor(identifier: Token, variableType: VariableType, span: Span) {
+    super(identifier, SyntacticToken.PARAMETER, span);
 
-    this.name = name;
     this.variableType = variableType;
   }
 }
@@ -86,18 +79,13 @@ export class ClassProp extends Node {
   }
 }
 
-export class ImportExpose extends Node {
+export class ImportExpose extends DeclarationNode {
   readonly value: Token;
 
-  readonly rename?: Token;
-
-  constructor(value: Token, rename: Token | null, span: Span) {
-    super(SyntacticToken.IMPORT_EXPOSE, span);
+  constructor(value: Token, rename: Token | undefined, span: Span) {
+    const identifier = rename || value;
+    super(identifier, SyntacticToken.IMPORT_EXPOSE, span);
 
     this.value = value;
-
-    if (rename) {
-      this.rename = rename;
-    }
   }
 }

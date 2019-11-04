@@ -334,7 +334,7 @@ describe('class', () => {
           expect(constructor.params.length).to.equal(1);
 
           const param = constructor.params[0];
-          expect(param.name.lexeme).to.equal('x');
+          expect(param.identifier.lexeme).to.equal('x');
           expect((param.variableType.object as Identifier).lexeme).to.equal('A');
           expect(param.variableType.generics.length).to.equal(0);
           expect(param.variableType.arrayDepth).to.equal(0);

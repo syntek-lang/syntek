@@ -1,12 +1,12 @@
 import {
-  Node, Token, SyntacticToken, VariableType, Parameter, Constructor, ClassProp, ImportExpose,
+  Node, DeclarationNode,
+  Token, SyntacticToken,
+  VariableType, Parameter, Constructor, ClassProp, ImportExpose,
 } from '..';
 
 import { Span } from '../../position';
 
-export class EmptyVariableDeclaration extends Node {
-  readonly identifier: Token;
-
+export class EmptyVariableDeclaration extends DeclarationNode {
   readonly variableType: VariableType;
 
   constructor(
@@ -14,16 +14,13 @@ export class EmptyVariableDeclaration extends Node {
     variableType: VariableType,
     span: Span,
   ) {
-    super(SyntacticToken.EMPTY_VARIABLE_DECL, span);
+    super(identifier, SyntacticToken.EMPTY_VARIABLE_DECL, span);
 
-    this.identifier = identifier;
     this.variableType = variableType;
   }
 }
 
-export class VariableDeclaration extends Node {
-  readonly identifier: Token;
-
+export class VariableDeclaration extends DeclarationNode {
   readonly variableType: VariableType | null;
 
   readonly value: Node;
@@ -34,17 +31,14 @@ export class VariableDeclaration extends Node {
     value: Node,
     span: Span,
   ) {
-    super(SyntacticToken.VARIABLE_DECL, span);
+    super(identifier, SyntacticToken.VARIABLE_DECL, span);
 
-    this.identifier = identifier;
     this.variableType = variableType;
     this.value = value;
   }
 }
 
-export class EmptyFunctionDeclaration extends Node {
-  readonly identifier: Token;
-
+export class EmptyFunctionDeclaration extends DeclarationNode {
   readonly genericParams: Token[];
 
   readonly params: Parameter[];
@@ -58,18 +52,15 @@ export class EmptyFunctionDeclaration extends Node {
     returnType: VariableType | null,
     span: Span,
   ) {
-    super(SyntacticToken.EMPTY_FUNCTION_DECL, span);
+    super(identifier, SyntacticToken.EMPTY_FUNCTION_DECL, span);
 
-    this.identifier = identifier;
     this.genericParams = genericParams;
     this.params = params;
     this.returnType = returnType;
   }
 }
 
-export class FunctionDeclaration extends Node {
-  readonly identifier: Token;
-
+export class FunctionDeclaration extends DeclarationNode {
   readonly genericParams: Token[];
 
   readonly params: Parameter[];
@@ -86,9 +77,8 @@ export class FunctionDeclaration extends Node {
     body: Node[],
     span: Span,
   ) {
-    super(SyntacticToken.FUNCTION_DECL, span);
+    super(identifier, SyntacticToken.FUNCTION_DECL, span);
 
-    this.identifier = identifier;
     this.genericParams = genericParams;
     this.params = params;
     this.returnType = returnType;
@@ -96,10 +86,8 @@ export class FunctionDeclaration extends Node {
   }
 }
 
-export class ClassDeclaration extends Node {
+export class ClassDeclaration extends DeclarationNode {
   readonly abstract: boolean;
-
-  readonly identifier: Token;
 
   readonly genericParams: Token[];
 
@@ -121,10 +109,9 @@ export class ClassDeclaration extends Node {
     instanceBody: ClassProp[],
     span: Span,
   ) {
-    super(SyntacticToken.CLASS_DECL, span);
+    super(identifier, SyntacticToken.CLASS_DECL, span);
 
     this.abstract = abstract;
-    this.identifier = identifier;
     this.genericParams = genericParams;
     this.extends = extend;
     this.constructors = constructors;
@@ -133,27 +120,26 @@ export class ClassDeclaration extends Node {
   }
 }
 
-export class ImportDeclaration extends Node {
+export class FullImportDeclaration extends DeclarationNode {
   readonly path: Token[];
 
-  readonly rename?: Token;
-
-  readonly expose?: ImportExpose[];
-
-  constructor(
-    path: Token[],
-    rename: Token | null,
-    expose: ImportExpose[] | null,
-    span: Span,
-  ) {
-    super(SyntacticToken.IMPORT_DECL, span);
+  constructor(path: Token[], rename: Token | undefined, span: Span) {
+    const identifier = rename || path[path.length - 1];
+    super(identifier, SyntacticToken.FULL_IMPORT_DECL, span);
 
     this.path = path;
+  }
+}
 
-    if (rename) {
-      this.rename = rename;
-    } else if (expose) {
-      this.expose = expose;
-    }
+export class PartialImportDeclaration extends Node {
+  readonly path: Token[];
+
+  readonly expose: ImportExpose[];
+
+  constructor(path: Token[], expose: ImportExpose[], span: Span) {
+    super(SyntacticToken.PARTIAL_IMPORT_DECL, span);
+
+    this.path = path;
+    this.expose = expose;
   }
 }

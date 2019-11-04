@@ -1,12 +1,10 @@
 import {
-  Node, Token, SyntacticToken, VariableType,
+  Node, DeclarationNode, Token, SyntacticToken, VariableType,
 } from '..';
 
 import { Span } from '../../position';
 
-export class ForStatement extends Node {
-  readonly identifier: Token;
-
+export class ForStatement extends DeclarationNode {
   readonly variableType: VariableType | null;
 
   readonly object: Node;
@@ -20,9 +18,8 @@ export class ForStatement extends Node {
     body: Node[],
     span: Span,
   ) {
-    super(SyntacticToken.FOR_STMT, span);
+    super(identifier, SyntacticToken.FOR_STMT, span);
 
-    this.identifier = identifier;
     this.variableType = variableType;
     this.object = object;
     this.body = body;

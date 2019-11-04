@@ -89,7 +89,7 @@ export const illegalRedeclaration: LinterRule = {
     walker
       .onEnter(grammar.EmptyVariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.getScope(), ctx.parents, 'variable', node.identifier))
       .onEnter(grammar.VariableDeclaration, (node, ctx) => checkDeclaration(node, ctx.getScope(), ctx.parents, 'variable', node.identifier))
-      .onEnter(grammar.Parameter, (node, ctx) => checkDeclaration(node, ctx.getScope(), ctx.parents, 'param', node.name))
+      .onEnter(grammar.Parameter, (node, ctx) => checkDeclaration(node, ctx.getScope(), ctx.parents, 'param', node.identifier))
       .onEnter(grammar.ForStatement, (node, ctx) => checkDeclaration(node, ctx.getScope(), ctx.parents, 'variable', node.identifier))
 
       .onEnter(grammar.ClassDeclaration, (node, ctx) => {
@@ -148,15 +148,11 @@ export const illegalRedeclaration: LinterRule = {
         });
       })
 
-      .onEnter(grammar.ImportDeclaration, (node, ctx) => {
-        if (!node.expose) {
-          const name = node.rename || node.path[node.path.length - 1];
-          checkDeclaration(node, ctx.getScope(), ctx.parents, 'import', name);
-        }
+      .onEnter(grammar.FullImportDeclaration, (node, ctx) => {
+        checkDeclaration(node, ctx.getScope(), ctx.parents, 'import', node.identifier);
       })
       .onEnter(grammar.ImportExpose, (node, ctx) => {
-        const name = node.rename || node.value;
-        checkDeclaration(node, ctx.getScope(), ctx.parents, 'import', name);
+        checkDeclaration(node, ctx.getScope(), ctx.parents, 'import', node.identifier);
       });
   },
 };

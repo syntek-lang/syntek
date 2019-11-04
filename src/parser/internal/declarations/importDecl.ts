@@ -1,5 +1,6 @@
 import {
-  Node, Token, LexicalToken, ImportDeclaration, ImportExpose,
+  Node, Token, LexicalToken,
+  FullImportDeclaration, PartialImportDeclaration, ImportExpose,
 } from '../../../grammar';
 
 import { Parser } from '../..';
@@ -27,7 +28,7 @@ export function importDecl(parser: Parser): Node {
       parser.ignoreNewline();
 
       const value = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier');
-      let rename: Token | null = null;
+      let rename: Token | undefined;
 
       if (parser.matchIgnoreNewline(LexicalToken.AS)) {
         parser.ignoreNewline();
@@ -48,25 +49,23 @@ export function importDecl(parser: Parser): Node {
     parser.ignoreNewline();
     parser.consume(LexicalToken.R_BRACE, "Expected '}'");
 
-    return new ImportDeclaration(
+    return new PartialImportDeclaration(
       path,
-      null,
       expose,
       new Span(importSpan.start, parser.previous().span.end),
     );
   }
 
-  let rename: Token | null = null;
+  let rename: Token | undefined;
   if (parser.matchIgnoreNewline(LexicalToken.AS)) {
     parser.ignoreNewline();
 
     rename = parser.consume(LexicalToken.IDENTIFIER, "Expected identifier after 'as'");
   }
 
-  return new ImportDeclaration(
+  return new FullImportDeclaration(
     path,
     rename,
-    null,
     new Span(importSpan.start, parser.previous().span.end),
   );
 }

@@ -1,9 +1,9 @@
-import { Node } from '../../grammar';
 import { Scope } from '../scopes/Scope';
 import { SymbolType } from './SymbolType';
+import { Node, DeclarationNode } from '../../grammar';
 
 export class SymbolEntry {
-  readonly node: Node;
+  readonly node: DeclarationNode;
 
   readonly scope: Scope;
 
@@ -11,7 +11,7 @@ export class SymbolEntry {
 
   private type?: SymbolType;
 
-  constructor(node: Node, scope: Scope) {
+  constructor(node: DeclarationNode, scope: Scope) {
     this.node = node;
     this.scope = scope;
   }

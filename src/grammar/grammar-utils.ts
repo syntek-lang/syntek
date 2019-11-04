@@ -56,7 +56,8 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
   .set(grammar.EmptyFunctionDeclaration, grammar.SyntacticToken.EMPTY_FUNCTION_DECL)
   .set(grammar.FunctionDeclaration, grammar.SyntacticToken.FUNCTION_DECL)
   .set(grammar.ClassDeclaration, grammar.SyntacticToken.CLASS_DECL)
-  .set(grammar.ImportDeclaration, grammar.SyntacticToken.IMPORT_DECL)
+  .set(grammar.FullImportDeclaration, grammar.SyntacticToken.FULL_IMPORT_DECL)
+  .set(grammar.PartialImportDeclaration, grammar.SyntacticToken.PARTIAL_IMPORT_DECL)
 
   // Expressions
   .set(grammar.AssignmentExpression, grammar.SyntacticToken.ASSIGNMENT_EXPR)
@@ -100,7 +101,7 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
 
 export function isDeclaration(node: grammar.Node): boolean {
   return node.type >= grammar.SyntacticToken.EMPTY_VARIABLE_DECL
-    && node.type <= grammar.SyntacticToken.IMPORT_DECL;
+    && node.type <= grammar.SyntacticToken.PARTIAL_IMPORT_DECL;
 }
 
 export function isExpression(node: grammar.Node): boolean {

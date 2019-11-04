@@ -151,13 +151,12 @@ export class ASTWalker {
         break;
       }
 
-      case grammar.SyntacticToken.IMPORT_DECL: {
-        const decl = node as grammar.ImportDeclaration;
+      case grammar.SyntacticToken.FULL_IMPORT_DECL:
+        break;
 
-        if (decl.expose) {
-          decl.expose.forEach(walk);
-        }
-
+      case grammar.SyntacticToken.PARTIAL_IMPORT_DECL: {
+        const decl = node as grammar.PartialImportDeclaration;
+        decl.expose.forEach(walk);
         break;
       }
 

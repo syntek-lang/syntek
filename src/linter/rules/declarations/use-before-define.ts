@@ -6,6 +6,24 @@ import { Level } from '../../../diagnostic';
 import { Scope, ClassScope, FunctionScope } from '../../../scope';
 import { WalkerContext } from '../../../walker';
 
+function inInitializer(
+  decl: grammar.VariableDeclaration,
+  identifier: grammar.Identifier,
+  parents: grammar.Node[],
+): boolean {
+  if (decl.value === identifier) {
+    return true;
+  }
+
+  for (let i = parents.length - 1; i >= 0; i -= 1) {
+    if (parents[i] === decl) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function isImmediateReference(identifier: grammar.Identifier, scope: Scope): boolean {
   // Class scope never has an immediate reference
   if (scope instanceof ClassScope) {
@@ -48,8 +66,16 @@ export const useBeforeDefine: LinterRule = {
         const symbol = scope.getSymbol(identifier.lexeme);
 
         // Check if the node is after it's declaration
-        if (symbol.node.span.before(node.span) || symbol.node.span.contains(node.span)) {
-          return;
+        if (node.span.after(symbol.node.identifier.span)) {
+          if (!(symbol.node instanceof grammar.VariableDeclaration)) {
+            return;
+          }
+
+          // Check if the symbol is accessed in it's initializer, such as:
+          // var x = x
+          if (!inInitializer(symbol.node, identifier, ctx.parents)) {
+            return;
+          }
         }
 
         if (isImmediateReference(identifier, scope)) {

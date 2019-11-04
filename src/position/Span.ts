@@ -43,24 +43,6 @@ export class Span {
   }
 
   contains(span: Span): boolean {
-    let startsAfter: boolean;
-    if (span.start[0] > this.start[0]) {
-      startsAfter = true;
-    } else if (span.start[0] === this.start[0]) {
-      startsAfter = span.start[1] >= this.start[1];
-    } else {
-      startsAfter = false;
-    }
-
-    let endsBefore: boolean;
-    if (this.end[0] > span.end[0]) {
-      endsBefore = true;
-    } else if (this.end[0] === span.end[0]) {
-      endsBefore = this.end[1] >= span.end[1];
-    } else {
-      endsBefore = false;
-    }
-
-    return startsAfter && endsBefore;
+    return !this.before(span) && !this.after(span);
   }
 }

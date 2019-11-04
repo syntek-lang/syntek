@@ -141,17 +141,15 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
         break;
       }
 
-      case grammar.SyntacticToken.IMPORT_DECL: {
-        const decl = node as grammar.ImportDeclaration;
+      case grammar.SyntacticToken.FULL_IMPORT_DECL: {
+        const decl = node as grammar.FullImportDeclaration;
+        this.table.add(decl.identifier.lexeme, new SymbolEntry(decl, this));
+        break;
+      }
 
-        if (decl.rename) {
-          this.table.add(decl.rename.lexeme, new SymbolEntry(decl, this));
-        } else if (decl.expose) {
-          decl.expose.forEach(expose => this.add(expose));
-        } else {
-          this.table.add(decl.path[decl.path.length - 1].lexeme, new SymbolEntry(decl, this));
-        }
-
+      case grammar.SyntacticToken.PARTIAL_IMPORT_DECL: {
+        const decl = node as grammar.PartialImportDeclaration;
+        decl.expose.forEach(expose => this.add(expose));
         break;
       }
 
@@ -245,7 +243,7 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
 
       case grammar.SyntacticToken.PARAMETER: {
         const param = node as grammar.Parameter;
-        this.table.add(param.name.lexeme, new SymbolEntry(param, this));
+        this.table.add(param.identifier.lexeme, new SymbolEntry(param, this));
         break;
       }
 
@@ -257,13 +255,7 @@ export abstract class Scope<T extends grammar.Node = grammar.Node> {
 
       case grammar.SyntacticToken.IMPORT_EXPOSE: {
         const expose = node as grammar.ImportExpose;
-
-        if (expose.rename) {
-          this.table.add(expose.rename.lexeme, new SymbolEntry(expose, this));
-        } else {
-          this.table.add(expose.value.lexeme, new SymbolEntry(expose, this));
-        }
-
+        this.table.add(expose.identifier.lexeme, new SymbolEntry(expose, this));
         break;
       }
 

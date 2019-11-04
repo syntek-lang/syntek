@@ -79,6 +79,7 @@ export enum LexicalToken {
 
   VAR,
 
-  // End of file
+  // Other
   EOF,
+  NATIVE_TOKEN,
 }

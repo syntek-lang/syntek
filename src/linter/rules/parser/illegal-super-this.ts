@@ -11,20 +11,20 @@ export const illegalSuperThis: LinterRule = {
       return parents.some(parent => parent.type === grammar.SyntacticToken.CLASS_DECL);
     }
 
-    walker.onEnter(grammar.Super, (node, { parents }) => {
-      if (!inClass(parents)) {
+    walker.onEnter(grammar.Super, (node, ctx) => {
+      if (!inClass(ctx.parents)) {
         report('You can only use super inside a class', node.span);
       }
     });
 
-    walker.onEnter(grammar.MemberExpression, (node, { parents }) => {
-      if (node.property.type === grammar.LexicalToken.SUPER && !inClass(parents)) {
+    walker.onEnter(grammar.MemberExpression, (node, ctx) => {
+      if (node.property.type === grammar.LexicalToken.SUPER && !inClass(ctx.parents)) {
         report('You can only use super inside a class', node.span);
       }
     });
 
-    walker.onEnter(grammar.This, (node, { parents }) => {
-      if (!inClass(parents)) {
+    walker.onEnter(grammar.This, (node, ctx) => {
+      if (!inClass(ctx.parents)) {
         report('You can only use this inside a class', node.span);
       }
     });
