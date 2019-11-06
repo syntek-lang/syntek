@@ -1,7 +1,6 @@
 import * as grammar from '../grammar';
 
-import { Scope } from './scopes/Scope';
-import { SymbolType } from './symbols/SymbolType';
+import { Scope, SymbolType } from '../symbols';
 
 export function getArrayContentType(arrayType: SymbolType, scope: Scope): SymbolType {
   if (arrayType.type !== scope.getSymbol('Array') && arrayType.arrayDepth === 0) {

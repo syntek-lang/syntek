@@ -1,8 +1,7 @@
 import * as grammar from '../grammar';
-import {
-  Scope, SymbolEntry,
-  getArrayContentType, getType,
-} from '../scope';
+import { Scope, SymbolEntry } from '../symbols';
+
+import { getType, getArrayContentType } from './type-utils';
 
 export class TypeCollector {
   private readonly scope: Scope;

@@ -7,7 +7,7 @@ import {
   Scope, ClassScope, StaticScope,
   SymbolEntry,
   mangleFunctionName, mangleConstructor,
-} from '../../../scope';
+} from '../../../symbols';
 
 type Func = grammar.FunctionDeclaration | grammar.EmptyFunctionDeclaration;
 

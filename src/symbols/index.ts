@@ -11,4 +11,3 @@ export * from './symbols/SymbolTable';
 export * from './symbols/SymbolType';
 
 export * from './mangle';
-export * from './type-utils';

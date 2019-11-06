@@ -1,5 +1,5 @@
 import { LinterRule } from '.';
-import { Scope } from '../scope';
+import { Scope } from '../symbols';
 import { Program } from '../grammar';
 import { ASTWalker } from '../walker';
 import { Diagnostic } from '../diagnostic';

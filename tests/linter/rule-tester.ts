@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import { Linter } from '../../src/linter/Linter';
 import { LinterRule } from '../../src/linter/LinterRule';
 
-import { ProgramScope } from '../../src/scope';
 import { parse, sanitize } from '../test-utils';
+import { ProgramScope } from '../../src/symbols';
 
 type ValidTest =
   string

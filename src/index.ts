@@ -22,7 +22,7 @@ console.log(new Linter(
 ).lint());
 
 // Scopes
-import { ProgramScope } from './scope';
+import { ProgramScope } from './symbols';
 
 export const scope = new ProgramScope(parseResult.ast);
 scope.build();
@@ -38,7 +38,7 @@ console.log(new Linter(
 ).lint());
 
 // Collect types
-import { TypeCollector } from './collector';
+import { TypeCollector } from './types';
 
 export const typedScope = new ProgramScope(parseResult.ast);
 typedScope.build();
@@ -47,11 +47,11 @@ console.log(typedScope);
 
 // Export everything
 export const code = program;
-export * from './collector';
 export * from './diagnostic';
 export * from './grammar';
 export * from './linter';
 export * from './parser';
 export * from './position';
-export * from './scope';
+export * from './symbols';
+export * from './types';
 export * from './walker';

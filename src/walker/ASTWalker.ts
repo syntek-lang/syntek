@@ -1,6 +1,6 @@
 import * as grammar from '../grammar';
 
-import { Scope, ClassScope } from '../scope';
+import { Scope, ClassScope } from '../symbols';
 import { WalkerContext } from './WalkerContext';
 
 type WalkerCallback = (node: grammar.Node, context: WalkerContext) => void;

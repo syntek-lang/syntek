@@ -5,7 +5,7 @@ import { Level } from '../../../diagnostic';
 
 import {
   Scope, ClassScope, FunctionScope, StaticScope,
-} from '../../../scope';
+} from '../../../symbols';
 import { WalkerContext } from '../../../walker';
 
 function inInitializer(

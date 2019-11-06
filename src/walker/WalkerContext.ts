@@ -1,5 +1,5 @@
-import { Scope } from '../scope';
 import { Node } from '../grammar';
+import { Scope } from '../symbols';
 
 export class WalkerContext {
   readonly parents: Node[];
