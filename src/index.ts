@@ -32,9 +32,8 @@ console.log(scope);
 import * as lintDeclarations from './linter/rules/declarations';
 
 console.log(new Linter(
-  parseResult.ast,
-  lintDeclarations,
   scope,
+  lintDeclarations,
 ).lint());
 
 // Collect types

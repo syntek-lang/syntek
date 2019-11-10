@@ -1,6 +1,6 @@
 import { LinterRule } from '.';
 import { Scope } from '../symbols';
-import { Program } from '../grammar';
+import { Node } from '../grammar';
 import { ASTWalker } from '../walker';
 import { Diagnostic } from '../diagnostic';
 
@@ -9,7 +9,7 @@ interface LinterRules {
 }
 
 export class Linter {
-  private readonly ast: Program;
+  private readonly ast: Node;
 
   private readonly rules: LinterRules;
 
@@ -17,10 +17,15 @@ export class Linter {
 
   private readonly diagnostics: Diagnostic[] = [];
 
-  constructor(ast: Program, rules: LinterRules, scope?: Scope) {
-    this.ast = ast;
+  constructor(astOrScope: Node | Scope, rules: LinterRules) {
+    if (astOrScope instanceof Node) {
+      this.ast = astOrScope;
+    } else {
+      this.ast = astOrScope.node;
+      this.scope = astOrScope;
+    }
+
     this.rules = rules;
-    this.scope = scope;
   }
 
   lint(): Diagnostic[] {

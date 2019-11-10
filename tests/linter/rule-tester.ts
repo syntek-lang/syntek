@@ -49,7 +49,7 @@ export function testRule(name: string, settings: TestSettings): void {
 
     const rule = settings.rules[name];
 
-    return new Linter(program, { [name]: rule }, scope)
+    return new Linter(scope || program, { [name]: rule })
       .lint()
       .map(error => error.msg);
   }
