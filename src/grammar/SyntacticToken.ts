@@ -44,6 +44,7 @@ export enum SyntacticToken {
   // Other
   NATIVE_NODE,
   PROGRAM,
+  GENERIC_PARAM,
   VARIABLE_TYPE,
   PARAMETER,
   CONSTRUCTOR,

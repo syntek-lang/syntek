@@ -78,7 +78,8 @@ describe('parse-utils', () => {
         const genericParams = matchGenericParams(parser);
 
         expect(genericParams.length).to.equal(1);
-        expect(genericParams[0].lexeme).to.equal('T');
+        expect(genericParams[0].identifier.lexeme).to.equal('T');
+        expect(genericParams[0].extend).to.be.undefined;
       });
     });
 
@@ -92,8 +93,31 @@ describe('parse-utils', () => {
         const genericParams = matchGenericParams(parser);
 
         expect(genericParams.length).to.equal(2);
-        expect(genericParams[0].lexeme).to.equal('A');
-        expect(genericParams[1].lexeme).to.equal('B');
+
+        expect(genericParams[0].identifier.lexeme).to.equal('A');
+        expect(genericParams[0].extend).to.be.undefined;
+
+        expect(genericParams[1].identifier.lexeme).to.equal('B');
+        expect(genericParams[1].extend).to.be.undefined;
+      });
+    });
+
+    it('matches extend correctly', () => {
+      ['<A extends B>', '<\nA extends B>', '<A\n extends B>', '<A extends \nB>', '<A extends B\n>', '<\nA\n extends \nB\n>'].forEach((input) => {
+        const { tokens } = new Tokenizer(input).tokenize();
+        const parser = new Parser(tokens);
+
+        parser.advance(); // Skip <
+
+        const genericParams = matchGenericParams(parser);
+
+        expect(genericParams.length).to.equal(1);
+        expect(genericParams[0].identifier.lexeme).to.equal('A');
+
+        expect(genericParams[0].extend).to.not.be.undefined;
+        expect((genericParams[0].extend!.object as Identifier).lexeme).to.equal('B');
+        expect(genericParams[0].extend!.generics.length).to.equal(0);
+        expect(genericParams[0].extend!.arrayDepth).to.equal(0);
       });
     });
   });

@@ -20,7 +20,8 @@ describe('function', () => {
       expect(decl.identifier.lexeme).to.equal('x');
 
       expect(decl.genericParams.length).to.equal(1);
-      expect(decl.genericParams[0].lexeme).to.equal('A');
+      expect(decl.genericParams[0].identifier.lexeme).to.equal('A');
+      expect(decl.genericParams[0].extend).to.be.undefined;
 
       expect(decl.params.length).to.equal(0);
       expect(decl.returnType).to.be.null;

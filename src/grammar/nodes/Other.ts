@@ -19,6 +19,16 @@ export class Program extends Node {
   }
 }
 
+export class GenericParam extends DeclarationNode {
+  readonly extend?: VariableType;
+
+  constructor(identifier: Token, extend: VariableType | undefined, span: Span) {
+    super(identifier, SyntacticToken.GENERIC_PARAM, span);
+
+    this.extend = extend;
+  }
+}
+
 export class VariableType extends Node {
   readonly object: Identifier | MemberExpression;
 

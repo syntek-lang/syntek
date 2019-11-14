@@ -96,17 +96,6 @@ export const illegalRedeclaration: LinterRule = {
         // Check class name
         checkDeclaration(node, ctx.getScope(), ctx.parents, 'class', node.identifier);
 
-        // Check generics
-        node.genericParams.forEach((generic) => {
-          // Check if the class name is equal to the generic
-          // This has to be done manually because the node for generics IS the class
-          if (node.identifier.lexeme === generic.lexeme) {
-            error('generic', generic);
-          } else {
-            checkDeclaration(node, ctx.getScope(), ctx.parents, 'generic', generic);
-          }
-        });
-
         // Check constructors
         const constructors: string[] = [];
 
@@ -123,29 +112,9 @@ export const illegalRedeclaration: LinterRule = {
 
       .onEnter(grammar.EmptyFunctionDeclaration, (node, ctx) => {
         checkFunctionDeclaration(node, ctx.getScope(), ctx.parents);
-
-        // Check generics
-        node.genericParams.forEach((generic) => {
-          // Generics are declared in the function's scope
-          const scope = ctx.getScope().getScope(node);
-
-          if (scope) {
-            checkDeclaration(node, scope, ctx.parents, 'generic', generic);
-          }
-        });
       })
       .onEnter(grammar.FunctionDeclaration, (node, ctx) => {
         checkFunctionDeclaration(node, ctx.getScope(), ctx.parents);
-
-        // Check generics
-        node.genericParams.forEach((generic) => {
-          // Generics are declared in the function's scope
-          const scope = ctx.getScope().getScope(node);
-
-          if (scope) {
-            checkDeclaration(node, scope, ctx.parents, 'generic', generic);
-          }
-        });
       })
 
       .onEnter(grammar.FullImportDeclaration, (node, ctx) => {
@@ -153,6 +122,17 @@ export const illegalRedeclaration: LinterRule = {
       })
       .onEnter(grammar.ImportExpose, (node, ctx) => {
         checkDeclaration(node, ctx.getScope(), ctx.parents, 'import', node.identifier);
+      })
+
+      .onEnter(grammar.GenericParam, (node, ctx) => {
+        let scope = ctx.getScope();
+
+        // If the generic is inside class scope the parent of the class scope should be checked
+        if (scope instanceof ClassScope && scope.parent) {
+          scope = scope.parent;
+        }
+
+        checkDeclaration(node, scope, ctx.parents, 'generic', node.identifier);
       });
   },
 };

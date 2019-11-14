@@ -52,12 +52,12 @@ export class ClassScope extends Scope<grammar.ClassDeclaration> {
 
   build(): void {
     this.node.genericParams.forEach((generic) => {
-      const entry = new SymbolEntry(this.node, this);
+      const entry = new SymbolEntry(generic, this);
 
       // Generics are stored in the general table, and a map for generics, because
       // a generic can be acquired directly
-      this.table.add(generic.lexeme, entry);
-      this.generics.add(generic.lexeme, entry);
+      this.table.add(generic.identifier.lexeme, entry);
+      this.generics.add(generic.identifier.lexeme, entry);
     });
 
     this.node.instanceBody.forEach(prop => this.add(prop.value));

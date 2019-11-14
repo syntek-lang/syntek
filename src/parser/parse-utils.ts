@@ -1,5 +1,6 @@
 import {
-  Node, Token, LexicalToken, VariableType, Parameter,
+  Node, LexicalToken,
+  GenericParam, VariableType, Parameter,
   Identifier, MemberExpression,
 } from '../grammar';
 
@@ -36,13 +37,26 @@ export function matchVarLoc(parser: Parser): Identifier | MemberExpression {
  * @param parser - The parser object
  * @returns A list of parameters in the generic
  */
-export function matchGenericParams(parser: Parser): Token[] {
-  const params: Token[] = [];
+export function matchGenericParams(parser: Parser): GenericParam[] {
+  const params: GenericParam[] = [];
   parser.ignoreNewline();
 
   do {
-    params.push(parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier'));
+    const identifier = parser.consume(LexicalToken.IDENTIFIER, 'Expected an identifier');
     parser.ignoreNewline();
+
+    let extend: VariableType | undefined;
+    if (parser.match(LexicalToken.EXTENDS)) {
+      parser.ignoreNewline();
+      extend = matchTypeDecl(parser); // eslint-disable-line @typescript-eslint/no-use-before-define
+      parser.ignoreNewline();
+    }
+
+    params.push(new GenericParam(
+      identifier,
+      extend,
+      new Span(identifier.span.start, parser.previous().span.end),
+    ));
 
     // If the next token is not `>` there should be a comma
     // The comma can also be a trailing comma

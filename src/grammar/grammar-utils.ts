@@ -94,6 +94,7 @@ export const NODES: Map<typeof grammar.Node, grammar.SyntacticToken> = new Map()
 
   // Other
   .set(grammar.Program, grammar.SyntacticToken.PROGRAM)
+  .set(grammar.GenericParam, grammar.SyntacticToken.GENERIC_PARAM)
   .set(grammar.VariableType, grammar.SyntacticToken.VARIABLE_TYPE)
   .set(grammar.Parameter, grammar.SyntacticToken.PARAMETER)
   .set(grammar.ClassProp, grammar.SyntacticToken.CLASS_PROP)

@@ -1,5 +1,7 @@
 import {
-  Node, Token, LexicalToken, ClassDeclaration, Constructor, ClassProp, VariableType,
+  Node, Token, LexicalToken,
+  ClassDeclaration,
+  Constructor, ClassProp, GenericParam, VariableType,
 } from '../../../grammar';
 
 import { Parser } from '../..';
@@ -26,7 +28,7 @@ export function classDecl(parser: Parser): Node {
     error.info('Add an identifier after this class', classToken.span);
   });
 
-  let genericParams: Token[] = [];
+  let genericParams: GenericParam[] = [];
   if (parser.matchIgnoreNewline(LexicalToken.LT)) {
     parser.ignoreNewline();
 

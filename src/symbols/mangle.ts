@@ -42,7 +42,7 @@ function mangleVariableType(type: VariableType, generics?: string[]): string {
 
 export function mangleFunctionName(node: Func): string {
   let mangle = node.identifier.lexeme;
-  const generics = node.genericParams.map(generic => generic.lexeme);
+  const generics = node.genericParams.map(generic => generic.identifier.lexeme);
 
   node.params.forEach((param) => {
     mangle += `-${mangleVariableType(param.variableType, generics)}`;

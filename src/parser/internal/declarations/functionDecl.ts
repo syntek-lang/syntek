@@ -1,5 +1,7 @@
 import {
-  Node, Token, LexicalToken, FunctionDeclaration, EmptyFunctionDeclaration, VariableType,
+  Node, LexicalToken,
+  FunctionDeclaration, EmptyFunctionDeclaration,
+  GenericParam, VariableType,
 } from '../../../grammar';
 
 import { Parser } from '../..';
@@ -11,7 +13,7 @@ import {
 export function functionDecl(parser: Parser): Node {
   const functionSpan = parser.previous().span;
 
-  let genericParams: Token[] = [];
+  let genericParams: GenericParam[] = [];
   if (parser.matchIgnoreNewline(LexicalToken.LT)) {
     parser.ignoreNewline();
 
