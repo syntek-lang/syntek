@@ -100,7 +100,7 @@ export const illegalRedeclaration: LinterRule = {
         const constructors: string[] = [];
 
         node.constructors.forEach((constructor) => {
-          const mangled = mangleConstructor(constructor);
+          const mangled = mangleConstructor(constructor, node.genericParams);
 
           if (constructors.includes(mangled)) {
             report('Identical constructor overload exists', constructor.span);

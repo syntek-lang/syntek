@@ -105,7 +105,8 @@ testRule('illegalRedeclaration', {
           group: 'generics',
           tests: [
             'function <T> x() {} \n function <T> y() {}',
-            'function <A> x(a: A) {} \n function <A, B> x(b: B) {}',
+            'function <T> x(a: T) {} \n function <T extends E> x(a: T) {}',
+            'function <A, B extends A> x(b: B) {} \n function <A extends B, C extends A> x(c: C) {}',
           ],
         },
       ],
@@ -194,6 +195,11 @@ testRule('illegalRedeclaration', {
             { code: 'class A { new(x: A) {} \n new(y: A) {} }', errors: [CONSTRUCTOR_ERROR] },
             { code: 'class A { new(x: Array<A>) {} \n new(y: Array<A>) {} }', errors: [CONSTRUCTOR_ERROR] },
             { code: 'class A { new() {} \n new(x: A) {} \n new() {} \n new(y: A) {} }', errors: [CONSTRUCTOR_ERROR, CONSTRUCTOR_ERROR] },
+
+            { code: 'class A<T> { new(t: T) {} \n new(obj: Object) {} }', errors: [CONSTRUCTOR_ERROR] },
+            { code: 'class A<T, E> { new(t: T) {} \n new(e: E) {} }', errors: [CONSTRUCTOR_ERROR] },
+            { code: 'class A<T, E extends T> { new(t: T) {} \n new(e: E) {} }', errors: [CONSTRUCTOR_ERROR] },
+            { code: 'class A<T, E extends T> { new(obj: Object) {} \n new(e: E) {} }', errors: [CONSTRUCTOR_ERROR] },
           ],
         },
       ],
@@ -223,6 +229,10 @@ testRule('illegalRedeclaration', {
             { code: 'function x() {} \n function <A> x() {}', errors: [OVERLOAD_ERROR('x')] },
             { code: 'function <A> x() {} \n function <B> x() {}', errors: [OVERLOAD_ERROR('x')] },
             { code: 'function <A> x(a: A) {} \n function <B> x(b: B) {}', errors: [OVERLOAD_ERROR('x')] },
+            { code: 'function <A> x(a: A) {} \n function <A, B> x(b: B) {}', errors: [OVERLOAD_ERROR('x')] },
+            { code: 'function <A> x(a: A) {} \n function <A, B extends A> x(b: B) {}', errors: [OVERLOAD_ERROR('x')] },
+            { code: 'function <A, B extends List<A>> x(b: B) {} \n function x(b: List<Object>) {}', errors: [OVERLOAD_ERROR('x')] },
+
             { code: 'var x: A \n function <A> x(a: A) {}', errors: [VAR_ERROR('x'), FUNCTION_ERROR('x')] },
             { code: 'function <T> T() {}', errors: [GENERIC_ERROR('T')] },
           ],
