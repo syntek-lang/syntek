@@ -11,9 +11,9 @@ type Func = grammar.FunctionDeclaration | grammar.EmptyFunctionDeclaration;
 describe('mangle', () => {
   describe('correctly mangles function', () => {
     const tests: [string, string][] = [
-      ['function foo()', 'foo'],
-      ['function foo(): Object', 'foo'],
-      ['function foo(): Array<Object>', 'foo'],
+      ['function foo()', 'foo-'],
+      ['function foo(): Object', 'foo-'],
+      ['function foo(): Array<Object>', 'foo-'],
 
       ['function foo(x: Object)', 'foo-Object'],
       ['function foo(x: Object, y: Number)', 'foo-Object-Number'],
@@ -24,10 +24,10 @@ describe('mangle', () => {
       ['function foo(x: Array<Object>)', 'foo-Array<Object>'],
       ['function foo(x: Array<Object[]>)', 'foo-Array<Object[>'],
 
-      ['function <T> foo()', 'foo'],
+      ['function <T> foo()', 'foo-'],
       ['function <T> foo(x: T)', 'foo-Object'],
 
-      ['function <T extends E> foo()', 'foo'],
+      ['function <T extends E> foo()', 'foo-'],
       ['function <T extends E> foo(x: T)', 'foo-E'],
 
       ['function <T extends E[]> foo(x: T)', 'foo-E['],

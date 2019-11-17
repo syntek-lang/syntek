@@ -54,11 +54,11 @@ function mangleVariableType(type: VariableType, generics: GenericParam[]): strin
 }
 
 export function mangleFunctionName(node: Func): string {
-  let mangle = node.identifier.lexeme;
+  let mangle = `${node.identifier.lexeme}-`;
 
-  node.params.forEach((param) => {
-    mangle += `-${mangleVariableType(param.variableType, node.genericParams)}`;
-  });
+  mangle += node.params
+    .map(param => mangleVariableType(param.variableType, node.genericParams))
+    .join('-');
 
   return mangle;
 }

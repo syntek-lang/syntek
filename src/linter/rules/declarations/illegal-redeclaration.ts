@@ -64,25 +64,25 @@ export const illegalRedeclaration: LinterRule = {
     }
 
     function checkFunctionDeclaration(node: Func, scope: Scope, parents: grammar.Node[]): void {
-      // Check regular name
+      // Check if a symbol exists with the name of the function
       const symbol = findSymbol(scope, parents, node.identifier.lexeme);
 
-      if (symbol && !grammar.isFunction(symbol.node)) {
+      if (symbol) {
         error('function', node.identifier);
+      }
+
+      // Check mangled function name
+      const name = mangleFunctionName(node);
+      const mangledSymbol = findSymbol(scope, parents, name);
+
+      if (!mangledSymbol || mangledSymbol.node === node) {
+        return;
+      }
+
+      if (mangledSymbol.scope === scope) {
+        report(`Identical function overload exists for '${node.identifier.lexeme}'`, node.span);
       } else {
-        // Check mangled function name
-        const name = mangleFunctionName(node);
-        const mangledSymbol = findSymbol(scope, parents, name);
-
-        if (!mangledSymbol || mangledSymbol.node === node) {
-          return;
-        }
-
-        if (mangledSymbol.scope === scope) {
-          report(`Identical function overload exists for '${node.identifier.lexeme}'`, node.span);
-        } else {
-          error('function', node.identifier);
-        }
+        error('function', node.identifier);
       }
     }
 

@@ -218,7 +218,10 @@ testRule('illegalRedeclaration', {
       group: 'function',
       tests: [
         { code: 'var x: A \n function x() {}', errors: [VAR_ERROR('x'), FUNCTION_ERROR('x')] },
-        { code: 'function x() {} \n var x: A', errors: [VAR_ERROR('x')] },
+        { code: 'var x: A \n function x(y: A) {}', errors: [VAR_ERROR('x'), FUNCTION_ERROR('x')] },
+        { code: 'function x() {} \n var x: A', errors: [VAR_ERROR('x'), FUNCTION_ERROR('x')] },
+        { code: 'function x(y: A) {} \n var x: A', errors: [VAR_ERROR('x'), FUNCTION_ERROR('x')] },
+
         { code: 'function x() {} \n function x() {}', errors: [OVERLOAD_ERROR('x')] },
         { code: 'function x(a: A) {} \n function x(b: A) {}', errors: [OVERLOAD_ERROR('x')] },
         { code: 'function x() {} \n if true { function x() {} }', errors: [FUNCTION_ERROR('x')] },
