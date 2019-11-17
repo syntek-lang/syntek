@@ -1,6 +1,11 @@
 import { Scope } from '../scopes/Scope';
 import { SymbolType } from './SymbolType';
-import { Node, DeclarationNode } from '../../grammar';
+import {
+  Node, DeclarationNode,
+  FunctionDeclaration, EmptyFunctionDeclaration,
+} from '../../grammar';
+
+type Func = FunctionDeclaration | EmptyFunctionDeclaration;
 
 export class SymbolEntry {
   readonly node: DeclarationNode;
@@ -9,14 +14,14 @@ export class SymbolEntry {
 
   readonly refs: Node[] = [];
 
-  private type?: SymbolType;
+  private type?: SymbolType | Func;
 
   constructor(node: DeclarationNode, scope: Scope) {
     this.node = node;
     this.scope = scope;
   }
 
-  getType(): SymbolType {
+  getType(): SymbolType | Func {
     if (this.type) {
       return this.type;
     }
@@ -24,7 +29,7 @@ export class SymbolEntry {
     throw new Error('Type is not set');
   }
 
-  setType(type: SymbolType): void {
+  setType(type: SymbolType | Func): void {
     if (this.type) {
       throw new Error('Can not change type');
     }

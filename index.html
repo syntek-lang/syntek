@@ -65,13 +65,16 @@
       return clone;
     }
 
+    let ast;
+    let clone;
+
     // Prevent this code from also throwing an error if the compiler throws an error
     if (typeof syntek !== 'undefined') {
       // Shorthand to the AST variable
-      const ast = syntek.parseResult.ast;
+      ast = syntek.parseResult.ast;
 
       // Clone and display the AST
-      const clone = deepClone(ast);
+      clone = deepClone(ast);
       typeToName(clone);
       removeSpans(clone);
       document.getElementById('tree').innerHTML = treeify.asTree(clone, true);
