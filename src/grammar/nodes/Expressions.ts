@@ -121,9 +121,9 @@ export class NewExpression extends Node {
 export class InstanceofExpression extends Node {
   readonly left: Node;
 
-  readonly right: Node;
+  readonly right: VariableType;
 
-  constructor(left: Node, right: Node, span: Span) {
+  constructor(left: Node, right: VariableType, span: Span) {
     super(SyntacticToken.INSTANCEOF_EXPR, span);
 
     this.left = left;

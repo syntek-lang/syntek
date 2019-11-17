@@ -1,0 +1,23 @@
+x instanceof A<B>
+
+x instanceof A<B
+>
+
+x instanceof A<
+B>
+
+x instanceof A
+<B>
+
+x instanceof
+A<B>
+
+x
+instanceof A<B>
+
+x
+instanceof
+A
+<
+B
+>
