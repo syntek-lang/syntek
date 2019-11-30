@@ -37,11 +37,11 @@ console.log(new Linter(
 ).lint());
 
 // Collect types
-import { TypeCollector } from './types';
+import { TypeChecker } from './types';
 
 export const typedScope = new ProgramScope(parseResult.ast);
 typedScope.build();
-console.log(new TypeCollector(typedScope).collect());
+console.log(new TypeChecker(typedScope).check());
 console.log(typedScope);
 
 // Export everything
